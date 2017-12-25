@@ -1,0 +1,14 @@
+build/
+target/
+repos/
+tmp/
+.settings
+.settings/*
+.project
+.pydevproject
+.classpath
+*.idea
+*.iml
+*.class
+**/test/resources/*.properties
+/.gradle/
