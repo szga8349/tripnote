@@ -1,5 +1,7 @@
 package com.lenovo.tripnote.service.impl;
 
+import java.util.Set;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -28,5 +30,23 @@ public class UserServiceImpl implements UserService {
     public int delete(String id){
         return userMapper.deleteByPrimaryKey(id);
     }
+
+	@Override
+	public User getByUsername(String userName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Set<String> getRoles(String username) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Set<String> getPermissions(String username) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }
