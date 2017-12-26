@@ -33,8 +33,10 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User getByUsername(String userName) {
-		// TODO Auto-generated method stub
-		return null;
+		User user = new User();
+		user.setName(userName);
+		user.setPwd(userName);
+		return user;
 	}
 
 	@Override
