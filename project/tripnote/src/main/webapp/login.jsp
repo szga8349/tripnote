@@ -9,7 +9,7 @@
 </head>  
 <body>  
     <h1>login page</h1>  
-    <form id="" action="dologin" method="post">  
+    <form id="" action="doLogin" method="post">  
         <label>User Name</label> <input tyep="text" name="userName"  
             maxLength="40" /> <label>Password</label><input type="password"  
             name="password" /> <input type="submit" value="login" />  

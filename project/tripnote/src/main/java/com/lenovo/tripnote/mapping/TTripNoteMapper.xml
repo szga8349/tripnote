@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.lenovo.tripnote.dao.TTripNoteMapper" >
+  <resultMap id="BaseResultMap" type="com.lenovo.tripnote.entity.TTripNote" >
+    <id column="code" property="code" jdbcType="VARCHAR" />
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="start_date" property="startDate" jdbcType="DATE" />
+    <result column="end_date" property="endDate" jdbcType="DATE" />
+    <result column="days" property="days" jdbcType="INTEGER" />
+    <result column="customer" property="customer" jdbcType="VARCHAR" />
+    <result column="destination" property="destination" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    code, id, title, start_date, end_date, `days`, customer, destination, create_time, 
+    create_user_id, `status`
+  </sql>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lenovo.tripnote.entity.TTripNoteExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_trip_note
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleAndPage" resultMap="BaseResultMap" parameterType="com.lenovo.tripnote.entity.TTripNoteExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_trip_note
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.lenovo.tripnote.entity.TTripNoteExample" >
+    delete from t_trip_note
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <select id="countByExample" parameterType="com.lenovo.tripnote.entity.TTripNoteExample" resultType="java.lang.Integer" >
+    select count(*) from t_trip_note
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_trip_note
+    <set >
+      <if test="record.code != null" >
+        code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.title != null" >
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.startDate != null" >
+        start_date = #{record.startDate,jdbcType=DATE},
+      </if>
+      <if test="record.endDate != null" >
+        end_date = #{record.endDate,jdbcType=DATE},
+      </if>
+      <if test="record.days != null" >
+        `days` = #{record.days,jdbcType=INTEGER},
+      </if>
+      <if test="record.customer != null" >
+        customer = #{record.customer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.destination != null" >
+        destination = #{record.destination,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUserId != null" >
+        create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null" >
+        `status` = #{record.status,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_trip_note
+    set code = #{record.code,jdbcType=VARCHAR},
+      id = #{record.id,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      start_date = #{record.startDate,jdbcType=DATE},
+      end_date = #{record.endDate,jdbcType=DATE},
+      `days` = #{record.days,jdbcType=INTEGER},
+      customer = #{record.customer,jdbcType=VARCHAR},
+      destination = #{record.destination,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      `status` = #{record.status,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.lenovo.tripnote.entity.TTripNoteKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_trip_note
+    where code = #{code,jdbcType=VARCHAR}
+      and id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.lenovo.tripnote.entity.TTripNoteKey" >
+    delete from t_trip_note
+    where code = #{code,jdbcType=VARCHAR}
+      and id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lenovo.tripnote.entity.TTripNote" >
+    insert into t_trip_note (code, title, start_date, 
+      end_date, `days`, customer, 
+      destination, create_time, create_user_id, 
+      `status`)
+    values (#{code,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{startDate,jdbcType=DATE}, 
+      #{endDate,jdbcType=DATE}, #{days,jdbcType=INTEGER}, #{customer,jdbcType=VARCHAR}, 
+      #{destination,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.TTripNote" >
+    insert into t_trip_note
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      code,
+      title,
+      start_date,
+      end_date,
+      `days`,
+      customer,
+      destination,
+      create_time,
+      create_user_id,
+      `status`,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{code,jdbcType=VARCHAR},
+      #{title,jdbcType=VARCHAR},
+      #{startDate,jdbcType=DATE},
+      #{endDate,jdbcType=DATE},
+      #{days,jdbcType=INTEGER},
+      #{customer,jdbcType=VARCHAR},
+      #{destination,jdbcType=VARCHAR},
+      #{createTime,jdbcType=TIMESTAMP},
+      #{createUserId,jdbcType=INTEGER},
+      #{status,jdbcType=INTEGER},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lenovo.tripnote.entity.TTripNote" >
+    update t_trip_note
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null" >
+        start_date = #{startDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null" >
+        end_date = #{endDate,jdbcType=DATE},
+      </if>
+      <if test="days != null" >
+        `days` = #{days,jdbcType=INTEGER},
+      </if>
+      <if test="customer != null" >
+        customer = #{customer,jdbcType=VARCHAR},
+      </if>
+      <if test="destination != null" >
+        destination = #{destination,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        `status` = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where code = #{code,jdbcType=VARCHAR}
+      and id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lenovo.tripnote.entity.TTripNote" >
+    update t_trip_note
+    set title = #{title,jdbcType=VARCHAR},
+      start_date = #{startDate,jdbcType=DATE},
+      end_date = #{endDate,jdbcType=DATE},
+      `days` = #{days,jdbcType=INTEGER},
+      customer = #{customer,jdbcType=VARCHAR},
+      destination = #{destination,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      `status` = #{status,jdbcType=INTEGER}
+    where code = #{code,jdbcType=VARCHAR}
+      and id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
