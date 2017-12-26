@@ -25,7 +25,15 @@
         <description>Introspector缓存清除监听器</description>
         <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
     </listener>
-
+    <filter>
+		<filter-name>authenticationFilter</filter-name>
+		<filter-class>com.lenovo.tripnote.web.AuthenticationFilter</filter-class>
+	</filter>	
+    
+    <filter-mapping>
+		<filter-name>authenticationFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>-->
     <!-- springMVC核心配置 -->
     <!-- 配置spring mvc的相关内容，此处的servlet-name任意，但必须有<your servlet-name>-servlet.xml与之对应 -->
     <servlet>
@@ -38,6 +46,7 @@
         <!-- 启动顺序，让这个Servlet随Servlet容器一起启动。 -->
         <load-on-startup>1</load-on-startup>
     </servlet>
+    
     <servlet-mapping>
         <servlet-name>springMVC</servlet-name>
         <url-pattern>/</url-pattern>
