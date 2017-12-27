@@ -200,6 +200,14 @@
     from b_account
     where id = #{id,jdbcType=INTEGER}
   </select>
+  
+  <select id="getByUsernameOrPhone" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from b_account
+    where login_name = #{loginName,jdbcType=VARCHAR} or phone= #{loginName,jdbcType=VARCHAR}
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from b_account
     where id = #{id,jdbcType=INTEGER}

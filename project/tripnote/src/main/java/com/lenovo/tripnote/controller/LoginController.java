@@ -1,5 +1,6 @@
 package com.lenovo.tripnote.controller;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.SecurityUtils;
@@ -17,6 +18,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.lenovo.tripnote.entity.BAccount;
+import com.lenovo.tripnote.service.BAccountService;
+import com.lenovo.tripnote.vo.LoginInfoVo;
+import com.lenovo.tripnote.vo.RegisterVo;
 import com.lenovo.tripnote.vo.Result;
 import com.lenovo.tripnote.vo.ResultVo;
 
@@ -30,53 +35,63 @@ public class LoginController {
 	 * @param model
 	 * @return
 	 */
+	@Resource
+	private BAccountService bAccountService;
 	@RequestMapping(value = "/doLogin")
-	public String doLogin(HttpServletRequest request, Model model) {
+	public @ResponseBody  ResultVo doLogin(HttpServletRequest request, Model model,LoginInfoVo info) {
 		String msg = "";
-		String userName = request.getParameter("userName");
-		String password = request.getParameter("password");
-		System.out.println(userName);
-		System.out.println(password);
-		UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
+		ResultVo vo = new ResultVo();
+		//String userName = request.getParameter("userName");
+		//String password = request.getParameter("password");
+	
+		UsernamePasswordToken token = new UsernamePasswordToken(info.getLoginName(), info.getLoginPasswd());
 		token.setRememberMe(true);
 		Subject subject = SecurityUtils.getSubject();
 		try {
 			subject.login(token);
 			if (subject.isAuthenticated()) {
-				return "redirect:/";
+				vo.setCode(Result.SUCESSFUL);
+				return vo;
 			} else {
-				return "login";
+				vo.setCode(Result.FAUL);
 			}
 		} catch (IncorrectCredentialsException e) {
 			msg = "登录密码错误. Password for account " + token.getPrincipal() + " was incorrect.";
 			model.addAttribute("message", msg);
-			System.out.println(msg);
+			vo.setCode(Result.FAUL);
+			vo.setMessage(msg);
 		} catch (ExcessiveAttemptsException e) {
 			msg = "登录失败次数过多";
 			model.addAttribute("message", msg);
-			System.out.println(msg);
+			vo.setCode(Result.FAUL);
+			vo.setMessage(msg);
 		} catch (LockedAccountException e) {
 			msg = "帐号已被锁定. The account for username " + token.getPrincipal() + " was locked.";
 			model.addAttribute("message", msg);
-			System.out.println(msg);
+			vo.setCode(Result.FAUL);
+			vo.setMessage(msg);
 		} catch (DisabledAccountException e) {
 			msg = "帐号已被禁用. The account for username " + token.getPrincipal() + " was disabled.";
 			model.addAttribute("message", msg);
-			System.out.println(msg);
+			vo.setCode(Result.FAUL);
+			vo.setMessage(msg);
 		} catch (ExpiredCredentialsException e) {
 			msg = "帐号已过期. the account for username " + token.getPrincipal() + "  was expired.";
 			model.addAttribute("message", msg);
-			System.out.println(msg);
+			vo.setCode(Result.FAUL);
+			vo.setMessage(msg);
 		} catch (UnknownAccountException e) {
 			msg = "帐号不存在. There is no user with username of " + token.getPrincipal();
 			model.addAttribute("message", msg);
-			System.out.println(msg);
+			vo.setCode(Result.FAUL);
+			vo.setMessage(msg);
 		} catch (UnauthorizedException e) {
 			msg = "您没有得到相应的授权！" + e.getMessage();
 			model.addAttribute("message", msg);
-			System.out.println(msg);
+			vo.setCode(Result.FAUL);
+			vo.setMessage(msg);
 		}
-		return "login";
+		return vo;
 	}
 
 	@RequestMapping(value = "/sendSmsCode")
@@ -86,9 +101,40 @@ public class LoginController {
 		return vo;
 	}
 
-	@RequestMapping(value = "/doLogut")
+	@RequestMapping(value = "/logut")
 	public String doLogut(HttpServletRequest request, Model model) {
 		
 		return "redirect:/index.jsp";
+	}
+	@RequestMapping(value = "/register")
+	public @ResponseBody ResultVo doRegister(HttpServletRequest request,RegisterVo register) {
+		ResultVo vo = new ResultVo();
+		BAccount account = bAccountService.getByUsernameOrPhone(register.getLoginName());
+		if(account!=null){
+			vo.setCode(Result.FAUL);
+			vo.setMessage("用户名或手机号已经存在");
+			return vo;
+		}
+		BAccount bacount = new BAccount();
+		bacount.setPhone(register.getLoginName());
+		bacount.setLoginName(register.getLoginName());
+		bacount.setLoginPassword(register.getLoginPasswd());
+		bAccountService.insert(account);
+		vo.setCode(Result.SUCESSFUL);
+		return vo;
+	}
+	
+	@RequestMapping(value = "/register/check")
+	public @ResponseBody ResultVo doCheck(HttpServletRequest request, RegisterVo register) {
+		ResultVo vo = new ResultVo();
+		BAccount account = bAccountService.getByUsernameOrPhone(register.getLoginName());
+		if(account!=null){
+			vo.setCode(Result.FAUL);
+			vo.setMessage("用户名或手机号已经存在");
+			return vo;
+		}
+		vo.setCode(Result.SUCESSFUL);
+		return vo;
+		
 	}
 }

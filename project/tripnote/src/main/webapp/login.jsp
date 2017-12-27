@@ -9,10 +9,10 @@
 </head>  
 <body>  
     <h1>login page</h1>  
-    <form id="" action="doLogin" method="post">  
-        <label>User Name</label> <input tyep="text" name="userName"  
+    <form id="" action="login/doLogin" method="post">  
+        <label>User Name</label> <input tyep="text" name="loginName"  
             maxLength="40" /> <label>Password</label><input type="password"  
-            name="password" /> <input type="submit" value="login" />  
+            name="loginPasswd" /> <input type="submit" value="login" />  
     </form>  
 </body>  
 </html>

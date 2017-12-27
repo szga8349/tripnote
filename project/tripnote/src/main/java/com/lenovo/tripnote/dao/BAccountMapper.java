@@ -30,4 +30,6 @@ public interface BAccountMapper {
     int updateByPrimaryKeySelective(BAccount record);
 
     int updateByPrimaryKey(BAccount record);
+    
+    BAccount getByUsernameOrPhone(String userName);
 }
