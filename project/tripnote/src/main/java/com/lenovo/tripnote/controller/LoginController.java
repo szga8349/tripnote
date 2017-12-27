@@ -1,5 +1,7 @@
 package com.lenovo.tripnote.controller;
 
+import java.util.Date;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,10 +22,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lenovo.tripnote.entity.BAccount;
 import com.lenovo.tripnote.service.BAccountService;
+import com.lenovo.tripnote.util.RandomUtils;
 import com.lenovo.tripnote.vo.LoginInfoVo;
 import com.lenovo.tripnote.vo.RegisterVo;
 import com.lenovo.tripnote.vo.Result;
 import com.lenovo.tripnote.vo.ResultVo;
+import com.lenovo.tripnote.vo.SmsCodeVo;
 
 @Controller
 @RequestMapping(value = "/login")
@@ -96,6 +100,10 @@ public class LoginController {
 
 	@RequestMapping(value = "/sendSmsCode")
 	public @ResponseBody ResultVo doSendSMS(HttpServletRequest request, Model model) {
+		SmsCodeVo smsCodeVO = new SmsCodeVo();
+		smsCodeVO.setSendTime(new Date().getTime());
+		smsCodeVO.setSmsCode(RandomUtils.createRandomVcode());
+		request.getSession().setAttribute("smscode",smsCodeVO);
 		ResultVo vo = new ResultVo();
 		vo.setCode(Result.SUCESSFUL);
 		return vo;
@@ -119,7 +127,7 @@ public class LoginController {
 		bacount.setPhone(register.getLoginName());
 		bacount.setLoginName(register.getLoginName());
 		bacount.setLoginPassword(register.getLoginPasswd());
-		bAccountService.insert(account);
+		bAccountService.insert(bacount);
 		vo.setCode(Result.SUCESSFUL);
 		return vo;
 	}
