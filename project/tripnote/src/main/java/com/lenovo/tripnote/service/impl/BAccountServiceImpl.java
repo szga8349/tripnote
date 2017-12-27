@@ -25,4 +25,9 @@ public class BAccountServiceImpl implements BAccountService {
 		return bAccountMapper.insert(account);
 	}
 
+	@Override
+	public int update(BAccount account) {
+		return bAccountMapper.updateByPrimaryKeySelective(account);
+	}
+
 }

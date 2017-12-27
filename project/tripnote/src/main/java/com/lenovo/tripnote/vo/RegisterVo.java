@@ -20,4 +20,7 @@ public class RegisterVo {
      * 登录密码
      */
     private String loginPasswd;
+    
+    
+    private String smsCode;
 }

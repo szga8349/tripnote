@@ -8,4 +8,6 @@ public interface BAccountService {
 
 	int insert(BAccount account);
 
+	int update(BAccount account);
+
 }

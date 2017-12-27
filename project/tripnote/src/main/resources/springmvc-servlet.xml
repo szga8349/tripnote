@@ -74,6 +74,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
             </list>
         </property>
     </bean>
+    <bean id="exceptionHandler" class="com.lenovo.tripnote.interceptor.TripNoteExcetionHanlder"/>
     <!-- 文件上传配置 -->
     <!-- <bean id="multipartResolver"
         class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

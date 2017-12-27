@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.DisabledAccountException;
 import org.apache.shiro.authc.ExcessiveAttemptsException;
@@ -99,14 +100,15 @@ public class LoginController {
 	}
 
 	@RequestMapping(value = "/sendSmsCode")
-	public @ResponseBody ResultVo doSendSMS(HttpServletRequest request, Model model) {
+	public @ResponseBody SmsCodeVo doSendSMS(HttpServletRequest request, Model model) {
 		SmsCodeVo smsCodeVO = new SmsCodeVo();
+		String code = RandomUtils.createRandomVcode();
 		smsCodeVO.setSendTime(new Date().getTime());
-		smsCodeVO.setSmsCode(RandomUtils.createRandomVcode());
+		smsCodeVO.setSmsCode(code);
 		request.getSession().setAttribute("smscode",smsCodeVO);
 		ResultVo vo = new ResultVo();
 		vo.setCode(Result.SUCESSFUL);
-		return vo;
+		return smsCodeVO;
 	}
 
 	@RequestMapping(value = "/logut")
@@ -116,19 +118,26 @@ public class LoginController {
 	}
 	@RequestMapping(value = "/register")
 	public @ResponseBody ResultVo doRegister(HttpServletRequest request,RegisterVo register) {
+		SmsCodeVo smsCode = (SmsCodeVo)request.getSession().getAttribute("smscode");
 		ResultVo vo = new ResultVo();
-		BAccount account = bAccountService.getByUsernameOrPhone(register.getLoginName());
-		if(account!=null){
-			vo.setCode(Result.FAUL);
-			vo.setMessage("用户名或手机号已经存在");
-			return vo;
+		if(smsCode!=null && StringUtils.equals(register.getSmsCode(),smsCode.getSmsCode())){//验证码相同
+			BAccount account = bAccountService.getByUsernameOrPhone(register.getLoginName());
+			if(account!=null){
+				vo.setCode(Result.FAUL);
+				vo.setMessage("用户名或手机号已经存在");
+				return vo;
+			}
+			BAccount bacount = new BAccount();
+			bacount.setPhone(register.getLoginName());
+			bacount.setLoginName(register.getLoginName());
+			bacount.setLoginPassword(register.getLoginPasswd());
+			bAccountService.insert(bacount);
+			vo.setCode(Result.SUCESSFUL);
 		}
-		BAccount bacount = new BAccount();
-		bacount.setPhone(register.getLoginName());
-		bacount.setLoginName(register.getLoginName());
-		bacount.setLoginPassword(register.getLoginPasswd());
-		bAccountService.insert(bacount);
-		vo.setCode(Result.SUCESSFUL);
+		else{
+			vo.setCode(Result.FAUL);
+			vo.setMessage("验证码错误或过时");
+		}
 		return vo;
 	}
 	
@@ -141,6 +150,21 @@ public class LoginController {
 			vo.setMessage("用户名或手机号已经存在");
 			return vo;
 		}
+		vo.setCode(Result.SUCESSFUL);
+		return vo;
+		
+	}
+	@RequestMapping(value = "/resetPasswd")
+	public @ResponseBody ResultVo doResetPasswd(HttpServletRequest request, RegisterVo register) {
+		ResultVo vo = new ResultVo();
+		BAccount account = bAccountService.getByUsernameOrPhone(register.getLoginName());
+		if(account==null){
+			vo.setCode(Result.FAUL);
+			vo.setMessage("用户名或手机号不存在");
+			return vo;
+		}
+		account.setLoginPassword(register.getLoginPasswd());
+		bAccountService.update(account);
 		vo.setCode(Result.SUCESSFUL);
 		return vo;
 		
