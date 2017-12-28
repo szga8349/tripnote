@@ -1,33 +1,32 @@
 package com.lenovo.tripnote.web;
 
-import java.io.IOException;
-
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
-public class AuthenticationFilter  implements Filter {
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 
-	@Override
-	public void destroy() {
-
-		
-	}
-
-	@Override
-	public void doFilter(ServletRequest arg0, ServletResponse arg1, FilterChain arg2)
-			throws IOException, ServletException {
+public class AuthenticationFilter  extends FormAuthenticationFilter {
 	
-		arg2.doFilter(arg0, arg1);
+	protected AuthenticationToken createToken(ServletRequest request, ServletResponse response) {
+		String username = getUsername(request);
+		String password = getPassword(request);
+		return createToken(username, password, request, response);
+	}
+	@Override
+	protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
+		// TODO Auto-generated method stub
+		return super.onAccessDenied(request, response);
 	}
 
 	@Override
-	public void init(FilterConfig arg0) throws ServletException {
+	protected boolean onLoginSuccess(AuthenticationToken token, Subject subject, ServletRequest request,
+			ServletResponse response) throws Exception {
 		
-		
+		return super.onLoginSuccess(token, subject, request, response);
 	}
+
+	
 
 }

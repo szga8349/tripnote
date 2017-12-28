@@ -13,7 +13,6 @@ import org.apache.shiro.authc.ExpiredCredentialsException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
@@ -22,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lenovo.tripnote.entity.BAccount;
+import com.lenovo.tripnote.entity.BLogin;
 import com.lenovo.tripnote.service.BAccountService;
 import com.lenovo.tripnote.util.RandomUtils;
 import com.lenovo.tripnote.vo.LoginInfoVo;
@@ -29,6 +29,7 @@ import com.lenovo.tripnote.vo.RegisterVo;
 import com.lenovo.tripnote.vo.Result;
 import com.lenovo.tripnote.vo.ResultVo;
 import com.lenovo.tripnote.vo.SmsCodeVo;
+import com.lenovo.tripnote.vo.UserToken;
 
 @Controller
 @RequestMapping(value = "/login")
@@ -42,20 +43,42 @@ public class LoginController {
 	 */
 	@Resource
 	private BAccountService bAccountService;
+
 	@RequestMapping(value = "/doLogin")
-	public @ResponseBody  ResultVo doLogin(HttpServletRequest request, Model model,LoginInfoVo info) {
+	public @ResponseBody ResultVo doLogin(HttpServletRequest request, Model model, LoginInfoVo info) {
 		String msg = "";
 		ResultVo vo = new ResultVo();
-		//String userName = request.getParameter("userName");
-		//String password = request.getParameter("password");
-	
-		UsernamePasswordToken token = new UsernamePasswordToken(info.getLoginName(), info.getLoginPasswd());
+		// String userName = request.getParameter("userName");
+		// String password = request.getParameter("password");
+
+		UserToken token = new UserToken(info.getLoginName(), info.getLoginPasswd(), info.getDevice());
 		token.setRememberMe(true);
 		Subject subject = SecurityUtils.getSubject();
 		try {
 			subject.login(token);
 			if (subject.isAuthenticated()) {
 				vo.setCode(Result.SUCESSFUL);
+				BAccount account = (BAccount) subject.getPrincipal();
+				BLogin oldLogin = bAccountService.getByAccountID(Long.valueOf(account.getId()));
+				if (oldLogin != null) {//在其它客户端已经登录 返回状态给正在登录的客户端
+					vo.setCode(Result.REPEAT);
+					vo.setMessage(oldLogin.getDevice());
+					oldLogin.setDevice(info.getDevice());
+					oldLogin.setLogintime(new Date());
+					oldLogin.setUserid(Long.valueOf(account.getId()));
+					oldLogin.setLoginname(account.getLoginName());
+					oldLogin.setLoginip(request.getRemoteHost());
+					bAccountService.update(oldLogin);
+				}else{
+					BLogin record = new BLogin();
+					record.setDevice(info.getDevice());
+					record.setLogintime(new Date());
+					record.setUserid(Long.valueOf(account.getId()));
+					record.setLoginname(account.getLoginName());
+					record.setLoginip(request.getRemoteHost());
+					record.setStatus(1);
+					bAccountService.insert(record);
+				}
 				return vo;
 			} else {
 				vo.setCode(Result.FAUL);
@@ -100,29 +123,39 @@ public class LoginController {
 	}
 
 	@RequestMapping(value = "/sendSmsCode")
-	public @ResponseBody SmsCodeVo doSendSMS(HttpServletRequest request, Model model) {
+	public @ResponseBody ResultVo doSendSMS(HttpServletRequest request, String phoneNo) {
 		SmsCodeVo smsCodeVO = new SmsCodeVo();
 		String code = RandomUtils.createRandomVcode();
 		smsCodeVO.setSendTime(new Date().getTime());
 		smsCodeVO.setSmsCode(code);
-		request.getSession().setAttribute("smscode",smsCodeVO);
+		request.getSession().setAttribute("smscode", smsCodeVO);
 		ResultVo vo = new ResultVo();
 		vo.setCode(Result.SUCESSFUL);
-		return smsCodeVO;
+		vo.setData(code);
+		return vo;
 	}
 
 	@RequestMapping(value = "/logut")
 	public String doLogut(HttpServletRequest request, Model model) {
-		
+		Subject subject = SecurityUtils.getSubject();
+		BAccount account = (BAccount) subject.getPrincipal();
+		BLogin oldLogin = bAccountService.getByAccountID(Long.valueOf(account.getId()));
+		if (oldLogin != null) {
+			oldLogin.setLoginouttime(new Date());
+			oldLogin.setStatus(-1);
+			bAccountService.update(oldLogin);
+		}
+		subject.logout();
 		return "redirect:/index.jsp";
 	}
+
 	@RequestMapping(value = "/register")
-	public @ResponseBody ResultVo doRegister(HttpServletRequest request,RegisterVo register) {
-		SmsCodeVo smsCode = (SmsCodeVo)request.getSession().getAttribute("smscode");
+	public @ResponseBody ResultVo doRegister(HttpServletRequest request, RegisterVo register) {
+		SmsCodeVo smsCode = (SmsCodeVo) request.getSession().getAttribute("smscode");
 		ResultVo vo = new ResultVo();
-		if(smsCode!=null && StringUtils.equals(register.getSmsCode(),smsCode.getSmsCode())){//验证码相同
+		if (smsCode != null && StringUtils.equals(register.getSmsCode(), smsCode.getSmsCode())) {// 验证码相同
 			BAccount account = bAccountService.getByUsernameOrPhone(register.getLoginName());
-			if(account!=null){
+			if (account != null) {
 				vo.setCode(Result.FAUL);
 				vo.setMessage("用户名或手机号已经存在");
 				return vo;
@@ -133,32 +166,32 @@ public class LoginController {
 			bacount.setLoginPassword(register.getLoginPasswd());
 			bAccountService.insert(bacount);
 			vo.setCode(Result.SUCESSFUL);
-		}
-		else{
+		} else {
 			vo.setCode(Result.FAUL);
 			vo.setMessage("验证码错误或过时");
 		}
 		return vo;
 	}
-	
+
 	@RequestMapping(value = "/register/check")
 	public @ResponseBody ResultVo doCheck(HttpServletRequest request, RegisterVo register) {
 		ResultVo vo = new ResultVo();
 		BAccount account = bAccountService.getByUsernameOrPhone(register.getLoginName());
-		if(account!=null){
+		if (account != null) {
 			vo.setCode(Result.FAUL);
 			vo.setMessage("用户名或手机号已经存在");
 			return vo;
 		}
 		vo.setCode(Result.SUCESSFUL);
 		return vo;
-		
+
 	}
+
 	@RequestMapping(value = "/resetPasswd")
 	public @ResponseBody ResultVo doResetPasswd(HttpServletRequest request, RegisterVo register) {
 		ResultVo vo = new ResultVo();
 		BAccount account = bAccountService.getByUsernameOrPhone(register.getLoginName());
-		if(account==null){
+		if (account == null) {
 			vo.setCode(Result.FAUL);
 			vo.setMessage("用户名或手机号不存在");
 			return vo;
@@ -167,6 +200,6 @@ public class LoginController {
 		bAccountService.update(account);
 		vo.setCode(Result.SUCESSFUL);
 		return vo;
-		
+
 	}
 }

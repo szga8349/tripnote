@@ -20,4 +20,10 @@ public class LoginInfoVo {
      * 登录密码
      */
     private String loginPasswd;
+    
+    
+    /**
+     * 设备名称  默认web端
+     */
+    private String device = "tripNode Web";
 }

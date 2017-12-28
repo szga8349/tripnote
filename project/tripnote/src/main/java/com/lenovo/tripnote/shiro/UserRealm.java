@@ -43,9 +43,9 @@ public class UserRealm extends AuthorizingRealm implements InitializingBean {
 		if (account != null) {
 			AuthenticationInfo authcInfo = null;
 			if (StringUtils.equals(username, account.getLoginName())) {
-				authcInfo = new SimpleAuthenticationInfo(account.getLoginName(), account.getLoginPassword(), "myRealm");
+				authcInfo = new SimpleAuthenticationInfo(account, account.getLoginPassword(), "myRealm");
 			} else {
-				authcInfo = new SimpleAuthenticationInfo(account.getPhone(), account.getLoginPassword(), "myRealm");
+				authcInfo = new SimpleAuthenticationInfo(account, account.getLoginPassword(), "myRealm");
 			}
 			return authcInfo;
 		} else {

@@ -1,6 +1,7 @@
 package com.lenovo.tripnote.service;
 
 import com.lenovo.tripnote.entity.BAccount;
+import com.lenovo.tripnote.entity.BLogin;
 
 public interface BAccountService {
 
@@ -9,5 +10,11 @@ public interface BAccountService {
 	int insert(BAccount account);
 
 	int update(BAccount account);
+
+	int insert(BLogin record);
+
+	BLogin getByAccountID(Long loginID);
+
+	int update(BLogin userId);
 
 }

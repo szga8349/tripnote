@@ -34,18 +34,26 @@
 		<property name="loginUrl" value="/login.jsp" />
 		<!-- 权限认证失败，则跳转到指定页面 -->
 		<property name="unauthorizedUrl" value="/unauthorized.jsp" />
+		
+		<property name="filters">
+		     <map>  
+                <entry key="fauthc">  
+                    <bean class="com.lenovo.tripnote.web.AuthenticationFilter"/>  
+                </entry>  
+            </map>  
+		</property>
 		<!-- Shiro连接约束配置,即过滤链的定义 -->
 		<property name="filterChainDefinitions">
 			<value>
-				/login=anon
-				/dologin=anon
-				/test=authc
+				/login/*=anon
+				/*=fauthc
 				/user/admin*=authc
 				/user/student*/**=roles[teacher]
 				/user/teacher*/**=perms["user:create"]
 			</value>
 		</property>
 	</bean>
+    
     <bean id="sessionManager" class="org.apache.shiro.session.mgt.DefaultSessionManager">
     </bean>
     <bean id="userRealm" class="com.lenovo.tripnote.shiro.UserRealm">
