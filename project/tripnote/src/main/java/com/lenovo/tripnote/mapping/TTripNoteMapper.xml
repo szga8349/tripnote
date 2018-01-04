@@ -2,21 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
 <mapper namespace="com.lenovo.tripnote.dao.TTripNoteMapper" >
   <resultMap id="BaseResultMap" type="com.lenovo.tripnote.entity.TTripNote" >
-    <id column="code" property="code" jdbcType="VARCHAR" />
     <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
     <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="start_date" property="startDate" jdbcType="DATE" />
     <result column="end_date" property="endDate" jdbcType="DATE" />
     <result column="days" property="days" jdbcType="INTEGER" />
-    <result column="customer" property="customer" jdbcType="VARCHAR" />
     <result column="destination" property="destination" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="start_city" property="startCity" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    code, id, title, start_date, end_date, `days`, customer, destination, create_time, 
-    create_user_id, `status`
+    id, code, title, start_date, end_date, `days`, destination, create_time, create_user_id, 
+    `status`, start_city, remarks
   </sql>
   <sql id="Example_Where_Clause" >
     <where >
@@ -119,11 +120,11 @@
   <update id="updateByExampleSelective" parameterType="map" >
     update t_trip_note
     <set >
-      <if test="record.code != null" >
-        code = #{record.code,jdbcType=VARCHAR},
-      </if>
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.code != null" >
+        code = #{record.code,jdbcType=VARCHAR},
       </if>
       <if test="record.title != null" >
         title = #{record.title,jdbcType=VARCHAR},
@@ -137,9 +138,6 @@
       <if test="record.days != null" >
         `days` = #{record.days,jdbcType=INTEGER},
       </if>
-      <if test="record.customer != null" >
-        customer = #{record.customer,jdbcType=VARCHAR},
-      </if>
       <if test="record.destination != null" >
         destination = #{record.destination,jdbcType=VARCHAR},
       </if>
@@ -152,6 +150,12 @@
       <if test="record.status != null" >
         `status` = #{record.status,jdbcType=INTEGER},
       </if>
+      <if test="record.startCity != null" >
+        start_city = #{record.startCity,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remarks != null" >
+        remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -159,44 +163,43 @@
   </update>
   <update id="updateByExample" parameterType="map" >
     update t_trip_note
-    set code = #{record.code,jdbcType=VARCHAR},
-      id = #{record.id,jdbcType=INTEGER},
+    set id = #{record.id,jdbcType=INTEGER},
+      code = #{record.code,jdbcType=VARCHAR},
       title = #{record.title,jdbcType=VARCHAR},
       start_date = #{record.startDate,jdbcType=DATE},
       end_date = #{record.endDate,jdbcType=DATE},
       `days` = #{record.days,jdbcType=INTEGER},
-      customer = #{record.customer,jdbcType=VARCHAR},
       destination = #{record.destination,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       create_user_id = #{record.createUserId,jdbcType=INTEGER},
-      `status` = #{record.status,jdbcType=INTEGER}
+      `status` = #{record.status,jdbcType=INTEGER},
+      start_city = #{record.startCity,jdbcType=VARCHAR},
+      remarks = #{record.remarks,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.lenovo.tripnote.entity.TTripNoteKey" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from t_trip_note
-    where code = #{code,jdbcType=VARCHAR}
-      and id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="com.lenovo.tripnote.entity.TTripNoteKey" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_trip_note
-    where code = #{code,jdbcType=VARCHAR}
-      and id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.lenovo.tripnote.entity.TTripNote" >
+  <insert id="insert" parameterType="com.lenovo.tripnote.entity.TTripNote" useGeneratedKeys="true"  keyProperty="id">
     insert into t_trip_note (code, title, start_date, 
-      end_date, `days`, customer, 
-      destination, create_time, create_user_id, 
-      `status`)
+      end_date, `days`, destination, 
+      create_time, create_user_id, `status`, 
+      start_city, remarks)
     values (#{code,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{startDate,jdbcType=DATE}, 
-      #{endDate,jdbcType=DATE}, #{days,jdbcType=INTEGER}, #{customer,jdbcType=VARCHAR}, 
-      #{destination,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, 
-      #{status,jdbcType=INTEGER})
+      #{endDate,jdbcType=DATE}, #{days,jdbcType=INTEGER}, #{destination,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{startCity,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.TTripNote" >
+  <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.TTripNote" useGeneratedKeys="true" keyProperty="id">
     insert into t_trip_note
     <trim prefix="(" suffix=")" suffixOverrides="," >
       code,
@@ -204,11 +207,12 @@
       start_date,
       end_date,
       `days`,
-      customer,
       destination,
       create_time,
       create_user_id,
       `status`,
+      start_city,
+      remarks,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       #{code,jdbcType=VARCHAR},
@@ -216,16 +220,20 @@
       #{startDate,jdbcType=DATE},
       #{endDate,jdbcType=DATE},
       #{days,jdbcType=INTEGER},
-      #{customer,jdbcType=VARCHAR},
       #{destination,jdbcType=VARCHAR},
       #{createTime,jdbcType=TIMESTAMP},
       #{createUserId,jdbcType=INTEGER},
       #{status,jdbcType=INTEGER},
+      #{startCity,jdbcType=VARCHAR},
+      #{remarks,jdbcType=VARCHAR},
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.lenovo.tripnote.entity.TTripNote" >
     update t_trip_note
     <set >
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
       <if test="title != null" >
         title = #{title,jdbcType=VARCHAR},
       </if>
@@ -237,9 +245,6 @@
       </if>
       <if test="days != null" >
         `days` = #{days,jdbcType=INTEGER},
-      </if>
-      <if test="customer != null" >
-        customer = #{customer,jdbcType=VARCHAR},
       </if>
       <if test="destination != null" >
         destination = #{destination,jdbcType=VARCHAR},
@@ -253,22 +258,28 @@
       <if test="status != null" >
         `status` = #{status,jdbcType=INTEGER},
       </if>
+      <if test="startCity != null" >
+        start_city = #{startCity,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
     </set>
-    where code = #{code,jdbcType=VARCHAR}
-      and id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.lenovo.tripnote.entity.TTripNote" >
     update t_trip_note
-    set title = #{title,jdbcType=VARCHAR},
+    set code = #{code,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
       start_date = #{startDate,jdbcType=DATE},
       end_date = #{endDate,jdbcType=DATE},
       `days` = #{days,jdbcType=INTEGER},
-      customer = #{customer,jdbcType=VARCHAR},
       destination = #{destination,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user_id = #{createUserId,jdbcType=INTEGER},
-      `status` = #{status,jdbcType=INTEGER}
-    where code = #{code,jdbcType=VARCHAR}
-      and id = #{id,jdbcType=INTEGER}
+      `status` = #{status,jdbcType=INTEGER},
+      start_city = #{startCity,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

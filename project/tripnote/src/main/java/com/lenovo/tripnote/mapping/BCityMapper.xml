@@ -3,7 +3,7 @@
 <mapper namespace="com.lenovo.tripnote.dao.BCityMapper" >
   <resultMap id="BaseResultMap" type="com.lenovo.tripnote.entity.BCity" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <id column="name_cn" property="nameCn" jdbcType="VARCHAR" />
+    <result column="name_cn" property="nameCn" jdbcType="VARCHAR" />
     <result column="name_en" property="nameEn" jdbcType="VARCHAR" />
     <result column="region_id" property="regionId" jdbcType="INTEGER" />
     <result column="country_id" property="countryId" jdbcType="INTEGER" />
@@ -174,31 +174,30 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.lenovo.tripnote.entity.BCityKey" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from b_city
     where id = #{id,jdbcType=INTEGER}
-      and name_cn = #{nameCn,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="com.lenovo.tripnote.entity.BCityKey" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from b_city
     where id = #{id,jdbcType=INTEGER}
-      and name_cn = #{nameCn,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.lenovo.tripnote.entity.BCity" >
-    insert into b_city (name_cn, name_en, region_id, 
-      country_id, country_name_cn, country_name_en, 
-      `status`, is_hot, create_time, 
-      create_user_id)
-    values (#{nameCn,jdbcType=VARCHAR}, #{nameEn,jdbcType=VARCHAR}, #{regionId,jdbcType=INTEGER}, 
-      #{countryId,jdbcType=INTEGER}, #{countryNameCn,jdbcType=VARCHAR}, #{countryNameEn,jdbcType=VARCHAR}, 
-      #{status,jdbcType=INTEGER}, #{isHot,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{createUserId,jdbcType=INTEGER})
+    insert into b_city (id, name_cn, name_en, 
+      region_id, country_id, country_name_cn, 
+      country_name_en, `status`, is_hot, 
+      create_time, create_user_id)
+    values (#{id,jdbcType=INTEGER}, #{nameCn,jdbcType=VARCHAR}, #{nameEn,jdbcType=VARCHAR}, 
+      #{regionId,jdbcType=INTEGER}, #{countryId,jdbcType=INTEGER}, #{countryNameCn,jdbcType=VARCHAR}, 
+      #{countryNameEn,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{isHot,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.BCity" >
     insert into b_city
     <trim prefix="(" suffix=")" suffixOverrides="," >
+      id,
       name_cn,
       name_en,
       region_id,
@@ -211,6 +210,7 @@
       create_user_id,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=INTEGER},
       #{nameCn,jdbcType=VARCHAR},
       #{nameEn,jdbcType=VARCHAR},
       #{regionId,jdbcType=INTEGER},
@@ -226,6 +226,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.lenovo.tripnote.entity.BCity" >
     update b_city
     <set >
+      <if test="nameCn != null" >
+        name_cn = #{nameCn,jdbcType=VARCHAR},
+      </if>
       <if test="nameEn != null" >
         name_en = #{nameEn,jdbcType=VARCHAR},
       </if>
@@ -255,11 +258,11 @@
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
-      and name_cn = #{nameCn,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.lenovo.tripnote.entity.BCity" >
     update b_city
-    set name_en = #{nameEn,jdbcType=VARCHAR},
+    set name_cn = #{nameCn,jdbcType=VARCHAR},
+      name_en = #{nameEn,jdbcType=VARCHAR},
       region_id = #{regionId,jdbcType=INTEGER},
       country_id = #{countryId,jdbcType=INTEGER},
       country_name_cn = #{countryNameCn,jdbcType=VARCHAR},
@@ -269,6 +272,5 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user_id = #{createUserId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
-      and name_cn = #{nameCn,jdbcType=VARCHAR}
   </update>
 </mapper>

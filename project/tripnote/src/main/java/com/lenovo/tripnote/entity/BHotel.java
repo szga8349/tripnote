@@ -39,21 +39,11 @@ public class BHotel implements Serializable {
 
     private Integer roomNumber;
 
-    private Integer wifi;
-
-    private Integer park;
-
-    private Integer elevator;
-
-    private Integer leftLuggage;
-
-    private Integer a24HourServic;
-
-    private Integer kettle;
-
-    private Integer hairDrier;
-
     private Integer status;
+
+    private Integer cityId;
+
+    private String cityName;
 
     private Date createTime;
 
@@ -61,4 +51,5 @@ public class BHotel implements Serializable {
 
     private String introduction;
 
+  
 }

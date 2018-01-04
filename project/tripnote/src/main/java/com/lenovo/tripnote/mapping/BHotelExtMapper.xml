@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.lenovo.tripnote.dao.BHotelExtMapper" >
+  <resultMap id="BaseResultMap" type="com.lenovo.tripnote.entity.BHotelExt" >
+    <result column="hotel_id" property="hotelId" jdbcType="INTEGER" />
+    <result column="wifi" property="wifi" jdbcType="INTEGER" />
+    <result column="park" property="park" jdbcType="INTEGER" />
+    <result column="breakfast" property="breakfast" jdbcType="INTEGER" />
+    <result column="airConditioner" property="airconditioner" jdbcType="INTEGER" />
+    <result column="pool" property="pool" jdbcType="INTEGER" />
+    <result column="smoking" property="smoking" jdbcType="INTEGER" />
+    <result column="restaurant" property="restaurant" jdbcType="INTEGER" />
+    <result column="roomService" property="roomservice" jdbcType="INTEGER" />
+    <result column="barlobby" property="barlobby" jdbcType="INTEGER" />
+    <result column="spa" property="spa" jdbcType="INTEGER" />
+    <result column="fitnessCenter" property="fitnesscenter" jdbcType="INTEGER" />
+    <result column="airportShuttle" property="airportshuttle" jdbcType="INTEGER" />
+    <result column="conferenceRoom" property="conferenceroom" jdbcType="INTEGER" />
+    <result column="laundryService" property="laundryservice" jdbcType="INTEGER" />
+    <result column="conciergeService" property="conciergeservice" jdbcType="INTEGER" />
+    <result column="banquetHall" property="banquethall" jdbcType="INTEGER" />
+    <result column="multilingual" property="multilingual" jdbcType="INTEGER" />
+    <result column="miniBar" property="minibar" jdbcType="INTEGER" />
+    <result column="indoorPool" property="indoorpool" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    hotel_id, wifi, park, breakfast, airConditioner, pool, smoking, restaurant, roomService, 
+    barlobby, spa, fitnessCenter, airportShuttle, conferenceRoom, laundryService, conciergeService, 
+    banquetHall, multilingual, miniBar, indoorPool
+  </sql>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lenovo.tripnote.entity.BHotelExtExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from b_hotel_ext
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleAndPage" resultMap="BaseResultMap" parameterType="com.lenovo.tripnote.entity.BHotelExtExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from b_hotel_ext
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.lenovo.tripnote.entity.BHotelExtExample" >
+    delete from b_hotel_ext
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <select id="countByExample" parameterType="com.lenovo.tripnote.entity.BHotelExtExample" resultType="java.lang.Integer" >
+    select count(*) from b_hotel_ext
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update b_hotel_ext
+    <set >
+      <if test="record.hotelId != null" >
+        hotel_id = #{record.hotelId,jdbcType=INTEGER},
+      </if>
+      <if test="record.wifi != null" >
+        wifi = #{record.wifi,jdbcType=INTEGER},
+      </if>
+      <if test="record.park != null" >
+        park = #{record.park,jdbcType=INTEGER},
+      </if>
+      <if test="record.breakfast != null" >
+        breakfast = #{record.breakfast,jdbcType=INTEGER},
+      </if>
+      <if test="record.airconditioner != null" >
+        airConditioner = #{record.airconditioner,jdbcType=INTEGER},
+      </if>
+      <if test="record.pool != null" >
+        pool = #{record.pool,jdbcType=INTEGER},
+      </if>
+      <if test="record.smoking != null" >
+        smoking = #{record.smoking,jdbcType=INTEGER},
+      </if>
+      <if test="record.restaurant != null" >
+        restaurant = #{record.restaurant,jdbcType=INTEGER},
+      </if>
+      <if test="record.roomservice != null" >
+        roomService = #{record.roomservice,jdbcType=INTEGER},
+      </if>
+      <if test="record.barlobby != null" >
+        barlobby = #{record.barlobby,jdbcType=INTEGER},
+      </if>
+      <if test="record.spa != null" >
+        spa = #{record.spa,jdbcType=INTEGER},
+      </if>
+      <if test="record.fitnesscenter != null" >
+        fitnessCenter = #{record.fitnesscenter,jdbcType=INTEGER},
+      </if>
+      <if test="record.airportshuttle != null" >
+        airportShuttle = #{record.airportshuttle,jdbcType=INTEGER},
+      </if>
+      <if test="record.conferenceroom != null" >
+        conferenceRoom = #{record.conferenceroom,jdbcType=INTEGER},
+      </if>
+      <if test="record.laundryservice != null" >
+        laundryService = #{record.laundryservice,jdbcType=INTEGER},
+      </if>
+      <if test="record.conciergeservice != null" >
+        conciergeService = #{record.conciergeservice,jdbcType=INTEGER},
+      </if>
+      <if test="record.banquethall != null" >
+        banquetHall = #{record.banquethall,jdbcType=INTEGER},
+      </if>
+      <if test="record.multilingual != null" >
+        multilingual = #{record.multilingual,jdbcType=INTEGER},
+      </if>
+      <if test="record.minibar != null" >
+        miniBar = #{record.minibar,jdbcType=INTEGER},
+      </if>
+      <if test="record.indoorpool != null" >
+        indoorPool = #{record.indoorpool,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update b_hotel_ext
+    set hotel_id = #{record.hotelId,jdbcType=INTEGER},
+      wifi = #{record.wifi,jdbcType=INTEGER},
+      park = #{record.park,jdbcType=INTEGER},
+      breakfast = #{record.breakfast,jdbcType=INTEGER},
+      airConditioner = #{record.airconditioner,jdbcType=INTEGER},
+      pool = #{record.pool,jdbcType=INTEGER},
+      smoking = #{record.smoking,jdbcType=INTEGER},
+      restaurant = #{record.restaurant,jdbcType=INTEGER},
+      roomService = #{record.roomservice,jdbcType=INTEGER},
+      barlobby = #{record.barlobby,jdbcType=INTEGER},
+      spa = #{record.spa,jdbcType=INTEGER},
+      fitnessCenter = #{record.fitnesscenter,jdbcType=INTEGER},
+      airportShuttle = #{record.airportshuttle,jdbcType=INTEGER},
+      conferenceRoom = #{record.conferenceroom,jdbcType=INTEGER},
+      laundryService = #{record.laundryservice,jdbcType=INTEGER},
+      conciergeService = #{record.conciergeservice,jdbcType=INTEGER},
+      banquetHall = #{record.banquethall,jdbcType=INTEGER},
+      multilingual = #{record.multilingual,jdbcType=INTEGER},
+      miniBar = #{record.minibar,jdbcType=INTEGER},
+      indoorPool = #{record.indoorpool,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <insert id="insert" parameterType="com.lenovo.tripnote.entity.BHotelExt" >
+    insert into b_hotel_ext (hotel_id, wifi, park, 
+      breakfast, airConditioner, pool, 
+      smoking, restaurant, roomService, 
+      barlobby, spa, fitnessCenter, 
+      airportShuttle, conferenceRoom, laundryService, 
+      conciergeService, banquetHall, multilingual, 
+      miniBar, indoorPool)
+    values (#{hotelId,jdbcType=INTEGER}, #{wifi,jdbcType=INTEGER}, #{park,jdbcType=INTEGER}, 
+      #{breakfast,jdbcType=INTEGER}, #{airconditioner,jdbcType=INTEGER}, #{pool,jdbcType=INTEGER}, 
+      #{smoking,jdbcType=INTEGER}, #{restaurant,jdbcType=INTEGER}, #{roomservice,jdbcType=INTEGER}, 
+      #{barlobby,jdbcType=INTEGER}, #{spa,jdbcType=INTEGER}, #{fitnesscenter,jdbcType=INTEGER}, 
+      #{airportshuttle,jdbcType=INTEGER}, #{conferenceroom,jdbcType=INTEGER}, #{laundryservice,jdbcType=INTEGER}, 
+      #{conciergeservice,jdbcType=INTEGER}, #{banquethall,jdbcType=INTEGER}, #{multilingual,jdbcType=INTEGER}, 
+      #{minibar,jdbcType=INTEGER}, #{indoorpool,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.BHotelExt" >
+    insert into b_hotel_ext
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      hotel_id,
+      wifi,
+      park,
+      breakfast,
+      airConditioner,
+      pool,
+      smoking,
+      restaurant,
+      roomService,
+      barlobby,
+      spa,
+      fitnessCenter,
+      airportShuttle,
+      conferenceRoom,
+      laundryService,
+      conciergeService,
+      banquetHall,
+      multilingual,
+      miniBar,
+      indoorPool,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{hotelId,jdbcType=INTEGER},
+      #{wifi,jdbcType=INTEGER},
+      #{park,jdbcType=INTEGER},
+      #{breakfast,jdbcType=INTEGER},
+      #{airconditioner,jdbcType=INTEGER},
+      #{pool,jdbcType=INTEGER},
+      #{smoking,jdbcType=INTEGER},
+      #{restaurant,jdbcType=INTEGER},
+      #{roomservice,jdbcType=INTEGER},
+      #{barlobby,jdbcType=INTEGER},
+      #{spa,jdbcType=INTEGER},
+      #{fitnesscenter,jdbcType=INTEGER},
+      #{airportshuttle,jdbcType=INTEGER},
+      #{conferenceroom,jdbcType=INTEGER},
+      #{laundryservice,jdbcType=INTEGER},
+      #{conciergeservice,jdbcType=INTEGER},
+      #{banquethall,jdbcType=INTEGER},
+      #{multilingual,jdbcType=INTEGER},
+      #{minibar,jdbcType=INTEGER},
+      #{indoorpool,jdbcType=INTEGER},
+    </trim>
+  </insert>
+</mapper>

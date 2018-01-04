@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 public class BCityExample {
-    protected String pk_name;
+    protected String pk_name = "id";
 
     protected String orderByClause;
 

@@ -1005,63 +1005,63 @@ public class BScenicExample {
             return (Criteria) this;
         }
 
-        public Criteria andIndexIsNull() {
-            addCriterion("`index` is null");
+        public Criteria andTopIsNull() {
+            addCriterion("`top` is null");
             return (Criteria) this;
         }
 
-        public Criteria andIndexIsNotNull() {
-            addCriterion("`index` is not null");
+        public Criteria andTopIsNotNull() {
+            addCriterion("`top` is not null");
             return (Criteria) this;
         }
 
-        public Criteria andIndexEqualTo(Integer value) {
-            addCriterion("`index` =", value, "index");
+        public Criteria andTopEqualTo(Integer value) {
+            addCriterion("`top` =", value, "top");
             return (Criteria) this;
         }
 
-        public Criteria andIndexNotEqualTo(Integer value) {
-            addCriterion("`index` <>", value, "index");
+        public Criteria andTopNotEqualTo(Integer value) {
+            addCriterion("`top` <>", value, "top");
             return (Criteria) this;
         }
 
-        public Criteria andIndexGreaterThan(Integer value) {
-            addCriterion("`index` >", value, "index");
+        public Criteria andTopGreaterThan(Integer value) {
+            addCriterion("`top` >", value, "top");
             return (Criteria) this;
         }
 
-        public Criteria andIndexGreaterThanOrEqualTo(Integer value) {
-            addCriterion("`index` >=", value, "index");
+        public Criteria andTopGreaterThanOrEqualTo(Integer value) {
+            addCriterion("`top` >=", value, "top");
             return (Criteria) this;
         }
 
-        public Criteria andIndexLessThan(Integer value) {
-            addCriterion("`index` <", value, "index");
+        public Criteria andTopLessThan(Integer value) {
+            addCriterion("`top` <", value, "top");
             return (Criteria) this;
         }
 
-        public Criteria andIndexLessThanOrEqualTo(Integer value) {
-            addCriterion("`index` <=", value, "index");
+        public Criteria andTopLessThanOrEqualTo(Integer value) {
+            addCriterion("`top` <=", value, "top");
             return (Criteria) this;
         }
 
-        public Criteria andIndexIn(List<Integer> values) {
-            addCriterion("`index` in", values, "index");
+        public Criteria andTopIn(List<Integer> values) {
+            addCriterion("`top` in", values, "top");
             return (Criteria) this;
         }
 
-        public Criteria andIndexNotIn(List<Integer> values) {
-            addCriterion("`index` not in", values, "index");
+        public Criteria andTopNotIn(List<Integer> values) {
+            addCriterion("`top` not in", values, "top");
             return (Criteria) this;
         }
 
-        public Criteria andIndexBetween(Integer value1, Integer value2) {
-            addCriterion("`index` between", value1, value2, "index");
+        public Criteria andTopBetween(Integer value1, Integer value2) {
+            addCriterion("`top` between", value1, value2, "top");
             return (Criteria) this;
         }
 
-        public Criteria andIndexNotBetween(Integer value1, Integer value2) {
-            addCriterion("`index` not between", value1, value2, "index");
+        public Criteria andTopNotBetween(Integer value1, Integer value2) {
+            addCriterion("`top` not between", value1, value2, "top");
             return (Criteria) this;
         }
 
@@ -1362,6 +1362,66 @@ public class BScenicExample {
 
         public Criteria andCreateUserIdNotBetween(Integer value1, Integer value2) {
             addCriterion("create_user_id not between", value1, value2, "createUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeIsNull() {
+            addCriterion("`type` is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeIsNotNull() {
+            addCriterion("`type` is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeEqualTo(Integer value) {
+            addCriterion("`type` =", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeNotEqualTo(Integer value) {
+            addCriterion("`type` <>", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeGreaterThan(Integer value) {
+            addCriterion("`type` >", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("`type` >=", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeLessThan(Integer value) {
+            addCriterion("`type` <", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("`type` <=", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeIn(List<Integer> values) {
+            addCriterion("`type` in", values, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeNotIn(List<Integer> values) {
+            addCriterion("`type` not in", values, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeBetween(Integer value1, Integer value2) {
+            addCriterion("`type` between", value1, value2, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("`type` not between", value1, value2, "type");
             return (Criteria) this;
         }
     }

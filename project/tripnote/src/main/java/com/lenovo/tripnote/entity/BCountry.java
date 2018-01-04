@@ -10,8 +10,14 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class BCountry extends BCountryKey implements Serializable {
+public class BCountry implements Serializable {
+    private Integer id;
+
+    private String regionId;
+
     private String code;
+
+    private String nameCn;
 
     private String nameEn;
 
@@ -21,5 +27,4 @@ public class BCountry extends BCountryKey implements Serializable {
 
     private Integer createUserId;
 
-   
 }

@@ -11,11 +11,17 @@ public interface TTripNoteTemplateMapper {
 
     int deleteByExample(TTripNoteTemplateExample example);
 
+    List<TTripNoteTemplate> selectByExampleWithBLOBs(TTripNoteTemplateExample example);
+
     List<TTripNoteTemplate> selectByExample(TTripNoteTemplateExample example);
 
     int updateByExampleSelective(@Param("record") TTripNoteTemplate record, @Param("example") TTripNoteTemplateExample example);
 
+    int updateByExampleWithBLOBs(@Param("record") TTripNoteTemplate record, @Param("example") TTripNoteTemplateExample example);
+
     int updateByExample(@Param("record") TTripNoteTemplate record, @Param("example") TTripNoteTemplateExample example);
+
+    List<TTripNoteTemplate> selectByExampleWithBLOBsAndPage(TTripNoteTemplateExample example, RowBounds rowBound);
 
     List<TTripNoteTemplate> selectByExampleAndPage(TTripNoteTemplateExample example, RowBounds rowBound);
 
@@ -28,6 +34,8 @@ public interface TTripNoteTemplateMapper {
     TTripNoteTemplate selectByPrimaryKey(Integer id);
 
     int updateByPrimaryKeySelective(TTripNoteTemplate record);
+
+    int updateByPrimaryKeyWithBLOBs(TTripNoteTemplate record);
 
     int updateByPrimaryKey(TTripNoteTemplate record);
 }

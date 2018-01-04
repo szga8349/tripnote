@@ -1,0 +1,529 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.lenovo.tripnote.dao.BFoodExtMapper" >
+  <resultMap id="BaseResultMap" type="com.lenovo.tripnote.entity.BFoodExt" >
+    <result column="food_id" property="foodId" jdbcType="INTEGER" />
+    <result column="wifi" property="wifi" jdbcType="INTEGER" />
+    <result column="park" property="park" jdbcType="INTEGER" />
+    <result column="goOut" property="goout" jdbcType="INTEGER" />
+    <result column="delivery" property="delivery" jdbcType="INTEGER" />
+    <result column="outdoorDining" property="outdoordining" jdbcType="INTEGER" />
+    <result column="acceptCard" property="acceptcard" jdbcType="INTEGER" />
+    <result column="provideDrink" property="providedrink" jdbcType="INTEGER" />
+    <result column="disabilityChannel" property="disabilitychannel" jdbcType="INTEGER" />
+    <result column="television" property="television" jdbcType="INTEGER" />
+    <result column="buffet" property="buffet" jdbcType="INTEGER" />
+    <result column="lounge" property="lounge" jdbcType="INTEGER" />
+    <result column="book" property="book" jdbcType="INTEGER" />
+    <result column="children" property="children" jdbcType="INTEGER" />
+    <result column="businessMeeting" property="businessmeeting" jdbcType="INTEGER" />
+    <result column="groupDining" property="groupdining" jdbcType="INTEGER" />
+    <result column="localFood" property="localfood" jdbcType="INTEGER" />
+    <result column="dinner" property="dinner" jdbcType="INTEGER" />
+    <result column="landscapeRestaurant" property="landscaperestaurant" jdbcType="INTEGER" />
+    <result column="romantic" property="romantic" jdbcType="INTEGER" />
+    <result column="specialOccasion" property="specialoccasion" jdbcType="INTEGER" />
+    <result column="meal" property="meal" jdbcType="INTEGER" />
+    <result column="flatFood" property="flatfood" jdbcType="INTEGER" />
+    <result column="mediumPrice" property="mediumprice" jdbcType="INTEGER" />
+    <result column="upscaleFood" property="upscalefood" jdbcType="INTEGER" />
+    <result column="breakfast" property="breakfast" jdbcType="INTEGER" />
+    <result column="brunch" property="brunch" jdbcType="INTEGER" />
+    <result column="lunch" property="lunch" jdbcType="INTEGER" />
+    <result column="dinnerTime" property="dinnertime" jdbcType="INTEGER" />
+    <result column="vegetarians" property="vegetarians" jdbcType="INTEGER" />
+    <result column="strictVegetarians" property="strictvegetarians" jdbcType="INTEGER" />
+    <result column="gluten" property="gluten" jdbcType="INTEGER" />
+    <result column="shanghaiCuisine" property="shanghaicuisine" jdbcType="INTEGER" />
+    <result column="chineseFood" property="chinesefood" jdbcType="INTEGER" />
+    <result column="asianCuisine" property="asiancuisine" jdbcType="INTEGER" />
+    <result column="healthyFood" property="healthyfood" jdbcType="INTEGER" />
+    <result column="indiaCuisine" property="indiacuisine" jdbcType="INTEGER" />
+    <result column="nationalCuisine" property="nationalcuisine" jdbcType="INTEGER" />
+    <result column="cafe" property="cafe" jdbcType="INTEGER" />
+    <result column="fastFood" property="fastfood" jdbcType="INTEGER" />
+    <result column="ItalianFood" property="italianfood" jdbcType="INTEGER" />
+    <result column="europeanFood" property="europeanfood" jdbcType="INTEGER" />
+    <result column="soup" property="soup" jdbcType="INTEGER" />
+    <result column="mixedDish" property="mixeddish" jdbcType="INTEGER" />
+    <result column="americanCooking" property="americancooking" jdbcType="INTEGER" />
+    <result column="onlineBook" property="onlinebook" jdbcType="INTEGER" />
+    <result column="restaurant" property="restaurant" jdbcType="INTEGER" />
+    <result column="dessert" property="dessert" jdbcType="INTEGER" />
+    <result column="cafeTea" property="cafetea" jdbcType="INTEGER" />
+    <result column="bakeries" property="bakeries" jdbcType="INTEGER" />
+    <result column="bar" property="bar" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    food_id, wifi, park, goOut, delivery, outdoorDining, acceptCard, provideDrink, disabilityChannel, 
+    television, buffet, lounge, book, children, businessMeeting, groupDining, localFood, 
+    dinner, landscapeRestaurant, romantic, specialOccasion, meal, flatFood, mediumPrice, 
+    upscaleFood, breakfast, brunch, lunch, dinnerTime, vegetarians, strictVegetarians, 
+    gluten, shanghaiCuisine, chineseFood, asianCuisine, healthyFood, indiaCuisine, nationalCuisine, 
+    cafe, fastFood, ItalianFood, europeanFood, soup, mixedDish, americanCooking, onlineBook, 
+    restaurant, dessert, cafeTea, bakeries, bar
+  </sql>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lenovo.tripnote.entity.BFoodExtExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from b_food_ext
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleAndPage" resultMap="BaseResultMap" parameterType="com.lenovo.tripnote.entity.BFoodExtExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from b_food_ext
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.lenovo.tripnote.entity.BFoodExtExample" >
+    delete from b_food_ext
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <select id="countByExample" parameterType="com.lenovo.tripnote.entity.BFoodExtExample" resultType="java.lang.Integer" >
+    select count(*) from b_food_ext
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update b_food_ext
+    <set >
+      <if test="record.foodId != null" >
+        food_id = #{record.foodId,jdbcType=INTEGER},
+      </if>
+      <if test="record.wifi != null" >
+        wifi = #{record.wifi,jdbcType=INTEGER},
+      </if>
+      <if test="record.park != null" >
+        park = #{record.park,jdbcType=INTEGER},
+      </if>
+      <if test="record.goout != null" >
+        goOut = #{record.goout,jdbcType=INTEGER},
+      </if>
+      <if test="record.delivery != null" >
+        delivery = #{record.delivery,jdbcType=INTEGER},
+      </if>
+      <if test="record.outdoordining != null" >
+        outdoorDining = #{record.outdoordining,jdbcType=INTEGER},
+      </if>
+      <if test="record.acceptcard != null" >
+        acceptCard = #{record.acceptcard,jdbcType=INTEGER},
+      </if>
+      <if test="record.providedrink != null" >
+        provideDrink = #{record.providedrink,jdbcType=INTEGER},
+      </if>
+      <if test="record.disabilitychannel != null" >
+        disabilityChannel = #{record.disabilitychannel,jdbcType=INTEGER},
+      </if>
+      <if test="record.television != null" >
+        television = #{record.television,jdbcType=INTEGER},
+      </if>
+      <if test="record.buffet != null" >
+        buffet = #{record.buffet,jdbcType=INTEGER},
+      </if>
+      <if test="record.lounge != null" >
+        lounge = #{record.lounge,jdbcType=INTEGER},
+      </if>
+      <if test="record.book != null" >
+        book = #{record.book,jdbcType=INTEGER},
+      </if>
+      <if test="record.children != null" >
+        children = #{record.children,jdbcType=INTEGER},
+      </if>
+      <if test="record.businessmeeting != null" >
+        businessMeeting = #{record.businessmeeting,jdbcType=INTEGER},
+      </if>
+      <if test="record.groupdining != null" >
+        groupDining = #{record.groupdining,jdbcType=INTEGER},
+      </if>
+      <if test="record.localfood != null" >
+        localFood = #{record.localfood,jdbcType=INTEGER},
+      </if>
+      <if test="record.dinner != null" >
+        dinner = #{record.dinner,jdbcType=INTEGER},
+      </if>
+      <if test="record.landscaperestaurant != null" >
+        landscapeRestaurant = #{record.landscaperestaurant,jdbcType=INTEGER},
+      </if>
+      <if test="record.romantic != null" >
+        romantic = #{record.romantic,jdbcType=INTEGER},
+      </if>
+      <if test="record.specialoccasion != null" >
+        specialOccasion = #{record.specialoccasion,jdbcType=INTEGER},
+      </if>
+      <if test="record.meal != null" >
+        meal = #{record.meal,jdbcType=INTEGER},
+      </if>
+      <if test="record.flatfood != null" >
+        flatFood = #{record.flatfood,jdbcType=INTEGER},
+      </if>
+      <if test="record.mediumprice != null" >
+        mediumPrice = #{record.mediumprice,jdbcType=INTEGER},
+      </if>
+      <if test="record.upscalefood != null" >
+        upscaleFood = #{record.upscalefood,jdbcType=INTEGER},
+      </if>
+      <if test="record.breakfast != null" >
+        breakfast = #{record.breakfast,jdbcType=INTEGER},
+      </if>
+      <if test="record.brunch != null" >
+        brunch = #{record.brunch,jdbcType=INTEGER},
+      </if>
+      <if test="record.lunch != null" >
+        lunch = #{record.lunch,jdbcType=INTEGER},
+      </if>
+      <if test="record.dinnertime != null" >
+        dinnerTime = #{record.dinnertime,jdbcType=INTEGER},
+      </if>
+      <if test="record.vegetarians != null" >
+        vegetarians = #{record.vegetarians,jdbcType=INTEGER},
+      </if>
+      <if test="record.strictvegetarians != null" >
+        strictVegetarians = #{record.strictvegetarians,jdbcType=INTEGER},
+      </if>
+      <if test="record.gluten != null" >
+        gluten = #{record.gluten,jdbcType=INTEGER},
+      </if>
+      <if test="record.shanghaicuisine != null" >
+        shanghaiCuisine = #{record.shanghaicuisine,jdbcType=INTEGER},
+      </if>
+      <if test="record.chinesefood != null" >
+        chineseFood = #{record.chinesefood,jdbcType=INTEGER},
+      </if>
+      <if test="record.asiancuisine != null" >
+        asianCuisine = #{record.asiancuisine,jdbcType=INTEGER},
+      </if>
+      <if test="record.healthyfood != null" >
+        healthyFood = #{record.healthyfood,jdbcType=INTEGER},
+      </if>
+      <if test="record.indiacuisine != null" >
+        indiaCuisine = #{record.indiacuisine,jdbcType=INTEGER},
+      </if>
+      <if test="record.nationalcuisine != null" >
+        nationalCuisine = #{record.nationalcuisine,jdbcType=INTEGER},
+      </if>
+      <if test="record.cafe != null" >
+        cafe = #{record.cafe,jdbcType=INTEGER},
+      </if>
+      <if test="record.fastfood != null" >
+        fastFood = #{record.fastfood,jdbcType=INTEGER},
+      </if>
+      <if test="record.italianfood != null" >
+        ItalianFood = #{record.italianfood,jdbcType=INTEGER},
+      </if>
+      <if test="record.europeanfood != null" >
+        europeanFood = #{record.europeanfood,jdbcType=INTEGER},
+      </if>
+      <if test="record.soup != null" >
+        soup = #{record.soup,jdbcType=INTEGER},
+      </if>
+      <if test="record.mixeddish != null" >
+        mixedDish = #{record.mixeddish,jdbcType=INTEGER},
+      </if>
+      <if test="record.americancooking != null" >
+        americanCooking = #{record.americancooking,jdbcType=INTEGER},
+      </if>
+      <if test="record.onlinebook != null" >
+        onlineBook = #{record.onlinebook,jdbcType=INTEGER},
+      </if>
+      <if test="record.restaurant != null" >
+        restaurant = #{record.restaurant,jdbcType=INTEGER},
+      </if>
+      <if test="record.dessert != null" >
+        dessert = #{record.dessert,jdbcType=INTEGER},
+      </if>
+      <if test="record.cafetea != null" >
+        cafeTea = #{record.cafetea,jdbcType=INTEGER},
+      </if>
+      <if test="record.bakeries != null" >
+        bakeries = #{record.bakeries,jdbcType=INTEGER},
+      </if>
+      <if test="record.bar != null" >
+        bar = #{record.bar,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update b_food_ext
+    set food_id = #{record.foodId,jdbcType=INTEGER},
+      wifi = #{record.wifi,jdbcType=INTEGER},
+      park = #{record.park,jdbcType=INTEGER},
+      goOut = #{record.goout,jdbcType=INTEGER},
+      delivery = #{record.delivery,jdbcType=INTEGER},
+      outdoorDining = #{record.outdoordining,jdbcType=INTEGER},
+      acceptCard = #{record.acceptcard,jdbcType=INTEGER},
+      provideDrink = #{record.providedrink,jdbcType=INTEGER},
+      disabilityChannel = #{record.disabilitychannel,jdbcType=INTEGER},
+      television = #{record.television,jdbcType=INTEGER},
+      buffet = #{record.buffet,jdbcType=INTEGER},
+      lounge = #{record.lounge,jdbcType=INTEGER},
+      book = #{record.book,jdbcType=INTEGER},
+      children = #{record.children,jdbcType=INTEGER},
+      businessMeeting = #{record.businessmeeting,jdbcType=INTEGER},
+      groupDining = #{record.groupdining,jdbcType=INTEGER},
+      localFood = #{record.localfood,jdbcType=INTEGER},
+      dinner = #{record.dinner,jdbcType=INTEGER},
+      landscapeRestaurant = #{record.landscaperestaurant,jdbcType=INTEGER},
+      romantic = #{record.romantic,jdbcType=INTEGER},
+      specialOccasion = #{record.specialoccasion,jdbcType=INTEGER},
+      meal = #{record.meal,jdbcType=INTEGER},
+      flatFood = #{record.flatfood,jdbcType=INTEGER},
+      mediumPrice = #{record.mediumprice,jdbcType=INTEGER},
+      upscaleFood = #{record.upscalefood,jdbcType=INTEGER},
+      breakfast = #{record.breakfast,jdbcType=INTEGER},
+      brunch = #{record.brunch,jdbcType=INTEGER},
+      lunch = #{record.lunch,jdbcType=INTEGER},
+      dinnerTime = #{record.dinnertime,jdbcType=INTEGER},
+      vegetarians = #{record.vegetarians,jdbcType=INTEGER},
+      strictVegetarians = #{record.strictvegetarians,jdbcType=INTEGER},
+      gluten = #{record.gluten,jdbcType=INTEGER},
+      shanghaiCuisine = #{record.shanghaicuisine,jdbcType=INTEGER},
+      chineseFood = #{record.chinesefood,jdbcType=INTEGER},
+      asianCuisine = #{record.asiancuisine,jdbcType=INTEGER},
+      healthyFood = #{record.healthyfood,jdbcType=INTEGER},
+      indiaCuisine = #{record.indiacuisine,jdbcType=INTEGER},
+      nationalCuisine = #{record.nationalcuisine,jdbcType=INTEGER},
+      cafe = #{record.cafe,jdbcType=INTEGER},
+      fastFood = #{record.fastfood,jdbcType=INTEGER},
+      ItalianFood = #{record.italianfood,jdbcType=INTEGER},
+      europeanFood = #{record.europeanfood,jdbcType=INTEGER},
+      soup = #{record.soup,jdbcType=INTEGER},
+      mixedDish = #{record.mixeddish,jdbcType=INTEGER},
+      americanCooking = #{record.americancooking,jdbcType=INTEGER},
+      onlineBook = #{record.onlinebook,jdbcType=INTEGER},
+      restaurant = #{record.restaurant,jdbcType=INTEGER},
+      dessert = #{record.dessert,jdbcType=INTEGER},
+      cafeTea = #{record.cafetea,jdbcType=INTEGER},
+      bakeries = #{record.bakeries,jdbcType=INTEGER},
+      bar = #{record.bar,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <insert id="insert" parameterType="com.lenovo.tripnote.entity.BFoodExt" >
+    insert into b_food_ext (food_id, wifi, park, 
+      goOut, delivery, outdoorDining, 
+      acceptCard, provideDrink, disabilityChannel, 
+      television, buffet, lounge, 
+      book, children, businessMeeting, 
+      groupDining, localFood, dinner, 
+      landscapeRestaurant, romantic, specialOccasion, 
+      meal, flatFood, mediumPrice, 
+      upscaleFood, breakfast, brunch, 
+      lunch, dinnerTime, vegetarians, 
+      strictVegetarians, gluten, shanghaiCuisine, 
+      chineseFood, asianCuisine, healthyFood, 
+      indiaCuisine, nationalCuisine, cafe, 
+      fastFood, ItalianFood, europeanFood, 
+      soup, mixedDish, americanCooking, 
+      onlineBook, restaurant, dessert, 
+      cafeTea, bakeries, bar
+      )
+    values (#{foodId,jdbcType=INTEGER}, #{wifi,jdbcType=INTEGER}, #{park,jdbcType=INTEGER}, 
+      #{goout,jdbcType=INTEGER}, #{delivery,jdbcType=INTEGER}, #{outdoordining,jdbcType=INTEGER}, 
+      #{acceptcard,jdbcType=INTEGER}, #{providedrink,jdbcType=INTEGER}, #{disabilitychannel,jdbcType=INTEGER}, 
+      #{television,jdbcType=INTEGER}, #{buffet,jdbcType=INTEGER}, #{lounge,jdbcType=INTEGER}, 
+      #{book,jdbcType=INTEGER}, #{children,jdbcType=INTEGER}, #{businessmeeting,jdbcType=INTEGER}, 
+      #{groupdining,jdbcType=INTEGER}, #{localfood,jdbcType=INTEGER}, #{dinner,jdbcType=INTEGER}, 
+      #{landscaperestaurant,jdbcType=INTEGER}, #{romantic,jdbcType=INTEGER}, #{specialoccasion,jdbcType=INTEGER}, 
+      #{meal,jdbcType=INTEGER}, #{flatfood,jdbcType=INTEGER}, #{mediumprice,jdbcType=INTEGER}, 
+      #{upscalefood,jdbcType=INTEGER}, #{breakfast,jdbcType=INTEGER}, #{brunch,jdbcType=INTEGER}, 
+      #{lunch,jdbcType=INTEGER}, #{dinnertime,jdbcType=INTEGER}, #{vegetarians,jdbcType=INTEGER}, 
+      #{strictvegetarians,jdbcType=INTEGER}, #{gluten,jdbcType=INTEGER}, #{shanghaicuisine,jdbcType=INTEGER}, 
+      #{chinesefood,jdbcType=INTEGER}, #{asiancuisine,jdbcType=INTEGER}, #{healthyfood,jdbcType=INTEGER}, 
+      #{indiacuisine,jdbcType=INTEGER}, #{nationalcuisine,jdbcType=INTEGER}, #{cafe,jdbcType=INTEGER}, 
+      #{fastfood,jdbcType=INTEGER}, #{italianfood,jdbcType=INTEGER}, #{europeanfood,jdbcType=INTEGER}, 
+      #{soup,jdbcType=INTEGER}, #{mixeddish,jdbcType=INTEGER}, #{americancooking,jdbcType=INTEGER}, 
+      #{onlinebook,jdbcType=INTEGER}, #{restaurant,jdbcType=INTEGER}, #{dessert,jdbcType=INTEGER}, 
+      #{cafetea,jdbcType=INTEGER}, #{bakeries,jdbcType=INTEGER}, #{bar,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.BFoodExt" >
+    insert into b_food_ext
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      food_id,
+      wifi,
+      park,
+      goOut,
+      delivery,
+      outdoorDining,
+      acceptCard,
+      provideDrink,
+      disabilityChannel,
+      television,
+      buffet,
+      lounge,
+      book,
+      children,
+      businessMeeting,
+      groupDining,
+      localFood,
+      dinner,
+      landscapeRestaurant,
+      romantic,
+      specialOccasion,
+      meal,
+      flatFood,
+      mediumPrice,
+      upscaleFood,
+      breakfast,
+      brunch,
+      lunch,
+      dinnerTime,
+      vegetarians,
+      strictVegetarians,
+      gluten,
+      shanghaiCuisine,
+      chineseFood,
+      asianCuisine,
+      healthyFood,
+      indiaCuisine,
+      nationalCuisine,
+      cafe,
+      fastFood,
+      ItalianFood,
+      europeanFood,
+      soup,
+      mixedDish,
+      americanCooking,
+      onlineBook,
+      restaurant,
+      dessert,
+      cafeTea,
+      bakeries,
+      bar,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{foodId,jdbcType=INTEGER},
+      #{wifi,jdbcType=INTEGER},
+      #{park,jdbcType=INTEGER},
+      #{goout,jdbcType=INTEGER},
+      #{delivery,jdbcType=INTEGER},
+      #{outdoordining,jdbcType=INTEGER},
+      #{acceptcard,jdbcType=INTEGER},
+      #{providedrink,jdbcType=INTEGER},
+      #{disabilitychannel,jdbcType=INTEGER},
+      #{television,jdbcType=INTEGER},
+      #{buffet,jdbcType=INTEGER},
+      #{lounge,jdbcType=INTEGER},
+      #{book,jdbcType=INTEGER},
+      #{children,jdbcType=INTEGER},
+      #{businessmeeting,jdbcType=INTEGER},
+      #{groupdining,jdbcType=INTEGER},
+      #{localfood,jdbcType=INTEGER},
+      #{dinner,jdbcType=INTEGER},
+      #{landscaperestaurant,jdbcType=INTEGER},
+      #{romantic,jdbcType=INTEGER},
+      #{specialoccasion,jdbcType=INTEGER},
+      #{meal,jdbcType=INTEGER},
+      #{flatfood,jdbcType=INTEGER},
+      #{mediumprice,jdbcType=INTEGER},
+      #{upscalefood,jdbcType=INTEGER},
+      #{breakfast,jdbcType=INTEGER},
+      #{brunch,jdbcType=INTEGER},
+      #{lunch,jdbcType=INTEGER},
+      #{dinnertime,jdbcType=INTEGER},
+      #{vegetarians,jdbcType=INTEGER},
+      #{strictvegetarians,jdbcType=INTEGER},
+      #{gluten,jdbcType=INTEGER},
+      #{shanghaicuisine,jdbcType=INTEGER},
+      #{chinesefood,jdbcType=INTEGER},
+      #{asiancuisine,jdbcType=INTEGER},
+      #{healthyfood,jdbcType=INTEGER},
+      #{indiacuisine,jdbcType=INTEGER},
+      #{nationalcuisine,jdbcType=INTEGER},
+      #{cafe,jdbcType=INTEGER},
+      #{fastfood,jdbcType=INTEGER},
+      #{italianfood,jdbcType=INTEGER},
+      #{europeanfood,jdbcType=INTEGER},
+      #{soup,jdbcType=INTEGER},
+      #{mixeddish,jdbcType=INTEGER},
+      #{americancooking,jdbcType=INTEGER},
+      #{onlinebook,jdbcType=INTEGER},
+      #{restaurant,jdbcType=INTEGER},
+      #{dessert,jdbcType=INTEGER},
+      #{cafetea,jdbcType=INTEGER},
+      #{bakeries,jdbcType=INTEGER},
+      #{bar,jdbcType=INTEGER},
+    </trim>
+  </insert>
+</mapper>

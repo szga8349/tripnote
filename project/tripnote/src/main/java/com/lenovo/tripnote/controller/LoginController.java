@@ -78,6 +78,7 @@ public class LoginController {
 					record.setLoginip(request.getRemoteHost());
 					record.setStatus(1);
 					bAccountService.insert(record);
+					System.out.println(record);
 				}
 				return vo;
 			} else {

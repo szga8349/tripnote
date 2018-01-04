@@ -15,20 +15,21 @@
     <result column="opening_hours" property="openingHours" jdbcType="VARCHAR" />
     <result column="transport" property="transport" jdbcType="VARCHAR" />
     <result column="used_time" property="usedTime" jdbcType="VARCHAR" />
-    <result column="index" property="index" jdbcType="INTEGER" />
+    <result column="top" property="top" jdbcType="INTEGER" />
     <result column="grade" property="grade" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="is_hot" property="isHot" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.lenovo.tripnote.entity.BScenic" extends="BaseResultMap" >
     <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, name_cn, name_en, city_id, city_name, address, `location`, phone, ticket, url, 
-    opening_hours, transport, used_time, `index`, grade, `status`, is_hot, create_time, 
-    create_user_id
+    opening_hours, transport, used_time, `top`, grade, `status`, is_hot, create_time, 
+    create_user_id, `type`
   </sql>
   <sql id="Blob_Column_List" >
     introduction
@@ -205,8 +206,8 @@
       <if test="record.usedTime != null" >
         used_time = #{record.usedTime,jdbcType=VARCHAR},
       </if>
-      <if test="record.index != null" >
-        `index` = #{record.index,jdbcType=INTEGER},
+      <if test="record.top != null" >
+        `top` = #{record.top,jdbcType=INTEGER},
       </if>
       <if test="record.grade != null" >
         grade = #{record.grade,jdbcType=INTEGER},
@@ -222,6 +223,9 @@
       </if>
       <if test="record.createUserId != null" >
         create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null" >
+        `type` = #{record.type,jdbcType=INTEGER},
       </if>
       <if test="record.introduction != null" >
         introduction = #{record.introduction,jdbcType=LONGVARCHAR},
@@ -246,12 +250,13 @@
       opening_hours = #{record.openingHours,jdbcType=VARCHAR},
       transport = #{record.transport,jdbcType=VARCHAR},
       used_time = #{record.usedTime,jdbcType=VARCHAR},
-      `index` = #{record.index,jdbcType=INTEGER},
+      `top` = #{record.top,jdbcType=INTEGER},
       grade = #{record.grade,jdbcType=INTEGER},
       `status` = #{record.status,jdbcType=INTEGER},
       is_hot = #{record.isHot,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      `type` = #{record.type,jdbcType=INTEGER},
       introduction = #{record.introduction,jdbcType=LONGVARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -272,12 +277,13 @@
       opening_hours = #{record.openingHours,jdbcType=VARCHAR},
       transport = #{record.transport,jdbcType=VARCHAR},
       used_time = #{record.usedTime,jdbcType=VARCHAR},
-      `index` = #{record.index,jdbcType=INTEGER},
+      `top` = #{record.top,jdbcType=INTEGER},
       grade = #{record.grade,jdbcType=INTEGER},
       `status` = #{record.status,jdbcType=INTEGER},
       is_hot = #{record.isHot,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      create_user_id = #{record.createUserId,jdbcType=INTEGER}
+      create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      `type` = #{record.type,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -294,23 +300,23 @@
     delete from b_scenic
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.lenovo.tripnote.entity.BScenic" useGeneratedKeys="true" keyProperty="id" >
+  <insert id="insert" parameterType="com.lenovo.tripnote.entity.BScenic" >
     insert into b_scenic (name_cn, name_en, city_id, 
       city_name, address, `location`, 
       phone, ticket, url, 
       opening_hours, transport, used_time, 
-      `index`, grade, `status`, 
+      `top`, grade, `status`, 
       is_hot, create_time, create_user_id, 
-      introduction)
+      `type`, introduction)
     values (#{nameCn,jdbcType=VARCHAR}, #{nameEn,jdbcType=VARCHAR}, #{cityId,jdbcType=INTEGER}, 
       #{cityName,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{location,jdbcType=VARCHAR}, 
       #{phone,jdbcType=VARCHAR}, #{ticket,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
       #{openingHours,jdbcType=VARCHAR}, #{transport,jdbcType=VARCHAR}, #{usedTime,jdbcType=VARCHAR}, 
-      #{index,jdbcType=INTEGER}, #{grade,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{top,jdbcType=INTEGER}, #{grade,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
       #{isHot,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, 
-      #{introduction,jdbcType=LONGVARCHAR})
+      #{type,jdbcType=INTEGER}, #{introduction,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.BScenic" useGeneratedKeys="true" keyProperty="id" >
+  <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.BScenic" >
     insert into b_scenic
     <trim prefix="(" suffix=")" suffixOverrides="," >
       name_cn,
@@ -325,12 +331,13 @@
       opening_hours,
       transport,
       used_time,
-      `index`,
+      `top`,
       grade,
       `status`,
       is_hot,
       create_time,
       create_user_id,
+      `type`,
       introduction,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -346,12 +353,13 @@
       #{openingHours,jdbcType=VARCHAR},
       #{transport,jdbcType=VARCHAR},
       #{usedTime,jdbcType=VARCHAR},
-      #{index,jdbcType=INTEGER},
+      #{top,jdbcType=INTEGER},
       #{grade,jdbcType=INTEGER},
       #{status,jdbcType=INTEGER},
       #{isHot,jdbcType=INTEGER},
       #{createTime,jdbcType=TIMESTAMP},
       #{createUserId,jdbcType=INTEGER},
+      #{type,jdbcType=INTEGER},
       #{introduction,jdbcType=LONGVARCHAR},
     </trim>
   </insert>
@@ -394,8 +402,8 @@
       <if test="usedTime != null" >
         used_time = #{usedTime,jdbcType=VARCHAR},
       </if>
-      <if test="index != null" >
-        `index` = #{index,jdbcType=INTEGER},
+      <if test="top != null" >
+        `top` = #{top,jdbcType=INTEGER},
       </if>
       <if test="grade != null" >
         grade = #{grade,jdbcType=INTEGER},
@@ -411,6 +419,9 @@
       </if>
       <if test="createUserId != null" >
         create_user_id = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        `type` = #{type,jdbcType=INTEGER},
       </if>
       <if test="introduction != null" >
         introduction = #{introduction,jdbcType=LONGVARCHAR},
@@ -432,12 +443,13 @@
       opening_hours = #{openingHours,jdbcType=VARCHAR},
       transport = #{transport,jdbcType=VARCHAR},
       used_time = #{usedTime,jdbcType=VARCHAR},
-      `index` = #{index,jdbcType=INTEGER},
+      `top` = #{top,jdbcType=INTEGER},
       grade = #{grade,jdbcType=INTEGER},
       `status` = #{status,jdbcType=INTEGER},
       is_hot = #{isHot,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user_id = #{createUserId,jdbcType=INTEGER},
+      `type` = #{type,jdbcType=INTEGER},
       introduction = #{introduction,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -455,12 +467,13 @@
       opening_hours = #{openingHours,jdbcType=VARCHAR},
       transport = #{transport,jdbcType=VARCHAR},
       used_time = #{usedTime,jdbcType=VARCHAR},
-      `index` = #{index,jdbcType=INTEGER},
+      `top` = #{top,jdbcType=INTEGER},
       grade = #{grade,jdbcType=INTEGER},
       `status` = #{status,jdbcType=INTEGER},
       is_hot = #{isHot,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      create_user_id = #{createUserId,jdbcType=INTEGER}
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      `type` = #{type,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

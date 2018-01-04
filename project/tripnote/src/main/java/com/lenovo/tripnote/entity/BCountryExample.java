@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 public class BCountryExample {
-    protected String pk_name;
+    protected String pk_name = "id";
 
     protected String orderByClause;
 
@@ -175,76 +175,6 @@ public class BCountryExample {
             return (Criteria) this;
         }
 
-        public Criteria andNameCnIsNull() {
-            addCriterion("name_cn is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andNameCnIsNotNull() {
-            addCriterion("name_cn is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andNameCnEqualTo(String value) {
-            addCriterion("name_cn =", value, "nameCn");
-            return (Criteria) this;
-        }
-
-        public Criteria andNameCnNotEqualTo(String value) {
-            addCriterion("name_cn <>", value, "nameCn");
-            return (Criteria) this;
-        }
-
-        public Criteria andNameCnGreaterThan(String value) {
-            addCriterion("name_cn >", value, "nameCn");
-            return (Criteria) this;
-        }
-
-        public Criteria andNameCnGreaterThanOrEqualTo(String value) {
-            addCriterion("name_cn >=", value, "nameCn");
-            return (Criteria) this;
-        }
-
-        public Criteria andNameCnLessThan(String value) {
-            addCriterion("name_cn <", value, "nameCn");
-            return (Criteria) this;
-        }
-
-        public Criteria andNameCnLessThanOrEqualTo(String value) {
-            addCriterion("name_cn <=", value, "nameCn");
-            return (Criteria) this;
-        }
-
-        public Criteria andNameCnLike(String value) {
-            addCriterion("name_cn like", value, "nameCn");
-            return (Criteria) this;
-        }
-
-        public Criteria andNameCnNotLike(String value) {
-            addCriterion("name_cn not like", value, "nameCn");
-            return (Criteria) this;
-        }
-
-        public Criteria andNameCnIn(List<String> values) {
-            addCriterion("name_cn in", values, "nameCn");
-            return (Criteria) this;
-        }
-
-        public Criteria andNameCnNotIn(List<String> values) {
-            addCriterion("name_cn not in", values, "nameCn");
-            return (Criteria) this;
-        }
-
-        public Criteria andNameCnBetween(String value1, String value2) {
-            addCriterion("name_cn between", value1, value2, "nameCn");
-            return (Criteria) this;
-        }
-
-        public Criteria andNameCnNotBetween(String value1, String value2) {
-            addCriterion("name_cn not between", value1, value2, "nameCn");
-            return (Criteria) this;
-        }
-
         public Criteria andRegionIdIsNull() {
             addCriterion("region_id is null");
             return (Criteria) this;
@@ -382,6 +312,76 @@ public class BCountryExample {
 
         public Criteria andCodeNotBetween(String value1, String value2) {
             addCriterion("code not between", value1, value2, "code");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameCnIsNull() {
+            addCriterion("name_cn is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameCnIsNotNull() {
+            addCriterion("name_cn is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameCnEqualTo(String value) {
+            addCriterion("name_cn =", value, "nameCn");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameCnNotEqualTo(String value) {
+            addCriterion("name_cn <>", value, "nameCn");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameCnGreaterThan(String value) {
+            addCriterion("name_cn >", value, "nameCn");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameCnGreaterThanOrEqualTo(String value) {
+            addCriterion("name_cn >=", value, "nameCn");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameCnLessThan(String value) {
+            addCriterion("name_cn <", value, "nameCn");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameCnLessThanOrEqualTo(String value) {
+            addCriterion("name_cn <=", value, "nameCn");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameCnLike(String value) {
+            addCriterion("name_cn like", value, "nameCn");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameCnNotLike(String value) {
+            addCriterion("name_cn not like", value, "nameCn");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameCnIn(List<String> values) {
+            addCriterion("name_cn in", values, "nameCn");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameCnNotIn(List<String> values) {
+            addCriterion("name_cn not in", values, "nameCn");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameCnBetween(String value1, String value2) {
+            addCriterion("name_cn between", value1, value2, "nameCn");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameCnNotBetween(String value1, String value2) {
+            addCriterion("name_cn not between", value1, value2, "nameCn");
             return (Criteria) this;
         }
 

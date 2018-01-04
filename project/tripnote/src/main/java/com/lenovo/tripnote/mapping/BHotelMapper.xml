@@ -16,14 +16,9 @@
     <result column="repair_time" property="repairTime" jdbcType="VARCHAR" />
     <result column="floor_number" property="floorNumber" jdbcType="INTEGER" />
     <result column="room_number" property="roomNumber" jdbcType="INTEGER" />
-    <result column="wifi" property="wifi" jdbcType="INTEGER" />
-    <result column="park" property="park" jdbcType="INTEGER" />
-    <result column="elevator" property="elevator" jdbcType="INTEGER" />
-    <result column="left_luggage" property="leftLuggage" jdbcType="INTEGER" />
-    <result column="a24_hour_servic" property="a24HourServic" jdbcType="INTEGER" />
-    <result column="kettle" property="kettle" jdbcType="INTEGER" />
-    <result column="hair_drier" property="hairDrier" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="city_id" property="cityId" jdbcType="INTEGER" />
+    <result column="city_name" property="cityName" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
   </resultMap>
@@ -32,8 +27,8 @@
   </resultMap>
   <sql id="Base_Column_List" >
     id, name_cn, name_en, address, `location`, type_id, star_level, brand, check_in_time, 
-    check_ou_time, built_in, repair_time, floor_number, room_number, wifi, park, elevator, 
-    left_luggage, a24_hour_servic, kettle, hair_drier, `status`, create_time, create_user_id
+    check_ou_time, built_in, repair_time, floor_number, room_number, `status`, city_id, 
+    city_name, create_time, create_user_id
   </sql>
   <sql id="Blob_Column_List" >
     introduction
@@ -213,29 +208,14 @@
       <if test="record.roomNumber != null" >
         room_number = #{record.roomNumber,jdbcType=INTEGER},
       </if>
-      <if test="record.wifi != null" >
-        wifi = #{record.wifi,jdbcType=INTEGER},
-      </if>
-      <if test="record.park != null" >
-        park = #{record.park,jdbcType=INTEGER},
-      </if>
-      <if test="record.elevator != null" >
-        elevator = #{record.elevator,jdbcType=INTEGER},
-      </if>
-      <if test="record.leftLuggage != null" >
-        left_luggage = #{record.leftLuggage,jdbcType=INTEGER},
-      </if>
-      <if test="record.a24HourServic != null" >
-        a24_hour_servic = #{record.a24HourServic,jdbcType=INTEGER},
-      </if>
-      <if test="record.kettle != null" >
-        kettle = #{record.kettle,jdbcType=INTEGER},
-      </if>
-      <if test="record.hairDrier != null" >
-        hair_drier = #{record.hairDrier,jdbcType=INTEGER},
-      </if>
       <if test="record.status != null" >
         `status` = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.cityId != null" >
+        city_id = #{record.cityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.cityName != null" >
+        city_name = #{record.cityName,jdbcType=VARCHAR},
       </if>
       <if test="record.createTime != null" >
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -267,14 +247,9 @@
       repair_time = #{record.repairTime,jdbcType=VARCHAR},
       floor_number = #{record.floorNumber,jdbcType=INTEGER},
       room_number = #{record.roomNumber,jdbcType=INTEGER},
-      wifi = #{record.wifi,jdbcType=INTEGER},
-      park = #{record.park,jdbcType=INTEGER},
-      elevator = #{record.elevator,jdbcType=INTEGER},
-      left_luggage = #{record.leftLuggage,jdbcType=INTEGER},
-      a24_hour_servic = #{record.a24HourServic,jdbcType=INTEGER},
-      kettle = #{record.kettle,jdbcType=INTEGER},
-      hair_drier = #{record.hairDrier,jdbcType=INTEGER},
       `status` = #{record.status,jdbcType=INTEGER},
+      city_id = #{record.cityId,jdbcType=INTEGER},
+      city_name = #{record.cityName,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       create_user_id = #{record.createUserId,jdbcType=INTEGER},
       introduction = #{record.introduction,jdbcType=LONGVARCHAR}
@@ -298,14 +273,9 @@
       repair_time = #{record.repairTime,jdbcType=VARCHAR},
       floor_number = #{record.floorNumber,jdbcType=INTEGER},
       room_number = #{record.roomNumber,jdbcType=INTEGER},
-      wifi = #{record.wifi,jdbcType=INTEGER},
-      park = #{record.park,jdbcType=INTEGER},
-      elevator = #{record.elevator,jdbcType=INTEGER},
-      left_luggage = #{record.leftLuggage,jdbcType=INTEGER},
-      a24_hour_servic = #{record.a24HourServic,jdbcType=INTEGER},
-      kettle = #{record.kettle,jdbcType=INTEGER},
-      hair_drier = #{record.hairDrier,jdbcType=INTEGER},
       `status` = #{record.status,jdbcType=INTEGER},
+      city_id = #{record.cityId,jdbcType=INTEGER},
+      city_name = #{record.cityName,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       create_user_id = #{record.createUserId,jdbcType=INTEGER}
     <if test="_parameter != null" >
@@ -324,27 +294,23 @@
     delete from b_hotel
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.lenovo.tripnote.entity.BHotel" useGeneratedKeys="true" keyProperty="id" >
+  <insert id="insert" parameterType="com.lenovo.tripnote.entity.BHotel" >
     insert into b_hotel (name_cn, name_en, address, 
       `location`, type_id, star_level, 
       brand, check_in_time, check_ou_time, 
       built_in, repair_time, floor_number, 
-      room_number, wifi, park, 
-      elevator, left_luggage, a24_hour_servic, 
-      kettle, hair_drier, `status`, 
-      create_time, create_user_id, introduction
-      )
+      room_number, `status`, city_id, 
+      city_name, create_time, create_user_id, 
+      introduction)
     values (#{nameCn,jdbcType=VARCHAR}, #{nameEn,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
       #{location,jdbcType=VARCHAR}, #{typeId,jdbcType=INTEGER}, #{starLevel,jdbcType=INTEGER}, 
       #{brand,jdbcType=VARCHAR}, #{checkInTime,jdbcType=VARCHAR}, #{checkOuTime,jdbcType=VARCHAR}, 
       #{builtIn,jdbcType=VARCHAR}, #{repairTime,jdbcType=VARCHAR}, #{floorNumber,jdbcType=INTEGER}, 
-      #{roomNumber,jdbcType=INTEGER}, #{wifi,jdbcType=INTEGER}, #{park,jdbcType=INTEGER}, 
-      #{elevator,jdbcType=INTEGER}, #{leftLuggage,jdbcType=INTEGER}, #{a24HourServic,jdbcType=INTEGER}, 
-      #{kettle,jdbcType=INTEGER}, #{hairDrier,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, #{introduction,jdbcType=LONGVARCHAR}
-      )
+      #{roomNumber,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{cityId,jdbcType=INTEGER}, 
+      #{cityName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, 
+      #{introduction,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.BHotel" useGeneratedKeys="true" keyProperty="id" >
+  <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.BHotel" >
     insert into b_hotel
     <trim prefix="(" suffix=")" suffixOverrides="," >
       name_cn,
@@ -360,14 +326,9 @@
       repair_time,
       floor_number,
       room_number,
-      wifi,
-      park,
-      elevator,
-      left_luggage,
-      a24_hour_servic,
-      kettle,
-      hair_drier,
       `status`,
+      city_id,
+      city_name,
       create_time,
       create_user_id,
       introduction,
@@ -386,14 +347,9 @@
       #{repairTime,jdbcType=VARCHAR},
       #{floorNumber,jdbcType=INTEGER},
       #{roomNumber,jdbcType=INTEGER},
-      #{wifi,jdbcType=INTEGER},
-      #{park,jdbcType=INTEGER},
-      #{elevator,jdbcType=INTEGER},
-      #{leftLuggage,jdbcType=INTEGER},
-      #{a24HourServic,jdbcType=INTEGER},
-      #{kettle,jdbcType=INTEGER},
-      #{hairDrier,jdbcType=INTEGER},
       #{status,jdbcType=INTEGER},
+      #{cityId,jdbcType=INTEGER},
+      #{cityName,jdbcType=VARCHAR},
       #{createTime,jdbcType=TIMESTAMP},
       #{createUserId,jdbcType=INTEGER},
       #{introduction,jdbcType=LONGVARCHAR},
@@ -441,29 +397,14 @@
       <if test="roomNumber != null" >
         room_number = #{roomNumber,jdbcType=INTEGER},
       </if>
-      <if test="wifi != null" >
-        wifi = #{wifi,jdbcType=INTEGER},
-      </if>
-      <if test="park != null" >
-        park = #{park,jdbcType=INTEGER},
-      </if>
-      <if test="elevator != null" >
-        elevator = #{elevator,jdbcType=INTEGER},
-      </if>
-      <if test="leftLuggage != null" >
-        left_luggage = #{leftLuggage,jdbcType=INTEGER},
-      </if>
-      <if test="a24HourServic != null" >
-        a24_hour_servic = #{a24HourServic,jdbcType=INTEGER},
-      </if>
-      <if test="kettle != null" >
-        kettle = #{kettle,jdbcType=INTEGER},
-      </if>
-      <if test="hairDrier != null" >
-        hair_drier = #{hairDrier,jdbcType=INTEGER},
-      </if>
       <if test="status != null" >
         `status` = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="cityId != null" >
+        city_id = #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="cityName != null" >
+        city_name = #{cityName,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -492,14 +433,9 @@
       repair_time = #{repairTime,jdbcType=VARCHAR},
       floor_number = #{floorNumber,jdbcType=INTEGER},
       room_number = #{roomNumber,jdbcType=INTEGER},
-      wifi = #{wifi,jdbcType=INTEGER},
-      park = #{park,jdbcType=INTEGER},
-      elevator = #{elevator,jdbcType=INTEGER},
-      left_luggage = #{leftLuggage,jdbcType=INTEGER},
-      a24_hour_servic = #{a24HourServic,jdbcType=INTEGER},
-      kettle = #{kettle,jdbcType=INTEGER},
-      hair_drier = #{hairDrier,jdbcType=INTEGER},
       `status` = #{status,jdbcType=INTEGER},
+      city_id = #{cityId,jdbcType=INTEGER},
+      city_name = #{cityName,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user_id = #{createUserId,jdbcType=INTEGER},
       introduction = #{introduction,jdbcType=LONGVARCHAR}
@@ -520,14 +456,9 @@
       repair_time = #{repairTime,jdbcType=VARCHAR},
       floor_number = #{floorNumber,jdbcType=INTEGER},
       room_number = #{roomNumber,jdbcType=INTEGER},
-      wifi = #{wifi,jdbcType=INTEGER},
-      park = #{park,jdbcType=INTEGER},
-      elevator = #{elevator,jdbcType=INTEGER},
-      left_luggage = #{leftLuggage,jdbcType=INTEGER},
-      a24_hour_servic = #{a24HourServic,jdbcType=INTEGER},
-      kettle = #{kettle,jdbcType=INTEGER},
-      hair_drier = #{hairDrier,jdbcType=INTEGER},
       `status` = #{status,jdbcType=INTEGER},
+      city_id = #{cityId,jdbcType=INTEGER},
+      city_name = #{cityName,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user_id = #{createUserId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}

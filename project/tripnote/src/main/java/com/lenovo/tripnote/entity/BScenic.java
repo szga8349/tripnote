@@ -37,7 +37,7 @@ public class BScenic implements Serializable {
 
     private String usedTime;
 
-    private Integer index;
+    private Integer top;
 
     private Integer grade;
 
@@ -49,7 +49,9 @@ public class BScenic implements Serializable {
 
     private Integer createUserId;
 
+    private Integer type;
+
     private String introduction;
 
-   
+  
 }

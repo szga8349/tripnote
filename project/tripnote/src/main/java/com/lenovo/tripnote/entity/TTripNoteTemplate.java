@@ -26,4 +26,7 @@ public class TTripNoteTemplate implements Serializable {
     private Integer createUserId;
 
     private Date createTime;
+
+    private String context;
+
 }

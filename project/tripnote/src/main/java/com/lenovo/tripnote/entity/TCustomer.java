@@ -34,4 +34,5 @@ public class TCustomer implements Serializable {
     private String qq;
 
     private String weixin;
+
 }

@@ -159,17 +159,14 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.lenovo.tripnote.entity.BRegion" >
-    insert into b_region (id, name_cn, name_en, 
-      `status`, create_time, create_user_id
-      )
-    values (#{id,jdbcType=INTEGER}, #{nameCn,jdbcType=VARCHAR}, #{nameEn,jdbcType=VARCHAR}, 
-      #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}
-      )
+    insert into b_region (name_cn, name_en, `status`, 
+      create_time, create_user_id)
+    values (#{nameCn,jdbcType=VARCHAR}, #{nameEn,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.BRegion" >
     insert into b_region
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      id,
       name_cn,
       name_en,
       `status`,
@@ -177,7 +174,6 @@
       create_user_id,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      #{id,jdbcType=INTEGER},
       #{nameCn,jdbcType=VARCHAR},
       #{nameEn,jdbcType=VARCHAR},
       #{status,jdbcType=INTEGER},

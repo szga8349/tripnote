@@ -239,7 +239,7 @@
     delete from b_airport_train_station
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.lenovo.tripnote.entity.BAirportTrainStation" useGeneratedKeys="true" keyProperty="id" >
+  <insert id="insert" parameterType="com.lenovo.tripnote.entity.BAirportTrainStation" >
     insert into b_airport_train_station (name_cn, name_en, cite_id, 
       `type`, address, `location`, 
       `status`, create_user_id, create_time, 
@@ -249,7 +249,7 @@
       #{status,jdbcType=INTEGER}, #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
       #{introduction,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.BAirportTrainStation" useGeneratedKeys="true" keyProperty="id" >
+  <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.BAirportTrainStation" >
     insert into b_airport_train_station
     <trim prefix="(" suffix=")" suffixOverrides="," >
       name_cn,

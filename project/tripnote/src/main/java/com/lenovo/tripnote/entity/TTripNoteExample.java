@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class TTripNoteExample {
-    protected String pk_name;
+    protected String pk_name = "id";
 
     protected String orderByClause;
 
@@ -142,6 +142,66 @@ public class TTripNoteExample {
             addCriterion(condition, new java.sql.Date(value1.getTime()), new java.sql.Date(value2.getTime()), property);
         }
 
+        public Criteria andIdIsNull() {
+            addCriterion("id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdIsNotNull() {
+            addCriterion("id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdEqualTo(Integer value) {
+            addCriterion("id =", value, "id");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdNotEqualTo(Integer value) {
+            addCriterion("id <>", value, "id");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdGreaterThan(Integer value) {
+            addCriterion("id >", value, "id");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("id >=", value, "id");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdLessThan(Integer value) {
+            addCriterion("id <", value, "id");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdLessThanOrEqualTo(Integer value) {
+            addCriterion("id <=", value, "id");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdIn(List<Integer> values) {
+            addCriterion("id in", values, "id");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdNotIn(List<Integer> values) {
+            addCriterion("id not in", values, "id");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdBetween(Integer value1, Integer value2) {
+            addCriterion("id between", value1, value2, "id");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("id not between", value1, value2, "id");
+            return (Criteria) this;
+        }
+
         public Criteria andCodeIsNull() {
             addCriterion("code is null");
             return (Criteria) this;
@@ -209,66 +269,6 @@ public class TTripNoteExample {
 
         public Criteria andCodeNotBetween(String value1, String value2) {
             addCriterion("code not between", value1, value2, "code");
-            return (Criteria) this;
-        }
-
-        public Criteria andIdIsNull() {
-            addCriterion("id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIdIsNotNull() {
-            addCriterion("id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIdEqualTo(Integer value) {
-            addCriterion("id =", value, "id");
-            return (Criteria) this;
-        }
-
-        public Criteria andIdNotEqualTo(Integer value) {
-            addCriterion("id <>", value, "id");
-            return (Criteria) this;
-        }
-
-        public Criteria andIdGreaterThan(Integer value) {
-            addCriterion("id >", value, "id");
-            return (Criteria) this;
-        }
-
-        public Criteria andIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("id >=", value, "id");
-            return (Criteria) this;
-        }
-
-        public Criteria andIdLessThan(Integer value) {
-            addCriterion("id <", value, "id");
-            return (Criteria) this;
-        }
-
-        public Criteria andIdLessThanOrEqualTo(Integer value) {
-            addCriterion("id <=", value, "id");
-            return (Criteria) this;
-        }
-
-        public Criteria andIdIn(List<Integer> values) {
-            addCriterion("id in", values, "id");
-            return (Criteria) this;
-        }
-
-        public Criteria andIdNotIn(List<Integer> values) {
-            addCriterion("id not in", values, "id");
-            return (Criteria) this;
-        }
-
-        public Criteria andIdBetween(Integer value1, Integer value2) {
-            addCriterion("id between", value1, value2, "id");
-            return (Criteria) this;
-        }
-
-        public Criteria andIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("id not between", value1, value2, "id");
             return (Criteria) this;
         }
 
@@ -522,76 +522,6 @@ public class TTripNoteExample {
             return (Criteria) this;
         }
 
-        public Criteria andCustomerIsNull() {
-            addCriterion("customer is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCustomerIsNotNull() {
-            addCriterion("customer is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCustomerEqualTo(String value) {
-            addCriterion("customer =", value, "customer");
-            return (Criteria) this;
-        }
-
-        public Criteria andCustomerNotEqualTo(String value) {
-            addCriterion("customer <>", value, "customer");
-            return (Criteria) this;
-        }
-
-        public Criteria andCustomerGreaterThan(String value) {
-            addCriterion("customer >", value, "customer");
-            return (Criteria) this;
-        }
-
-        public Criteria andCustomerGreaterThanOrEqualTo(String value) {
-            addCriterion("customer >=", value, "customer");
-            return (Criteria) this;
-        }
-
-        public Criteria andCustomerLessThan(String value) {
-            addCriterion("customer <", value, "customer");
-            return (Criteria) this;
-        }
-
-        public Criteria andCustomerLessThanOrEqualTo(String value) {
-            addCriterion("customer <=", value, "customer");
-            return (Criteria) this;
-        }
-
-        public Criteria andCustomerLike(String value) {
-            addCriterion("customer like", value, "customer");
-            return (Criteria) this;
-        }
-
-        public Criteria andCustomerNotLike(String value) {
-            addCriterion("customer not like", value, "customer");
-            return (Criteria) this;
-        }
-
-        public Criteria andCustomerIn(List<String> values) {
-            addCriterion("customer in", values, "customer");
-            return (Criteria) this;
-        }
-
-        public Criteria andCustomerNotIn(List<String> values) {
-            addCriterion("customer not in", values, "customer");
-            return (Criteria) this;
-        }
-
-        public Criteria andCustomerBetween(String value1, String value2) {
-            addCriterion("customer between", value1, value2, "customer");
-            return (Criteria) this;
-        }
-
-        public Criteria andCustomerNotBetween(String value1, String value2) {
-            addCriterion("customer not between", value1, value2, "customer");
-            return (Criteria) this;
-        }
-
         public Criteria andDestinationIsNull() {
             addCriterion("destination is null");
             return (Criteria) this;
@@ -839,6 +769,146 @@ public class TTripNoteExample {
 
         public Criteria andStatusNotBetween(Integer value1, Integer value2) {
             addCriterion("`status` not between", value1, value2, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartCityIsNull() {
+            addCriterion("start_city is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartCityIsNotNull() {
+            addCriterion("start_city is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartCityEqualTo(String value) {
+            addCriterion("start_city =", value, "startCity");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartCityNotEqualTo(String value) {
+            addCriterion("start_city <>", value, "startCity");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartCityGreaterThan(String value) {
+            addCriterion("start_city >", value, "startCity");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartCityGreaterThanOrEqualTo(String value) {
+            addCriterion("start_city >=", value, "startCity");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartCityLessThan(String value) {
+            addCriterion("start_city <", value, "startCity");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartCityLessThanOrEqualTo(String value) {
+            addCriterion("start_city <=", value, "startCity");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartCityLike(String value) {
+            addCriterion("start_city like", value, "startCity");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartCityNotLike(String value) {
+            addCriterion("start_city not like", value, "startCity");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartCityIn(List<String> values) {
+            addCriterion("start_city in", values, "startCity");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartCityNotIn(List<String> values) {
+            addCriterion("start_city not in", values, "startCity");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartCityBetween(String value1, String value2) {
+            addCriterion("start_city between", value1, value2, "startCity");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartCityNotBetween(String value1, String value2) {
+            addCriterion("start_city not between", value1, value2, "startCity");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarksIsNull() {
+            addCriterion("remarks is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarksIsNotNull() {
+            addCriterion("remarks is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarksEqualTo(String value) {
+            addCriterion("remarks =", value, "remarks");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarksNotEqualTo(String value) {
+            addCriterion("remarks <>", value, "remarks");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarksGreaterThan(String value) {
+            addCriterion("remarks >", value, "remarks");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarksGreaterThanOrEqualTo(String value) {
+            addCriterion("remarks >=", value, "remarks");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarksLessThan(String value) {
+            addCriterion("remarks <", value, "remarks");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarksLessThanOrEqualTo(String value) {
+            addCriterion("remarks <=", value, "remarks");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarksLike(String value) {
+            addCriterion("remarks like", value, "remarks");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarksNotLike(String value) {
+            addCriterion("remarks not like", value, "remarks");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarksIn(List<String> values) {
+            addCriterion("remarks in", values, "remarks");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarksNotIn(List<String> values) {
+            addCriterion("remarks not in", values, "remarks");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarksBetween(String value1, String value2) {
+            addCriterion("remarks between", value1, value2, "remarks");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarksNotBetween(String value1, String value2) {
+            addCriterion("remarks not between", value1, value2, "remarks");
             return (Criteria) this;
         }
     }

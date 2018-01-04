@@ -46,10 +46,9 @@
 		<property name="filterChainDefinitions">
 			<value>
 				/login/*=anon
-				/*=fauthc
-				/user/admin*=authc
-				/user/student*/**=roles[teacher]
-				/user/teacher*/**=perms["user:create"]
+				/index.*=anon
+				/trip/*=anon
+				/*=anon
 			</value>
 		</property>
 	</bean>

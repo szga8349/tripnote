@@ -10,7 +10,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class TTripNote extends TTripNoteKey implements Serializable {
+public class TTripNote implements Serializable {
+    private Integer id;
+
+    private String code;
+
     private String title;
 
     private Date startDate;
@@ -19,8 +23,6 @@ public class TTripNote extends TTripNoteKey implements Serializable {
 
     private Integer days;
 
-    private String customer;
-
     private String destination;
 
     private Date createTime;
@@ -28,6 +30,10 @@ public class TTripNote extends TTripNoteKey implements Serializable {
     private Integer createUserId;
 
     private Integer status;
+
+    private String startCity;
+
+    private String remarks;
 
    
 }

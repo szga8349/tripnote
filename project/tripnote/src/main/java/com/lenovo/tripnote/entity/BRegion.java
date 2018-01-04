@@ -23,5 +23,4 @@ public class BRegion implements Serializable {
 
     private Integer createUserId;
 
-   
 }

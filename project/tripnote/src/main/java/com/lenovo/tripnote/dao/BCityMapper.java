@@ -2,7 +2,6 @@ package com.lenovo.tripnote.dao;
 
 import com.lenovo.tripnote.entity.BCity;
 import com.lenovo.tripnote.entity.BCityExample;
-import com.lenovo.tripnote.entity.BCityKey;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
@@ -20,13 +19,13 @@ public interface BCityMapper {
 
     List<BCity> selectByExampleAndPage(BCityExample example, RowBounds rowBound);
 
-    int deleteByPrimaryKey(BCityKey key);
+    int deleteByPrimaryKey(Integer id);
 
     int insert(BCity record);
 
     int insertSelective(BCity record);
 
-    BCity selectByPrimaryKey(BCityKey key);
+    BCity selectByPrimaryKey(Integer id);
 
     int updateByPrimaryKeySelective(BCity record);
 
