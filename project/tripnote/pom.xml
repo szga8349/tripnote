@@ -5,7 +5,7 @@
 	<artifactId>tripnote</artifactId>
 	<packaging>war</packaging>
 	<version>1.0-SNAPSHOT</version>
-	<name>tourism Maven Webapp</name>
+	<name>tripnote Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<spring.version>4.3.2.RELEASE</spring.version>
@@ -184,14 +184,18 @@
 		</dependency>
 	</dependencies>
 	<build>
-		<finalName>tourism</finalName>
+		<finalName>tripnote</finalName>
 		<sourceDirectory>src/main/java</sourceDirectory>
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
 			</resource>
+            <resource>
+                <directory>src/main/java</directory>
+            </resource>
 		</resources>
-		<plugins>
+
+        <plugins>
 			<plugin>
 				<groupId>org.projectlombok</groupId>
 				<artifactId>lombok-maven-plugin</artifactId>
