@@ -8,5 +8,11 @@
         <setting name="lazyLoadingEnabled" value="true"/>
         <setting name="aggressiveLazyLoading" value="false"/>
     </settings>
-   
+    <!-- - - - - - - - 物理分页拦截器 - - - - - - - -->
+    <plugins>
+        <plugin interceptor="com.lenovo.tripnote.interceptor.ResultSetInterceptor"/>
+        <plugin interceptor="com.lenovo.tripnote.interceptor.StatementInterceptor">
+            <property name="dialect" value="ibator.dialect.MySQLDialect"/>
+        </plugin>
+    </plugins>
 </configuration>

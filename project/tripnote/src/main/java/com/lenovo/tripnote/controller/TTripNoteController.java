@@ -18,14 +18,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.lenovo.tripnote.entity.BAccount;
 import com.lenovo.tripnote.entity.TCustomer;
 import com.lenovo.tripnote.entity.TTripNote;
-import com.lenovo.tripnote.entity.vo.TCustemVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteResultVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteSearchVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteVo;
-import com.lenovo.tripnote.service.TTripnoteService;
 import com.lenovo.tripnote.service.TCustomerService;
+import com.lenovo.tripnote.service.TTripnoteService;
+import com.lenovo.tripnote.util.TimeUtils;
 import com.lenovo.tripnote.vo.Result;
 import com.lenovo.tripnote.vo.ResultVo;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 @Controller
 @RequestMapping(value = "/tripnote")
@@ -49,12 +52,19 @@ public class TTripNoteController {
 		t.setCreateUserId(account.getCreateUserId());
 		t.setCreateTime(new Date());
 		t.setCreateUserId(account.getId());
+		t.setStartDate(TimeUtils.getDate(tripnoteVo.getStartDate()));
+		t.setEndDate(TimeUtils.getDate(tripnoteVo.getEndDate()));
 		tTripnoteService.insert(t);
-	    if(tripnoteVo.getCustomers()!=null && tripnoteVo.getCustomers().size()>0){//关联客户信息
-	    	for(TCustemVo vo1:tripnoteVo.getCustomers()){
+	    if(tripnoteVo.getCustomers()!=null){//关联客户信息
+	    	JSONObject json = JSONObject.fromObject(tripnoteVo.getCustomers());
+	    	JSONArray arrary = json.getJSONArray("customer");
+	    	int size = arrary.size();
+	    	System.out.println(json);
+	    	for(int i=0;i<size;i++){
+	    		JSONObject custer = arrary.getJSONObject(i);
 	    		TCustomer t1 = new TCustomer();
-		    	t1.setName(vo1.getName());
-		    	t1.setPhone1(vo1.getPhone());
+		    	t1.setName(custer.getString("name"));
+		    	t1.setPhone1(custer.getString("phone"));
 		    	List<TCustomer> customer = tCustomerService.selectCondition(t1); 
 		    	if(customer!=null && !customer.isEmpty()){
 		    		tCustomerService.insertTripnoteRCustomer(t.getId(), customer.get(0).getId());

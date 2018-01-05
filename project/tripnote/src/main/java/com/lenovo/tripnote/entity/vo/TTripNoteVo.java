@@ -1,8 +1,6 @@
 package com.lenovo.tripnote.entity.vo;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,12 +21,12 @@ public class TTripNoteVo implements Serializable {
     /**
      * 开始日期
      */
-    private Date startDate;
+    private String startDate;
 
     /**
      * 结束日益
      */
-    private Date endDate;
+    private String endDate;
 
     /**
      * 几天
@@ -51,5 +49,5 @@ public class TTripNoteVo implements Serializable {
     private String remarks;
     
     
-    private List<TCustemVo> customers;
+    private String customers;
 }
