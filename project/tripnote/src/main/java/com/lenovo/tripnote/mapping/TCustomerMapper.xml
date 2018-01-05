@@ -189,7 +189,7 @@
     delete from t_customer
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.lenovo.tripnote.entity.TCustomer" >
+  <insert id="insert" parameterType="com.lenovo.tripnote.entity.TCustomer" useGeneratedKeys="true" keyProperty="id" >
     insert into t_customer (`name`, create_user_id, create_time, 
       `status`, sex, phone1, 
       phone2, phone3, email, 
@@ -199,7 +199,7 @@
       #{phone2,jdbcType=VARCHAR}, #{phone3,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{qq,jdbcType=VARCHAR}, #{weixin,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.TCustomer" >
+  <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.TCustomer"  useGeneratedKeys="true" keyProperty="id">
     insert into t_customer
     <trim prefix="(" suffix=")" suffixOverrides="," >
       `name`,

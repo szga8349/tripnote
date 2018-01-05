@@ -15,10 +15,31 @@
     <result column="start_city" property="startCity" jdbcType="VARCHAR" />
     <result column="remarks" property="remarks" jdbcType="VARCHAR" />
   </resultMap>
+  
+  
+  
+   <resultMap id="SearchResultMap" type="com.lenovo.tripnote.entity.vo.TTripNoteResultVo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="start_date" property="startDate" jdbcType="DATE" />
+    <result column="end_date" property="endDate" jdbcType="DATE" />
+    <result column="days" property="days" jdbcType="INTEGER" />
+    <result column="destination" property="destination" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="start_city" property="startCity" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+   <collection property="custems" javaType="java.util.List" ofType="com.lenovo.tripnote.entity.vo.TCustemVo">  
+            <result column="phone1" property="phone" jdbcType="VARCHAR" />  
+            <result column="name" property="name" jdbcType="VARCHAR" />  
+        </collection>  
+  </resultMap>
+  
   <sql id="Base_Column_List" >
     id, code, title, start_date, end_date, `days`, destination, create_time, create_user_id, 
     `status`, start_city, remarks
   </sql>
+  
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
@@ -77,13 +98,11 @@
       </foreach>
     </where>
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lenovo.tripnote.entity.TTripNoteExample" >
+  <select id="queryCondition" resultMap="SearchResultMap" parameterType="com.lenovo.tripnote.entity.TTripNoteExample" >
     select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from t_trip_note
+    t.id,t.code, t.title,t.start_date, t.end_date, t.`days`, t.destination, 
+    t.`status`, t.start_city, t.remarks,tc.name,tc.phone1 
+    from t_trip_note t left join t_tripnote_r_customer ts on t.id = ts.tripnote_id left join t_customer tc on tc.id = ts.customer_id
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -91,13 +110,11 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByExampleAndPage" resultMap="BaseResultMap" parameterType="com.lenovo.tripnote.entity.TTripNoteExample" >
+  <select id="queryConditionAndPage" resultMap="SearchResultMap" parameterType="com.lenovo.tripnote.entity.TTripNoteExample" >
     select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from t_trip_note
+    t.id,t.code, t.title,t.start_date, t.end_date, t.`days`, t.destination, 
+    t.`status`, t.start_city, t.remarks,tc.name,tc.phone1 
+    from t_trip_note t left join t_tripnote_r_customer ts on t.id = ts.tripnote_id left join t_customer tc on tc.id = ts.customer_id
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>

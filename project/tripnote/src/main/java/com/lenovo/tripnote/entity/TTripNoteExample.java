@@ -666,6 +666,11 @@ public class TTripNoteExample {
             addCriterion("create_user_id =", value, "createUserId");
             return (Criteria) this;
         }
+        
+        public Criteria andCreateUserIdEqualTo(Integer value,String key) {
+            addCriterion(key +" =", value, "createUserId");
+            return (Criteria) this;
+        }
 
         public Criteria andCreateUserIdNotEqualTo(Integer value) {
             addCriterion("create_user_id <>", value, "createUserId");
