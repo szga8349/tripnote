@@ -14,6 +14,7 @@
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="start_city" property="startCity" jdbcType="VARCHAR" />
     <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
   </resultMap>
   
   
@@ -29,6 +30,7 @@
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="start_city" property="startCity" jdbcType="VARCHAR" />
     <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
    <collection property="custems" javaType="java.util.List" ofType="com.lenovo.tripnote.entity.vo.TCustemVo">  
             <result column="phone1" property="phone" jdbcType="VARCHAR" />  
             <result column="name" property="name" jdbcType="VARCHAR" />  
@@ -37,7 +39,7 @@
   
   <sql id="Base_Column_List" >
     id, code, title, start_date, end_date, `days`, destination, create_time, create_user_id, 
-    `status`, start_city, remarks
+    `status`, start_city, remarks,introduction
   </sql>
   
   <sql id="Example_Where_Clause" >
@@ -101,7 +103,7 @@
   <select id="queryCondition" resultMap="SearchResultMap" parameterType="com.lenovo.tripnote.entity.TTripNoteExample" >
     select
     t.id,t.code, t.title,t.start_date, t.end_date, t.`days`, t.destination, 
-    t.`status`, t.start_city, t.remarks,tc.name,tc.phone1 
+    t.`status`, t.start_city, t.remarks,tc.name,tc.phone1,t.introduction
     from t_trip_note t left join t_tripnote_r_customer ts on t.id = ts.tripnote_id left join t_customer tc on tc.id = ts.customer_id
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -113,7 +115,7 @@
   <select id="queryConditionAndPage" resultMap="SearchResultMap" parameterType="com.lenovo.tripnote.entity.TTripNoteExample" >
     select
     t.id,t.code, t.title,t.start_date, t.end_date, t.`days`, t.destination, 
-    t.`status`, t.start_city, t.remarks,tc.name,tc.phone1 
+    t.`status`, t.start_city, t.remarks,tc.name,tc.phone1,t.introduction
     from t_trip_note t left join t_tripnote_r_customer ts on t.id = ts.tripnote_id left join t_customer tc on tc.id = ts.customer_id
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -173,6 +175,9 @@
       <if test="record.remarks != null" >
         remarks = #{record.remarks,jdbcType=VARCHAR},
       </if>
+       <if test="record.introduction != null" >
+        introduction = #{record.introduction,jdbcType=LONGVARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -191,7 +196,8 @@
       create_user_id = #{record.createUserId,jdbcType=INTEGER},
       `status` = #{record.status,jdbcType=INTEGER},
       start_city = #{record.startCity,jdbcType=VARCHAR},
-      remarks = #{record.remarks,jdbcType=VARCHAR}
+      remarks = #{record.remarks,jdbcType=VARCHAR},
+      introduction = #{record.introduction,jdbcType=LONGVARCHAR},
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -210,11 +216,11 @@
     insert into t_trip_note (code, title, start_date, 
       end_date, `days`, destination, 
       create_time, create_user_id, `status`, 
-      start_city, remarks)
+      start_city, remarks, introduction)
     values (#{code,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{startDate,jdbcType=DATE}, 
       #{endDate,jdbcType=DATE}, #{days,jdbcType=INTEGER}, #{destination,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
-      #{startCity,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR})
+      #{startCity,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR},#{introduction,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.TTripNote" useGeneratedKeys="true" keyProperty="id">
     insert into t_trip_note
@@ -230,6 +236,7 @@
       `status`,
       start_city,
       remarks,
+      introduction,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       #{code,jdbcType=VARCHAR},
@@ -243,6 +250,7 @@
       #{status,jdbcType=INTEGER},
       #{startCity,jdbcType=VARCHAR},
       #{remarks,jdbcType=VARCHAR},
+      #{introduction,jdbcType=LONGVARCHAR},
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.lenovo.tripnote.entity.TTripNote" >
@@ -281,6 +289,9 @@
       <if test="remarks != null" >
         remarks = #{remarks,jdbcType=VARCHAR},
       </if>
+       <if test="introduction != null" >
+        introduction = #{introduction,jdbcType=LONGVARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -296,7 +307,8 @@
       create_user_id = #{createUserId,jdbcType=INTEGER},
       `status` = #{status,jdbcType=INTEGER},
       start_city = #{startCity,jdbcType=VARCHAR},
-      remarks = #{remarks,jdbcType=VARCHAR}
+      remarks = #{remarks,jdbcType=VARCHAR},
+      introduction = #{introduction,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

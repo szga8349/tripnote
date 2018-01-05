@@ -7,9 +7,14 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class TTripNoteSearchVo extends PageInfoVo{
-	  /**
-     * 标题
-     */
-    private String title;
+public class TTripNoteScheduleVo {
+	
+	private Integer tripnoteId;
+
+	private String title;
+
+	private Integer indexdate;
+	
+	private String introduction;
+
 }

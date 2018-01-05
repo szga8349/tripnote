@@ -38,4 +38,6 @@ public class TTripNoteResultVo implements Serializable {
 	private String remarks;
 
 	private List<TCustemVo> custems;
+	
+	private String introduction;
 }

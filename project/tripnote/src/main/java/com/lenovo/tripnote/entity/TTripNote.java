@@ -34,6 +34,8 @@ public class TTripNote implements Serializable {
     private String startCity;
 
     private String remarks;
+    
+    private String introduction;
 
    
 }
