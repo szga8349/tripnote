@@ -7,7 +7,6 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
@@ -23,7 +22,6 @@ import com.lenovo.tripnote.entity.vo.TTripNoteSearchVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteVo;
 import com.lenovo.tripnote.service.TCustomerService;
 import com.lenovo.tripnote.service.TTripnoteService;
-import com.lenovo.tripnote.util.TimeUtils;
 import com.lenovo.tripnote.vo.Result;
 import com.lenovo.tripnote.vo.ResultVo;
 
@@ -52,8 +50,6 @@ public class TTripNoteController {
 		t.setCreateUserId(account.getCreateUserId());
 		t.setCreateTime(new Date());
 		t.setCreateUserId(account.getId());
-		t.setStartDate(TimeUtils.getDate(tripnoteVo.getStartDate()));
-		t.setEndDate(TimeUtils.getDate(tripnoteVo.getEndDate()));
 		tTripnoteService.insert(t);
 	    if(tripnoteVo.getCustomers()!=null){//关联客户信息
 	    	JSONObject json = JSONObject.fromObject(tripnoteVo.getCustomers());
@@ -95,7 +91,6 @@ public class TTripNoteController {
 		TTripNote t = new TTripNote();
 		t.setCreateUserId(account.getId());
 		t.setTitle(search.getTitle());
-		List<TTripNoteResultVo> t2 = tTripnoteService.queryCondition(t,new RowBounds(0, 10));
 		List<TTripNoteResultVo> t1 = tTripnoteService.queryCondition(t);
 		vo.setData(t1);
 		return vo;
