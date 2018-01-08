@@ -19,6 +19,10 @@ import com.lenovo.tripnote.service.TTripnoteScheduleTrafficService;
 import com.lenovo.tripnote.vo.Result;
 import com.lenovo.tripnote.vo.ResultVo;
 
+/**日程交通
+ * @author shijy2
+ *
+ */
 @Controller
 @RequestMapping(value = "/tripnote/scheduletraffic")
 public class TTripnoteScheduleTrafficController {
