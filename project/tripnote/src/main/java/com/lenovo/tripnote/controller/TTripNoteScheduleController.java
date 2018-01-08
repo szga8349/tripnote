@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lenovo.tripnote.entity.BAccount;
 import com.lenovo.tripnote.entity.TTripnoteSchedule;
+import com.lenovo.tripnote.entity.vo.TTripNoteScheduleResultVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteScheduleVo;
 import com.lenovo.tripnote.service.TTripNoteScheduleService;
 import com.lenovo.tripnote.vo.Result;
@@ -79,12 +80,18 @@ public class TTripNoteScheduleController {
 		tTripNoteScheduleService.update(t);
 		return vo;
 	}
+	/**根据定制日程主键值查询定制日程详细信息
+	 * @param scheduleId
+	 * @return
+	 * @throws IllegalAccessException
+	 * @throws InvocationTargetException
+	 */
 	@RequestMapping(value = "/doDeail/{scheduleId}")
-	public @ResponseBody ResultVo searchByTripnoteId(@PathVariable String scheduleId) throws IllegalAccessException, InvocationTargetException{
+	public @ResponseBody ResultVo getDetail(@PathVariable String scheduleId) throws IllegalAccessException, InvocationTargetException{
 		ResultVo vo = new ResultVo();
-		
+		TTripNoteScheduleResultVo result = tTripNoteScheduleService.getDetailByKey(Integer.valueOf(scheduleId));
 		vo.setCode(Result.SUCESSFUL);
-		
+		vo.setData(result);
 		return vo;
 	}
 }

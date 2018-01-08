@@ -2,11 +2,14 @@ package com.lenovo.tripnote.dao;
 
 import com.lenovo.tripnote.entity.TTripnoteSchedule;
 import com.lenovo.tripnote.entity.TTripnoteScheduleExample;
+import com.lenovo.tripnote.entity.vo.TTripNoteScheduleResultVo;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
 public interface TTripnoteScheduleMapper {
+	
     int countByExample(TTripnoteScheduleExample example);
 
     int deleteByExample(TTripnoteScheduleExample example);
@@ -38,4 +41,6 @@ public interface TTripnoteScheduleMapper {
     int updateByPrimaryKeyWithBLOBs(TTripnoteSchedule record);
 
     int updateByPrimaryKey(TTripnoteSchedule record);
+
+	TTripNoteScheduleResultVo getDetailByKey(Integer scheduleId);
 }

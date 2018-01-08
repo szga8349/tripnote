@@ -4,6 +4,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**日程交通
+ * @author shijy2
+ *
+ */
 @Getter
 @Setter
 @NoArgsConstructor

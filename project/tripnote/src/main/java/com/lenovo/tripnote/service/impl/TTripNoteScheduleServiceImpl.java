@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.lenovo.tripnote.dao.TTripnoteScheduleMapper;
 import com.lenovo.tripnote.entity.BAccount;
 import com.lenovo.tripnote.entity.TTripnoteSchedule;
+import com.lenovo.tripnote.entity.vo.TTripNoteScheduleResultVo;
 import com.lenovo.tripnote.service.TTripNoteScheduleService;
 
 @Service()
@@ -59,6 +60,12 @@ public class TTripNoteScheduleServiceImpl implements TTripNoteScheduleService {
 			result.add(shcedule.getId());
 		}
 		return result;
+	}
+
+	@Override
+	public TTripNoteScheduleResultVo getDetailByKey(Integer scheduleId) {
+		// TODO Auto-generated method stub
+		return tTripnoteScheduleMapper.getDetailByKey(scheduleId);
 	}
 
 	

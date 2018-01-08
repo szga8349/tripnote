@@ -13,6 +13,34 @@
   <resultMap id="ResultMapWithBLOBs" type="com.lenovo.tripnote.entity.TTripnoteSchedule" extends="BaseResultMap" >
     <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
   </resultMap>
+  
+  <resultMap id="DetailResultMap" type="com.lenovo.tripnote.entity.vo.TTripNoteScheduleResultVo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="tripnote_id" property="tripnoteId" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="indexdate" property="indexdate" jdbcType="INTEGER" />
+    <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
+    <collection property="traffics" javaType="java.util.List" ofType="com.lenovo.tripnote.entity.vo.TTripnoteScheduleTrafficResultVo">  
+            <result column="traffic_id" property="id" jdbcType="INTEGER" />  
+            <result column="traffic_schedule_id" property="scheduleId" jdbcType="INTEGER" />
+            <result column="start_schedule_trip" property="startScheduleTrip" jdbcType="INTEGER" />
+            <result column="end_schedule_trip" property="endScheduleTrip" jdbcType="INTEGER" />
+            <result column="distance" property="distance" jdbcType="REAL" />
+            <result column="spend_time" property="spendTime" jdbcType="BIGINT" />
+     </collection>  
+      <collection property="scheduletrips" javaType="java.util.List" ofType="com.lenovo.tripnote.entity.vo.TTripnoteScheduleTripResultVo">
+            <result column="scheduletrip_id" property="id" jdbcType="INTEGER" />  
+            <result column="scheduletrip_schedule_id" property="scheduleId" jdbcType="INTEGER" />  
+            <result column="briefly" property="briefly" jdbcType="VARCHAR" />  
+            <result column="scheduletrip_context" property="context" jdbcType="LONGVARCHAR" />
+     </collection> 
+       <collection property="usertripnotes" javaType="java.util.List" ofType="com.lenovo.tripnote.entity.vo.BUserTripnoteResultVo">
+            <result column="busertrip_id" property="id" jdbcType="INTEGER" />
+            <result column="busertrip_title" property="title" jdbcType="VARCHAR" />
+            <result column="cover" property="cover" jdbcType="VARCHAR" />    
+            <result column="busertrip_context" property="context" jdbcType="LONGVARCHAR" />
+     </collection> 
+  </resultMap>
   <sql id="Base_Column_List" >
     id, tripnote_id, title, indexdate, createtime, create_userid, createuser_name
   </sql>
@@ -77,6 +105,19 @@
       </foreach>
     </where>
   </sql>
+  <select id="getDetailByKey" resultMap="DetailResultMap" parameterType="java.lang.Integer" >
+   select
+   t.id, t.tripnote_id, t.title, t.indexdate,t.introduction,
+   ttst.id as scheduletrip_id,ttst.schedule_id as scheduletrip_schedule_id,briefly,ttst.context as scheduletrip_context,
+   ttstc.id as traffic_id,ttstc.schedule_id as traffic_schedule_id,ttstc.start_schedule_trip,ttstc.end_schedule_trip,ttstc.distance,ttstc.spend_time,
+   but.id as busertrip_id,but.title as busertrip_title,but.cover,but.context as busertrip_context
+   from t_tripnote_schedule t
+   left join t_tripnote_schedule_trip ttst on ttst.schedule_id = t.id 
+   left join t_tripnote_schedule_traffic ttstc on ttstc.schedule_id = t.id
+   left join t_tripnote_schedule_r_usenote ttsru on ttsru.tripnote_schedule_id=t.id
+   left join b_user_tripnote but on but.id = ttsru.user_tripnote_id
+   where t.id = #{id,jdbcType=INTEGER}
+  </select>
   <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleExample" >
     select
     <if test="distinct" >

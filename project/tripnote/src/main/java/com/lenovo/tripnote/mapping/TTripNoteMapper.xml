@@ -48,7 +48,7 @@
             <result column="phone1" property="phone" jdbcType="VARCHAR" />  
             <result column="name" property="name" jdbcType="VARCHAR" />  
      </collection>  
-      <collection property="tTripNoteSchedules" javaType="java.util.List" ofType="com.lenovo.tripnote.entity.vo.TTripNoteScheduleResuleVo">
+      <collection property="tTripNoteSchedules" javaType="java.util.List" ofType="com.lenovo.tripnote.entity.vo.TTripNoteScheduleResultVo">
             <result column="schedule_id" property="id" jdbcType="INTEGER" />  
             <result column="schedule_title" property="title" jdbcType="VARCHAR" />  
             <result column="indexdate" property="indexdate" jdbcType="INTEGER" />  
