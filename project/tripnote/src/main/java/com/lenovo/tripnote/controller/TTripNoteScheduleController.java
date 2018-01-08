@@ -79,8 +79,8 @@ public class TTripNoteScheduleController {
 		tTripNoteScheduleService.update(t);
 		return vo;
 	}
-	@RequestMapping(value = "/doSearch/{tripnoteId}")
-	public @ResponseBody ResultVo searchByTripnoteId(@PathVariable String tripnoteId) throws IllegalAccessException, InvocationTargetException{
+	@RequestMapping(value = "/doDeail/{scheduleId}")
+	public @ResponseBody ResultVo searchByTripnoteId(@PathVariable String scheduleId) throws IllegalAccessException, InvocationTargetException{
 		ResultVo vo = new ResultVo();
 		
 		vo.setCode(Result.SUCESSFUL);

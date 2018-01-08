@@ -18,6 +18,6 @@ public class TTripNoteDetailResultVo extends TTripNoteResultVo {
 
 	private List<TCustemVo> custems;
 	
-	private List<TTripNoteScheduleResuleVo> tTripNoteSchedules;
+	private List<TTripNoteScheduleResultVo> tTripNoteSchedules;
 	
 }
