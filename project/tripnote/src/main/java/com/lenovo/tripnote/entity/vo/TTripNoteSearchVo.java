@@ -15,4 +15,6 @@ public class TTripNoteSearchVo extends PageInfoVo{
     
 
     private Integer userId;
+    
+    private Integer type;
 }

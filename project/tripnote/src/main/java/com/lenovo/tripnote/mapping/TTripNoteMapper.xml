@@ -139,7 +139,7 @@
     t.id,t.code, t.title,t.start_date, t.end_date, t.`days`, t.destination, 
     t.`status`, t.start_city, t.remarks,tc.name,tc.phone1,t.introduction,tts.title as schedule_title
     from t_trip_note t left join t_tripnote_r_customer ts on t.id = ts.tripnote_id left join t_customer tc on tc.id = ts.customer_id left join t_tripnote_schedule tts on tts.tripnote_id = t.id 
-    where t.type = 1 and t.create_user_id = #{record.userId,jdbcType=INTEGER}
+    where t.type = 1 and t.id = #{id,jdbcType=INTEGER}
   </select>
   
   <select id="queryConditionAndPage" resultMap="SearchResultMap" parameterType="com.lenovo.tripnote.entity.vo.TTripNoteSearchVo" >
