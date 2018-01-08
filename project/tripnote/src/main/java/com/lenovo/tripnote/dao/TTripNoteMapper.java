@@ -2,6 +2,7 @@ package com.lenovo.tripnote.dao;
 
 import com.lenovo.tripnote.entity.TTripNote;
 import com.lenovo.tripnote.entity.TTripNoteExample;
+import com.lenovo.tripnote.entity.vo.TTripNoteDetailResultVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteResultVo;
 
 import java.util.List;
@@ -33,4 +34,6 @@ public interface TTripNoteMapper {
     List<TTripNoteResultVo> queryCondition(TTripNoteExample example);
     
     List<TTripNoteResultVo> queryConditionAndPage(TTripNoteExample example, RowBounds rowBound);
+
+    TTripNoteDetailResultVo getDetailByKey(Integer id);
 }

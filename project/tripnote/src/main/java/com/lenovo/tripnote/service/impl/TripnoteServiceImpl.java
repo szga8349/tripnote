@@ -15,6 +15,7 @@ import com.lenovo.tripnote.entity.BAccount;
 import com.lenovo.tripnote.entity.TCustomer;
 import com.lenovo.tripnote.entity.TTripNote;
 import com.lenovo.tripnote.entity.TTripNoteExample;
+import com.lenovo.tripnote.entity.vo.TTripNoteDetailResultVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteResultVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteVo;
 import com.lenovo.tripnote.service.TCustomerService;
@@ -60,7 +61,7 @@ public class TripnoteServiceImpl implements TTripnoteService{
 	public List<TTripNoteResultVo> queryCondition(TTripNote t) {
 		TTripNoteExample example = new TTripNoteExample();
 		TTripNoteExample.Criteria cname = example.createCriteria().andTitleLike(t.getTitle());
-		cname.andCreateUserIdEqualTo(t.getCreateUserId(),"t.create_user_id");
+		cname.andCreateUserIdEqualTo(t.getCreateUserId());
 		return tTripNoteMapper.queryCondition(example);
 	}
 
@@ -104,6 +105,48 @@ public class TripnoteServiceImpl implements TTripnoteService{
 	    	}
 		}
 	    return t;
+	}
+
+	@Override
+	public TTripNote update(TTripNoteVo tripnoteVo, BAccount account, Integer id) {
+		TTripNote t = new TTripNote();
+		try {
+			BeanUtils.copyProperties(t, tripnoteVo);
+		} catch (IllegalAccessException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		t.setCreateUserId(account.getCreateUserId());
+		t.setCreateTime(new Date());
+		t.setCreateUserId(account.getId());
+		t.setId(id);
+		this.update(t);
+	    if(tripnoteVo.getCustomers()!=null){//关联客户信息
+	    	JSONObject json = JSONObject.fromObject(tripnoteVo.getCustomers());
+	    	JSONArray arrary = json.getJSONArray("customer");
+	    	int size = arrary.size();
+	    	for(int i=0;i<size;i++){
+	    		JSONObject custer = arrary.getJSONObject(i);
+	    		TCustomer t1 = new TCustomer();
+		    	t1.setName(custer.getString("name"));
+		    	t1.setPhone1(custer.getString("phone"));
+		    	List<TCustomer> customer = tCustomerService.selectCondition(t1); 
+		    	if(customer!=null && !customer.isEmpty()){
+		    		tCustomerService.insertTripnoteRCustomer(t.getId(), customer.get(0).getId());
+		    	}else{
+		    		t1.setStatus(1);
+		    		t1.setCreateUserId(account.getId());
+		    		tCustomerService.insert(t1);
+		    		tCustomerService.insertTripnoteRCustomer(t.getId(), t1.getId());
+		    	}
+	    	}
+		}
+	    return t;
+	}
+
+	@Override
+	public TTripNoteDetailResultVo getDetailByKey(Integer id) {
+		
+		return tTripNoteMapper.getDetailByKey(id);
 	}
 
 }

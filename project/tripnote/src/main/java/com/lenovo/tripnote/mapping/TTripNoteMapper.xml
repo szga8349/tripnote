@@ -20,6 +20,19 @@
   
   
    <resultMap id="SearchResultMap" type="com.lenovo.tripnote.entity.vo.TTripNoteResultVo" >
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="start_date" property="startDate" jdbcType="DATE" />
+    <result column="end_date" property="endDate" jdbcType="DATE" />
+    <result column="days" property="days" jdbcType="INTEGER" />
+    <result column="destination" property="destination" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="start_city" property="startCity" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  
+   <resultMap id="DetailResultMap" type="com.lenovo.tripnote.entity.vo.TTripNoteDetailResultVo" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="code" property="code" jdbcType="VARCHAR" />
     <result column="title" property="title" jdbcType="VARCHAR" />
@@ -31,10 +44,15 @@
     <result column="start_city" property="startCity" jdbcType="VARCHAR" />
     <result column="remarks" property="remarks" jdbcType="VARCHAR" />
     <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
-   <collection property="custems" javaType="java.util.List" ofType="com.lenovo.tripnote.entity.vo.TCustemVo">  
+    <collection property="custems" javaType="java.util.List" ofType="com.lenovo.tripnote.entity.vo.TCustemVo">  
             <result column="phone1" property="phone" jdbcType="VARCHAR" />  
             <result column="name" property="name" jdbcType="VARCHAR" />  
-        </collection>  
+     </collection>  
+      <collection property="tTripNoteSchedules" javaType="java.util.List" ofType="com.lenovo.tripnote.entity.vo.TTripNoteScheduleResuleVo">
+            <result column="schedule_id" property="id" jdbcType="INTEGER" />  
+            <result column="schedule_title" property="title" jdbcType="VARCHAR" />  
+            <result column="indexdate" property="indexdate" jdbcType="INTEGER" />  
+     </collection> 
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -102,9 +120,11 @@
   </sql>
   <select id="queryCondition" resultMap="SearchResultMap" parameterType="com.lenovo.tripnote.entity.TTripNoteExample" >
     select
-    t.id,t.code, t.title,t.start_date, t.end_date, t.`days`, t.destination, 
-    t.`status`, t.start_city, t.remarks,tc.name,tc.phone1,t.introduction
-    from t_trip_note t left join t_tripnote_r_customer ts on t.id = ts.tripnote_id left join t_customer tc on tc.id = ts.customer_id
+   <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_trip_note
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -112,11 +132,22 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="queryConditionAndPage" resultMap="SearchResultMap" parameterType="com.lenovo.tripnote.entity.TTripNoteExample" >
-    select
+  
+   <select id="getDetailByKey" resultMap="DetailResultMap" parameterType="java.lang.Integer" >
+   select
     t.id,t.code, t.title,t.start_date, t.end_date, t.`days`, t.destination, 
-    t.`status`, t.start_city, t.remarks,tc.name,tc.phone1,t.introduction
-    from t_trip_note t left join t_tripnote_r_customer ts on t.id = ts.tripnote_id left join t_customer tc on tc.id = ts.customer_id
+    t.`status`, t.start_city, t.remarks,tc.name,tc.phone1,t.introduction,tts.id as schedule_id,tts.title as schedule_title,tts.indexdate
+    from t_trip_note t left join t_tripnote_r_customer ts on t.id = ts.tripnote_id left join t_customer tc on tc.id = ts.customer_id left join t_tripnote_schedule tts on tts.tripnote_id = t.id 
+    where t.id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="queryConditionAndPage" resultMap="SearchResultMap" parameterType="com.lenovo.tripnote.entity.TTripNoteExample" >
+     select
+   <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_trip_note
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>

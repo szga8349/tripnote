@@ -69,10 +69,20 @@ public class TTripNoteController {
 			throws IllegalAccessException, InvocationTargetException {
 		ResultVo vo = new ResultVo();
 		vo.setCode(Result.SUCESSFUL);
+		Subject subject = SecurityUtils.getSubject();
+		BAccount account = (BAccount) subject.getPrincipal();
 		TTripNote t = new TTripNote();
 		BeanUtils.copyProperties(t, tripnoteVo);
 		t.setId(Integer.valueOf(id));
-		tTripnoteService.update(t);
+		tTripnoteService.update(tripnoteVo,account,Integer.valueOf(id));
+		return vo;
+	}
+	@RequestMapping(value = "/doDetail/{id}")
+	public @ResponseBody ResultVo getTTripNotePrimaryKey(@PathVariable String id)
+			throws IllegalAccessException, InvocationTargetException {
+		ResultVo vo = new ResultVo();
+		vo.setCode(Result.SUCESSFUL);
+		vo.setData(tTripnoteService.getDetailByKey(Integer.valueOf(id)));
 		return vo;
 	}
 }

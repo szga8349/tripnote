@@ -2,12 +2,15 @@ package com.lenovo.tripnote.entity.vo;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * @author shijy2
+ *
+ */
 @SuppressWarnings("serial")
 @Getter
 @Setter
@@ -36,8 +39,6 @@ public class TTripNoteResultVo implements Serializable {
 	private String startCity;
 
 	private String remarks;
-
-	private List<TCustemVo> custems;
 	
 	private String introduction;
 }
