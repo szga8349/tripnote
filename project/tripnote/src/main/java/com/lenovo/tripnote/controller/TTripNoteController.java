@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lenovo.tripnote.entity.BAccount;
 import com.lenovo.tripnote.entity.TTripNote;
-import com.lenovo.tripnote.entity.vo.TTripNoteResultVo;
+import com.lenovo.tripnote.entity.vo.TTripNoteSearchResultVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteSearchVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteVo;
 import com.lenovo.tripnote.service.TCustomerService;
@@ -60,10 +60,8 @@ public class TTripNoteController {
 		Subject subject = SecurityUtils.getSubject();
 		BAccount account = (BAccount) subject.getPrincipal();
 		vo.setCode(Result.SUCESSFUL);
-		TTripNote t = new TTripNote();
-		t.setCreateUserId(account.getId());
-		t.setTitle(search.getTitle());
-		List<TTripNoteResultVo> t1 = tTripnoteService.queryCondition(t);
+		search.setUserId(account.getId());
+		List<TTripNoteSearchResultVo> t1 = tTripnoteService.queryCondition(search);
 		vo.setData(t1);
 		return vo;
 	}

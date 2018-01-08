@@ -14,9 +14,9 @@ import com.lenovo.tripnote.dao.TTripNoteMapper;
 import com.lenovo.tripnote.entity.BAccount;
 import com.lenovo.tripnote.entity.TCustomer;
 import com.lenovo.tripnote.entity.TTripNote;
-import com.lenovo.tripnote.entity.TTripNoteExample;
 import com.lenovo.tripnote.entity.vo.TTripNoteDetailResultVo;
-import com.lenovo.tripnote.entity.vo.TTripNoteResultVo;
+import com.lenovo.tripnote.entity.vo.TTripNoteSearchResultVo;
+import com.lenovo.tripnote.entity.vo.TTripNoteSearchVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteVo;
 import com.lenovo.tripnote.service.TCustomerService;
 import com.lenovo.tripnote.service.TTripnoteService;
@@ -58,19 +58,15 @@ public class TripnoteServiceImpl implements TTripnoteService{
 	}
 
 	@Override
-	public List<TTripNoteResultVo> queryCondition(TTripNote t) {
-		TTripNoteExample example = new TTripNoteExample();
-		TTripNoteExample.Criteria cname = example.createCriteria().andTitleLike(t.getTitle());
-		cname.andCreateUserIdEqualTo(t.getCreateUserId());
-		return tTripNoteMapper.queryCondition(example);
+	public List<TTripNoteSearchResultVo> queryCondition(TTripNoteSearchVo t) {
+		
+		return tTripNoteMapper.queryCondition(t);
 	}
 
 	@Override
-	public List<TTripNoteResultVo> queryCondition(TTripNote t, RowBounds rowBound) {
-		TTripNoteExample example = new TTripNoteExample();
-		TTripNoteExample.Criteria cname = example.createCriteria().andTitleLike(t.getTitle());
-		cname.andCreateUserIdEqualTo(t.getCreateUserId(),"t.create_user_id");
-		return tTripNoteMapper.queryConditionAndPage(example, rowBound);
+	public List<TTripNoteSearchResultVo> queryCondition(TTripNoteSearchVo t, RowBounds rowBound) {
+	
+		return tTripNoteMapper.queryConditionAndPage(t, rowBound);
 	}
 	public TTripNote insertTripNote(TTripNoteVo tripnoteVo,BAccount account){
 		TTripNote t = new TTripNote();

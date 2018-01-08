@@ -1,13 +1,15 @@
 package com.lenovo.tripnote.dao;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+
 import com.lenovo.tripnote.entity.TTripNote;
 import com.lenovo.tripnote.entity.TTripNoteExample;
 import com.lenovo.tripnote.entity.vo.TTripNoteDetailResultVo;
-import com.lenovo.tripnote.entity.vo.TTripNoteResultVo;
-
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.session.RowBounds;
+import com.lenovo.tripnote.entity.vo.TTripNoteSearchResultVo;
+import com.lenovo.tripnote.entity.vo.TTripNoteSearchVo;
 
 public interface TTripNoteMapper {
     int countByExample(TTripNoteExample example);
@@ -30,10 +32,9 @@ public interface TTripNoteMapper {
 
     int updateByPrimaryKey(TTripNote record);
     
+    List<TTripNoteSearchResultVo> queryCondition(@Param("record")TTripNoteSearchVo record);
     
-    List<TTripNoteResultVo> queryCondition(TTripNoteExample example);
-    
-    List<TTripNoteResultVo> queryConditionAndPage(TTripNoteExample example, RowBounds rowBound);
+    List<TTripNoteSearchResultVo> queryConditionAndPage(@Param("record")TTripNoteSearchVo record, RowBounds rowBound);
 
     TTripNoteDetailResultVo getDetailByKey(Integer id);
 }
