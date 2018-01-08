@@ -220,7 +220,7 @@
     delete from b_user_tripnote
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.lenovo.tripnote.entity.BUserTripnote" >
+  <insert id="insert" parameterType="com.lenovo.tripnote.entity.BUserTripnote" useGeneratedKeys="true" keyProperty="id">
     insert into b_user_tripnote (title, `status`, cover, 
       create_userid, create_username, create_time, 
       context)
@@ -228,7 +228,7 @@
       #{createUserid,jdbcType=INTEGER}, #{createUsername,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{context,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.BUserTripnote" >
+  <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.BUserTripnote" useGeneratedKeys="true" keyProperty="id">
     insert into b_user_tripnote
     <trim prefix="(" suffix=")" suffixOverrides="," >
       title,

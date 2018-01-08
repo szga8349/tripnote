@@ -174,7 +174,7 @@
     delete from t_tripnote_schedule_traffic
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleTraffic" >
+  <insert id="insert" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleTraffic" useGeneratedKeys="true" keyProperty="id">
     insert into t_tripnote_schedule_traffic (schedule_id, start_schedule_trip, end_schedule_trip, 
       distance, spend_time, createtime, 
       create_userid, createuser_name)
@@ -182,7 +182,7 @@
       #{distance,jdbcType=REAL}, #{spendTime,jdbcType=BIGINT}, #{createtime,jdbcType=TIMESTAMP}, 
       #{createUserid,jdbcType=INTEGER}, #{createuserName,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleTraffic" >
+  <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleTraffic" useGeneratedKeys="true" keyProperty="id">
     insert into t_tripnote_schedule_traffic
     <trim prefix="(" suffix=")" suffixOverrides="," >
       schedule_id,
