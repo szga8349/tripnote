@@ -1,7 +1,6 @@
 package com.lenovo.tripnote.controller;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -15,34 +14,28 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lenovo.tripnote.entity.BAccount;
 import com.lenovo.tripnote.entity.TTripNote;
-import com.lenovo.tripnote.entity.vo.TTripNoteSearchResultVo;
-import com.lenovo.tripnote.entity.vo.TTripNoteSearchVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteVo;
-import com.lenovo.tripnote.service.TCustomerService;
 import com.lenovo.tripnote.service.TTripnoteService;
 import com.lenovo.tripnote.vo.Result;
 import com.lenovo.tripnote.vo.ResultVo;
 
-/**定制
+/**定制模板
  * @author shijy2
  *
  */
 @Controller
-@RequestMapping(value = "/tripnote")
-public class TTripNoteController {
+@RequestMapping(value = "/tripnote/template")
+public class TTripNoteTemplateController {
 	@Resource
 	private TTripnoteService tTripnoteService;
-	@Resource
-	private TCustomerService tCustomerService;
-
 	@RequestMapping(value = "/doAdd")
 	public @ResponseBody ResultVo addTTripNote(TTripNoteVo tripnoteVo) {
 		Subject subject = SecurityUtils.getSubject();
 		ResultVo vo = new ResultVo();
 		vo.setCode(Result.SUCESSFUL);
 		BAccount account = (BAccount) subject.getPrincipal();
-		//设置定制类型
-		tripnoteVo.setType(1);
+		//设置为定制模板类型
+		tripnoteVo.setType(2);
 		TTripNote t = tTripnoteService.insertTripNote(tripnoteVo, account);
 		vo.setData(t.getId());
 		return vo;
@@ -55,19 +48,6 @@ public class TTripNoteController {
 		tTripnoteService.deleteBykey(Integer.valueOf(id));
 		return vo;
 	}
-
-	@RequestMapping(value = "/doSearch")
-	public @ResponseBody ResultVo search(TTripNoteSearchVo search) {
-		ResultVo vo = new ResultVo();
-		Subject subject = SecurityUtils.getSubject();
-		BAccount account = (BAccount) subject.getPrincipal();
-		vo.setCode(Result.SUCESSFUL);
-		search.setUserId(account.getId());
-		List<TTripNoteSearchResultVo> t1 = tTripnoteService.queryCondition(search);
-		vo.setData(t1);
-		return vo;
-	}
-
 	@RequestMapping(value = "/doUpdate/{id}")
 	public @ResponseBody ResultVo update(TTripNoteVo tripnoteVo, @PathVariable String id)
 			throws IllegalAccessException, InvocationTargetException {
@@ -79,14 +59,6 @@ public class TTripNoteController {
 		BeanUtils.copyProperties(t, tripnoteVo);
 		t.setId(Integer.valueOf(id));
 		tTripnoteService.update(tripnoteVo,account,Integer.valueOf(id));
-		return vo;
-	}
-	@RequestMapping(value = "/doDetail/{id}")
-	public @ResponseBody ResultVo getTTripNotePrimaryKey(@PathVariable String id)
-			throws IllegalAccessException, InvocationTargetException {
-		ResultVo vo = new ResultVo();
-		vo.setCode(Result.SUCESSFUL);
-		vo.setData(tTripnoteService.getDetailByKey(Integer.valueOf(id)));
 		return vo;
 	}
 }

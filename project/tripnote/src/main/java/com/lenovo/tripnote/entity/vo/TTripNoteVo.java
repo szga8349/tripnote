@@ -52,4 +52,6 @@ public class TTripNoteVo implements Serializable {
     private String customers;
     
     private String introduction;
+    
+    private Integer type;
 }
