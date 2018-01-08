@@ -21,6 +21,7 @@
   
   
    <resultMap id="SearchResultMap" type="com.lenovo.tripnote.entity.vo.TTripNoteSearchResultVo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
     <result column="code" property="code" jdbcType="VARCHAR" />
     <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="start_date" property="startDate" jdbcType="DATE" />
@@ -137,7 +138,7 @@
    <select id="getDetailByKey" resultMap="DetailResultMap" parameterType="java.lang.Integer" >
    select
     t.id,t.code, t.title,t.start_date, t.end_date, t.`days`, t.destination, 
-    t.`status`, t.start_city, t.remarks,tc.name,tc.phone1,t.introduction,tts.title as schedule_title
+    t.`status`, t.start_city, t.remarks,tc.name,tc.phone1,t.introduction,tts.id as schedule_id, tts.title as schedule_title,tts.indexdate
     from t_trip_note t left join t_tripnote_r_customer ts on t.id = ts.tripnote_id left join t_customer tc on tc.id = ts.customer_id left join t_tripnote_schedule tts on tts.tripnote_id = t.id 
     where t.type = 1 and t.id = #{id,jdbcType=INTEGER}
   </select>

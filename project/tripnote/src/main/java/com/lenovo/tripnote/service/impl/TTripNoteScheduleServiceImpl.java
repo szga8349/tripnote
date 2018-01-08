@@ -52,7 +52,7 @@ public class TTripNoteScheduleServiceImpl implements TTripNoteScheduleService {
 		for(int i=0;i<range.intValue();i++){
 			TTripnoteSchedule shcedule = new TTripnoteSchedule();
 			shcedule.setIndexdate(i+1);
-			shcedule.setTitle("D");
+			//shcedule.setTitle("D");
 			shcedule.setCreateUserid(account.getId());
 			shcedule.setCreateuserName(account.getLoginName());
 			shcedule.setTripnoteId(tripnoteId);
