@@ -5,12 +5,28 @@ import java.util.Date;
 import java.util.List;
 
 public class BCountryExample {
+    /**
+     * 主键字段
+     * @ibatorgenerated 2018-01-09 09:43:44
+     */
     protected String pk_name = "id";
 
+    /**
+     * 排序字段
+     * @ibatorgenerated 2018-01-09 09:43:44
+     */
     protected String orderByClause;
 
+    /**
+     * 去重复
+     * @ibatorgenerated 2018-01-09 09:43:44
+     */
     protected boolean distinct;
 
+    /**
+     * 条件集
+     * @ibatorgenerated 2018-01-09 09:43:44
+     */
     protected List<Criteria> oredCriteria;
 
     public BCountryExample() {
@@ -25,6 +41,10 @@ public class BCountryExample {
         return pk_name;
     }
 
+    /**
+     * 排序字段
+     * @ibatorgenerated 2018-01-09 09:43:44
+     */
     public void setOrderByClause(String orderByClause) {
         this.orderByClause = orderByClause;
     }
@@ -33,6 +53,10 @@ public class BCountryExample {
         return orderByClause;
     }
 
+    /**
+     * 设置去重复
+     * @ibatorgenerated 2018-01-09 09:43:44
+     */
     public void setDistinct(boolean distinct) {
         this.distinct = distinct;
     }
@@ -55,6 +79,10 @@ public class BCountryExample {
         return criteria;
     }
 
+    /**
+     * 条件查询要先创建Criteria
+     * @ibatorgenerated 2018-01-09 09:43:44
+     */
     public Criteria createCriteria() {
         Criteria criteria = createCriteriaInternal();
         if (oredCriteria.size() == 0) {
@@ -74,6 +102,11 @@ public class BCountryExample {
         distinct = false;
     }
 
+    /**
+     * 
+     * 内类部，系统内部调用1
+     * @ibatorgenerated 2018-01-09 09:43:44
+     */
     protected abstract static class GeneratedCriteria {
         protected List<Criterion> criteria;
 
@@ -636,6 +669,10 @@ public class BCountryExample {
         }
     }
 
+    /**
+     * b_country
+     * @ibatorgenerated do_not_delete_during_merge 2018-01-09 09:43:44
+     */
     public static class Criteria extends GeneratedCriteria {
 
         protected Criteria() {
@@ -643,6 +680,11 @@ public class BCountryExample {
         }
     }
 
+    /**
+     * 
+     * 内类部，系统内部调用1
+     * @ibatorgenerated 2018-01-09 09:43:44
+     */
     public static class Criterion {
         private String condition;
 

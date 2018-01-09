@@ -176,7 +176,7 @@
       #{nameEn,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
       #{createUserId,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.BCountry" >
+  <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.BCountry" useGeneratedKeys="true" keyProperty="id" >
     insert into b_country
     <trim prefix="(" suffix=")" suffixOverrides="," >
       region_id,
