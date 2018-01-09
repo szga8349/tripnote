@@ -20,7 +20,7 @@ public class BUserTripnoteServiceImpl implements BUserTripnoteService {
 
 	@Override
 	public BUserTripnote update(BUserTripnote t) {
-		this.bUserTripnoteMapper.updateByPrimaryKeyWithBLOBs(t);
+		this.bUserTripnoteMapper.updateByPrimaryKeySelective(t);
 		return null;
 	}
 

@@ -184,7 +184,7 @@
     delete from b_city
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.lenovo.tripnote.entity.BCity" >
+  <insert id="insert" parameterType="com.lenovo.tripnote.entity.BCity" useGeneratedKeys="true" keyProperty="id">
     insert into b_city (id, name_cn, name_en, 
       region_id, country_id, country_name_cn, 
       country_name_en, `status`, is_hot, 
@@ -194,7 +194,7 @@
       #{countryNameEn,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{isHot,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.BCity" >
+  <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.BCity" useGeneratedKeys="true" keyProperty="id">
     insert into b_city
     <trim prefix="(" suffix=")" suffixOverrides="," >
       id,

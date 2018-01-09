@@ -38,7 +38,7 @@ public class TripnoteServiceImpl implements TTripnoteService{
 
 	@Override
 	public TTripNote update(TTripNote t) {
-		 tTripNoteMapper.updateByPrimaryKey(t);
+		 tTripNoteMapper.updateByPrimaryKeySelective(t);
 		 return t;
 	}
 

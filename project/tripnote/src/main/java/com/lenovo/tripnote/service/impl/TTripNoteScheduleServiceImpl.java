@@ -25,7 +25,7 @@ public class TTripNoteScheduleServiceImpl implements TTripNoteScheduleService {
 
 	@Override
 	public TTripnoteSchedule update(TTripnoteSchedule t) {
-		 tTripnoteScheduleMapper.updateByPrimaryKey(t);
+		 tTripnoteScheduleMapper.updateByPrimaryKeySelective(t);
 		 return t;
 	}
 

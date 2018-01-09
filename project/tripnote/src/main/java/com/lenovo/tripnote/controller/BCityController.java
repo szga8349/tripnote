@@ -13,32 +13,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lenovo.tripnote.entity.BAccount;
-import com.lenovo.tripnote.entity.BCountry;
-import com.lenovo.tripnote.entity.vo.BCountryVo;
-import com.lenovo.tripnote.service.BCountryService;
+import com.lenovo.tripnote.entity.BCity;
+import com.lenovo.tripnote.entity.vo.BCityVo;
+import com.lenovo.tripnote.service.BCityService;
 import com.lenovo.tripnote.vo.Result;
 import com.lenovo.tripnote.vo.ResultVo;
 
-/**国家操作
+/**城市操作
  * @author shijy2
  *
  */
 @Controller
-@RequestMapping(value = "/country")
-public class BCountryController {
+@RequestMapping(value = "/city")
+public class BCityController {
 	@Resource
-	private BCountryService bCountryService;
+	private BCityService bCityService;
 	@RequestMapping(value = "/doAdd")
-	public @ResponseBody ResultVo add(BCountryVo tripnoteVo) throws IllegalAccessException, InvocationTargetException {
+	public @ResponseBody ResultVo add(BCityVo tripnoteVo) throws IllegalAccessException, InvocationTargetException {
 		Subject subject = SecurityUtils.getSubject();
 		ResultVo vo = new ResultVo();
 		vo.setCode(Result.SUCESSFUL);
-		BCountry t = new BCountry();
+		BCity t = new BCity();
 		BeanUtils.copyProperties(t, tripnoteVo);
 		BAccount account = (BAccount) subject.getPrincipal();
 		t.setStatus(1);
 		t.setCreateUserId(account.getId());
-		bCountryService.insert(t);
+		bCityService.insert(t);
 		vo.setData(t.getId());
 		return vo;
 	}
@@ -47,29 +47,29 @@ public class BCountryController {
 	public @ResponseBody ResultVo delete(@PathVariable String id) {
 		ResultVo vo = new ResultVo();
 		vo.setCode(Result.SUCESSFUL);
-		bCountryService.deleteBykey(Integer.valueOf(id));
+		bCityService.deleteBykey(Integer.valueOf(id));
 		return vo;
 	}
-	/**根据区域ID搜索国家 如果查询条件为空 返回所有国家信息
+	/**根据区域ID 国家ID搜索城市  如果查询条件为空 返回所有国家信息
 	 * @param id
 	 * @return
 	 */
 	@RequestMapping(value = "/doSearch")
-	public @ResponseBody ResultVo search(BCountryVo bcountryVo) {
+	public @ResponseBody ResultVo search(BCityVo bcountryVo) {
 		ResultVo vo = new ResultVo();
 		vo.setCode(Result.SUCESSFUL);
-		vo.setData(this.bCountryService.select(bcountryVo));
+		vo.setData(this.bCityService.select(bcountryVo));
 		return vo;
 	}
 	@RequestMapping(value = "/doUpdate/{id}")
-	public @ResponseBody ResultVo update(BCountryVo tripnoteVo, @PathVariable String id)
+	public @ResponseBody ResultVo update(BCityVo tripnoteVo, @PathVariable String id)
 			throws IllegalAccessException, InvocationTargetException {
 		ResultVo vo = new ResultVo();
 		vo.setCode(Result.SUCESSFUL);
-		BCountry t = new BCountry();
+		BCity t = new BCity();
 		BeanUtils.copyProperties(t, tripnoteVo);
 		t.setId(Integer.valueOf(id));
-		bCountryService.update(t);
+		bCityService.update(t);
 		return vo;
 	}
 }

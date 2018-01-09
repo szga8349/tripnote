@@ -21,7 +21,7 @@ public class TTripnoteScheduleTrafficServiceImpl implements TTripnoteScheduleTra
 
 	@Override
 	public TTripnoteScheduleTraffic update(TTripnoteScheduleTraffic t) {
-		 this.tTripnoteScheduleTrafficMapper.updateByPrimaryKey(t);
+		 this.tTripnoteScheduleTrafficMapper.updateByPrimaryKeySelective(t);
 		 return t;
 	}
 

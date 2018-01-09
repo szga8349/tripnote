@@ -7,25 +7,25 @@ import java.util.List;
 public class BCountryExample {
     /**
      * 主键字段
-     * @ibatorgenerated 2018-01-09 09:43:44
+     * @ibatorgenerated 2018-01-09 11:30:17
      */
     protected String pk_name = "id";
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-01-09 09:43:44
+     * @ibatorgenerated 2018-01-09 11:30:17
      */
     protected String orderByClause;
 
     /**
      * 去重复
-     * @ibatorgenerated 2018-01-09 09:43:44
+     * @ibatorgenerated 2018-01-09 11:30:17
      */
     protected boolean distinct;
 
     /**
      * 条件集
-     * @ibatorgenerated 2018-01-09 09:43:44
+     * @ibatorgenerated 2018-01-09 11:30:17
      */
     protected List<Criteria> oredCriteria;
 
@@ -43,7 +43,7 @@ public class BCountryExample {
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-01-09 09:43:44
+     * @ibatorgenerated 2018-01-09 11:30:17
      */
     public void setOrderByClause(String orderByClause) {
         this.orderByClause = orderByClause;
@@ -55,7 +55,7 @@ public class BCountryExample {
 
     /**
      * 设置去重复
-     * @ibatorgenerated 2018-01-09 09:43:44
+     * @ibatorgenerated 2018-01-09 11:30:17
      */
     public void setDistinct(boolean distinct) {
         this.distinct = distinct;
@@ -81,7 +81,7 @@ public class BCountryExample {
 
     /**
      * 条件查询要先创建Criteria
-     * @ibatorgenerated 2018-01-09 09:43:44
+     * @ibatorgenerated 2018-01-09 11:30:17
      */
     public Criteria createCriteria() {
         Criteria criteria = createCriteriaInternal();
@@ -105,7 +105,7 @@ public class BCountryExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-01-09 09:43:44
+     * @ibatorgenerated 2018-01-09 11:30:17
      */
     protected abstract static class GeneratedCriteria {
         protected List<Criterion> criteria;
@@ -218,62 +218,52 @@ public class BCountryExample {
             return (Criteria) this;
         }
 
-        public Criteria andRegionIdEqualTo(String value) {
+        public Criteria andRegionIdEqualTo(Integer value) {
             addCriterion("region_id =", value, "regionId");
             return (Criteria) this;
         }
 
-        public Criteria andRegionIdNotEqualTo(String value) {
+        public Criteria andRegionIdNotEqualTo(Integer value) {
             addCriterion("region_id <>", value, "regionId");
             return (Criteria) this;
         }
 
-        public Criteria andRegionIdGreaterThan(String value) {
+        public Criteria andRegionIdGreaterThan(Integer value) {
             addCriterion("region_id >", value, "regionId");
             return (Criteria) this;
         }
 
-        public Criteria andRegionIdGreaterThanOrEqualTo(String value) {
+        public Criteria andRegionIdGreaterThanOrEqualTo(Integer value) {
             addCriterion("region_id >=", value, "regionId");
             return (Criteria) this;
         }
 
-        public Criteria andRegionIdLessThan(String value) {
+        public Criteria andRegionIdLessThan(Integer value) {
             addCriterion("region_id <", value, "regionId");
             return (Criteria) this;
         }
 
-        public Criteria andRegionIdLessThanOrEqualTo(String value) {
+        public Criteria andRegionIdLessThanOrEqualTo(Integer value) {
             addCriterion("region_id <=", value, "regionId");
             return (Criteria) this;
         }
 
-        public Criteria andRegionIdLike(String value) {
-            addCriterion("region_id like", value, "regionId");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegionIdNotLike(String value) {
-            addCriterion("region_id not like", value, "regionId");
-            return (Criteria) this;
-        }
-
-        public Criteria andRegionIdIn(List<String> values) {
+        public Criteria andRegionIdIn(List<Integer> values) {
             addCriterion("region_id in", values, "regionId");
             return (Criteria) this;
         }
 
-        public Criteria andRegionIdNotIn(List<String> values) {
+        public Criteria andRegionIdNotIn(List<Integer> values) {
             addCriterion("region_id not in", values, "regionId");
             return (Criteria) this;
         }
 
-        public Criteria andRegionIdBetween(String value1, String value2) {
+        public Criteria andRegionIdBetween(Integer value1, Integer value2) {
             addCriterion("region_id between", value1, value2, "regionId");
             return (Criteria) this;
         }
 
-        public Criteria andRegionIdNotBetween(String value1, String value2) {
+        public Criteria andRegionIdNotBetween(Integer value1, Integer value2) {
             addCriterion("region_id not between", value1, value2, "regionId");
             return (Criteria) this;
         }
@@ -671,7 +661,7 @@ public class BCountryExample {
 
     /**
      * b_country
-     * @ibatorgenerated do_not_delete_during_merge 2018-01-09 09:43:44
+     * @ibatorgenerated do_not_delete_during_merge 2018-01-09 11:30:17
      */
     public static class Criteria extends GeneratedCriteria {
 
@@ -683,7 +673,7 @@ public class BCountryExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-01-09 09:43:44
+     * @ibatorgenerated 2018-01-09 11:30:17
      */
     public static class Criterion {
         private String condition;

@@ -26,7 +26,7 @@ public class TCustomerServiceImpl implements TCustomerService {
 
 	@Override
 	public TCustomer update(TCustomer t) {
-	    tCustomerMapper.updateByPrimaryKey(t);
+	    tCustomerMapper.updateByPrimaryKeySelective(t);
 	    return t;
 	}
 
