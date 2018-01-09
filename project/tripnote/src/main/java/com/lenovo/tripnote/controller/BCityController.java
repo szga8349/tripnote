@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import javax.annotation.Resource;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
@@ -58,7 +59,9 @@ public class BCityController {
 	public @ResponseBody ResultVo search(BCityVo bcountryVo) {
 		ResultVo vo = new ResultVo();
 		vo.setCode(Result.SUCESSFUL);
-		vo.setData(this.bCityService.select(bcountryVo));
+		Integer offset = (bcountryVo.getPageNo()-1<0?0:(bcountryVo.getPageNo()-1))*bcountryVo.getPageSize();
+		RowBounds rowBounds = new RowBounds(offset,bcountryVo.getPageSize());
+		vo.setData(this.bCityService.selectAndPage(bcountryVo,rowBounds));
 		return vo;
 	}
 	@RequestMapping(value = "/doUpdate/{id}")

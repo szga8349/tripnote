@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class BCityVo {
+public class BCityVo extends PageInfoVo{
 	 /**
      * b_city.name_cn (城市名：中文)
      * @ibatorgenerated 2018-01-09 09:43:44

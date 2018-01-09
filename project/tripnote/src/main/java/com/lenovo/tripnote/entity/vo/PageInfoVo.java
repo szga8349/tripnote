@@ -14,6 +14,12 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class PageInfoVo {
-	private Integer pageNo;
-	private Integer pageSize;
+	/**
+	 * 默认第一页
+	 */
+	private Integer pageNo = 1;
+	/**
+	 * 默认一页10条
+	 */
+	private Integer pageSize = 10;
 }
