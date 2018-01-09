@@ -21,7 +21,7 @@ public class BCountry implements Serializable {
      * b_country.region_id (地区，洲 -id)
      * @ibatorgenerated 2018-01-09 09:43:44
      */
-    private String regionId;
+    private Integer regionId;
 
     /**
      * b_country.code (国家代码)

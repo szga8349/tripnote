@@ -47,8 +47,8 @@
 			<value>
 				/login/*=anon
 				/index.*=anon
-				/trip/*=anon
-				/*=anon
+				/country/*= fauthc
+				/**= fauthc
 			</value>
 		</property>
 	</bean>

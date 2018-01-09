@@ -3,7 +3,7 @@
 <mapper namespace="com.lenovo.tripnote.dao.BCountryMapper" >
   <resultMap id="BaseResultMap" type="com.lenovo.tripnote.entity.BCountry" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="region_id" property="regionId" jdbcType="VARCHAR" />
+    <result column="region_id" property="regionId" jdbcType="INTEGER" />
     <result column="code" property="code" jdbcType="VARCHAR" />
     <result column="name_cn" property="nameCn" jdbcType="VARCHAR" />
     <result column="name_en" property="nameEn" jdbcType="VARCHAR" />
@@ -119,7 +119,7 @@
         id = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.regionId != null" >
-        region_id = #{record.regionId,jdbcType=VARCHAR},
+        region_id = #{record.regionId,jdbcType=INTEGER},
       </if>
       <if test="record.code != null" >
         code = #{record.code,jdbcType=VARCHAR},
@@ -147,7 +147,7 @@
   <update id="updateByExample" parameterType="map" >
     update b_country
     set id = #{record.id,jdbcType=INTEGER},
-      region_id = #{record.regionId,jdbcType=VARCHAR},
+      region_id = #{record.regionId,jdbcType=INTEGER},
       code = #{record.code,jdbcType=VARCHAR},
       name_cn = #{record.nameCn,jdbcType=VARCHAR},
       name_en = #{record.nameEn,jdbcType=VARCHAR},
@@ -172,7 +172,7 @@
     insert into b_country (region_id, code, name_cn, 
       name_en, `status`, create_time, 
       create_user_id)
-    values (#{regionId,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{nameCn,jdbcType=VARCHAR}, 
+    values (#{regionId,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{nameCn,jdbcType=VARCHAR}, 
       #{nameEn,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
       #{createUserId,jdbcType=INTEGER})
   </insert>
@@ -188,7 +188,7 @@
       create_user_id,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      #{regionId,jdbcType=VARCHAR},
+      #{regionId,jdbcType=INTEGER},
       #{code,jdbcType=VARCHAR},
       #{nameCn,jdbcType=VARCHAR},
       #{nameEn,jdbcType=VARCHAR},
@@ -201,7 +201,7 @@
     update b_country
     <set >
       <if test="regionId != null" >
-        region_id = #{regionId,jdbcType=VARCHAR},
+        region_id = #{regionId,jdbcType=INTEGER},
       </if>
       <if test="code != null" >
         code = #{code,jdbcType=VARCHAR},
@@ -226,7 +226,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.lenovo.tripnote.entity.BCountry" >
     update b_country
-    set region_id = #{regionId,jdbcType=VARCHAR},
+    set region_id = #{regionId,jdbcType=INTEGER},
       code = #{code,jdbcType=VARCHAR},
       name_cn = #{nameCn,jdbcType=VARCHAR},
       name_en = #{nameEn,jdbcType=VARCHAR},
