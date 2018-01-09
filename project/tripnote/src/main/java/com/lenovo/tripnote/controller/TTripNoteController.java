@@ -64,6 +64,7 @@ public class TTripNoteController {
 		BAccount account = (BAccount) subject.getPrincipal();
 		vo.setCode(Result.SUCESSFUL);
 		search.setUserId(account.getId());
+		//从第一页开始
 		Integer offset = (search.getPageNo()-1<0?0:(search.getPageNo()-1))*search.getPageSize();
 		RowBounds rowBounds = new RowBounds(offset,search.getPageSize());
 		List<TTripNoteSearchResultVo> t1 = tTripnoteService.queryCondition(search,rowBounds);
