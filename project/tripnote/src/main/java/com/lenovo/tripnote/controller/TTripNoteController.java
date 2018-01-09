@@ -6,7 +6,6 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
@@ -65,9 +64,12 @@ public class TTripNoteController {
 		vo.setCode(Result.SUCESSFUL);
 		search.setUserId(account.getId());
 		//从第一页开始
+		if(search.getTitle()!=null){
+			search.setTitle("%"+search.getTitle()+"%");
+		}
 		Integer offset = (search.getPageNo()-1<0?0:(search.getPageNo()-1))*search.getPageSize();
-		RowBounds rowBounds = new RowBounds(offset,search.getPageSize());
-		List<TTripNoteSearchResultVo> t1 = tTripnoteService.queryCondition(search,rowBounds);
+		search.setPageNo(offset);
+		List<TTripNoteSearchResultVo> t1 = tTripnoteService.queryCondition(search);
 		vo.setData(t1);
 		return vo;
 	}

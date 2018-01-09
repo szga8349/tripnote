@@ -67,10 +67,10 @@ public class BCityServiceImpl implements BCityService{
 			criteria.andIsHotEqualTo(t.getIsHot());
 		}
 		if(t.getNameCn()!=null){
-			criteria.andNameCnLike(t.getNameCn());
+			criteria.andNameCnLike("%"+t.getNameCn()+"%");
 		}
 		if(t.getNameEn()!=null){
-			criteria.andNameCnLike(t.getNameEn());
+			criteria.andNameEnLike("%"+t.getNameEn()+"%");
 		}
 		return example;
 	}

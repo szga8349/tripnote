@@ -60,10 +60,10 @@ public class BCountryServiceImpl implements BCountryService {
 			criteria.andRegionIdEqualTo(t.getRegionId());
 		}
 		if (t.getNameCn() != null) {
-			criteria.andNameCnLike(t.getNameCn());
+			criteria.andNameCnLike("%"+t.getNameCn()+"%");
 		}
 		if (t.getNameEn() != null) {
-			criteria.andNameCnLike(t.getNameEn());
+			criteria.andNameCnLike("%"+t.getNameEn()+"%");
 		}
 		return example;
 	}
