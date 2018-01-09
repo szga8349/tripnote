@@ -55,7 +55,7 @@ public class AuthenticationFilter  extends FormAuthenticationFilter {
 			OutputStream ps = response.getOutputStream();
 			// 这句话的意思，使得放入流的数据是utf8格式
 			result.put("code", "-2");
-			result.put("messge", "登录已超时请重新登录");
+			result.put("message", "登录已超时请重新登录");
 			ps.write(result.toString().getBytes("UTF-8"));
 			ps.close();
 		} catch (IOException e) {

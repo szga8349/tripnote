@@ -30,7 +30,7 @@ public class TripNoteExcetionHanlder implements HandlerExceptionResolver {
 			OutputStream ps = response.getOutputStream();
 			// 这句话的意思，使得放入流的数据是utf8格式
 			result.put("code", "-1");
-			result.put("messge", exception instanceof NullPointerException ? "空指针异常" : exception.getMessage());
+			result.put("message", exception instanceof NullPointerException ? "空指针异常" : exception.getMessage());
 			ps.write(result.toString().getBytes("UTF-8"));
 			ps.close();
 		} catch (IOException e) {
