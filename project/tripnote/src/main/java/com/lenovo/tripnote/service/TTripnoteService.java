@@ -27,4 +27,7 @@ public interface TTripnoteService extends IDbService<TTripNote>{
 	 */
 	public TTripNoteDetailResultVo getDetailByKey(Integer id);
 	
+	
+	public int queryCountCondition(TTripNoteSearchVo t);
+	
 }

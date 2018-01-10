@@ -14,6 +14,8 @@ import com.lenovo.tripnote.dao.TTripNoteMapper;
 import com.lenovo.tripnote.entity.BAccount;
 import com.lenovo.tripnote.entity.TCustomer;
 import com.lenovo.tripnote.entity.TTripNote;
+import com.lenovo.tripnote.entity.TTripNoteExample;
+import com.lenovo.tripnote.entity.TTripNoteExample.Criteria;
 import com.lenovo.tripnote.entity.vo.TTripNoteDetailResultVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteSearchResultVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteSearchVo;
@@ -143,6 +145,22 @@ public class TripnoteServiceImpl implements TTripnoteService{
 	public TTripNoteDetailResultVo getDetailByKey(Integer id) {
 		
 		return tTripNoteMapper.getDetailByKey(id);
+	}
+
+	@Override
+	public int queryCountCondition(TTripNoteSearchVo t) {
+		TTripNoteExample example = new TTripNoteExample();
+		Criteria criteria = example.createCriteria();
+		if (t.getUserId() != null) {
+			criteria.andCreateUserIdEqualTo(t.getUserId());
+		}
+		if (t.getTitle()!=null) {
+			criteria.andTitleLike(t.getTitle());
+		}
+		if (t.getType() != null) {
+			criteria.andTypeEqualTo(t.getType());
+		}
+		return this.tTripNoteMapper.countByExample(example);
 	}
 
 }

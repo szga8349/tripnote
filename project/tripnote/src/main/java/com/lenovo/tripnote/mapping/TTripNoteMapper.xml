@@ -143,7 +143,7 @@
     t.`status`, t.start_city, t.remarks,tc.name,tc.phone1,t.introduction,
     tts.id as schedule_id, tts.title as schedule_title,tts.indexdate,
     bc.id as city_id,bc.name_cn,bc.name_en,bc.lat,bc.lon,ttsrc.schedule_id as rcity_schedule_id,bc.country_id 
-    from (select *  from t_trip_note t1 where  t1.type = 1 and create_user_id = #{record.userId,jdbcType=INTEGER}
+    from (select *  from t_trip_note t1 where  t1.type = #{record.type,jdbcType=INTEGER} and create_user_id = #{record.userId,jdbcType=INTEGER}
      <if test="record.title != null" >
         and t1.title like #{record.title,jdbcType=VARCHAR}
      </if>
@@ -167,7 +167,7 @@
     left join t_tripnote_schedule tts on tts.tripnote_id = t.id 
     left join t_tripnote_schedule_r_city ttsrc on ttsrc.schedule_id = tts.id
     left join b_city bc on ttsrc.city_id = bc.id
-    where t.type = 1 and t.id = #{id,jdbcType=INTEGER} order by ttsrc.create_time asc
+    where t.id = #{id,jdbcType=INTEGER} order by ttsrc.create_time asc
   </select>
   <select id="queryConditionAndPage" resultMap="DetailResultMap" parameterType="com.lenovo.tripnote.entity.vo.TTripNoteSearchVo" >
     select
@@ -175,7 +175,7 @@
     t.`status`, t.start_city, t.remarks,tc.name,tc.phone1,t.introduction,
     tts.id as schedule_id, tts.title as schedule_title,tts.indexdate,
     bc.id as city_id,bc.name_cn,bc.name_en,bc.lat,bc.lon,ttsrc.schedule_id as rcity_schedule_id,bc.country_id 
-    from (select *  from t_trip_note t1 where  t1.type = 1 and create_user_id = #{record.userId,jdbcType=INTEGER}
+    from (select *  from t_trip_note t1 where  t1.type = #{record.type,jdbcType=INTEGER} and create_user_id = #{record.userId,jdbcType=INTEGER}
      <if test="record.title != null" >
         and t1.title like #{record.title,jdbcType=VARCHAR}
      </if>

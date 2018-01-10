@@ -6,12 +6,28 @@ import java.util.Iterator;
 import java.util.List;
 
 public class TTripNoteExample {
+    /**
+     * 主键字段
+     * @ibatorgenerated 2018-01-10 10:00:14
+     */
     protected String pk_name = "id";
 
+    /**
+     * 排序字段
+     * @ibatorgenerated 2018-01-10 10:00:14
+     */
     protected String orderByClause;
 
+    /**
+     * 去重复
+     * @ibatorgenerated 2018-01-10 10:00:14
+     */
     protected boolean distinct;
 
+    /**
+     * 条件集
+     * @ibatorgenerated 2018-01-10 10:00:14
+     */
     protected List<Criteria> oredCriteria;
 
     public TTripNoteExample() {
@@ -26,6 +42,10 @@ public class TTripNoteExample {
         return pk_name;
     }
 
+    /**
+     * 排序字段
+     * @ibatorgenerated 2018-01-10 10:00:14
+     */
     public void setOrderByClause(String orderByClause) {
         this.orderByClause = orderByClause;
     }
@@ -34,6 +54,10 @@ public class TTripNoteExample {
         return orderByClause;
     }
 
+    /**
+     * 设置去重复
+     * @ibatorgenerated 2018-01-10 10:00:14
+     */
     public void setDistinct(boolean distinct) {
         this.distinct = distinct;
     }
@@ -56,6 +80,10 @@ public class TTripNoteExample {
         return criteria;
     }
 
+    /**
+     * 条件查询要先创建Criteria
+     * @ibatorgenerated 2018-01-10 10:00:14
+     */
     public Criteria createCriteria() {
         Criteria criteria = createCriteriaInternal();
         if (oredCriteria.size() == 0) {
@@ -75,6 +103,11 @@ public class TTripNoteExample {
         distinct = false;
     }
 
+    /**
+     * 
+     * 内类部，系统内部调用1
+     * @ibatorgenerated 2018-01-10 10:00:14
+     */
     protected abstract static class GeneratedCriteria {
         protected List<Criterion> criteria;
 
@@ -666,11 +699,6 @@ public class TTripNoteExample {
             addCriterion("create_user_id =", value, "createUserId");
             return (Criteria) this;
         }
-        
-        public Criteria andCreateUserIdEqualTo(Integer value,String key) {
-            addCriterion(key +" =", value, "createUserId");
-            return (Criteria) this;
-        }
 
         public Criteria andCreateUserIdNotEqualTo(Integer value) {
             addCriterion("create_user_id <>", value, "createUserId");
@@ -916,8 +944,72 @@ public class TTripNoteExample {
             addCriterion("remarks not between", value1, value2, "remarks");
             return (Criteria) this;
         }
+
+        public Criteria andTypeIsNull() {
+            addCriterion("`type` is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeIsNotNull() {
+            addCriterion("`type` is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeEqualTo(Integer value) {
+            addCriterion("`type` =", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeNotEqualTo(Integer value) {
+            addCriterion("`type` <>", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeGreaterThan(Integer value) {
+            addCriterion("`type` >", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("`type` >=", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeLessThan(Integer value) {
+            addCriterion("`type` <", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("`type` <=", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeIn(List<Integer> values) {
+            addCriterion("`type` in", values, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeNotIn(List<Integer> values) {
+            addCriterion("`type` not in", values, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeBetween(Integer value1, Integer value2) {
+            addCriterion("`type` between", value1, value2, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("`type` not between", value1, value2, "type");
+            return (Criteria) this;
+        }
     }
 
+    /**
+     * t_trip_note
+     * @ibatorgenerated do_not_delete_during_merge 2018-01-10 10:00:14
+     */
     public static class Criteria extends GeneratedCriteria {
 
         protected Criteria() {
@@ -925,6 +1017,11 @@ public class TTripNoteExample {
         }
     }
 
+    /**
+     * 
+     * 内类部，系统内部调用1
+     * @ibatorgenerated 2018-01-10 10:00:14
+     */
     public static class Criterion {
         private String condition;
 

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lenovo.tripnote.entity.BAccount;
 import com.lenovo.tripnote.entity.TTripNote;
+import com.lenovo.tripnote.entity.vo.PageResultVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteSearchResultVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteSearchVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteVo;
@@ -57,7 +58,7 @@ public class TTripNoteController {
 	}
 
 	@RequestMapping(value = "/doSearch")
-	public @ResponseBody ResultVo search(TTripNoteSearchVo search) {
+	public @ResponseBody ResultVo search(TTripNoteSearchVo search) throws IllegalAccessException, InvocationTargetException {
 		ResultVo vo = new ResultVo();
 		Subject subject = SecurityUtils.getSubject();
 		BAccount account = (BAccount) subject.getPrincipal();
@@ -69,8 +70,13 @@ public class TTripNoteController {
 		}
 		Integer offset = (search.getPageNo()-1<0?0:(search.getPageNo()-1))*search.getPageSize();
 		search.setPageNo(offset);
+		search.setType(1);
+		PageResultVo result = new PageResultVo();
+		BeanUtils.copyProperties(result, search);
 		List<TTripNoteSearchResultVo> t1 = tTripnoteService.queryCondition(search);
-		vo.setData(t1);
+		result.setData(t1);
+		result.setTotal(tTripnoteService.queryCountCondition(search));
+		vo.setData(result);
 		return vo;
 	}
 
