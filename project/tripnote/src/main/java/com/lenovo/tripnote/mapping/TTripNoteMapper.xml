@@ -57,10 +57,20 @@
             <result column="phone1" property="phone" jdbcType="VARCHAR" />  
             <result column="name" property="name" jdbcType="VARCHAR" />  
      </collection>  
-      <collection property="tTripNoteSchedules" javaType="java.util.List" ofType="com.lenovo.tripnote.entity.vo.TTripNoteScheduleResultVo">
-            <result column="schedule_id" property="id" jdbcType="INTEGER" />  
+     <collection property="tTripNoteSchedules" javaType="java.util.List" ofType="com.lenovo.tripnote.entity.vo.TTripNoteScheduleResultVo">
+            <result column="id" property="tripnoteId" jdbcType="INTEGER" />
+            <result column="schedule_id" property="id" jdbcType="INTEGER" />
             <result column="schedule_title" property="title" jdbcType="VARCHAR" />  
-            <result column="indexdate" property="indexdate" jdbcType="INTEGER" />  
+            <result column="indexdate" property="indexdate" jdbcType="INTEGER" />
+            <collection property="citys" javaType="java.util.List" ofType="com.lenovo.tripnote.entity.vo.TTripnoteScheduleRCityVo">
+                   <result column="city_id" property="cityId" jdbcType="INTEGER" />
+                   <result column="country_id" property="countryId" jdbcType="INTEGER" />
+                   <result column="rcity_schedule_id" property="scheduleId" jdbcType="INTEGER" />
+                   <result column="name_cn" property="nameCn" jdbcType="VARCHAR" />    
+                   <result column="name_en" property="nameEn" jdbcType="VARCHAR" />
+                   <result column="lat" property="lat" jdbcType="DOUBLE" />
+                   <result column="lon" property="lon" jdbcType="DOUBLE" />
+             </collection> 
      </collection> 
   </resultMap>
   
@@ -127,26 +137,54 @@
       </foreach>
     </where>
   </sql>
-  <select id="queryCondition" resultMap="SearchResultMap" parameterType="com.lenovo.tripnote.entity.vo.TTripNoteSearchVo" >
-    select    t.id,t.code, t.title,t.start_date, t.end_date, t.`days`, t.destination, 
-    t.`status`, t.start_city, t.remarks,tc.name,tc.phone1,t.introduction,tts.title as schedule_title from (select *  from t_trip_note t1 where  t1.type = 1 and create_user_id = #{record.userId,jdbcType=INTEGER}
+  <select id="queryCondition" resultMap="DetailResultMap" parameterType="com.lenovo.tripnote.entity.vo.TTripNoteSearchVo" >
+    select
+    t.id,t.code, t.title,t.start_date, t.end_date, t.`days`, t.destination, 
+    t.`status`, t.start_city, t.remarks,tc.name,tc.phone1,t.introduction,
+    tts.id as schedule_id, tts.title as schedule_title,tts.indexdate,
+    bc.id as city_id,bc.name_cn,bc.name_en,bc.lat,bc.lon,ttsrc.schedule_id as rcity_schedule_id,bc.country_id 
+    from (select *  from t_trip_note t1 where  t1.type = 1 and create_user_id = #{record.userId,jdbcType=INTEGER}
      <if test="record.title != null" >
         and t1.title like #{record.title,jdbcType=VARCHAR}
      </if>
-    order by t1.id limit #{record.pageNo,jdbcType=INTEGER},#{record.pageSize,jdbcType=INTEGER}) as t  left join t_tripnote_r_customer ts on t.id = ts.tripnote_id left join t_customer tc on tc.id = ts.customer_id left join t_tripnote_schedule tts on tts.tripnote_id = t.id
+    order by t1.id limit #{record.pageNo,jdbcType=INTEGER},#{record.pageSize,jdbcType=INTEGER}) as t 
+    left join t_tripnote_r_customer ts on t.id = ts.tripnote_id 
+    left join t_customer tc on tc.id = ts.customer_id 
+    left join t_tripnote_schedule tts on tts.tripnote_id = t.id 
+    left join t_tripnote_schedule_r_city ttsrc on ttsrc.schedule_id = tts.id
+    left join b_city bc on ttsrc.city_id = bc.id
   </select>
   
    <select id="getDetailByKey" resultMap="DetailResultMap" parameterType="java.lang.Integer" >
-   select
+    select
     t.id,t.code, t.title,t.start_date, t.end_date, t.`days`, t.destination, 
-    t.`status`, t.start_city, t.remarks,tc.name,tc.phone1,t.introduction,tts.id as schedule_id, tts.title as schedule_title,tts.indexdate
-    from t_trip_note t left join t_tripnote_r_customer ts on t.id = ts.tripnote_id left join t_customer tc on tc.id = ts.customer_id left join t_tripnote_schedule tts on tts.tripnote_id = t.id 
+    t.`status`, t.start_city, t.remarks,tc.name,tc.phone1,t.introduction,
+    tts.id as schedule_id, tts.title as schedule_title,tts.indexdate,
+    bc.id as city_id,bc.name_cn,bc.name_en,bc.lat,bc.lon,ttsrc.schedule_id as rcity_schedule_id,bc.country_id
+    from t_trip_note t 
+    left join t_tripnote_r_customer ts on t.id = ts.tripnote_id 
+    left join t_customer tc on tc.id = ts.customer_id 
+    left join t_tripnote_schedule tts on tts.tripnote_id = t.id 
+    left join t_tripnote_schedule_r_city ttsrc on ttsrc.schedule_id = tts.id
+    left join b_city bc on ttsrc.city_id = bc.id
     where t.type = 1 and t.id = #{id,jdbcType=INTEGER}
   </select>
-  
-  <select id="queryConditionAndPage" resultMap="SearchResultMap" parameterType="com.lenovo.tripnote.entity.vo.TTripNoteSearchVo" >
-   select    t.id,t.code, t.title,t.start_date, t.end_date, t.`days`, t.destination, 
-    t.`status`, t.start_city, t.remarks,tc.name,tc.phone1,t.introduction,tts.title as schedule_title from (select *  from t_trip_note t1 where  t1.type = 1 and create_user_id = #{record.userId,jdbcType=INTEGER} order by t1.id limit #{record.pageNo,jdbcType=INTEGER},#{record.pageSize,jdbcType=INTEGER}) as t  left join t_tripnote_r_customer ts on t.id = ts.tripnote_id left join t_customer tc on tc.id = ts.customer_id left join t_tripnote_schedule tts on tts.tripnote_id = t.id
+  <select id="queryConditionAndPage" resultMap="DetailResultMap" parameterType="com.lenovo.tripnote.entity.vo.TTripNoteSearchVo" >
+    select
+    t.id,t.code, t.title,t.start_date, t.end_date, t.`days`, t.destination, 
+    t.`status`, t.start_city, t.remarks,tc.name,tc.phone1,t.introduction,
+    tts.id as schedule_id, tts.title as schedule_title,tts.indexdate,
+    bc.id as city_id,bc.name_cn,bc.name_en,bc.lat,bc.lon,ttsrc.schedule_id as rcity_schedule_id,bc.country_id 
+    from (select *  from t_trip_note t1 where  t1.type = 1 and create_user_id = #{record.userId,jdbcType=INTEGER}
+     <if test="record.title != null" >
+        and t1.title like #{record.title,jdbcType=VARCHAR}
+     </if>
+    order by t1.id limit #{record.pageNo,jdbcType=INTEGER},#{record.pageSize,jdbcType=INTEGER}) as t 
+    left join t_tripnote_r_customer ts on t.id = ts.tripnote_id 
+    left join t_customer tc on tc.id = ts.customer_id 
+    left join t_tripnote_schedule tts on tts.tripnote_id = t.id 
+    left join t_tripnote_schedule_r_city ttsrc on ttsrc.schedule_id = tts.id
+    left join b_city bc on ttsrc.city_id = bc.id
   </select>
   <delete id="deleteByExample" parameterType="com.lenovo.tripnote.entity.TTripNoteExample" >
     delete from t_trip_note
