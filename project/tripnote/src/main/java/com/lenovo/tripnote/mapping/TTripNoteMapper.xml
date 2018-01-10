@@ -152,7 +152,7 @@
     left join t_customer tc on tc.id = ts.customer_id 
     left join t_tripnote_schedule tts on tts.tripnote_id = t.id 
     left join t_tripnote_schedule_r_city ttsrc on ttsrc.schedule_id = tts.id
-    left join b_city bc on ttsrc.city_id = bc.id
+    left join b_city bc on ttsrc.city_id = bc.id order by ttsrc.create_time asc
   </select>
   
    <select id="getDetailByKey" resultMap="DetailResultMap" parameterType="java.lang.Integer" >
@@ -167,7 +167,7 @@
     left join t_tripnote_schedule tts on tts.tripnote_id = t.id 
     left join t_tripnote_schedule_r_city ttsrc on ttsrc.schedule_id = tts.id
     left join b_city bc on ttsrc.city_id = bc.id
-    where t.type = 1 and t.id = #{id,jdbcType=INTEGER}
+    where t.type = 1 and t.id = #{id,jdbcType=INTEGER} order by ttsrc.create_time asc
   </select>
   <select id="queryConditionAndPage" resultMap="DetailResultMap" parameterType="com.lenovo.tripnote.entity.vo.TTripNoteSearchVo" >
     select
@@ -184,7 +184,7 @@
     left join t_customer tc on tc.id = ts.customer_id 
     left join t_tripnote_schedule tts on tts.tripnote_id = t.id 
     left join t_tripnote_schedule_r_city ttsrc on ttsrc.schedule_id = tts.id
-    left join b_city bc on ttsrc.city_id = bc.id
+    left join b_city bc on ttsrc.city_id = bc.id order by ttsrc.create_time asc
   </select>
   <delete id="deleteByExample" parameterType="com.lenovo.tripnote.entity.TTripNoteExample" >
     delete from t_trip_note
