@@ -13,10 +13,12 @@
     <result column="is_hot" property="isHot" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="lat" property="lat" jdbcType="DOUBLE" />
+    <result column="lon" property="lon" jdbcType="DOUBLE" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, name_cn, name_en, region_id, country_id, country_name_cn, country_name_en, `status`, 
-    is_hot, create_time, create_user_id
+    is_hot, create_time, create_user_id, lat, lon
   </sql>
   <sql id="Example_Where_Clause" >
     <where >
@@ -152,6 +154,12 @@
       <if test="record.createUserId != null" >
         create_user_id = #{record.createUserId,jdbcType=INTEGER},
       </if>
+      <if test="record.lat != null" >
+        lat = #{record.lat,jdbcType=DOUBLE},
+      </if>
+      <if test="record.lon != null" >
+        lon = #{record.lon,jdbcType=DOUBLE},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -169,7 +177,9 @@
       `status` = #{record.status,jdbcType=INTEGER},
       is_hot = #{record.isHot,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      create_user_id = #{record.createUserId,jdbcType=INTEGER}
+      create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      lat = #{record.lat,jdbcType=DOUBLE},
+      lon = #{record.lon,jdbcType=DOUBLE}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -184,20 +194,21 @@
     delete from b_city
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.lenovo.tripnote.entity.BCity" useGeneratedKeys="true" keyProperty="id">
-    insert into b_city (id, name_cn, name_en, 
-      region_id, country_id, country_name_cn, 
-      country_name_en, `status`, is_hot, 
-      create_time, create_user_id)
-    values (#{id,jdbcType=INTEGER}, #{nameCn,jdbcType=VARCHAR}, #{nameEn,jdbcType=VARCHAR}, 
-      #{regionId,jdbcType=INTEGER}, #{countryId,jdbcType=INTEGER}, #{countryNameCn,jdbcType=VARCHAR}, 
-      #{countryNameEn,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{isHot,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER})
+  <insert id="insert" parameterType="com.lenovo.tripnote.entity.BCity" useGeneratedKeys="true" keyProperty="id" >
+    insert into b_city (name_cn, name_en, region_id, 
+      country_id, country_name_cn, country_name_en, 
+      `status`, is_hot, create_time, 
+      create_user_id, lat, lon
+      )
+    values (#{nameCn,jdbcType=VARCHAR}, #{nameEn,jdbcType=VARCHAR}, #{regionId,jdbcType=INTEGER}, 
+      #{countryId,jdbcType=INTEGER}, #{countryNameCn,jdbcType=VARCHAR}, #{countryNameEn,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{isHot,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createUserId,jdbcType=INTEGER}, #{lat,jdbcType=DOUBLE}, #{lon,jdbcType=DOUBLE}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.BCity" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.BCity" useGeneratedKeys="true" keyProperty="id" >
     insert into b_city
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      id,
       name_cn,
       name_en,
       region_id,
@@ -208,9 +219,10 @@
       is_hot,
       create_time,
       create_user_id,
+      lat,
+      lon,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      #{id,jdbcType=INTEGER},
       #{nameCn,jdbcType=VARCHAR},
       #{nameEn,jdbcType=VARCHAR},
       #{regionId,jdbcType=INTEGER},
@@ -221,6 +233,8 @@
       #{isHot,jdbcType=INTEGER},
       #{createTime,jdbcType=TIMESTAMP},
       #{createUserId,jdbcType=INTEGER},
+      #{lat,jdbcType=DOUBLE},
+      #{lon,jdbcType=DOUBLE},
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.lenovo.tripnote.entity.BCity" >
@@ -256,6 +270,12 @@
       <if test="createUserId != null" >
         create_user_id = #{createUserId,jdbcType=INTEGER},
       </if>
+      <if test="lat != null" >
+        lat = #{lat,jdbcType=DOUBLE},
+      </if>
+      <if test="lon != null" >
+        lon = #{lon,jdbcType=DOUBLE},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -270,7 +290,9 @@
       `status` = #{status,jdbcType=INTEGER},
       is_hot = #{isHot,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      create_user_id = #{createUserId,jdbcType=INTEGER}
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      lat = #{lat,jdbcType=DOUBLE},
+      lon = #{lon,jdbcType=DOUBLE}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -80,6 +80,13 @@ public class TTripNoteScheduleController {
 		tTripNoteScheduleService.update(t);
 		return vo;
 	}
+	@RequestMapping(value = "/doUpdateIndexDate")
+	public @ResponseBody ResultVo updateIndexDate(String indexdates) throws IllegalAccessException, InvocationTargetException{
+		ResultVo vo = new ResultVo();
+		tTripNoteScheduleService.updateIndexdates(indexdates);
+		vo.setCode(Result.SUCESSFUL);
+		return vo;
+	}
 	/**根据定制日程主键值查询定制日程详细信息
 	 * @param scheduleId
 	 * @return

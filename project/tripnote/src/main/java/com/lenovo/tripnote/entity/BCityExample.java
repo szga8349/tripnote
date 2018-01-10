@@ -7,25 +7,25 @@ import java.util.List;
 public class BCityExample {
     /**
      * 主键字段
-     * @ibatorgenerated 2018-01-09 09:43:44
+     * @ibatorgenerated 2018-01-10 13:59:25
      */
     protected String pk_name = "id";
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-01-09 09:43:44
+     * @ibatorgenerated 2018-01-10 13:59:25
      */
     protected String orderByClause;
 
     /**
      * 去重复
-     * @ibatorgenerated 2018-01-09 09:43:44
+     * @ibatorgenerated 2018-01-10 13:59:25
      */
     protected boolean distinct;
 
     /**
      * 条件集
-     * @ibatorgenerated 2018-01-09 09:43:44
+     * @ibatorgenerated 2018-01-10 13:59:25
      */
     protected List<Criteria> oredCriteria;
 
@@ -43,7 +43,7 @@ public class BCityExample {
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-01-09 09:43:44
+     * @ibatorgenerated 2018-01-10 13:59:25
      */
     public void setOrderByClause(String orderByClause) {
         this.orderByClause = orderByClause;
@@ -55,7 +55,7 @@ public class BCityExample {
 
     /**
      * 设置去重复
-     * @ibatorgenerated 2018-01-09 09:43:44
+     * @ibatorgenerated 2018-01-10 13:59:25
      */
     public void setDistinct(boolean distinct) {
         this.distinct = distinct;
@@ -81,7 +81,7 @@ public class BCityExample {
 
     /**
      * 条件查询要先创建Criteria
-     * @ibatorgenerated 2018-01-09 09:43:44
+     * @ibatorgenerated 2018-01-10 13:59:25
      */
     public Criteria createCriteria() {
         Criteria criteria = createCriteriaInternal();
@@ -105,7 +105,7 @@ public class BCityExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-01-09 09:43:44
+     * @ibatorgenerated 2018-01-10 13:59:25
      */
     protected abstract static class GeneratedCriteria {
         protected List<Criterion> criteria;
@@ -847,11 +847,131 @@ public class BCityExample {
             addCriterion("create_user_id not between", value1, value2, "createUserId");
             return (Criteria) this;
         }
+
+        public Criteria andLatIsNull() {
+            addCriterion("lat is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatIsNotNull() {
+            addCriterion("lat is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatEqualTo(Double value) {
+            addCriterion("lat =", value, "lat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatNotEqualTo(Double value) {
+            addCriterion("lat <>", value, "lat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatGreaterThan(Double value) {
+            addCriterion("lat >", value, "lat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatGreaterThanOrEqualTo(Double value) {
+            addCriterion("lat >=", value, "lat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatLessThan(Double value) {
+            addCriterion("lat <", value, "lat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatLessThanOrEqualTo(Double value) {
+            addCriterion("lat <=", value, "lat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatIn(List<Double> values) {
+            addCriterion("lat in", values, "lat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatNotIn(List<Double> values) {
+            addCriterion("lat not in", values, "lat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatBetween(Double value1, Double value2) {
+            addCriterion("lat between", value1, value2, "lat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatNotBetween(Double value1, Double value2) {
+            addCriterion("lat not between", value1, value2, "lat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLonIsNull() {
+            addCriterion("lon is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLonIsNotNull() {
+            addCriterion("lon is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLonEqualTo(Double value) {
+            addCriterion("lon =", value, "lon");
+            return (Criteria) this;
+        }
+
+        public Criteria andLonNotEqualTo(Double value) {
+            addCriterion("lon <>", value, "lon");
+            return (Criteria) this;
+        }
+
+        public Criteria andLonGreaterThan(Double value) {
+            addCriterion("lon >", value, "lon");
+            return (Criteria) this;
+        }
+
+        public Criteria andLonGreaterThanOrEqualTo(Double value) {
+            addCriterion("lon >=", value, "lon");
+            return (Criteria) this;
+        }
+
+        public Criteria andLonLessThan(Double value) {
+            addCriterion("lon <", value, "lon");
+            return (Criteria) this;
+        }
+
+        public Criteria andLonLessThanOrEqualTo(Double value) {
+            addCriterion("lon <=", value, "lon");
+            return (Criteria) this;
+        }
+
+        public Criteria andLonIn(List<Double> values) {
+            addCriterion("lon in", values, "lon");
+            return (Criteria) this;
+        }
+
+        public Criteria andLonNotIn(List<Double> values) {
+            addCriterion("lon not in", values, "lon");
+            return (Criteria) this;
+        }
+
+        public Criteria andLonBetween(Double value1, Double value2) {
+            addCriterion("lon between", value1, value2, "lon");
+            return (Criteria) this;
+        }
+
+        public Criteria andLonNotBetween(Double value1, Double value2) {
+            addCriterion("lon not between", value1, value2, "lon");
+            return (Criteria) this;
+        }
     }
 
     /**
      * b_city
-     * @ibatorgenerated do_not_delete_during_merge 2018-01-09 09:43:44
+     * @ibatorgenerated do_not_delete_during_merge 2018-01-10 13:59:25
      */
     public static class Criteria extends GeneratedCriteria {
 
@@ -863,7 +983,7 @@ public class BCityExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-01-09 09:43:44
+     * @ibatorgenerated 2018-01-10 13:59:25
      */
     public static class Criterion {
         private String condition;

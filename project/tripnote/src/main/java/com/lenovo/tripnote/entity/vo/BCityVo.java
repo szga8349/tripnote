@@ -36,4 +36,15 @@ public class BCityVo extends PageInfoVo{
      * @ibatorgenerated 2018-01-09 09:43:44
      */
     private Integer isHot;
+    /**
+     * b_city.lat (经度)
+     * @ibatorgenerated 2018-01-10 13:59:25
+     */
+    private Double lat;
+
+    /**
+     * b_city.lon (纬度)
+     * @ibatorgenerated 2018-01-10 13:59:25
+     */
+    private Double lon;
 }

@@ -13,6 +13,9 @@ import com.lenovo.tripnote.entity.TTripnoteSchedule;
 import com.lenovo.tripnote.entity.vo.TTripNoteScheduleResultVo;
 import com.lenovo.tripnote.service.TTripNoteScheduleService;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 @Service()
 public class TTripNoteScheduleServiceImpl implements TTripNoteScheduleService {
     @Resource
@@ -66,6 +69,22 @@ public class TTripNoteScheduleServiceImpl implements TTripNoteScheduleService {
 	public TTripNoteScheduleResultVo getDetailByKey(Integer scheduleId) {
 		// TODO Auto-generated method stub
 		return tTripnoteScheduleMapper.getDetailByKey(scheduleId);
+	}
+
+	@Override
+	public int updateIndexdates(String indexdates) {
+		JSONObject json = JSONObject.fromObject(indexdates);
+    	JSONArray arrary = json.getJSONArray("indexdates");
+    	int size = arrary.size();
+    	int count = 0;
+    	for(int i=0;i<size;i++){
+    		JSONObject custer = arrary.getJSONObject(i);
+    		TTripnoteSchedule t1 = new TTripnoteSchedule();
+    		t1.setId(custer.getInt("indexdate"));
+	    	t1.setIndexdate(custer.getInt("scheduleid"));
+	    	count+=tTripnoteScheduleMapper.updateByPrimaryKeySelective(t1);
+    	}
+		return count;
 	}
 
 	

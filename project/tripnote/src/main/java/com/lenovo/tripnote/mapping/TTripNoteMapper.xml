@@ -128,7 +128,7 @@
     </where>
   </sql>
   <select id="queryCondition" resultMap="SearchResultMap" parameterType="com.lenovo.tripnote.entity.vo.TTripNoteSearchVo" >
-     select    t.id,t.code, t.title,t.start_date, t.end_date, t.`days`, t.destination, 
+    select    t.id,t.code, t.title,t.start_date, t.end_date, t.`days`, t.destination, 
     t.`status`, t.start_city, t.remarks,tc.name,tc.phone1,t.introduction,tts.title as schedule_title from (select *  from t_trip_note t1 where  t1.type = 1 and create_user_id = #{record.userId,jdbcType=INTEGER}
      <if test="record.title != null" >
         and t1.title like #{record.title,jdbcType=VARCHAR}

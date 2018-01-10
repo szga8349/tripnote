@@ -15,6 +15,11 @@ import lombok.Setter;
 @NoArgsConstructor
 public class TTripNoteScheduleResultVo extends TTripNoteScheduleVo{
     private Integer id;
+    
+    /**
+     * 定制日程关联的目的地信息
+     */
+    private List<TTripnoteScheduleRCityVo> citys;
     /**
      * 日程关联的交通信息
      */
