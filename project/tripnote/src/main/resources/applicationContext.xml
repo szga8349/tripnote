@@ -45,6 +45,7 @@
 		<!-- Shiro连接约束配置,即过滤链的定义 -->
 		<property name="filterChainDefinitions">
 			<value>
+				/login/logut=fauthc
 				/login/*=anon
 				/index.*=anon
 				/country/*= fauthc

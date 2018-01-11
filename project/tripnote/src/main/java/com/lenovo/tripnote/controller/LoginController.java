@@ -137,17 +137,21 @@ public class LoginController {
 	}
 
 	@RequestMapping(value = "/logut")
-	public String doLogut(HttpServletRequest request, Model model) {
+	public  @ResponseBody ResultVo doLogut(HttpServletRequest request, Model model) {
 		Subject subject = SecurityUtils.getSubject();
 		BAccount account = (BAccount) subject.getPrincipal();
+		ResultVo vo = new ResultVo();
 		BLogin oldLogin = bAccountService.getByAccountID(Long.valueOf(account.getId()));
 		if (oldLogin != null) {
 			oldLogin.setLoginouttime(new Date());
 			oldLogin.setStatus(-1);
 			bAccountService.update(oldLogin);
+		}else{
+			vo.setCode(Result.FAUL);
 		}
 		subject.logout();
-		return "redirect:/index.jsp";
+		vo.setCode(Result.SUCESSFUL);
+		return vo;
 	}
 
 	@RequestMapping(value = "/register")
