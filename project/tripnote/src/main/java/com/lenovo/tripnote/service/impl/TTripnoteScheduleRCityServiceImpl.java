@@ -31,7 +31,7 @@ public class TTripnoteScheduleRCityServiceImpl implements TTripnoteScheduleRCity
 
 	@Override
 	public int deleteBykey(Integer id) {
-		return 0;
+		return this.tTripnoteScheduleRCityMapper.deleteByPrimaryKey(id);
 	}
 
 
