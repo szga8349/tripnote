@@ -1,0 +1,38 @@
+body{background: #f2f2f2;}
+.loginHeader{ height: 70px; background: #fff;}
+.loginHeader .con{ width: 1200px; margin: 0 auto;}
+.loginHeader .logo{ float: left; width: 186px; height: 38px; margin-top: 16px; padding-left: 40px; background: url(../images/logo_login_header.png) no-repeat left center; line-height: 34px; font-size: 20px; color: #004364; }
+.loginHeader .nav{ float: right; line-height: 70px;}
+.loginHeader .nav li{ float: left; margin: 0 12px; font-size: 13px;}
+.loginHeader .nav a{ padding: 0; color: #43494a;}
+.loginHeader .nav a:hover{ background: none; text-decoration: underline;}
+
+.loginCon{ min-width: 1200px; height: 600px; padding-top: 40px; background: url(../images/login_bg.jpg) no-repeat center center;}
+.loginCon .logo{ width: 99px; height: 114px; margin: 0 auto; background: url(../images/logo_login.png);}
+.loginCon .projectName{ margin-top: 15px; text-align: center; font-size: 26px; color: #fff;}
+
+.loginCon .inputCon{ width: 400px; height: 180px; overflow: hidden; margin: 50px auto 0; }
+.loginCon .inputCon li{ width: 398px; height: 48px; margin-bottom: 32px; background: rgba(255,255,255,.4); border: 1px solid rgba(255,255,255,.4); line-height: 48px;}
+.loginCon .inputCon li .icon{ float: left; width: 35px; height: 22px; margin: 13px 0 0 15px; background: url(../images/icon_login.png) no-repeat; border-right: 1px solid #fff;}
+.loginCon .inputCon li .iconUser{ background-position: 0 0;}
+.loginCon .inputCon li .iconPwd{ background-position: 0 -22px;}
+.loginCon .inputCon li .formText{ width: 320px; height: 24px; margin: 12px 0 0 10px; background: none; border: 0; line-height: 24px; font-size: 14px; box-shadow: none; color: #fff;}
+.loginCon .btn-primary{ display: block; width: 400px; height: 50px; margin: 18px auto 0; border: 0; border-radius: 0;
+text-align: center; font-size: 22px; 
+background-color: #5cc770;
+background-image: -webkit-linear-gradient(left, #5cc770, #2faa98);
+background-image: linear-gradient(to right, #5cc770, #2faa98);
+font-family: microsoft yahei;
+}
+.loginCon .inputCon li .formText::-moz-placeholder {color: #fff;}
+.loginCon .inputCon li .formText:-ms-input-placeholder {color: #fff; opacity: 0.9;}
+.loginCon .inputCon li .formText::-webkit-input-placeholder {color: #fff; opacity: 0.9;}
+.loginCon .btn-primary:hover{opacity: 0.8;}
+.loginFooter{ line-height: 60px; font-size: 13px; color: #787b7d; text-align: center;}
+
+
+
+
+
+	
+
