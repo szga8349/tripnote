@@ -167,7 +167,7 @@
     left join t_tripnote_schedule tts on tts.tripnote_id = t.id 
     left join t_tripnote_schedule_r_city ttsrc on ttsrc.schedule_id = tts.id
     left join b_city bc on ttsrc.city_id = bc.id
-    where t.id = #{id,jdbcType=INTEGER} order by ttsrc.create_time asc
+    where t.id = #{id,jdbcType=INTEGER} order by tts.indexdate asc,ttsrc.create_time asc
   </select>
   <select id="queryConditionAndPage" resultMap="DetailResultMap" parameterType="com.lenovo.tripnote.entity.vo.TTripNoteSearchVo" >
     select
