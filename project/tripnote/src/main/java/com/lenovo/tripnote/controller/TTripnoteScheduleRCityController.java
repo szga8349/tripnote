@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -27,14 +28,15 @@ public class TTripnoteScheduleRCityController {
 		ResultVo vo = new ResultVo();
 		vo.setCode(Result.SUCESSFUL);
 		tTripnoteScheduleRCityService.insert(rcity);
+		vo.setData(rcity.getId());
 		return vo;
 	}
 
-	@RequestMapping(value = "/doDelete")
-	public @ResponseBody ResultVo delete(TTripnoteScheduleRCity rcity) {
+	@RequestMapping(value = "/doDelete/{id}")
+	public @ResponseBody ResultVo delete(@PathVariable String id) {
 		ResultVo vo = new ResultVo();
 		vo.setCode(Result.SUCESSFUL);
-		tTripnoteScheduleRCityService.deleteCondition(rcity);
+		tTripnoteScheduleRCityService.deleteBykey(Integer.valueOf(id));
 		return vo;
 	}
 }

@@ -12,6 +12,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class TTripnoteScheduleRCityVo {
+    /**
+     * t_tripnote_schedule_r_city.id
+     * @ibatorgenerated 2018-01-11 17:32:53
+     */
+    private Integer id;
 	/**
      * t_tripnote_schedule_r_city.city_id
      * @ibatorgenerated 2018-01-10 14:03:37

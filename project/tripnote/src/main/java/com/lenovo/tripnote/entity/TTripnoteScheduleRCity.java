@@ -12,21 +12,26 @@ import lombok.Setter;
 @NoArgsConstructor
 public class TTripnoteScheduleRCity implements Serializable {
     /**
+     * t_tripnote_schedule_r_city.id
+     * @ibatorgenerated 2018-01-11 17:32:53
+     */
+    private Integer id;
+
+    /**
      * t_tripnote_schedule_r_city.city_id
-     * @ibatorgenerated 2018-01-10 14:42:37
+     * @ibatorgenerated 2018-01-11 17:32:53
      */
     private Integer cityId;
 
     /**
      * t_tripnote_schedule_r_city.schedule_id
-     * @ibatorgenerated 2018-01-10 14:42:37
+     * @ibatorgenerated 2018-01-11 17:32:53
      */
     private Integer scheduleId;
 
     /**
      * t_tripnote_schedule_r_city.create_time
-     * @ibatorgenerated 2018-01-10 14:42:37
+     * @ibatorgenerated 2018-01-11 17:32:53
      */
     private Date createTime;
-
 }

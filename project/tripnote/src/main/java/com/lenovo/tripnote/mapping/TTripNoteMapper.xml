@@ -63,6 +63,7 @@
             <result column="schedule_title" property="title" jdbcType="VARCHAR" />  
             <result column="indexdate" property="indexdate" jdbcType="INTEGER" />
             <collection property="citys" javaType="java.util.List" ofType="com.lenovo.tripnote.entity.vo.TTripnoteScheduleRCityVo">
+                   <result column="rcity_id" property="id" jdbcType="INTEGER" />
                    <result column="city_id" property="cityId" jdbcType="INTEGER" />
                    <result column="country_id" property="countryId" jdbcType="INTEGER" />
                    <result column="rcity_schedule_id" property="scheduleId" jdbcType="INTEGER" />
@@ -142,7 +143,7 @@
     t.id,t.code, t.title,t.start_date, t.end_date, t.`days`, t.destination, 
     t.`status`, t.start_city, t.remarks,tc.name,tc.phone1,t.introduction,
     tts.id as schedule_id, tts.title as schedule_title,tts.indexdate,
-    bc.id as city_id,bc.name_cn,bc.name_en,bc.lat,bc.lon,ttsrc.schedule_id as rcity_schedule_id,bc.country_id 
+    bc.id as city_id,bc.name_cn,bc.name_en,bc.lat,bc.lon,ttsrc.schedule_id as rcity_schedule_id,bc.country_id,ttsrc.id as rcity_id
     from (select *  from t_trip_note t1 where  t1.type = #{record.type,jdbcType=INTEGER} and create_user_id = #{record.userId,jdbcType=INTEGER}
      <if test="record.title != null" >
         and t1.title like #{record.title,jdbcType=VARCHAR}
@@ -152,7 +153,7 @@
     left join t_customer tc on tc.id = ts.customer_id 
     left join t_tripnote_schedule tts on tts.tripnote_id = t.id 
     left join t_tripnote_schedule_r_city ttsrc on ttsrc.schedule_id = tts.id
-    left join b_city bc on ttsrc.city_id = bc.id order by ttsrc.create_time asc
+    left join b_city bc on ttsrc.city_id = bc.id order by tts.indexdate asc,ttsrc.create_time asc
   </select>
   
    <select id="getDetailByKey" resultMap="DetailResultMap" parameterType="java.lang.Integer" >
@@ -160,7 +161,7 @@
     t.id,t.code, t.title,t.start_date, t.end_date, t.`days`, t.destination, 
     t.`status`, t.start_city, t.remarks,tc.name,tc.phone1,t.introduction,
     tts.id as schedule_id, tts.title as schedule_title,tts.indexdate,
-    bc.id as city_id,bc.name_cn,bc.name_en,bc.lat,bc.lon,ttsrc.schedule_id as rcity_schedule_id,bc.country_id
+    bc.id as city_id,bc.name_cn,bc.name_en,bc.lat,bc.lon,ttsrc.schedule_id as rcity_schedule_id,bc.country_id,ttsrc.id as rcity_id
     from t_trip_note t 
     left join t_tripnote_r_customer ts on t.id = ts.tripnote_id 
     left join t_customer tc on tc.id = ts.customer_id 
@@ -174,7 +175,7 @@
     t.id,t.code, t.title,t.start_date, t.end_date, t.`days`, t.destination, 
     t.`status`, t.start_city, t.remarks,tc.name,tc.phone1,t.introduction,
     tts.id as schedule_id, tts.title as schedule_title,tts.indexdate,
-    bc.id as city_id,bc.name_cn,bc.name_en,bc.lat,bc.lon,ttsrc.schedule_id as rcity_schedule_id,bc.country_id 
+    bc.id as city_id,bc.name_cn,bc.name_en,bc.lat,bc.lon,ttsrc.schedule_id as rcity_schedule_id,bc.country_id,ttsrc.id as rcity_id 
     from (select *  from t_trip_note t1 where  t1.type = #{record.type,jdbcType=INTEGER} and create_user_id = #{record.userId,jdbcType=INTEGER}
      <if test="record.title != null" >
         and t1.title like #{record.title,jdbcType=VARCHAR}
@@ -184,7 +185,7 @@
     left join t_customer tc on tc.id = ts.customer_id 
     left join t_tripnote_schedule tts on tts.tripnote_id = t.id 
     left join t_tripnote_schedule_r_city ttsrc on ttsrc.schedule_id = tts.id
-    left join b_city bc on ttsrc.city_id = bc.id order by ttsrc.create_time asc
+    left join b_city bc on ttsrc.city_id = bc.id order by tts.indexdate asc,ttsrc.create_time asc
   </select>
   
   <delete id="deleteByExample" parameterType="com.lenovo.tripnote.entity.TTripNoteExample" >

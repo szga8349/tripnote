@@ -2,12 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
 <mapper namespace="com.lenovo.tripnote.dao.TTripnoteScheduleRCityMapper" >
   <resultMap id="BaseResultMap" type="com.lenovo.tripnote.entity.TTripnoteScheduleRCity" >
+    <id column="id" property="id" jdbcType="INTEGER" />
     <result column="city_id" property="cityId" jdbcType="INTEGER" />
     <result column="schedule_id" property="scheduleId" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    city_id, schedule_id, create_time
+    id, city_id, schedule_id, create_time
   </sql>
   <sql id="Example_Where_Clause" >
     <where >
@@ -110,6 +111,9 @@
   <update id="updateByExampleSelective" parameterType="map" >
     update t_tripnote_schedule_r_city
     <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
       <if test="record.cityId != null" >
         city_id = #{record.cityId,jdbcType=INTEGER},
       </if>
@@ -126,20 +130,31 @@
   </update>
   <update id="updateByExample" parameterType="map" >
     update t_tripnote_schedule_r_city
-    set city_id = #{record.cityId,jdbcType=INTEGER},
+    set id = #{record.id,jdbcType=INTEGER},
+      city_id = #{record.cityId,jdbcType=INTEGER},
       schedule_id = #{record.scheduleId,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <insert id="insert" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleRCity" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_tripnote_schedule_r_city
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_tripnote_schedule_r_city
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleRCity" useGeneratedKeys="true" keyProperty="id" >
     insert into t_tripnote_schedule_r_city (city_id, schedule_id, create_time
       )
     values (#{cityId,jdbcType=INTEGER}, #{scheduleId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleRCity" >
+  <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleRCity" useGeneratedKeys="true" keyProperty="id" >
     insert into t_tripnote_schedule_r_city
     <trim prefix="(" suffix=")" suffixOverrides="," >
       city_id,
@@ -152,4 +167,26 @@
       #{createTime,jdbcType=TIMESTAMP},
     </trim>
   </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleRCity" >
+    update t_tripnote_schedule_r_city
+    <set >
+      <if test="cityId != null" >
+        city_id = #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="scheduleId != null" >
+        schedule_id = #{scheduleId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleRCity" >
+    update t_tripnote_schedule_r_city
+    set city_id = #{cityId,jdbcType=INTEGER},
+      schedule_id = #{scheduleId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
 </mapper>

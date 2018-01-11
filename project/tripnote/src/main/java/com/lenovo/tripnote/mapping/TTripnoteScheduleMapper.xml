@@ -41,6 +41,7 @@
             <result column="busertrip_context" property="context" jdbcType="LONGVARCHAR" />
      </collection> 
      <collection property="citys" javaType="java.util.List" ofType="com.lenovo.tripnote.entity.vo.TTripnoteScheduleRCityVo">
+            <result column="rcity_id" property="id" jdbcType="INTEGER" />
             <result column="city_id" property="cityId" jdbcType="INTEGER" />
             <result column="country_id" property="countryId" jdbcType="INTEGER" />
             <result column="schedule_id" property="scheduleId" jdbcType="INTEGER" />
@@ -120,7 +121,7 @@
    ttst.id as scheduletrip_id,ttst.schedule_id as scheduletrip_schedule_id,briefly,ttst.context as scheduletrip_context,
    ttstc.id as traffic_id,ttstc.schedule_id as traffic_schedule_id,ttstc.start_schedule_trip,ttstc.end_schedule_trip,ttstc.distance,ttstc.spend_time,
    but.id as busertrip_id,but.title as busertrip_title,but.cover,but.context as busertrip_context,
-   bc.id as city_id,bc.name_cn,bc.name_en,bc.lat,bc.lon,ttsrc.schedule_id as schedule_id,bc.country_id
+   bc.id as city_id,bc.name_cn,bc.name_en,bc.lat,bc.lon,ttsrc.schedule_id as schedule_id,bc.country_id,ttsrc.id as rcity_id
    from t_tripnote_schedule t
    left join t_tripnote_schedule_trip ttst on ttst.schedule_id = t.id 
    left join t_tripnote_schedule_traffic ttstc on ttstc.schedule_id = t.id

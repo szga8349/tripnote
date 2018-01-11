@@ -7,25 +7,25 @@ import java.util.List;
 public class TTripnoteScheduleRCityExample {
     /**
      * 主键字段
-     * @ibatorgenerated 2018-01-10 14:42:37
+     * @ibatorgenerated 2018-01-11 17:32:53
      */
-    protected String pk_name;
+    protected String pk_name = "id";
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-01-10 14:42:37
+     * @ibatorgenerated 2018-01-11 17:32:53
      */
     protected String orderByClause;
 
     /**
      * 去重复
-     * @ibatorgenerated 2018-01-10 14:42:37
+     * @ibatorgenerated 2018-01-11 17:32:53
      */
     protected boolean distinct;
 
     /**
      * 条件集
-     * @ibatorgenerated 2018-01-10 14:42:37
+     * @ibatorgenerated 2018-01-11 17:32:53
      */
     protected List<Criteria> oredCriteria;
 
@@ -43,7 +43,7 @@ public class TTripnoteScheduleRCityExample {
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-01-10 14:42:37
+     * @ibatorgenerated 2018-01-11 17:32:53
      */
     public void setOrderByClause(String orderByClause) {
         this.orderByClause = orderByClause;
@@ -55,7 +55,7 @@ public class TTripnoteScheduleRCityExample {
 
     /**
      * 设置去重复
-     * @ibatorgenerated 2018-01-10 14:42:37
+     * @ibatorgenerated 2018-01-11 17:32:53
      */
     public void setDistinct(boolean distinct) {
         this.distinct = distinct;
@@ -81,7 +81,7 @@ public class TTripnoteScheduleRCityExample {
 
     /**
      * 条件查询要先创建Criteria
-     * @ibatorgenerated 2018-01-10 14:42:37
+     * @ibatorgenerated 2018-01-11 17:32:53
      */
     public Criteria createCriteria() {
         Criteria criteria = createCriteriaInternal();
@@ -105,7 +105,7 @@ public class TTripnoteScheduleRCityExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-01-10 14:42:37
+     * @ibatorgenerated 2018-01-11 17:32:53
      */
     protected abstract static class GeneratedCriteria {
         protected List<Criterion> criteria;
@@ -146,6 +146,66 @@ public class TTripnoteScheduleRCityExample {
                 throw new RuntimeException("Between values for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value1, value2));
+        }
+
+        public Criteria andIdIsNull() {
+            addCriterion("id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdIsNotNull() {
+            addCriterion("id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdEqualTo(Integer value) {
+            addCriterion("id =", value, "id");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdNotEqualTo(Integer value) {
+            addCriterion("id <>", value, "id");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdGreaterThan(Integer value) {
+            addCriterion("id >", value, "id");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("id >=", value, "id");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdLessThan(Integer value) {
+            addCriterion("id <", value, "id");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdLessThanOrEqualTo(Integer value) {
+            addCriterion("id <=", value, "id");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdIn(List<Integer> values) {
+            addCriterion("id in", values, "id");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdNotIn(List<Integer> values) {
+            addCriterion("id not in", values, "id");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdBetween(Integer value1, Integer value2) {
+            addCriterion("id between", value1, value2, "id");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("id not between", value1, value2, "id");
+            return (Criteria) this;
         }
 
         public Criteria andCityIdIsNull() {
@@ -331,7 +391,7 @@ public class TTripnoteScheduleRCityExample {
 
     /**
      * t_tripnote_schedule_r_city
-     * @ibatorgenerated do_not_delete_during_merge 2018-01-10 14:42:37
+     * @ibatorgenerated do_not_delete_during_merge 2018-01-11 17:32:53
      */
     public static class Criteria extends GeneratedCriteria {
 
@@ -343,7 +403,7 @@ public class TTripnoteScheduleRCityExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-01-10 14:42:37
+     * @ibatorgenerated 2018-01-11 17:32:53
      */
     public static class Criterion {
         private String condition;

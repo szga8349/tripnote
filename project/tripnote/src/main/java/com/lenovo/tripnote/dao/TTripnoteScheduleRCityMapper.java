@@ -11,7 +11,7 @@ public interface TTripnoteScheduleRCityMapper {
      * 条件统计
      * 参数:查询条件,null为整张表
      * 返回:查询个数
-     * @ibatorgenerated 2018-01-10 14:42:37
+     * @ibatorgenerated 2018-01-11 17:32:53
      */
     int countByExample(TTripnoteScheduleRCityExample example);
 
@@ -19,7 +19,7 @@ public interface TTripnoteScheduleRCityMapper {
      * 批量条件删除
      * 参数:删除条件,null为整张表
      * 返回:删除个数
-     * @ibatorgenerated 2018-01-10 14:42:37
+     * @ibatorgenerated 2018-01-11 17:32:53
      */
     int deleteByExample(TTripnoteScheduleRCityExample example);
 
@@ -27,7 +27,7 @@ public interface TTripnoteScheduleRCityMapper {
      * 批量条件查询
      * 参数:查询条件,null查整张表
      * 返回:对象集合
-     * @ibatorgenerated 2018-01-10 14:42:37
+     * @ibatorgenerated 2018-01-11 17:32:53
      */
     List<TTripnoteScheduleRCity> selectByExample(TTripnoteScheduleRCityExample example);
 
@@ -35,7 +35,7 @@ public interface TTripnoteScheduleRCityMapper {
      * 批量条件修改，空值条件不修改
      * 参数:1.要修改成的值，2.要修改条件
      * 返回:成功修改个数
-     * @ibatorgenerated 2018-01-10 14:42:37
+     * @ibatorgenerated 2018-01-11 17:32:53
      */
     int updateByExampleSelective(@Param("record") TTripnoteScheduleRCity record, @Param("example") TTripnoteScheduleRCityExample example);
 
@@ -43,7 +43,7 @@ public interface TTripnoteScheduleRCityMapper {
      * 批量条件修改，空值条件会修改成null
      * 参数:1.要修改成的值，2.要修改条件
      * 返回:成功修改个数
-     * @ibatorgenerated 2018-01-10 14:42:37
+     * @ibatorgenerated 2018-01-11 17:32:53
      */
     int updateByExample(@Param("record") TTripnoteScheduleRCity record, @Param("example") TTripnoteScheduleRCityExample example);
 
@@ -52,15 +52,23 @@ public interface TTripnoteScheduleRCityMapper {
      * 参数:1.查询条件 2.分页条件 new RowBounds(2,3) 
             从第2条开始显示，显示3条(从0开始编号)
      * 返回:成功修改个数
-     * @ibatorgenerated 2018-01-10 14:42:37
+     * @ibatorgenerated 2018-01-11 17:32:53
      */
     List<TTripnoteScheduleRCity> selectByExampleAndPage(TTripnoteScheduleRCityExample example, RowBounds rowBound);
+
+    /**
+     * 根据主键删除
+     * 参数:主键
+     * 返回:删除个数
+     * @ibatorgenerated 2018-01-11 17:32:53
+     */
+    int deleteByPrimaryKey(Integer id);
 
     /**
      * 插入，空属性也会插入
      * 参数:pojo对象
      * 返回:删除个数
-     * @ibatorgenerated 2018-01-10 14:42:37
+     * @ibatorgenerated 2018-01-11 17:32:53
      */
     int insert(TTripnoteScheduleRCity record);
 
@@ -68,7 +76,31 @@ public interface TTripnoteScheduleRCityMapper {
      * 插入，空属性不会插入
      * 参数:pojo对象
      * 返回:删除个数
-     * @ibatorgenerated 2018-01-10 14:42:37
+     * @ibatorgenerated 2018-01-11 17:32:53
      */
     int insertSelective(TTripnoteScheduleRCity record);
+
+    /**
+     * 根据主键查询
+     * 参数:查询条件,主键值
+     * 返回:对象
+     * @ibatorgenerated 2018-01-11 17:32:53
+     */
+    TTripnoteScheduleRCity selectByPrimaryKey(Integer id);
+
+    /**
+     * 根据主键修改，空值条件不会修改成null
+     * 参数:1.要修改成的值
+     * 返回:成功修改个数
+     * @ibatorgenerated 2018-01-11 17:32:53
+     */
+    int updateByPrimaryKeySelective(TTripnoteScheduleRCity record);
+
+    /**
+     * 根据主键修改，空值条件会修改成null
+     * 参数:1.要修改成的值
+     * 返回:成功修改个数
+     * @ibatorgenerated 2018-01-11 17:32:53
+     */
+    int updateByPrimaryKey(TTripnoteScheduleRCity record);
 }
