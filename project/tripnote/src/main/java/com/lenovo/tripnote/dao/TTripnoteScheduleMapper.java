@@ -1,12 +1,13 @@
 package com.lenovo.tripnote.dao;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+
 import com.lenovo.tripnote.entity.TTripnoteSchedule;
 import com.lenovo.tripnote.entity.TTripnoteScheduleExample;
 import com.lenovo.tripnote.entity.vo.TTripNoteScheduleResultVo;
-
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.session.RowBounds;
 
 public interface TTripnoteScheduleMapper {
 	
@@ -43,4 +44,29 @@ public interface TTripnoteScheduleMapper {
     int updateByPrimaryKey(TTripnoteSchedule record);
 
 	TTripNoteScheduleResultVo getDetailByKey(Integer scheduleId);
+	
+	 
+    /**删除定制日程关联的交通信息
+     * @param example
+     * @return
+     */
+    int deleteTraffic(@Param("record") TTripnoteSchedule record);
+    
+    /**删除定制日程的日程行程信息
+     * @param example
+     * @return
+     */
+    int deleteScheduleTrip(@Param("record") TTripnoteSchedule record);
+    
+    /**删除定制日程的定制师笔记信息
+     * @param example
+     * @return
+     */
+    int deleteScheduleRUsenote(@Param("record") TTripnoteSchedule record);
+    
+    /**删除定制日程关联的目的地城市信息
+     * @param record
+     * @return
+     */
+    int deleteScheduleRCity(@Param("record") TTripnoteSchedule record);
 }

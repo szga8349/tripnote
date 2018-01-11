@@ -11,9 +11,15 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 
 import com.lenovo.tripnote.dao.TTripNoteMapper;
+import com.lenovo.tripnote.dao.TTripnoteRCustomerMapper;
+import com.lenovo.tripnote.dao.TTripnoteScheduleMapper;
 import com.lenovo.tripnote.entity.BAccount;
 import com.lenovo.tripnote.entity.TCustomer;
 import com.lenovo.tripnote.entity.TTripNote;
+import com.lenovo.tripnote.entity.TTripNoteExample;
+import com.lenovo.tripnote.entity.TTripNoteExample.Criteria;
+import com.lenovo.tripnote.entity.TTripnoteRCustomerExample;
+import com.lenovo.tripnote.entity.TTripnoteScheduleExample;
 import com.lenovo.tripnote.entity.vo.TTripNoteDetailResultVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteSearchResultVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteSearchVo;
@@ -30,6 +36,11 @@ public class TripnoteServiceImpl implements TTripnoteService{
 	private TCustomerService tCustomerService;
 	@Resource
 	private TTripNoteMapper tTripNoteMapper;
+	@Resource
+	private TTripnoteScheduleMapper tTripnoteScheduleMapper;
+	
+	@Resource
+	private TTripnoteRCustomerMapper tTripnoteRCustomerMapper;
 
 	@Override
 	public int insert(TTripNote t) {
@@ -49,12 +60,37 @@ public class TripnoteServiceImpl implements TTripnoteService{
 
 	@Override
 	public int deleteBykey(Integer id) {
+		//需要删除想关联的表信息
 		return tTripNoteMapper.deleteByPrimaryKey(id);
 	}
 
 	@Override
 	public int deleteCondition(TTripNote t) {
-		return 0;
+		//删除关联的客户关系
+		TTripnoteRCustomerExample rexample = new TTripnoteRCustomerExample();
+		com.lenovo.tripnote.entity.TTripnoteRCustomerExample.Criteria cr = rexample.createCriteria();
+		cr.andTripnoteIdEqualTo(t.getId());
+		tTripnoteRCustomerMapper.deleteByExample(rexample);
+		//删除定制下关联所有日程对应的交通信息
+		tTripNoteMapper.deleteTraffic(t);
+		//删除定制下关联所有日程对应的定制师笔记关联信息
+	    tTripNoteMapper.deleteScheduleRUsenote(t);
+		//删除定制下关联所有日程对应的日程行程信息
+		tTripNoteMapper.deleteScheduleTrip(t);
+		//删除定制下关联所有日程对应的目的地关联信息
+		tTripNoteMapper.deleteScheduleRCity(t);
+		//删除关联的日程信息
+		TTripnoteScheduleExample sexample = new TTripnoteScheduleExample();
+		com.lenovo.tripnote.entity.TTripnoteScheduleExample.Criteria criteria1 = sexample.createCriteria();
+		criteria1.andCreateUseridEqualTo(t.getCreateUserId());
+		criteria1.andTripnoteIdEqualTo(t.getId());
+		tTripnoteScheduleMapper.deleteByExample(sexample);
+		//删除定制信息
+		TTripNoteExample example = new TTripNoteExample();
+		Criteria criteria = example.createCriteria();
+		criteria.andIdEqualTo(t.getId());
+		criteria.andCreateUserIdEqualTo(t.getCreateUserId());
+		return tTripNoteMapper.deleteByExample(example );
 	}
 
 	@Override
@@ -145,4 +181,21 @@ public class TripnoteServiceImpl implements TTripnoteService{
 		return tTripNoteMapper.getDetailByKey(id);
 	}
 
+	@Override
+	public int queryCountCondition(TTripNoteSearchVo t) {
+		TTripNoteExample example = new TTripNoteExample();
+		Criteria criteria = example.createCriteria();
+		if (t.getUserId() != null) {
+			criteria.andCreateUserIdEqualTo(t.getUserId());
+		}
+		if (t.getTitle()!=null) {
+			criteria.andTitleLike(t.getTitle());
+		}
+		if (t.getType() != null) {
+			criteria.andTypeEqualTo(t.getType());
+		}
+		return this.tTripNoteMapper.countByExample(example);
+	}
+
+	
 }
