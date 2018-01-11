@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.lenovo.tripnote.dao.TTripnoteScheduleMapper;
 import com.lenovo.tripnote.entity.BAccount;
 import com.lenovo.tripnote.entity.TTripnoteSchedule;
+import com.lenovo.tripnote.entity.TTripnoteScheduleExample;
 import com.lenovo.tripnote.entity.vo.TTripNoteScheduleResultVo;
 import com.lenovo.tripnote.service.TTripNoteScheduleService;
 
@@ -18,8 +19,9 @@ import net.sf.json.JSONObject;
 
 @Service()
 public class TTripNoteScheduleServiceImpl implements TTripNoteScheduleService {
-    @Resource
-    private TTripnoteScheduleMapper tTripnoteScheduleMapper;
+	@Resource
+	private TTripnoteScheduleMapper tTripnoteScheduleMapper;
+
 	@Override
 	public int insert(TTripnoteSchedule t) {
 		// TODO Auto-generated method stub
@@ -28,8 +30,8 @@ public class TTripNoteScheduleServiceImpl implements TTripNoteScheduleService {
 
 	@Override
 	public TTripnoteSchedule update(TTripnoteSchedule t) {
-		 tTripnoteScheduleMapper.updateByPrimaryKeySelective(t);
-		 return t;
+		tTripnoteScheduleMapper.updateByPrimaryKeySelective(t);
+		return t;
 	}
 
 	@Override
@@ -45,17 +47,29 @@ public class TTripNoteScheduleServiceImpl implements TTripNoteScheduleService {
 
 	@Override
 	public int deleteCondition(TTripnoteSchedule t) {
-		// TODO Auto-generated method stub
-		return 0;
+		// 删除日程对应的交通信息
+		tTripnoteScheduleMapper.deleteTraffic(t);
+		// 删除日程对应的定制师笔记关联信息
+		tTripnoteScheduleMapper.deleteScheduleRUsenote(t);
+		// 删除日程对应的日程行程信息
+		tTripnoteScheduleMapper.deleteScheduleTrip(t);
+		// 删除日程对应的目的地关联信息
+		tTripnoteScheduleMapper.deleteScheduleRCity(t);
+		// 删除日程信息
+		TTripnoteScheduleExample sexample = new TTripnoteScheduleExample();
+		com.lenovo.tripnote.entity.TTripnoteScheduleExample.Criteria criteria1 = sexample.createCriteria();
+		criteria1.andCreateUseridEqualTo(t.getCreateUserid());
+		criteria1.andIdEqualTo(t.getId());
+		return tTripnoteScheduleMapper.deleteByExample(sexample);
 	}
 
 	@Override
 	public List<Integer> addRangeSchedule(Integer tripnoteId, Integer range, BAccount account) {
 		List<Integer> result = new ArrayList<Integer>();
-		for(int i=0;i<range.intValue();i++){
+		for (int i = 0; i < range.intValue(); i++) {
 			TTripnoteSchedule shcedule = new TTripnoteSchedule();
-			shcedule.setIndexdate(i+1);
-			//shcedule.setTitle("D");
+			shcedule.setIndexdate(i + 1);
+			// shcedule.setTitle("D");
 			shcedule.setCreateUserid(account.getId());
 			shcedule.setCreateuserName(account.getLoginName());
 			shcedule.setTripnoteId(tripnoteId);
@@ -74,19 +88,17 @@ public class TTripNoteScheduleServiceImpl implements TTripNoteScheduleService {
 	@Override
 	public int updateIndexdates(String indexdates) {
 		JSONObject json = JSONObject.fromObject(indexdates);
-    	JSONArray arrary = json.getJSONArray("indexdates");
-    	int size = arrary.size();
-    	int count = 0;
-    	for(int i=0;i<size;i++){
-    		JSONObject custer = arrary.getJSONObject(i);
-    		TTripnoteSchedule t1 = new TTripnoteSchedule();
-    		t1.setId(custer.getInt("indexdate"));
-	    	t1.setIndexdate(custer.getInt("scheduleid"));
-	    	count+=tTripnoteScheduleMapper.updateByPrimaryKeySelective(t1);
-    	}
+		JSONArray arrary = json.getJSONArray("indexdates");
+		int size = arrary.size();
+		int count = 0;
+		for (int i = 0; i < size; i++) {
+			JSONObject custer = arrary.getJSONObject(i);
+			TTripnoteSchedule t1 = new TTripnoteSchedule();
+			t1.setId(custer.getInt("indexdate"));
+			t1.setIndexdate(custer.getInt("scheduleid"));
+			count += tTripnoteScheduleMapper.updateByPrimaryKeySelective(t1);
+		}
 		return count;
 	}
-
-	
 
 }

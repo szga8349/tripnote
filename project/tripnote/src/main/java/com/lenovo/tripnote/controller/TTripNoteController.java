@@ -53,7 +53,12 @@ public class TTripNoteController {
 	public @ResponseBody ResultVo delete(@PathVariable String id) {
 		ResultVo vo = new ResultVo();
 		vo.setCode(Result.SUCESSFUL);
-		tTripnoteService.deleteBykey(Integer.valueOf(id));
+		Subject subject = SecurityUtils.getSubject();
+		BAccount account = (BAccount) subject.getPrincipal();
+		TTripNote t = new TTripNote();
+		t.setId(Integer.valueOf(id));
+		t.setCreateUserId(account.getId());
+		tTripnoteService.deleteCondition(t);
 		return vo;
 	}
 

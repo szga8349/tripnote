@@ -37,4 +37,29 @@ public interface TTripNoteMapper {
     List<TTripNoteSearchResultVo> queryConditionAndPage(@Param("record")TTripNoteSearchVo record, RowBounds rowBound);
 
     TTripNoteDetailResultVo getDetailByKey(Integer id);
+    
+    
+    /**删除定制下所有日程关联的交通信息
+     * @param example
+     * @return
+     */
+    int deleteTraffic(@Param("record") TTripNote record);
+    
+    /**删除定制下所有日程关联的日程行程信息
+     * @param example
+     * @return
+     */
+    int deleteScheduleTrip(@Param("record") TTripNote record);
+    
+    /**删除定制下所有日程关联的定制师笔记信息
+     * @param example
+     * @return
+     */
+    int deleteScheduleRUsenote(@Param("record") TTripNote record);
+    
+    /**删除定制下所有日程关联的目的地城市信息
+     * @param record
+     * @return
+     */
+    int deleteScheduleRCity(@Param("record") TTripNote record);
 }

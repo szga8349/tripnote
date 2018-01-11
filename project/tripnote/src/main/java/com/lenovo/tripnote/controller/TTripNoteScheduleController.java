@@ -66,7 +66,12 @@ public class TTripNoteScheduleController {
 	public @ResponseBody ResultVo delete(@PathVariable String id){
 		ResultVo vo = new ResultVo();
 		vo.setCode(Result.SUCESSFUL);
-		tTripNoteScheduleService.deleteBykey(Integer.valueOf(id));
+		TTripnoteSchedule t = new TTripnoteSchedule();
+		Subject subject = SecurityUtils.getSubject();
+		BAccount account = (BAccount) subject.getPrincipal();
+		t.setId(Integer.valueOf(id));
+		t.setCreateUserid(account.getId());
+		tTripNoteScheduleService.deleteCondition(t);
 		return vo;
 	}
 	
