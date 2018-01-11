@@ -21,7 +21,7 @@ img { border:none; }
 
 
 
-.loginWrap{ position: absolute; width: 560px; top: 150px; left: 50%; margin-left: -280px; padding-bottom: 50px;}
+.loginWrap{ position: absolute; width: 560px; top: 120px; left: 50%; margin-left: -280px; padding-bottom: 50px;}
 .loginWrap .logo{ height: 135px;}
 .loginWrap .tabs{ height: 56px; margin-top: 38px; background: #fff;}
 .loginWrap .tabs a{ float: left; display: block; width: 280px;  background: #46342c; line-height: 56px; text-align: center; font-size: 20px; color: #fff;}

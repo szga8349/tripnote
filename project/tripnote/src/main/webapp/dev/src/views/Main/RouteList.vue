@@ -84,12 +84,12 @@
                     </el-table-column>
                 </el-table>
 
-                <!-- <el-pagination
+                <el-pagination
                     @current-change="handleCurrentChange"
-                    :current-page.sync="currentPage"
+                    :current-page.sync="pageNo"
                     layout="prev, pager, next"
-                    :total="1000">
-                </el-pagination> -->
+                    :total="total">
+                </el-pagination>
 
 
                 <div v-if="!tableDataLoading && tableData.length == 0" class="addNewRouteTip">
@@ -239,6 +239,9 @@ export default {
 
             tableData: [],
             tableDataLoading: true,
+            pageNo: 1,
+            pageSize: 5,
+            total: 0,
             form: {
                 title: '',
                 days: '',
@@ -293,13 +296,14 @@ export default {
                 method: 'POST',
                 url: '/tripnote/tripnote/doSearch',
                 data: {
-
+                    pageNo: this.pageNo,
+                    pageSize: this.pageSize
                 }
             })
             .then((res)=>{
-                // setTimeout(function(){
+                setTimeout(function(){
                     vm.tableDataLoading = false
-                // }, 2000)
+                }, 1000)
                 if(res.data.code == -1){
                     this.$message({
                         message: res.data.message,
@@ -307,9 +311,19 @@ export default {
                         duration: 2000
                     });
                 }else{
-                    this.tableData = res.data.data
+                    this.tableData = res.data.data.data
+                    
+                    this.pageNo = res.data.data.pageNo
+                    console.log(this.pageNo)
+
+                    this.total = res.data.data.total
                 }
             })
+        },
+
+        handleCurrentChange(val){
+            this.pageNo = val
+            this.getRouteList()
         },
         formatter(row, column) {
             return row.address;
