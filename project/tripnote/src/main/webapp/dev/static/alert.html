@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>LEAP Metadata</title>
+<style>
+.main{
+    width: 500px;
+    height: 110px;
+    margin-top: -55px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -250px;
+    font-family: 'microsoft yahei';
+}
+.item{float: left;}
+.tip{line-height: 30px; margin-top:25px; margin-left: 20px;}
+span{display: block; color: red;}
+</style>
+</head>
+<body>
+<div class="main">
+    <div class="item"><img src="./assets/images/browser-alert.png" alt=""></div>
+    <div class="item tip">
+        您当前的浏览器版本过低，无法使用该功能
+        <span>去升级浏览器！</span>
+    </div>
+</div>
+<script>
+var IE = (function() { 
+    if (document.documentMode) {
+        return document.documentMode;
+    } else {
+        for (var i = 7; i > 4; i--) {
+            var div = document.createElement("div");
+
+            div.innerHTML = "<!--[if IE " + i + "]><span></span><![endif]-->";
+
+            if (div.getElementsByTagName("span").length) {
+                div = null;
+
+                return i;
+            }
+        }
+    }
+
+    return undefined;
+})();
+if(IE && IE >= 10){
+    window.location.href = '../index.html';
+}else{
+    window.location.href = '../index.html';
+}
+
+  // try{
+  //   Object.defineProperty({}, 'key', {})
+  // } catch(e) {
+  //   window.location.href = '../index.html';
+  // }
+</script>
+</body>
+</html>

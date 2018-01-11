@@ -1,0 +1,80 @@
+.source-container{
+  @headerHeight : 30px;
+  background: #edeef0;
+  margin-left: 60px;
+  height: calc( ~"100% - @{headerHeight}");
+  overflow-y: auto;
+}
+.source-header{
+  display: flex;
+  justify-content: space-between;
+  height: 60px;
+  background: #fff;
+  border-bottom: 1px solid #d6d7dd;
+  .source-title{
+    float: left;
+    a,span{
+      display: inline-block;
+      line-height: 60px;
+      margin-right: 10px;
+    }
+    a{
+      padding-left: 22px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    span{
+      color: #9daab9;
+    }
+    .router-link-active{
+      border: 0;
+      background: transparent;
+    }
+  }
+  .project-selector{
+    float: right;
+    padding: 10px;
+  }
+}
+.chart-header-container{
+  overflow: hidden;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  .rank-list-select{
+    position: static;
+  }
+}
+.source-body{
+  padding: 20px;
+  >.row-List{
+    min-height: 200px;
+  }
+}
+.chartContainer{
+  height: 400px;
+  width: 100%;
+}
+.operate-type-add{
+  color: #64bc89;
+}
+.operate-type-del{
+  color: #f87d88;
+}
+.rankList-left {
+  overflow: hidden;
+}
+.rankList-left .rankList-num{
+  display: block;
+	font-style: normal;
+	width: 20px;
+	height: 20px;
+	text-align: center;
+	line-height: 20px;
+	border-radius: 50%;
+	color: #fff;
+	margin-right: 15px
+}
+.rankList-left .rankList-name {
+  float: left;
+}
