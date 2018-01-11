@@ -94,8 +94,8 @@ export default {
                 method: 'get',
                 url: '/tripnote/city/doSearch',
                 data:{
-                    nameCn: nameCn,
-                    pageNo: 1
+                    countryId: 1,
+                    pageSize: 100
                 }
             })
             .then((res)=>{
