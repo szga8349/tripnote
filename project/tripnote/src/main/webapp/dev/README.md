@@ -1,14 +1,14 @@
-# 元数据资源管理系统
+# TripNote前端
 
-> wherehows
+> TripNote
 
 ### 简介
 
-   主要描述了在本系统根据业务需要如何通过本系统查找不同存储系统不同类型数据的路径等meta信息和血缘关系等元数据分析结果。
+   .....
 	
 ### 技术栈
 ```
-基于 vue2 + vue-router + vuex + vue-resource + vue-i18n
+基于 vue2 + vue-router + vuex + axios + vue-i18n
  + ES6 + less 并使用webpack打包
 ```
 ### 使用项目
@@ -45,25 +45,14 @@
 |   |-- static
 |-- src                              // 源码目录
 |   |-- components                   // 公共组件
-|       |-- common                   // 页面内容公共组件
-|       |-- MetaData                 // 元数据
-|       |   |-- Dataset                 // 数据集
-|       |   |-- Personal                // 我的数据
-|       |-- DataMain               	// 主数据
-|       |-- LifeCycle                // 生命周期
-|       |-- DataQuality              // 数据质量
-|       |-- DataStandard             // 数据标准
-|       |-- Security                 // 安全隐私
-|       |-- Monitor                  // 监控
-|       |-- MainNav.vue              //左侧总导航
-|       |-- MainPage.vue             //页面渲染
-|       |-- Header.vue               //页头组件
-|       |-- Footer.vue               //页脚组件
+|   |-- views                       // 页面
 |   |-- assets                       //静态文件，比如一些图片,第三方库插件
 |       |-- css                   	//公用样式
+|       |-- element-theme           //elementui样式定制
 |       |-- images                  //图片资源
+|       |-- font                    //iconfont字体
 |       |-- less                    //less样式文件
-|       |-- libs                    // 第三方插件
+|       |-- libs                    // 第三方库
 |   |-- directives                   // 自定义指令
 |   |-- locale                   		// 国际化文档
 |   |-- mixins                   		// 组件混合的方法
