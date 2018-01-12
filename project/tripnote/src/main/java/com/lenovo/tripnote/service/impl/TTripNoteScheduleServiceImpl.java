@@ -94,8 +94,8 @@ public class TTripNoteScheduleServiceImpl implements TTripNoteScheduleService {
 		for (int i = 0; i < size; i++) {
 			JSONObject custer = arrary.getJSONObject(i);
 			TTripnoteSchedule t1 = new TTripnoteSchedule();
-			t1.setId(custer.getInt("indexdate"));
-			t1.setIndexdate(custer.getInt("scheduleid"));
+			t1.setId(custer.getInt("scheduleid"));
+			t1.setIndexdate(custer.getInt("indexdate"));
 			count += tTripnoteScheduleMapper.updateByPrimaryKeySelective(t1);
 		}
 		return count;
