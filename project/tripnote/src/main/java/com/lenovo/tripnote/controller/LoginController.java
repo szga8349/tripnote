@@ -136,7 +136,7 @@ public class LoginController {
 		return vo;
 	}
 
-	@RequestMapping(value = "/logut")
+	@RequestMapping(value = "/logout")
 	public  @ResponseBody ResultVo doLogut(HttpServletRequest request, Model model) {
 		Subject subject = SecurityUtils.getSubject();
 		BAccount account = (BAccount) subject.getPrincipal();
