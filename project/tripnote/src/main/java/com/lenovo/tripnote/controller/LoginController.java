@@ -15,6 +15,7 @@ import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.util.WebUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -80,6 +81,8 @@ public class LoginController {
 					bAccountService.insert(record);
 					System.out.println(record);
 				}
+				//设置失效前访问的url信息 提供前端判断进行跳转
+				vo.setData(WebUtils.getSavedRequest(request));
 				return vo;
 			} else {
 				vo.setCode(Result.FAUL);
