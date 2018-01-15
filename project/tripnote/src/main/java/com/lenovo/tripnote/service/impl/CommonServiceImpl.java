@@ -36,9 +36,9 @@ public class CommonServiceImpl implements CommonService {
 	private String imageUrl = "http://localhost:8080";
 
 	@Override
-	public ResultVo upload(BAccount account, Map<String, MultipartFile> files, String model) {
+	public String upload(BAccount account, Map<String, MultipartFile> files, String model) {
 		List<UploadFileVo> uploadFiles = new ArrayList<UploadFileVo>();
-		ResultVo vo = new ResultVo();
+		UploadFileVo uploadfile = new UploadFileVo();
 		for (Entry<String, MultipartFile> entry : files.entrySet()) {
 			InputStream input = null;
 			FileOutputStream fileout = null;
@@ -62,17 +62,14 @@ public class CommonServiceImpl implements CommonService {
 				}
 				fileout = new FileOutputStream(out);
 				IOUtils.copy(input, fileout);
-				UploadFileVo uploadfile = new UploadFileVo();
+				
 				imageUrl = imageUrl.endsWith("/")?imageUrl:imageUrl+"/";
 				uploadfile.setFileurl(imageUrl+model+"/"+account.getId()+"/"+newFile);
 				uploadfile.setFilename(out.getName());
 				uploadFiles.add(uploadfile);
-				vo.setCode(Result.SUCESSFUL);
-				vo.setData(uploadFiles);
+				break;
 			} catch (Exception e) {//多个文件上传时 如果有一个上传失败 即判定为失败
 				log.error("上传图片失败", e);
-				vo.setCode(Result.FAUL);
-				vo.setMessage(e.getMessage());
 				uploadFiles.clear();
 				break;
 			} finally {
@@ -85,7 +82,7 @@ public class CommonServiceImpl implements CommonService {
 				}
 			}
 		}
-		return vo;
+		return uploadfile.getFileurl();
 	}
 
 }
