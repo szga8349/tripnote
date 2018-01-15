@@ -12,4 +12,7 @@ public interface TTripNoteScheduleService extends IDbService<TTripnoteSchedule> 
 	public TTripNoteScheduleResultVo getDetailByKey(Integer scheduleId);
 	
 	public int updateIndexdates(String indexdates);
+	
+	public List<Integer> addIndexdates(Integer tripnoteId,String indexdates,BAccount account);
+	
 }

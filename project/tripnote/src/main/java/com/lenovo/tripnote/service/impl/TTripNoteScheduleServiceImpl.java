@@ -100,5 +100,26 @@ public class TTripNoteScheduleServiceImpl implements TTripNoteScheduleService {
 		}
 		return count;
 	}
+	@Override
+	public List<Integer> addIndexdates(Integer tripnoteId,String indexdates,BAccount user) {
+		JSONObject json = JSONObject.fromObject(indexdates);
+		JSONArray arrary = json.getJSONArray("indexdates");
+		int size = arrary.size();
+		List<Integer> result = new ArrayList<Integer>();
+		for (int i = 0; i < size; i++) {
+			JSONObject custer = arrary.getJSONObject(i);
+			TTripnoteSchedule t1 = new TTripnoteSchedule();
+			t1.setTripnoteId(tripnoteId);
+			t1.setCreateUserid(user.getId());
+			t1.setCreateuserName(user.getLoginName());
+			if(custer.containsKey("title")){
+				t1.setTitle(custer.getString("title"));
+			}
+			t1.setIndexdate(custer.getInt("indexdate"));
+			tTripnoteScheduleMapper.insert(t1);
+			result.add(t1.getId());
+		}
+		return result;
+	}
 
 }

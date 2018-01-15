@@ -62,6 +62,16 @@ public class TTripNoteScheduleController {
 		vo.setData(tTripNoteScheduleService.addRangeSchedule(Integer.valueOf(tripnoteId), tripnoteVo.getIndexdate(),(BAccount)subject.getPrincipal()));
 		return vo;
 	}
+	@RequestMapping(value = "/doAddIndexdate/{tripnoteId}")
+	public @ResponseBody ResultVo addIndexDate(@PathVariable String tripnoteId,String indexdates) throws IllegalAccessException, InvocationTargetException{
+		ResultVo vo = new ResultVo();
+		Subject subject = SecurityUtils.getSubject();
+		BAccount account = (BAccount) subject.getPrincipal();
+		vo.setData(tTripNoteScheduleService.addIndexdates(Integer.valueOf(tripnoteId), indexdates, account));
+		vo.setCode(Result.SUCESSFUL);
+		return vo;
+	}
+	
 	@RequestMapping(value = "/doDelete/{id}")
 	public @ResponseBody ResultVo delete(@PathVariable String id){
 		ResultVo vo = new ResultVo();
