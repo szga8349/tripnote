@@ -148,12 +148,12 @@
      <if test="record.title != null" >
         and t1.title like #{record.title,jdbcType=VARCHAR}
      </if>
-    order by t1.id limit #{record.pageNo,jdbcType=INTEGER},#{record.pageSize,jdbcType=INTEGER}) as t 
+    order by t1.create_time desc limit #{record.pageNo,jdbcType=INTEGER},#{record.pageSize,jdbcType=INTEGER}) as t 
     left join t_tripnote_r_customer ts on t.id = ts.tripnote_id 
     left join t_customer tc on tc.id = ts.customer_id 
     left join t_tripnote_schedule tts on tts.tripnote_id = t.id 
     left join t_tripnote_schedule_r_city ttsrc on ttsrc.schedule_id = tts.id
-    left join b_city bc on ttsrc.city_id = bc.id order by tts.indexdate asc,ttsrc.create_time asc
+    left join b_city bc on ttsrc.city_id = bc.id order by t.create_time desc, tts.indexdate asc,ttsrc.create_time asc
   </select>
   
    <select id="getDetailByKey" resultMap="DetailResultMap" parameterType="java.lang.Integer" >
@@ -180,12 +180,12 @@
      <if test="record.title != null" >
         and t1.title like #{record.title,jdbcType=VARCHAR}
      </if>
-    order by t1.id limit #{record.pageNo,jdbcType=INTEGER},#{record.pageSize,jdbcType=INTEGER}) as t 
+    order by t1.create_time desc limit #{record.pageNo,jdbcType=INTEGER},#{record.pageSize,jdbcType=INTEGER}) as t 
     left join t_tripnote_r_customer ts on t.id = ts.tripnote_id 
     left join t_customer tc on tc.id = ts.customer_id 
     left join t_tripnote_schedule tts on tts.tripnote_id = t.id 
     left join t_tripnote_schedule_r_city ttsrc on ttsrc.schedule_id = tts.id
-    left join b_city bc on ttsrc.city_id = bc.id order by tts.indexdate asc,ttsrc.create_time asc
+    left join b_city bc on ttsrc.city_id = bc.id order by  t.create_time desc,tts.indexdate asc,ttsrc.create_time asc
   </select>
   
   <delete id="deleteByExample" parameterType="com.lenovo.tripnote.entity.TTripNoteExample" >

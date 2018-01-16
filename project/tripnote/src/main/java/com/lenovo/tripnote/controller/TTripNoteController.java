@@ -95,6 +95,7 @@ public class TTripNoteController {
 		TTripNote t = new TTripNote();
 		BeanUtils.copyProperties(t, tripnoteVo);
 		t.setId(Integer.valueOf(id));
+		t.setType(1);
 		tTripnoteService.update(tripnoteVo,account,Integer.valueOf(id));
 		return vo;
 	}
