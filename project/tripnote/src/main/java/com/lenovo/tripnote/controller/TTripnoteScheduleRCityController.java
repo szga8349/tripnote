@@ -31,6 +31,20 @@ public class TTripnoteScheduleRCityController {
 		vo.setData(rcity.getId());
 		return vo;
 	}
+	/**增加的城市放入最前面
+	 * @param rcity
+	 * @return
+	 * @throws IllegalAccessException
+	 * @throws InvocationTargetException
+	 */
+	@RequestMapping(value = "/doAddFrist")
+	public @ResponseBody ResultVo addFrist(TTripnoteScheduleRCity rcity) throws IllegalAccessException, InvocationTargetException {
+		ResultVo vo = new ResultVo();
+		vo.setCode(Result.SUCESSFUL);
+		tTripnoteScheduleRCityService.insertFrist(rcity);
+		vo.setData(rcity.getId());
+		return vo;
+	}
 
 	@RequestMapping(value = "/doDelete/{id}")
 	public @ResponseBody ResultVo delete(@PathVariable String id) {
