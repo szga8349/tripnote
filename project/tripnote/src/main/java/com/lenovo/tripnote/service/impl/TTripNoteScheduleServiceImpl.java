@@ -8,9 +8,11 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.lenovo.tripnote.dao.TTripnoteScheduleMapper;
+import com.lenovo.tripnote.dao.TTripnoteScheduleRCityMapper;
 import com.lenovo.tripnote.entity.BAccount;
 import com.lenovo.tripnote.entity.TTripnoteSchedule;
 import com.lenovo.tripnote.entity.TTripnoteScheduleExample;
+import com.lenovo.tripnote.entity.TTripnoteScheduleRCity;
 import com.lenovo.tripnote.entity.vo.TTripNoteScheduleResultVo;
 import com.lenovo.tripnote.service.TTripNoteScheduleService;
 
@@ -21,6 +23,8 @@ import net.sf.json.JSONObject;
 public class TTripNoteScheduleServiceImpl implements TTripNoteScheduleService {
 	@Resource
 	private TTripnoteScheduleMapper tTripnoteScheduleMapper;
+	@Resource
+	private TTripnoteScheduleRCityMapper tTripnoteScheduleRCityMapper;
 
 	@Override
 	public int insert(TTripnoteSchedule t) {
@@ -100,8 +104,9 @@ public class TTripNoteScheduleServiceImpl implements TTripNoteScheduleService {
 		}
 		return count;
 	}
+
 	@Override
-	public List<Integer> addIndexdates(Integer tripnoteId,String indexdates,BAccount user) {
+	public List<Integer> addIndexdates(Integer tripnoteId, String indexdates, BAccount user) {
 		JSONObject json = JSONObject.fromObject(indexdates);
 		JSONArray arrary = json.getJSONArray("indexdates");
 		int size = arrary.size();
@@ -112,11 +117,17 @@ public class TTripNoteScheduleServiceImpl implements TTripNoteScheduleService {
 			t1.setTripnoteId(tripnoteId);
 			t1.setCreateUserid(user.getId());
 			t1.setCreateuserName(user.getLoginName());
-			if(custer.containsKey("title")){
+			if (custer.containsKey("title")) {
 				t1.setTitle(custer.getString("title"));
 			}
 			t1.setIndexdate(custer.getInt("indexdate"));
 			tTripnoteScheduleMapper.insert(t1);
+			if (custer.containsKey("cityId")) {//增加定制日程与城市间的关联关系
+				TTripnoteScheduleRCity record = new TTripnoteScheduleRCity();
+				record.setCityId(custer.getInt("cityId"));
+				record.setScheduleId(t1.getId());
+				tTripnoteScheduleRCityMapper.insert(record);
+			}
 			result.add(t1.getId());
 		}
 		return result;
