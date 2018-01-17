@@ -145,20 +145,22 @@
     t.`status`, t.start_city, t.remarks,tc.name,tc.phone1,t.introduction,
     tts.id as schedule_id, tts.title as schedule_title,tts.indexdate,
     bc.id as city_id,bc.name_cn,bc.name_en,bc.lat,bc.lon,ttsrc.schedule_id as rcity_schedule_id,bc.country_id,ttsrc.id as rcity_id
-    from (select *  from t_trip_note t1 where  t1.type = #{record.type,jdbcType=INTEGER} and create_user_id = #{record.userId,jdbcType=INTEGER}
+    from (select 
+     <include refid="Base_Column_List" />
+     from t_trip_note t where  type = #{record.type,jdbcType=INTEGER} and create_user_id = #{record.userId,jdbcType=INTEGER}
      <if test="record.title != null" >
-        and t1.title like #{record.title,jdbcType=VARCHAR}
+        and t.title like #{record.title,jdbcType=VARCHAR}
      </if>
      <choose>
          <when test="record.sortField != null">
-         order by #{record.sortField}  
+         order by t.${record.sortField}  
          <choose>  
              <when test="record.ascOrDes==1">asc</when>  
              <when test="record.ascOrDes!=1">desc</when>  
           </choose>
           </when>
           <when test="record.sortField == null">
-              order by t1.create_time desc
+              order by t.create_time desc
           </when>
     </choose>
     limit #{record.pageNo,jdbcType=INTEGER},#{record.pageSize,jdbcType=INTEGER}) as t 
@@ -169,7 +171,7 @@
     left join b_city bc on ttsrc.city_id = bc.id 
      <choose>
          <when test="record.sortField != null">
-         order by #{record.sortField}
+         order by t.${record.sortField}
          <choose>  
              <when test="record.ascOrDes==1">asc</when>  
              <when test="record.ascOrDes!=1">desc</when>  
