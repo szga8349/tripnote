@@ -17,4 +17,14 @@ public class TTripNoteSearchVo extends PageInfoVo{
     private Integer userId;
     
     private Integer type;
+    
+    /**
+     * 排序字段
+     */
+    private String sortField;
+    
+    /**
+     * 升降序 1升序 -1降序 
+     */
+    private Integer ascOrDes;
 }

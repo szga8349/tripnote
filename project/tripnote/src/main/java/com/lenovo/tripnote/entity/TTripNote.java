@@ -41,6 +41,10 @@ public class TTripNote implements Serializable {
      * 增加定制类型 0-系统模板,1-定制 2-定制师模板，3机构模板 去除模板表
      */
     private Integer type;
+    
+    /**
+     * 发布时间
+     */
+    private Date publishTime;
 
-   
 }

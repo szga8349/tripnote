@@ -16,6 +16,7 @@
     <result column="remarks" property="remarks" jdbcType="VARCHAR" />
     <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
     <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="publish_time" property="publishTime" jdbcType="TIMESTAMP" />
   </resultMap>
   
   
@@ -77,7 +78,7 @@
   
   <sql id="Base_Column_List" >
     id, code, title, start_date, end_date, `days`, destination, create_time, create_user_id, 
-    `status`, start_city, remarks,introduction,type
+    `status`, start_city, remarks,introduction,type,publish_time
   </sql>
   
   <sql id="Example_Where_Clause" >
@@ -148,12 +149,37 @@
      <if test="record.title != null" >
         and t1.title like #{record.title,jdbcType=VARCHAR}
      </if>
-    order by t1.create_time desc limit #{record.pageNo,jdbcType=INTEGER},#{record.pageSize,jdbcType=INTEGER}) as t 
+     <choose>
+         <when test="record.sortField != null">
+         order by #{record.sortField}  
+         <choose>  
+             <when test="record.ascOrDes==1">asc</when>  
+             <when test="record.ascOrDes!=1">desc</when>  
+          </choose>
+          </when>
+          <when test="record.sortField == null">
+              order by t1.create_time desc
+          </when>
+    </choose>
+    limit #{record.pageNo,jdbcType=INTEGER},#{record.pageSize,jdbcType=INTEGER}) as t 
     left join t_tripnote_r_customer ts on t.id = ts.tripnote_id 
     left join t_customer tc on tc.id = ts.customer_id 
     left join t_tripnote_schedule tts on tts.tripnote_id = t.id 
     left join t_tripnote_schedule_r_city ttsrc on ttsrc.schedule_id = tts.id
-    left join b_city bc on ttsrc.city_id = bc.id order by t.create_time desc, tts.indexdate asc,ttsrc.create_time asc
+    left join b_city bc on ttsrc.city_id = bc.id 
+     <choose>
+         <when test="record.sortField != null">
+         order by #{record.sortField}
+         <choose>  
+             <when test="record.ascOrDes==1">asc</when>  
+             <when test="record.ascOrDes!=1">desc</when>  
+          </choose>
+          </when>
+          <when test="record.sortField == null">
+              order by t.create_time desc
+          </when>
+    </choose>
+    ,tts.indexdate asc,ttsrc.create_time asc
   </select>
   
    <select id="getDetailByKey" resultMap="DetailResultMap" parameterType="java.lang.Integer" >
@@ -259,6 +285,9 @@
       <if test="record.type != null" >
         type = #{record.type,jdbcType=INTEGER},
       </if>
+      <if test="record.publishTime != null" >
+        publish_time = #{record.publishTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -280,6 +309,7 @@
       remarks = #{record.remarks,jdbcType=VARCHAR},
       introduction = #{record.introduction,jdbcType=LONGVARCHAR},
       type = #{record.type,jdbcType=INTEGER},
+      publish_time = #{record.publishTime,jdbcType=TIMESTAMP},
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -298,11 +328,11 @@
     insert into t_trip_note (code, title, start_date, 
       end_date, `days`, destination, 
       create_time, create_user_id, `status`, 
-      start_city, remarks, introduction,type)
+      start_city, remarks, introduction,type,publish_time)
     values (#{code,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{startDate,jdbcType=DATE}, 
       #{endDate,jdbcType=DATE}, #{days,jdbcType=INTEGER}, #{destination,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
-      #{startCity,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR},#{introduction,jdbcType=LONGVARCHAR},#{type,jdbcType=INTEGER})
+      #{startCity,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR},#{introduction,jdbcType=LONGVARCHAR},#{type,jdbcType=INTEGER},#{publishTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.TTripNote" useGeneratedKeys="true" keyProperty="id">
     insert into t_trip_note
@@ -320,6 +350,7 @@
       remarks,
       introduction,
       type,
+      publish_time,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       #{code,jdbcType=VARCHAR},
@@ -335,6 +366,7 @@
       #{remarks,jdbcType=VARCHAR},
       #{introduction,jdbcType=LONGVARCHAR},
       #{type,jdbcType=INTEGER},
+      #{publishTime,jdbcType=TIMESTAMP},
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.lenovo.tripnote.entity.TTripNote" >
@@ -379,6 +411,9 @@
        <if test="type != null" >
         type = #{type,jdbcType=INTEGER},
       </if>
+      <if test="publishTime != null" >
+         publish_time = #{publishTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -396,7 +431,8 @@
       start_city = #{startCity,jdbcType=VARCHAR},
       remarks = #{remarks,jdbcType=VARCHAR},
       introduction = #{introduction,jdbcType=LONGVARCHAR},
-      type = #{type,jdbcType=LONGVARCHAR}
+      type = #{type,jdbcType=LONGVARCHAR},
+      publish_time = #{publishTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
