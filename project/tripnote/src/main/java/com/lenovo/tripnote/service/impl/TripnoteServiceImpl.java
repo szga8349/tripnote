@@ -151,6 +151,9 @@ public class TripnoteServiceImpl implements TTripnoteService{
 		t.setCreateTime(new Date());
 		t.setCreateUserId(account.getId());
 		t.setId(id);
+		if(t.getStatus()==1){//发布状态
+			t.setPublishTime(new Date());
+		}
 		this.update(t);
 	    if(tripnoteVo.getCustomers()!=null){//关联客户信息
 	    	JSONObject json = JSONObject.fromObject(tripnoteVo.getCustomers());

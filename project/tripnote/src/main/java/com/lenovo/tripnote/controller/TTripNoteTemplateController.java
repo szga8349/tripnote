@@ -56,8 +56,11 @@ public class TTripNoteTemplateController {
 		Subject subject = SecurityUtils.getSubject();
 		BAccount account = (BAccount) subject.getPrincipal();
 		TTripNote t = new TTripNote();
+		//设置为定制模板类型
+	    tripnoteVo.setType(2);
 		BeanUtils.copyProperties(t, tripnoteVo);
 		t.setId(Integer.valueOf(id));
+		tripnoteVo.setType(2);
 		tTripnoteService.update(tripnoteVo,account,Integer.valueOf(id));
 		return vo;
 	}

@@ -1,7 +1,6 @@
 package com.lenovo.tripnote.controller;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -93,13 +92,7 @@ public class TTripNoteController {
 		vo.setCode(Result.SUCESSFUL);
 		Subject subject = SecurityUtils.getSubject();
 		BAccount account = (BAccount) subject.getPrincipal();
-		TTripNote t = new TTripNote();
-		BeanUtils.copyProperties(t, tripnoteVo);
-		t.setId(Integer.valueOf(id));
-		t.setType(1);
-		if(t.getStatus()==1){//发布状态
-			t.setPublishTime(new Date());
-		}
+		tripnoteVo.setType(1);
 		tTripnoteService.update(tripnoteVo,account,Integer.valueOf(id));
 		return vo;
 	}
