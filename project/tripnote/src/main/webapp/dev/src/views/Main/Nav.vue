@@ -39,24 +39,24 @@ export default{
                 {
                     name: 'POI库',
                     icon: 'icon3',
-                    route: {name: 'MetaData'},
+                    route: {name: 'poi'},
                     count: 2
                 },
                 {
                     name: '资源库',
                     icon: 'icon4',
-                    route: {name: 'MetaData'},
+                    route: {name: 'res'},
                     count: 16
                 },
                 {
                     name: '客户管理库',
                     icon: 'icon5',
-                    route: {name: 'MetaData'}
+                    route: {name: 'user'}
                 },
                 {
                     name: '我的收藏库',
                     icon: 'icon6',
-                    route: {name: 'MetaData'}
+                    route: {name: 'fav'}
                 },
             ]
         }
@@ -175,9 +175,9 @@ export default{
                     background: #26C24C;
                 }
             } 
-        }
-        li.active{
-            background: #101c24;
+            &.active{
+                background: #101c24;
+            }
         }
     }
     

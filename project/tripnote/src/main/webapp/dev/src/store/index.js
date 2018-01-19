@@ -9,7 +9,8 @@ let view = window.sessionStorage.getItem('viewActive');
 const state = {
     loginSilderInit: false, // 登录页面slider初始化
     routeInfo: {}, // 行程详情
-    setRouteLineActive: true, // 安排行程激活状态
+    setRouteLineActive: false, // 安排行程激活状态
+    setDayScheduleActive: false, // 设置日程激活状态
 
 
 

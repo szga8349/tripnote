@@ -1,18 +1,18 @@
-import TableHeader from "./TableHeader/index"
+// import TableHeader from "./TableHeader/index"
 import Loading from "./Loading/index"
-import NoData from "./NoData/index"
-import MoreLoading from './MoreLoading/index'
+// import NoData from "./NoData/index"
+// import MoreLoading from './MoreLoading/index'
 
-const components = [
-	TableHeader,
+const component = [
+	// TableHeader,
 	Loading,
-	NoData,
-  MoreLoading
+	// NoData,
+  // MoreLoading
 ]
-const commonComponents = {
+const components = {
 	install(Vue) {
-		components.map((val) => val.install(Vue))
+		component.map((val) => val.install(Vue))
 	}
 }
 
-export default commonComponents
+export default components

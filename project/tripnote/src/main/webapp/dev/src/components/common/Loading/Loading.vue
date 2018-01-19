@@ -5,26 +5,26 @@
 </template> -->
 <script>
 	export default{
-		name:"Loading",
+		name: "Loading",
 		data(){
 			return {
-				imgSrc: this.isTree ? require('assets/images/loading_left.gif') : require('assets/images/loading_right.gif')
+				// imgSrc: require('assets/images/loading.gif')
 			}
 		},
 		props:{
 			isloading:{
-				type:Boolean,
-				default:false
-			},
-			isTree: {
+				type: Boolean,
 				default: false
-			}
+			},
+			// isTree: {
+			// 	default: false
+			// }
 		},
 		render(h){
 			if(this.isloading){
-				return <div class="loading-container">
-									<img src={this.imgSrc} />
-							 </div>
+				return <div class="loadingBox">
+							<i class="el-icon-loading"></i>
+					 </div>
 			}else{
 				return
 			}
@@ -32,13 +32,10 @@
 	}
 </script>
 <style media="screen" scope>
-	.loading-container{
+	.loadingBox{
+		margin-top: 120px;
 		min-height: 60px;
 		text-align: center;
-	}
-	.loading-container img{
-		position: relative;
-		transform: translateY(50%);
-		top: -50%;
+		font-size: 30px;
 	}
 </style>

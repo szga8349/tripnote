@@ -8,7 +8,7 @@ const mutations = {
 
     // 行程详情
     [types.SET_ROUTE_INFO](state, playload) {
-        state.setRouteInfo = playload;
+        state.routeInfo = playload;
     },
 
     // 行程详情
@@ -16,14 +16,10 @@ const mutations = {
         state.setRouteLineActive = playload;
     },
 
-
-
-
-
-
-
-
-
+    // 
+    [types.SET_DAY_SCHEDULE_ACTIVE](state, playload) {
+        state.setDayScheduleActive = playload;
+    },
 
 
 
