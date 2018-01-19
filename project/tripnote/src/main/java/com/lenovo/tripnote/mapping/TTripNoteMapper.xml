@@ -181,7 +181,7 @@
               order by t.create_time desc
           </when>
     </choose>
-    ,tts.indexdate asc,ttsrc.create_time asc
+    ,tts.indexdate asc,ttsrc.create_time asc,ttsrc.id asc
   </select>
   
    <select id="getDetailByKey" resultMap="DetailResultMap" parameterType="java.lang.Integer" >
@@ -213,7 +213,7 @@
     left join t_customer tc on tc.id = ts.customer_id 
     left join t_tripnote_schedule tts on tts.tripnote_id = t.id 
     left join t_tripnote_schedule_r_city ttsrc on ttsrc.schedule_id = tts.id
-    left join b_city bc on ttsrc.city_id = bc.id order by  t.create_time desc,tts.indexdate asc,ttsrc.create_time asc
+    left join b_city bc on ttsrc.city_id = bc.id order by  t.create_time desc,tts.indexdate asc,ttsrc.create_time asc,ttsrc.id asc
   </select>
   
   <delete id="deleteByExample" parameterType="com.lenovo.tripnote.entity.TTripNoteExample" >

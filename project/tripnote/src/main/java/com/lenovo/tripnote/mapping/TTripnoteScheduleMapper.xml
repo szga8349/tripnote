@@ -129,7 +129,7 @@
    left join b_user_tripnote but on but.id = ttsru.user_tripnote_id
    left join t_tripnote_schedule_r_city ttsrc on ttsrc.schedule_id = t.id
    left join b_city bc on ttsrc.city_id = bc.id
-   where t.id = #{id,jdbcType=INTEGER} order by ttsrc.create_time asc
+   where t.id = #{id,jdbcType=INTEGER} order by ttsrc.create_time asc,ttsrc.id asc
   </select>
   <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleExample" >
     select
