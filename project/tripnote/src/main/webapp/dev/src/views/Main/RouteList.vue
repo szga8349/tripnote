@@ -4,7 +4,7 @@
             <div class="commonTit">
                 <h2>我的定制</h2>
                 <div class="rightOpts">
-                    <el-button type="primary" icon="el-icon-plus" @click="dialogAddVisible = true">新建定制</el-button>
+                    <el-button type="primary" icon="el-icon-plus" @click="newRoute">新建定制</el-button>
                 </div>
             </div>
 
@@ -15,6 +15,8 @@
                     style="width: 100%"
                     class="routeListTable"
                     :default-sort = "{prop: 'date', order: 'descending'}"
+                    @sort-change="sortChange"
+                    @row-click="rowClick"
                 >
                     <el-table-column
                         prop="title"
@@ -22,13 +24,17 @@
                         sortable
                         >
                         <template slot-scope="scope">
-                            <router-link :to="{path: '/route/' + scope.row.id}" tag="div" class="routeTit">
+                            <div class="routeTit">
                                 <div class="avatar">
                                     <img src="../../assets/images/route_pic_blank.png">
                                 </div>
                                 <h3>{{ scope.row.title }}</h3>
-                                <p>{{ formatSchedule(scope.row.ttripNoteSchedules) }}</p>
-                            </router-link>
+                                <div class="cityList">
+                                    <div :title="formatCityList(scope.row.ttripNoteSchedules)">
+                                        {{formatCityList(scope.row.ttripNoteSchedules)}}
+                                    </div>
+                                </div>
+                            </div>
                         </template>
                     </el-table-column>
                     <el-table-column
@@ -38,16 +44,15 @@
                         width="100">
                     </el-table-column>
                     <el-table-column
-                        prop="days"
+                        prop="custems"
                         label="客人名"
-                        sortable
                         width="110">
                         <template slot-scope="scope">
                             <div v-html="formatCustomer(scope.row.custems)"></div>
                         </template>
                     </el-table-column>
                     <el-table-column
-                        prop="startDate"
+                        prop="start_date"
                         label="出发时间"
                         sortable
                         width="100">
@@ -62,7 +67,7 @@
                         width="100">
                     </el-table-column>
                     <el-table-column
-                        prop="createTime"
+                        prop="publish_time"
                         label="发布时间"
                         sortable
                         width="100">
@@ -77,7 +82,7 @@
                             <template slot-scope="scope">
                                 <el-tooltip placement="top">
                                     <div slot="content">删除</div>
-                                    <a href="javascript:;" @click="delRouteConfirm(scope.row.id)" class="tableDataDel"><i class="el-icon-delete"></i></a>
+                                    <a href="javascript:;" @click.stop="delRouteConfirm(scope.row.id)" class="tableDataDel"><i class="el-icon-delete"></i></a>
                                 </el-tooltip>
                                 
                             </template>
@@ -85,9 +90,11 @@
                 </el-table>
 
                 <el-pagination
+                    background
                     @current-change="handleCurrentChange"
                     :current-page.sync="pageNo"
-                    layout="prev, pager, next"
+                    :page-size="5"
+                    layout="total, prev, pager, next"
                     :total="total">
                 </el-pagination>
 
@@ -103,10 +110,10 @@
 
             <el-dialog title="新建定制" :visible.sync="dialogAddVisible" width="600px">
                 <el-form ref="form" :model="form" label-width="70px" class="formAdd">
-                      <el-form-item label="名称">
+                      <el-form-item label="名称:">
                         <el-input v-model="form.title"></el-input>
                       </el-form-item>
-                      <el-form-item label="行程时段">
+                      <el-form-item label="行程时段:">
                         <el-col :span="10">
                             <el-date-picker
                                 :picker-options="pickerOptions"
@@ -120,26 +127,26 @@
                             </el-date-picker>
                         </el-col>
                         <el-col class="line" :span="4">
-                            <span class="label">行程天数</span>
+                            <span class="label">行程天数:</span>
                         </el-col>
                         <el-col :span="10">
-                          <el-input v-model="form.days"></el-input>
+                          <el-input v-model="form.days" :disabled="true"></el-input>
                         </el-col>
                       </el-form-item>
 
-                      <el-form-item label="出发城市">
+                      <el-form-item label="出发城市:">
                         <el-col :span="10">
                           <el-input v-model="form.startCity"></el-input>
                         </el-col>
                         <el-col class="line" :span="4">
-                            <span class="label">返回城市</span>
+                            <span class="label">返回城市:</span>
                         </el-col>
                         <el-col :span="10">
                           <el-input v-model="form.destination"></el-input>
                         </el-col>
                       </el-form-item>
 
-                    <el-form-item label="">
+                    <el-form-item label="客人信息:">
                         <div class="personList">
                             <ul>
                                 <li v-for="(item, index) in form.personList">
@@ -163,7 +170,7 @@
                         </div>
                     </el-form-item>
 
-                    <el-form-item label="">
+                    <el-form-item label="备注:">
                         <el-input
                             type="textarea"
                             :rows="3"
@@ -172,7 +179,7 @@
                         </el-input>
                     </el-form-item>
 
-                    <el-form-item label="选择模板">
+                    <el-form-item label="选择模板:">
                         <el-select v-model="form.templateType" placeholder="请选择" class="templateType">
                             <el-option
                                 v-for="item in tempateTypeOpts"
@@ -221,12 +228,13 @@ export default {
         RouteTemplate
     },
     watch: {
-        'form.templateType'(val){
+        'form.dateRange'(val){
             if(val != ''){
-                this.templateVisible = true
+                this.form.days = (new Date(val[1]).getTime() - new Date(val[0]).getTime())/(24*60*60*1000) + 1
             }
         }
     },
+
     data() {
         return {
             dialogDelTip: false,
@@ -266,18 +274,50 @@ export default {
             templateVisible: false,
             routeId: '',
             delRouteId: '',
+            sortField: 'create_time',
+            sortType: -1
         }
     },
     created(){
         this.getRouteList()
     },
     methods: {
-        formatSchedule(schedules){
-            var _s = []
-            for (var i = 0; i < schedules.length; i++) {
-                _s.push(schedules[i].title)
+        newRoute(){
+            this.dialogAddVisible = true
+            this.form = {
+                title: '',
+                days: '',
+                destination: '',
+                dateRange: '',
+                remark: '',
+                personList: [],
+                templateType: '',
+                startCity: ''
             }
-            return _s.join(' / ')
+        },
+
+
+        sortChange(column, prop, order){
+            if(column.prop){
+                this.sortField = column.prop
+                this.sortType = column.order == 'ascending' ? 1 : -1
+
+                this.getRouteList()
+            }
+        },
+
+        rowClick(row, event, column){
+            this.$router.push({path: '/route/' + row.id})
+        },
+
+        formatCityList(ttripNoteSchedules){
+            var _cityList = []
+            for (var i = 0; i < ttripNoteSchedules.length; i++) {
+                for (var j = 0; j < ttripNoteSchedules[i].citys.length; j++) {
+                    _cityList.push(ttripNoteSchedules[i].citys[j].nameCn)
+                }
+            }
+            return _cityList.join(' / ')
         },
 
         formatCustomer(customers){
@@ -297,13 +337,13 @@ export default {
                 url: '/tripnote/tripnote/doSearch',
                 data: {
                     pageNo: this.pageNo,
-                    pageSize: this.pageSize
+                    pageSize: this.pageSize,
+                    sortField: this.sortField,
+                    ascOrDes: this.sortType,
                 }
             })
             .then((res)=>{
-                setTimeout(function(){
-                    vm.tableDataLoading = false
-                }, 1000)
+                vm.tableDataLoading = false
                 if(res.data.code == -1){
                     this.$message({
                         message: res.data.message,
@@ -312,10 +352,6 @@ export default {
                     });
                 }else{
                     this.tableData = res.data.data.data
-                    
-                    this.pageNo = res.data.data.pageNo
-                    console.log(this.pageNo)
-
                     this.total = res.data.data.total
                 }
             })
@@ -325,6 +361,7 @@ export default {
             this.pageNo = val
             this.getRouteList()
         },
+
         formatter(row, column) {
             return row.address;
         },
@@ -399,10 +436,24 @@ export default {
                         duration: 2000
                     });
                 }else{
+                    // this.addDayCity(res.data.data)
+
                     this.$router.push({path: '/route/' + this.routeId})
                 }
             })
         },
+
+        // async addDayCity(cityList){
+        //     const res1 = await this.$http({
+        //         method: 'POST',
+        //         url: '/tripnote/tripnote/schedulecity/doAdd',
+        //         data:{
+        //             cityId: item.id,
+        //             scheduleId: this.dayId
+        //         }
+        //     })
+            
+        // },
 
         templateCallback(data){
             this.templateVisible = false
@@ -455,6 +506,7 @@ export default {
     td{
         padding: 20px 0;
         color: #9FA5B0;
+        cursor: pointer;
     }
 }
 .tableDataDel{
@@ -475,9 +527,15 @@ export default {
         font-weight: normal;
         color: #444;
     }
-    p{
-        margin-top: 15px;
+    .cityList{
+        margin-top: 20px;
         margin-left: 95px;
+        div{
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
     }
 }
 .addNewRouteTip{

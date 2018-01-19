@@ -60,7 +60,7 @@
                 </div>
             </li>
             <li>
-                <input type="password" placeholder="密 码" v-model="loginPwd" :class="{'error': loginPwdError}" @blur="checkLoginPwd" @keyup="clearLoginPwdError">
+                <input type="password" placeholder="密 码" v-model="loginPwd" :class="{'error': loginPwdError}" @blur="checkLoginPwd" @keyup="clearLoginPwdError" @keyup.enter="login">
                 <div class="errorInfo" v-if="loginPwdErrorVisible">
                     {{loginPwdErrorInfo}}
                 </div>

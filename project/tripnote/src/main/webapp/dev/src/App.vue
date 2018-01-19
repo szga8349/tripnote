@@ -8,5 +8,11 @@
 import Vue from 'vue'
 
 export default {
+    name: 'app',
+    data() {
+        return {
+            
+        }
+    }
 }
 </script>

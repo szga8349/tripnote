@@ -400,9 +400,9 @@ export default {
                 right: 16px;
                 top: 16px;
             }
-        }
-        li.active{
-            background: #F7F8F9;
+            &.active{
+                background: #F7F8F9;
+            }
         }
     }
     .routeDetail{

@@ -4,6 +4,10 @@
  *
  */
 
+.el-button--medium{
+  padding: 6px 20px !important;
+}
+
 // table
 .el-table{
   font-size: 13px;
@@ -24,6 +28,12 @@
     background: #f2f4f8;
     font-weight: normal;
     font-size: 13px;
+}
+.el-table th > .cell{
+  line-height: 36px !important;
+}
+.el-table .caret-wrapper{
+  margin-top: -2px;
 }
 .el-table::before{
     height: 0;
@@ -119,7 +129,9 @@
 // button
 
 .el-pagination{
+  padding-top: 20px;
   font-weight: normal;
+  text-align: right;
 }
 .el-checkbox-group{
   font-size: 14px;
@@ -167,8 +179,9 @@
 @toastImgUrl: '../images/toast';
 
 .el-message{
+    top: 12px;
     min-width: 380px;
-    height: 37px;
+    height: 38px;
 }
 // .el-message__icon{
 //   display: inline-block;

@@ -15,6 +15,10 @@ const actions = {
         commit(types.SET_ROUTE_LINE_ACTIVE, playload)
     },
 
+    setDayScheduleActive({commit}, playload){
+        commit(types.SET_DAY_SCHEDULE_ACTIVE, playload)
+    },
+
 
 
 

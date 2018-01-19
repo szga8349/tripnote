@@ -22,6 +22,12 @@
                 <div class="name">
                     <span class="tit">Danior</span>
                     <i class="el-icon-caret-bottom"></i>
+                    <div class="menu">
+                        <ul>
+                            <li><i class="iconfont icon-zhanghaoshezhi"></i>账号设置</li>
+                            <li @click="logout"><i class="iconfont icon-tuichu"></i>退出账号</li>
+                        </ul>
+                    </div>
                 </div>
                 <div class="avatar">
                     <img src="../../assets/images/avatar.png" width="42px" height="42px">
@@ -49,6 +55,23 @@
       // this.testSourceAuthority()
     },
     methods: {
+        logout(){
+            this.$http({
+                method: 'POST',
+                url: '/tripnote/login/logout'
+            })
+            .then((res)=>{
+                if(res.data.code != 1){
+                    this.$message({
+                        message: res.data.message,
+                        type: 'error',
+                        duration: 2000
+                    });
+                }else{
+                    this.$router.push({name: 'Login'})
+                }
+            })
+        }
       // async testSourceAuthority(){
       //   const res = await this.$http.get('/space/init');
       //   const {statusCode, message} = res.body;
@@ -148,7 +171,39 @@
         line-height: 60px;
         font-size: 14px;
         .name{
+            position: relative;
             float: left;
+            .menu{
+                display: none;
+                position: absolute;
+                z-index: 100;
+                top: 50px;
+                right: 0;
+                width: 135px;
+                padding: 12px 0;
+                background: #fff;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+                li{
+                    overflow: hidden;
+                    line-height: 36px;
+                    padding-left: 18px;
+                    cursor: pointer;
+                    i{
+                        display: inline-block;
+                        vertical-align: middle;
+                        margin-top: -3px;
+                        margin-right: 12px;
+                    }
+                    &:hover{
+                        background: #E9F1F1;
+                    }
+                }
+            }
+            &:hover{
+                .menu{
+                    display: block;
+                }
+            }
         }
         .avatar{
             float: left;

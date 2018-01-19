@@ -18,6 +18,7 @@ axios.interceptors.request.use(config => {
     if(config.method == 'GET'){
         config.url = config.url.indexOf('?') > 0 ? config.url + '&clearCache=' + new Date().valueOf() : config.url + '?clearCache=' + new Date().valueOf()
     }
+
     return config
 }, error => {
     return Promise.reject(error)
@@ -43,7 +44,7 @@ import store from './store'
 
 import Element from 'element-ui'
 
-//Element国际化
+// Element国际化
 import langZh from 'element-ui/lib/locale/lang/zh-CN'
 import langEn from 'element-ui/lib/locale/lang/en'
 
@@ -63,7 +64,7 @@ import directive from 'directives';
 
 import './directives/hiddenElement'
 
-// import commonComponents from 'components/common';
+import components from 'components/common';
 // import Plugins from './plugins'
 
 import {
@@ -72,12 +73,25 @@ import {
 } from 'locale/international.js'
 
 
+// Require Froala Editor js file.
+require('froala-editor/js/froala_editor.pkgd.min')
+
+// Require Froala Editor css files.
+require('froala-editor/css/froala_editor.pkgd.min.css')
+require('font-awesome/css/font-awesome.css')
+require('froala-editor/css/froala_style.min.css')
+
+// Import and use Vue Froala lib.
+import VueFroala from 'vue-froala-wysiwyg'
+Vue.use(VueFroala)
+
+
 // Vue.use(VueResource)
 // Vue.use(VueHighcharts, { Highcharts })
 
 Vue.use(directive)
 Vue.use(VueI18n)
-// Vue.use(commonComponents)
+Vue.use(components)
 // Vue.use(Plugins)
 
 import router from './router'

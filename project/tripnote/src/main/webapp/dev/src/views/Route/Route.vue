@@ -13,35 +13,52 @@
             </div>
         </div>
 
-        <div class="dayList">
+        <div class="columnBox dayList" :class="{setDayScheduleActive: setDayScheduleActive}">
             <div class="header">
-                <div class="tit">行程路线</div>
+                <div class="tit"><i class="iconfont icon-luxian"></i>行程路线</div>
                 <div class="opts">
-                    <el-button size="small" type="primary" round @click="setRouteLine" v-if="!setRouteLineActive">
+                    <a href="javascript:;" @click="setRouteLine" v-if="!setRouteLineActive" class="actionBtn">
                         <i class="iconfont icon-bianji-blue"></i>
-                        安排路线
-                    </el-button>
+                        <span>安排路线</span>
+                    </a>
                 </div>
                 <!-- <a href="javascript:;" class="setRoute" >安排路线</a> -->
             </div>
             
             <div class="content">
                 <ul>
-                    <router-link :to="{path: '/route/' + routeId + '/overview'}" tag="li" class="summary" v-if="!setRouteLineActive">
+                    <router-link :to="{path: '/route/' + routeId + '/intro'}" tag="li" class="summary" v-if="!setRouteLineActive">
                         线路总览
                     </router-link>
 
                     <router-link tag="li" v-for="(value, index) in scheduleInfo" :to="{path: '/route/' + routeId + '/day/' + value.id}">
-                        <div class="day">D{{value.indexdate}}</div>
+                        <div class="day" :class="{noCity: value.citys.length==0}">D{{value.indexdate}}</div>
                         <div class="date" v-if="!setRouteLineActive">{{formatDateWeek(startDate, index)}}</div>
-                        <div class="site">{{value.title}}</div>
-                        <div class="del" @click.stop="delRouteDayConfirm(value.id)" v-if="setRouteLineActive">
+                        <div class="cityList">
+                            <div class="item" v-for="(item, index) in value.citys">
+                                <span class="cityName" :class="{init: !item.scheduleId}">
+                                    {{item.nameCn}}
+                                    <span class="delCity" @click="delDayCity(item.id)" v-if="item.scheduleId">
+                                        <i class="iconfont icon-shanchu1"></i>
+                                    </span>
+                                </span>
+                                <span class="arrow">
+                                    <i class="iconfont icon-jiantou02"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="del" @click.stop="delRouteDayConfirm(value.id, value.indexdate)" v-if="setRouteLineActive">
                             <i class="iconfont icon-cha"></i>
                         </div>
-                        <div class="addDay" v-if="setRouteLineActive">
-                            <el-button size="mini" round icon="el-icon-plus" @click.stop="addRouteDay(value.id,value.indexdate)">插入一天</el-button>
+                        <div class="insertDay" v-if="setRouteLineActive">
+                            <el-button size="mini" round icon="el-icon-plus" @click.stop="insertRouteDay(value.id,value.indexdate)">插入一天</el-button>
                         </div>
                     </router-link>
+
+                    <li class="addDay" v-if="setRouteLineActive" @click="addRouteDay">
+                        <i class="el-icon-circle-plus-outline"></i>
+                        添加一天
+                    </li>
 
                     <router-link :to="{path: '/route/' + routeId + '/remarks'}" tag="li" class="summary" v-if="!setRouteLineActive">
                         行程备注
@@ -52,6 +69,11 @@
 
         <router-view></router-view>
 
+        <set-city 
+            :dayId="dayId"
+            :cityInfo="cityInfo"
+            v-if="setRouteLineActive"
+        ></set-city>
 
         <el-dialog title="提示" :visible.sync="dialogDelDayTip" width="450px">
             <div class="delTipCon">
@@ -68,8 +90,14 @@
 <script>
 import {mapState} from 'vuex'
 import { FormatDateWeek } from 'mixins/common'
+import Bus from 'utils/bus'
+
+import SetCity from './RouteSetCity'
 
 export default {
+    components: {
+        SetCity
+    },
     mixins: [ FormatDateWeek ],
     data() {
         return {
@@ -79,25 +107,62 @@ export default {
             startDate: '',
             dialogDelDayTip: false,
             delRouteDayId: '',
+            delRouteDayIndex: '',
+            cityInfo: [],
+
+            addDayPrevCity: '',
+            addDayIndexdate: '',
+            addDayNextDayId: '',
+            addDayInsertDay: '',
+            addDayUpdateIndexList: [],
+
         }
     },
 
     computed: {
         ...mapState({
             routeInfo: 'routeInfo',
+            setDayScheduleActive: 'setDayScheduleActive',
             setRouteLineActive: 'setRouteLineActive'
         }),
         routeId(){
-            if(this.routeInfo.id){
-                return this.routeInfo.id
-            }else{
-                var _path = this.$route.path
-                return _path.split('/')[2]
-            }
+            return this.$route.params.id
+        },
+        dayId(){
+            // if(this.routeInfo.daySel){
+            //     return this.routeInfo.daySel
+            // }else{
+            //     var _path = this.$route.path
+
+            //     return _path.split('/')[4] ? parseInt(_path.split('/')[4]) : -1
+            // }
+            console.log(this.$route.params.dayId)
+            return this.$route.params.dayId ? parseInt(this.$route.params.dayId) : -1
         }
     },
     created(){
         this.getRouteInfo()
+        var vm = this
+        Bus.$on('refreshDay', function(){
+            vm.getRouteInfo()
+        })
+
+        Bus.$on('addCityToDayInit', function(item){
+            vm.addCityToDayInit(item)
+        })
+
+        Bus.$on('addToDaySubmit', function(item){
+            console.log(123)
+            vm.addToDaySubmit(item)
+        })
+
+        Bus.$on('addCityToDayAdd', function(item){
+            vm.addCityToDayAdd(item)
+        })
+
+        Bus.$on('addCityToDayReduce', function(item){
+            vm.addCityToDayReduce(item)
+        })
     },
 
     // watch: {
@@ -109,6 +174,260 @@ export default {
     // },
 
     methods: {
+        addCityToDayInit(item){
+            this.addDayPrevCity = ''
+            this.addDayIndexdate = ''
+            this.addDayNextDayId = ''
+            this.addDayInsertDay = ''
+            this.addDayUpdateIndexList = []
+
+            var _indexdate;
+            for (var i = 0; i < this.scheduleInfo.length; i++) {
+                if(this.scheduleInfo[i].id == this.dayId){
+                    if(i > 0 && this.scheduleInfo[i].citys.length == 0 && this.scheduleInfo[i-1].citys.length > 0){
+                        var _prevCity = this.scheduleInfo[i-1].citys
+                        _prevCity = _.clone(_prevCity[_prevCity.length - 1])
+
+                        if(_prevCity.nameCn != item.nameCn){
+                            delete _prevCity['scheduleId']
+
+                            this.scheduleInfo[i].citys.push(_prevCity)
+                            this.addDayPrevCity = _prevCity.cityId
+                        }else{
+                            this.addDayPrevCity = ''
+                        }
+                        
+                    }else{
+                        this.addDayPrevCity = ''
+                    }
+
+                    this.scheduleInfo[i].citys.push(item)
+                    _indexdate = this.scheduleInfo[i].indexdate 
+                    this.addDayIndexdate = _indexdate
+                }
+            }
+
+            // this.scheduleInfo.insert(_indexdate, {
+            //     citys: [item]
+            //     id: -1,
+            //     indexdate: 2,
+            //     introduction: null,
+            //     scheduletrips: null,
+            //     title: null,
+            //     traffics: null,
+            //     tripnoteId: 72,
+            //     usertripnotes: null
+            // });
+
+
+            for (var i = 0; i < this.scheduleInfo.length; i++) {
+                if(this.scheduleInfo[i].indexdate == _indexdate + 1){
+                    if(this.scheduleInfo[i].citys.length > 0){
+                        this.scheduleInfo[i].citys = [item].concat(this.scheduleInfo[i].citys)
+                        this.addDayNextDayId = this.scheduleInfo[i].id
+                    }else{
+                        this.addDayNextDayId = ''
+                    }
+                }
+            }
+        },
+
+        // 添加一天
+        addCityToDayAdd(item){
+            // 插入数组元素
+            Array.prototype.insert = function (index, item) {  
+                this.splice(index, 0, item);  
+            }
+
+            this.scheduleInfo.insert(this.addDayIndexdate, {
+                citys: [item],
+                id: -1,
+                indexdate: this.addDayIndexdate + 1,
+                introduction: null,
+                scheduletrips: null,
+                title: '添加一天',
+                traffics: null,
+                tripnoteId: null,
+                usertripnotes: null
+            });
+
+            this.addDayInsertDay = item.num
+
+            this.addDayUpdateIndexList = []
+            for (var i = 0; i < this.scheduleInfo.length; i++) {
+                if(i > this.addDayIndexdate){
+                    this.scheduleInfo[i].indexdate = this.scheduleInfo[i].indexdate + 1
+
+                    if(this.scheduleInfo[i].id != -1){
+                        this.addDayUpdateIndexList.push({
+                            scheduleid: this.scheduleInfo[i].id,
+                            indexdate: this.scheduleInfo[i].indexdate
+                        })
+                    }
+                }
+            }
+        },
+
+        // 减少一天
+        addCityToDayReduce(item){
+            // 插入数组元素
+            Array.prototype.insert = function (index, item) {  
+                this.splice(index, 0, item);  
+            }
+
+            this.scheduleInfo.splice(this.addDayIndexdate, 1)
+
+            this.addDayInsertDay = item.num
+
+            this.addDayUpdateIndexList = []
+            for (var i = 0; i < this.scheduleInfo.length; i++) {
+                if(i >= this.addDayIndexdate){
+                    this.scheduleInfo[i].indexdate = this.scheduleInfo[i].indexdate - 1
+
+                    if(this.scheduleInfo[i].id != -1){
+                        this.addDayUpdateIndexList.push({
+                            scheduleid: this.scheduleInfo[i].id,
+                            indexdate: this.scheduleInfo[i].indexdate
+                        })
+                    }
+                }
+            }
+        },
+
+        // 添加当天的城市
+        async addToDaySubmit(item){
+            console.log(item)
+
+            console.log('addDayPrevCity', this.addDayPrevCity)
+            console.log(this.addDayInsertDay)
+            console.log(this.addDayUpdateIndexList)
+
+            var res0 = {data:{code:1}}
+            var res1
+            if(this.addDayPrevCity != ''){
+                res0 = await this.$http({
+                    method: 'post',
+                    url: '/tripnote/tripnote/schedulecity/doAdd',
+                    data:{
+                        cityId: this.addDayPrevCity,
+                        scheduleId: this.dayId
+                    }
+                })
+                if(res0.data.code == -1){
+                    this.$message({
+                        message: res0.data.message,
+                        type: 'error',
+                        duration: 2000
+                    });
+                }else{
+                    // 添加当天的城市
+                    res1 = await this.$http({
+                        method: 'post',
+                        url: '/tripnote/tripnote/schedulecity/doAdd',
+                        data:{
+                            cityId: item.id,
+                            scheduleId: this.dayId
+                        }
+                    })
+                    if(res1.data.code == -1){
+                        this.$message({
+                            message: res1.data.message,
+                            type: 'error',
+                            duration: 2000
+                        });
+                    }
+                }
+            }else{
+                // 添加当天的城市
+                res1 = await this.$http({
+                    method: 'post',
+                    url: '/tripnote/tripnote/schedulecity/doAdd',
+                    data:{
+                        cityId: item.id,
+                        scheduleId: this.dayId
+                    }
+                })
+                if(res1.data.code == -1){
+                    this.$message({
+                        message: res1.data.message,
+                        type: 'error',
+                        duration: 2000
+                    });
+                }
+            }
+
+            // 添加插入的天及城市
+            var _data = []
+            for (var i = 0; i < this.addDayInsertDay; i++) {
+                _data.push({
+                    indexdate: this.addDayIndexdate + i + 1,
+                    cityId: item.id
+                })
+            }
+
+            const res2 = await this.$http({
+                method: 'post',
+                url: '/tripnote/tripnote/schedule/doAddIndexdate/' + this.routeId,
+                data:{
+                    indexdates: JSON.stringify({"indexdates":_data}),
+                }
+            })
+            if(res2.data.code == -1){
+                this.$message({
+                    message: res2.data.message,
+                    type: 'error',
+                    duration: 2000
+                });
+            }
+
+            var res3 = {data:{code:1}}
+            if(this.addDayNextDayId != ''){
+                // 添加下一天的城市
+                res3 = await this.$http({
+                    method: 'post',
+                    url: '/tripnote/tripnote/schedulecity/doAddFrist',
+                    data:{
+                        cityId: item.id,
+                        scheduleId: this.addDayNextDayId
+                    }
+                })
+                if(res3.data.code == -1){
+                    this.$message({
+                        message: res3.data.message,
+                        type: 'error',
+                        duration: 2000
+                    });
+                }
+            }
+            
+
+            // 更新nextday的indexdate
+            var _data = []
+            for (var i = 0; i < this.addDayUpdateIndexList.length; i++) {
+                this.addDayUpdateIndexList[i]
+            }
+            const res4 = await this.$http({
+                method: 'post',
+                url: '/tripnote/tripnote/schedule/doUpdateIndexDate',
+                data: {
+                    indexdates: JSON.stringify({"indexdates": this.addDayUpdateIndexList}),
+                }
+            })
+            if(res4.data.code == -1){
+                this.$message({
+                    message: res4.data.message,
+                    type: 'error',
+                    duration: 2000
+                });
+            }
+
+            if(res0.data.code && res1.data.code && res2.data.code && res3.data.code && res4.data.code){
+                console.log('done')
+                this.getRouteInfo()
+            }
+        },
+
+
         setRouteLine(){
             // this.setRouteLineActive = !this.setRouteLineActive
             this.$store.dispatch('setRouteLineActive', !this.setRouteLineActive)
@@ -119,8 +438,7 @@ export default {
             this.$http({
                 method: 'get',
                 url: '/tripnote/tripnote/doDetail/' + _routeId,
-            })
-            .then((res)=>{
+            }).then((res)=>{
                 if(res.data.code == -1){
                     this.$message({
                         message: res.data.message,
@@ -130,22 +448,99 @@ export default {
                 }else{
                     this.routeName = res.data.data.title
                     this.scheduleInfo = res.data.data.ttripNoteSchedules
+
                     this.startDate = res.data.data.startDate
 
-                    this.$store.dispatch('setRouteInfo', {routeOverview: res.data.data.introduction})
+                    var _routeInfo = $.extend({}, this.routeInfo, {
+                        intro: res.data.data.introduction,
+                        remarks: res.data.data.remarks,
+                        dayInfo: this.scheduleInfo
+                    })
+
+                    this.$store.dispatch('setRouteInfo', _routeInfo)
+
+                    var _cityList = []
+
+                    for (var i = 0; i < this.scheduleInfo.length; i++) {
+                        _cityList = _cityList.concat(this.scheduleInfo[i].citys)
+                    }
+
+                    this.cityInfo = _cityList
+
+
+                    // Bus.$emit('refreshDayCity', true)
+
                 }
             })
         },
 
-        delRouteDayConfirm(id){
+        delRouteDayConfirm(id, index){
             this.delRouteDayId = id
+            this.delRouteDayIndex = index
             this.dialogDelDayTip = true
         },
 
         delRouteDay(){
+            var vm = this
             this.$http({
                 method: 'get',
                 url: '/tripnote/tripnote/schedule/doDelete/' + this.delRouteDayId,
+            })
+            .then((res)=>{
+                if(res.data.code == -1){
+                    vm.$message({
+                        message: res.data.message,
+                        type: 'error',
+                        duration: 2000
+                    });
+                }else{
+                    vm.dialogDelDayTip = false
+                    vm.$message({
+                        message: '删除成功！',
+                        type: 'success',
+                        duration: 2000
+                    })
+
+                    var _data = []
+                    for (var i = 0; i < vm.scheduleInfo.length; i++) {
+                        if(vm.scheduleInfo[i].indexdate > vm.delRouteDayIndex){
+                            var _index = vm.scheduleInfo[i].indexdate - 1
+                            _data.push({
+                                'indexdate': _index,
+                                'scheduleid': vm.scheduleInfo[i].id
+                            })
+                        }
+                    }
+                    vm.$http({
+                        method: 'post',
+                        url: '/tripnote/tripnote/schedule/doUpdateIndexDate',
+                        data: {
+                            indexdates: JSON.stringify({"indexdates":_data}),
+                        }
+                    })
+                    .then((res)=>{
+                        if(res.data.code == -1){
+                            vm.$message({
+                                message: res.data.message,
+                                type: 'error',
+                                duration: 2000
+                            });
+                        }else{
+                            vm.getRouteInfo()
+                        }
+                    })
+                }
+            })
+        },
+        
+        addRouteDay(){
+            this.$http({
+                method: 'post',
+                url: '/tripnote/tripnote/schedule/doAdd',
+                data: {
+                    indexdate: this.scheduleInfo.length + 1,
+                    tripnoteId: this.routeId
+                }
             })
             .then((res)=>{
                 if(res.data.code == -1){
@@ -155,28 +550,94 @@ export default {
                         duration: 2000
                     });
                 }else{
-                    this.dialogDelDayTip = false
-                    this.$message({
-                        message: '删除成功！',
-                        type: 'success',
-                        duration: 2000
-                    })
-
                     this.getRouteInfo()
                 }
             })
         },
 
 
-        addRouteDay(id, indexdate){
+        insertRouteDay(id, indexdate){
+            var _data = []
+            for (var i = 0; i < this.scheduleInfo.length; i++) {
+                if(this.scheduleInfo[i].indexdate >= indexdate){
+                    var _index = this.scheduleInfo[i].indexdate + 1
+                    _data.push({
+                        'indexdate': _index,
+                        'scheduleid': this.scheduleInfo[i].id
+                    })
+                }
+            }
+            this.$http({
+                method: 'post',
+                url: '/tripnote/tripnote/schedule/doUpdateIndexDate',
+                data: {
+                    indexdates: JSON.stringify({"indexdates":_data}),
+                }
+            })
+            .then((res)=>{
+                if(res.data.code == -1){
+                    this.$message({
+                        message: res.data.message,
+                        type: 'error',
+                        duration: 2000
+                    });
+                }else{
+                    this.$http({
+                        method: 'post',
+                        url: '/tripnote/tripnote/schedule/doAdd',
+                        data: {
+                            indexdate: indexdate,
+                            tripnoteId: this.routeId
+                        }
+                    })
+                    .then((res)=>{
+                        if(res.data.code == -1){
+                            this.$message({
+                                message: res.data.message,
+                                type: 'error',
+                                duration: 2000
+                            });
+                        }else{
+                            this.getRouteInfo()
+                        }
+                    })
+                }
+            })
+        },
 
+        delDayCity(id){
+            this.$http({
+                method: 'post',
+                url: '/tripnote/tripnote/schedulecity/doDelete/' + id,
+            })
+            .then((res)=>{
+                if(res.data.code == -1){
+                    this.$message({
+                        message: res.data.message,
+                        type: 'error',
+                        duration: 2000
+                    });
+                }else{
+                    this.getRouteInfo()
+                }
+            })
         }
-
-
-
-
-        
     },
+
+    destroyed(){
+        Bus.$off('refreshDay')
+
+        Bus.$off('addCityToDayInit')
+
+        Bus.$off('addToDaySubmit')
+
+        Bus.$off('addCityToDayAdd')
+
+        Bus.$off('addCityToDayReduce')
+
+
+        this.$store.dispatch('setRouteLineActive', false)
+    }
 }
 </script>
 <style lang="less" scope>
@@ -307,55 +768,40 @@ export default {
         background: #fff;
     }
     .dayList{
-        position: absolute;
         top: 80px;
         bottom: 20px;
         left: 20px;
         width: 260px;
-        .header{
-            height: 55px;
-            border-bottom: 1px solid #EAEDF1;
-            background: #fff;
-            box-shadow: 0 0 10px rgba(0,0,0,.1);
-            .tit{
-                float: left;
-                height: 55px;
-                padding-left: 38px;
-                line-height: 55px;
-                font-size: 16px;
-                background: url(../../assets/images/icon_map_point.png) 15px center no-repeat;
+        transition: all .3s ease;
+        &.setDayScheduleActive{
+            width: 140px;
+            .header{
+                .opts{
+                    display: none;
+                }
             }
-            .opts{
-                float: right;
-                margin-right: 15px;
-                padding-top: 12px;
-                .el-button.is-round{
-                    height: 30px;
-                    padding: 0 12px;
-                    line-height: 28px;
-                    font-size: 12px;
-                    i{
-                        float: left;
-                        margin-right: 5px;
-                        font-size: 12px;
+            .content{
+                li{
+                    .date{
+                        width: 35px;
                     }
                 }
             }
         }
+        .header{
+            .tit{
+                i{
+                    display: inline-block;
+                    font-size: 24px;
+                    vertical-align: middle;
+                    margin-top: -3px;
+                }
+            }
+        }
         .content{
-            z-index: 1;
-            position: absolute;
-            top: 55px;
-            left: 0;
-            bottom: 0;
-            width: 260px;
-            overflow-y: auto;
-            background: #fff;
-            box-shadow: 0 3px 10px rgba(0,0,0,.1);
-
             li{
                 position: relative;
-                height: 100px;
+                min-height: 100px;
                 padding: 12px 15px;
                 border-bottom: 1px solid #EBEEF2;
                 color: #666;
@@ -364,30 +810,72 @@ export default {
                     float: left;
                     line-height: 36px;
                     font-size: 36px;
+                    &.noCity{
+                        color: #C8D0D5;
+                    }
                 }
                 .date{
                     float: right;
                     font-size: 12px;
                     color: #A1ACB3;
                 }
-                .site{
+                .cityList{
                     clear: both;
-                    padding-top: 12px;
-                    font-size: 16px;
+                    overflow: hidden;
+                    padding-top: 15px;
+                    font-size: 14px;
+                    .item{
+                        float: left;
+                        .cityName{
+                            float: left;
+                            position: relative;
+                            .delCity{
+                                display: none;
+                                position: absolute;
+                                right: -5px;
+                                top: -12px;
+                                i{
+                                    font-size: 14px;
+                                    color: #F56C6C;
+                                    &:hover{
+                                        color: red;
+                                    }
+                                }
+                            }
+                            &.init{
+                                padding: 0 5px;
+                                border: 1px dashed #ccc;
+                            }
+                            &:hover{
+                                .delCity{
+                                    display: block;
+                                }
+                            }
+                        }
+                        .arrow{
+                            float: left;
+                            padding: 0 5px;
+                        }
+                        &:last-child{
+                            .arrow{
+                                display: none;
+                            }
+                        }
+                    }
                 }
                 .del{
                     position: absolute;
-                    top: 10px;
+                    top: 12px;
                     right: 15px;
                     i{
-                        font-size: 24px;
+                        font-size: 20px;
                         color: #D7DEE2;
                         &:hover{
                             color: #F56C6C;
                         }
                     }
                 }
-                .addDay{
+                .insertDay{
                     position: absolute;
                     width: 97px;
                     height: 22px;
@@ -410,19 +898,37 @@ export default {
                         }
                     }
                 }
-            }
-
-            li.summary{
-                height: 55px;
-                line-height: 32px;
-                font-size: 16px;
-            }
-            li.active{
-                background: #F7F8F9;
+                &.summary{
+                    min-height: 55px;
+                    height: 55px;
+                    line-height: 32px;
+                    font-size: 16px;
+                }
+                &.active{
+                    background: #F7F8F9;
+                    .day{
+                        color: #23a16d;
+                    }
+                }
+                &:hover{
+                    background: #F7F8F9;
+                }
+                &.addDay{
+                    min-height: 55px;
+                    height: 55px;
+                    line-height: 32px;
+                    font-size: 16px;
+                    text-align: center;
+                    i{
+                        margin-right: 3px;
+                        vertical-align: middle;
+                        margin-top: -3px;
+                        font-size: 20px;
+                        color: #23a16d;
+                    }
+                }
             }
         }
-
-        
     }
     .routeDetail{
         position: absolute;

@@ -5,12 +5,14 @@ import Login from 'views/Login/Login'
 
 import Main from 'views/Main/Main'
 import MainRouteList from 'views/Main/RouteList'
+import MainPoiList from 'views/Main/PoiList'
 import MainTemplateList from 'views/Main/TemplateList'
 
 import Route from 'views/Route/Route'
-import RouteOverview from 'views/Route/RouteOverview'
+import RouteIntro from 'views/Route/RouteIntro'
 import RouteRemarks from 'views/Route/RouteRemarks'
 import DayDetail from 'views/Route/DayDetail'
+import DaySchedule from 'views/Route/DaySchedule'
 
 
 Vue.use(Router)
@@ -28,6 +30,7 @@ let routes = [
         children: [
             {path: '', redirect: { name: 'route' }},
             {path: 'route', name: 'route', component: MainRouteList},
+            {path: 'poi', name: 'poi', component: MainPoiList},
             {path: 'template', name: 'template', component: MainTemplateList},
         ]
     },
@@ -37,10 +40,14 @@ let routes = [
         name: 'Route',
         component: Route,
         children: [
-            {path: '', redirect: { name: 'RouteOverview' }},
-            {path: 'overview', name: 'RouteOverview', component: RouteOverview},
+            {path: '', redirect: { name: 'RouteIntro'}},
+            {path: 'intro', name: 'RouteIntro', component: RouteIntro},
             {path: 'remarks', name: 'RouteRemarks', component: RouteRemarks},
-            {path: 'day/:id', name: 'DayDetail', component: DayDetail},
+            {path: 'day/:dayId', name: 'DayDetail', component: DayDetail,
+                children: [
+                    {path: 'schedule', name: 'schedule', component: DaySchedule},
+                ]
+            },
             // {path: 'template', name: 'template', component: MainTemplateList},
 
             // {path: '',  redirect: 'MetaData'},
