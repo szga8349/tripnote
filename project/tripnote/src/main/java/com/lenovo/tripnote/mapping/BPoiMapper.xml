@@ -26,6 +26,40 @@
   <resultMap id="ResultMapWithBLOBs" type="com.lenovo.tripnote.entity.BPoi" extends="BaseResultMap" >
     <result column="guide" property="guide" jdbcType="LONGVARCHAR" />
   </resultMap>
+  
+  
+   <resultMap id="SearchResultMap" type="com.lenovo.tripnote.entity.vo.BPoiResultVo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name_cn" property="nameCn" jdbcType="VARCHAR" />
+    <result column="name_en" property="nameEn" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="lon" property="lon" jdbcType="DOUBLE" />
+    <result column="lat" property="lat" jdbcType="DOUBLE" />
+    <result column="city_id" property="cityId" jdbcType="INTEGER" />
+    <result column="cityname" property="cityname" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="permissions_type" property="permissionsType" jdbcType="INTEGER" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="open_time" property="openTime" jdbcType="VARCHAR" />
+    <result column="consum_description" property="consumDescription" jdbcType="VARCHAR" />
+    <result column="traffic_instructions" property="trafficInstructions" jdbcType="VARCHAR" />
+    <result column="time_reference" property="timeReference" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DOUBLE" />
+    <result column="address_instrations" property="addressInstrations" jdbcType="VARCHAR" />
+    <result column="supplier" property="supplier" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <association property="city" resultMap="cityResultMap" />
+  </resultMap>
+  
+  <resultMap id="cityResultMap" type="com.lenovo.tripnote.entity.vo.BCityResultVo" >
+    <id column="cityid" property="id" jdbcType="INTEGER" />
+    <result column="city_name_cn" property="nameCn" jdbcType="VARCHAR" />
+    <result column="city_name_en" property="nameEn" jdbcType="VARCHAR" />
+    <result column="city_lat" property="lat" jdbcType="DOUBLE" />
+    <result column="city_lon" property="lon" jdbcType="DOUBLE" />
+  </resultMap>
+  
   <sql id="Base_Column_List" >
     id, name_cn, name_en, address, lon, lat, city_id, cityname, `type`, permissions_type, 
     phone, open_time, consum_description, traffic_instructions, time_reference, price, 
@@ -152,6 +186,16 @@
       order by ${orderByClause}
     </if>
   </select>
+  
+  <select id="selectAndPage" resultMap="SearchResultMap" parameterType="com.lenovo.tripnote.entity.vo.BPoiSearchVo" >
+    select
+    bp.id, bp.name_cn, bp.name_en, bp.address, bp.lon, bp.lat, bp.city_id, bp.cityname, bp.`type`, bp.permissions_type, 
+    bp.phone, bp.open_time, bp.consum_description, bp.traffic_instructions, bp.time_reference, bp.price, 
+    bp.address_instrations, bp.supplier, bp.create_time,bp.create_user_id,
+    bc.id as cityid,bc.name_cn as city_name_cn,bc.name_en as city_name_en,bc.lat as city_lat,bc.lon as city_lon
+    from b_poi bp left join b_city bc on bc.id = bp.city_id
+  </select>
+  
   <delete id="deleteByExample" parameterType="com.lenovo.tripnote.entity.BPoiExample" >
     delete from b_poi
     <if test="_parameter != null" >

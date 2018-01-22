@@ -57,9 +57,9 @@ public class BPoiVo {
 
     /**
      * b_poi.permissions_type (权限类型,-1个人私有,1管理员可以查看)
-     * @ibatorgenerated 2018-01-22 16:27:38
+     * @ibatorgenerated 2018-01-22 16:27:38 默认是私有的
      */
-    private Integer permissionsType;
+    private Integer permissionsType = -1;
 
     /**
      * b_poi.phone (电话)

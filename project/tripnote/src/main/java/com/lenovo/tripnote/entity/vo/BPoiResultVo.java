@@ -1,6 +1,5 @@
 package com.lenovo.tripnote.entity.vo;
 
-import com.lenovo.tripnote.entity.BCity;
 import com.lenovo.tripnote.entity.BPoi;
 
 import lombok.Getter;
@@ -12,5 +11,5 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class BPoiResultVo extends BPoi{
-    private BCity city;
+    private BCityResultVo city;
 }
