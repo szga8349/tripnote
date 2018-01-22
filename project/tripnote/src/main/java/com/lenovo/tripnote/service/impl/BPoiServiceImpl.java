@@ -5,13 +5,14 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Service;
 
 import com.lenovo.tripnote.dao.BPoiMapper;
 import com.lenovo.tripnote.entity.BPoi;
 import com.lenovo.tripnote.entity.vo.BPoiResultVo;
 import com.lenovo.tripnote.entity.vo.BPoiSearchVo;
 import com.lenovo.tripnote.service.BPoiService;
-
+@Service
 public class BPoiServiceImpl implements BPoiService{
 	@Resource
 	private BPoiMapper bPoiMapper;
