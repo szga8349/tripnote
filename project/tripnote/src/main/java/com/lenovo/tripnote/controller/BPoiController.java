@@ -62,6 +62,9 @@ public class BPoiController {
 		Subject subject = SecurityUtils.getSubject();
 		BAccount account = (BAccount) subject.getPrincipal();
 		//设置用户ID
+		if(bpoiSearch.getName()!=null){
+			bpoiSearch.setName("%"+bpoiSearch.getName()+"%");
+		}
 		bpoiSearch.setUserId(account.getId());
 		Integer offset = (bpoiSearch.getPageNo()-1<0?0:(bpoiSearch.getPageNo()-1))*bpoiSearch.getPageSize();
 		RowBounds rowBounds = new RowBounds(offset,bpoiSearch.getPageSize());
