@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.lenovo.tripnote.dao.BPoiMapper" >
+  <resultMap id="BaseResultMap" type="com.lenovo.tripnote.entity.BPoi" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name_cn" property="nameCn" jdbcType="VARCHAR" />
+    <result column="name_en" property="nameEn" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="lon" property="lon" jdbcType="DOUBLE" />
+    <result column="lat" property="lat" jdbcType="DOUBLE" />
+    <result column="city_id" property="cityId" jdbcType="INTEGER" />
+    <result column="cityname" property="cityname" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="permissions_type" property="permissionsType" jdbcType="INTEGER" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="open_time" property="openTime" jdbcType="VARCHAR" />
+    <result column="consum_description" property="consumDescription" jdbcType="VARCHAR" />
+    <result column="traffic_instructions" property="trafficInstructions" jdbcType="VARCHAR" />
+    <result column="time_reference" property="timeReference" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DOUBLE" />
+    <result column="address_instrations" property="addressInstrations" jdbcType="VARCHAR" />
+    <result column="supplier" property="supplier" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.lenovo.tripnote.entity.BPoi" extends="BaseResultMap" >
+    <result column="guide" property="guide" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name_cn, name_en, address, lon, lat, city_id, cityname, `type`, permissions_type, 
+    phone, open_time, consum_description, traffic_instructions, time_reference, price, 
+    address_instrations, supplier, create_time, create_user_id
+  </sql>
+  <sql id="Blob_Column_List" >
+    guide
+  </sql>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.lenovo.tripnote.entity.BPoiExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from b_poi
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lenovo.tripnote.entity.BPoiExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from b_poi
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleWithBLOBsAndPage" resultMap="ResultMapWithBLOBs" parameterType="com.lenovo.tripnote.entity.BPoiExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from b_poi
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleAndPage" resultMap="BaseResultMap" parameterType="com.lenovo.tripnote.entity.BPoiExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from b_poi
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.lenovo.tripnote.entity.BPoiExample" >
+    delete from b_poi
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <select id="countByExample" parameterType="com.lenovo.tripnote.entity.BPoiExample" resultType="java.lang.Integer" >
+    select count(*) from b_poi
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update b_poi
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.nameCn != null" >
+        name_cn = #{record.nameCn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nameEn != null" >
+        name_en = #{record.nameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null" >
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lon != null" >
+        lon = #{record.lon,jdbcType=DOUBLE},
+      </if>
+      <if test="record.lat != null" >
+        lat = #{record.lat,jdbcType=DOUBLE},
+      </if>
+      <if test="record.cityId != null" >
+        city_id = #{record.cityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.cityname != null" >
+        cityname = #{record.cityname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        `type` = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.permissionsType != null" >
+        permissions_type = #{record.permissionsType,jdbcType=INTEGER},
+      </if>
+      <if test="record.phone != null" >
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.openTime != null" >
+        open_time = #{record.openTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.consumDescription != null" >
+        consum_description = #{record.consumDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="record.trafficInstructions != null" >
+        traffic_instructions = #{record.trafficInstructions,jdbcType=VARCHAR},
+      </if>
+      <if test="record.timeReference != null" >
+        time_reference = #{record.timeReference,jdbcType=VARCHAR},
+      </if>
+      <if test="record.price != null" >
+        price = #{record.price,jdbcType=DOUBLE},
+      </if>
+      <if test="record.addressInstrations != null" >
+        address_instrations = #{record.addressInstrations,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supplier != null" >
+        supplier = #{record.supplier,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUserId != null" >
+        create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.guide != null" >
+        guide = #{record.guide,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update b_poi
+    set id = #{record.id,jdbcType=INTEGER},
+      name_cn = #{record.nameCn,jdbcType=VARCHAR},
+      name_en = #{record.nameEn,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      lon = #{record.lon,jdbcType=DOUBLE},
+      lat = #{record.lat,jdbcType=DOUBLE},
+      city_id = #{record.cityId,jdbcType=INTEGER},
+      cityname = #{record.cityname,jdbcType=VARCHAR},
+      `type` = #{record.type,jdbcType=INTEGER},
+      permissions_type = #{record.permissionsType,jdbcType=INTEGER},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      open_time = #{record.openTime,jdbcType=VARCHAR},
+      consum_description = #{record.consumDescription,jdbcType=VARCHAR},
+      traffic_instructions = #{record.trafficInstructions,jdbcType=VARCHAR},
+      time_reference = #{record.timeReference,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=DOUBLE},
+      address_instrations = #{record.addressInstrations,jdbcType=VARCHAR},
+      supplier = #{record.supplier,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      guide = #{record.guide,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update b_poi
+    set id = #{record.id,jdbcType=INTEGER},
+      name_cn = #{record.nameCn,jdbcType=VARCHAR},
+      name_en = #{record.nameEn,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      lon = #{record.lon,jdbcType=DOUBLE},
+      lat = #{record.lat,jdbcType=DOUBLE},
+      city_id = #{record.cityId,jdbcType=INTEGER},
+      cityname = #{record.cityname,jdbcType=VARCHAR},
+      `type` = #{record.type,jdbcType=INTEGER},
+      permissions_type = #{record.permissionsType,jdbcType=INTEGER},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      open_time = #{record.openTime,jdbcType=VARCHAR},
+      consum_description = #{record.consumDescription,jdbcType=VARCHAR},
+      traffic_instructions = #{record.trafficInstructions,jdbcType=VARCHAR},
+      time_reference = #{record.timeReference,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=DOUBLE},
+      address_instrations = #{record.addressInstrations,jdbcType=VARCHAR},
+      supplier = #{record.supplier,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{record.createUserId,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from b_poi
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from b_poi
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lenovo.tripnote.entity.BPoi" useGeneratedKeys="true" keyProperty="id" >
+    insert into b_poi (name_cn, name_en, address, 
+      lon, lat, city_id, cityname, 
+      `type`, permissions_type, phone, 
+      open_time, consum_description, traffic_instructions, 
+      time_reference, price, address_instrations, 
+      supplier, create_time, create_user_id, 
+      guide)
+    values (#{nameCn,jdbcType=VARCHAR}, #{nameEn,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{lon,jdbcType=DOUBLE}, #{lat,jdbcType=DOUBLE}, #{cityId,jdbcType=INTEGER}, #{cityname,jdbcType=VARCHAR}, 
+      #{type,jdbcType=INTEGER}, #{permissionsType,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, 
+      #{openTime,jdbcType=VARCHAR}, #{consumDescription,jdbcType=VARCHAR}, #{trafficInstructions,jdbcType=VARCHAR}, 
+      #{timeReference,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}, #{addressInstrations,jdbcType=VARCHAR}, 
+      #{supplier,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, 
+      #{guide,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.BPoi" useGeneratedKeys="true" keyProperty="id" >
+    insert into b_poi
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      name_cn,
+      name_en,
+      address,
+      lon,
+      lat,
+      city_id,
+      cityname,
+      `type`,
+      permissions_type,
+      phone,
+      open_time,
+      consum_description,
+      traffic_instructions,
+      time_reference,
+      price,
+      address_instrations,
+      supplier,
+      create_time,
+      create_user_id,
+      guide,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{nameCn,jdbcType=VARCHAR},
+      #{nameEn,jdbcType=VARCHAR},
+      #{address,jdbcType=VARCHAR},
+      #{lon,jdbcType=DOUBLE},
+      #{lat,jdbcType=DOUBLE},
+      #{cityId,jdbcType=INTEGER},
+      #{cityname,jdbcType=VARCHAR},
+      #{type,jdbcType=INTEGER},
+      #{permissionsType,jdbcType=INTEGER},
+      #{phone,jdbcType=VARCHAR},
+      #{openTime,jdbcType=VARCHAR},
+      #{consumDescription,jdbcType=VARCHAR},
+      #{trafficInstructions,jdbcType=VARCHAR},
+      #{timeReference,jdbcType=VARCHAR},
+      #{price,jdbcType=DOUBLE},
+      #{addressInstrations,jdbcType=VARCHAR},
+      #{supplier,jdbcType=VARCHAR},
+      #{createTime,jdbcType=TIMESTAMP},
+      #{createUserId,jdbcType=INTEGER},
+      #{guide,jdbcType=LONGVARCHAR},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lenovo.tripnote.entity.BPoi" >
+    update b_poi
+    <set >
+      <if test="nameCn != null" >
+        name_cn = #{nameCn,jdbcType=VARCHAR},
+      </if>
+      <if test="nameEn != null" >
+        name_en = #{nameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="lon != null" >
+        lon = #{lon,jdbcType=DOUBLE},
+      </if>
+      <if test="lat != null" >
+        lat = #{lat,jdbcType=DOUBLE},
+      </if>
+      <if test="cityId != null" >
+        city_id = #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="cityname != null" >
+        cityname = #{cityname,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        `type` = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="permissionsType != null" >
+        permissions_type = #{permissionsType,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="openTime != null" >
+        open_time = #{openTime,jdbcType=VARCHAR},
+      </if>
+      <if test="consumDescription != null" >
+        consum_description = #{consumDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="trafficInstructions != null" >
+        traffic_instructions = #{trafficInstructions,jdbcType=VARCHAR},
+      </if>
+      <if test="timeReference != null" >
+        time_reference = #{timeReference,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="addressInstrations != null" >
+        address_instrations = #{addressInstrations,jdbcType=VARCHAR},
+      </if>
+      <if test="supplier != null" >
+        supplier = #{supplier,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="guide != null" >
+        guide = #{guide,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lenovo.tripnote.entity.BPoi" >
+    update b_poi
+    set name_cn = #{nameCn,jdbcType=VARCHAR},
+      name_en = #{nameEn,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      lon = #{lon,jdbcType=DOUBLE},
+      lat = #{lat,jdbcType=DOUBLE},
+      city_id = #{cityId,jdbcType=INTEGER},
+      cityname = #{cityname,jdbcType=VARCHAR},
+      `type` = #{type,jdbcType=INTEGER},
+      permissions_type = #{permissionsType,jdbcType=INTEGER},
+      phone = #{phone,jdbcType=VARCHAR},
+      open_time = #{openTime,jdbcType=VARCHAR},
+      consum_description = #{consumDescription,jdbcType=VARCHAR},
+      traffic_instructions = #{trafficInstructions,jdbcType=VARCHAR},
+      time_reference = #{timeReference,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DOUBLE},
+      address_instrations = #{addressInstrations,jdbcType=VARCHAR},
+      supplier = #{supplier,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      guide = #{guide,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lenovo.tripnote.entity.BPoi" >
+    update b_poi
+    set name_cn = #{nameCn,jdbcType=VARCHAR},
+      name_en = #{nameEn,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      lon = #{lon,jdbcType=DOUBLE},
+      lat = #{lat,jdbcType=DOUBLE},
+      city_id = #{cityId,jdbcType=INTEGER},
+      cityname = #{cityname,jdbcType=VARCHAR},
+      `type` = #{type,jdbcType=INTEGER},
+      permissions_type = #{permissionsType,jdbcType=INTEGER},
+      phone = #{phone,jdbcType=VARCHAR},
+      open_time = #{openTime,jdbcType=VARCHAR},
+      consum_description = #{consumDescription,jdbcType=VARCHAR},
+      traffic_instructions = #{trafficInstructions,jdbcType=VARCHAR},
+      time_reference = #{timeReference,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DOUBLE},
+      address_instrations = #{addressInstrations,jdbcType=VARCHAR},
+      supplier = #{supplier,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
