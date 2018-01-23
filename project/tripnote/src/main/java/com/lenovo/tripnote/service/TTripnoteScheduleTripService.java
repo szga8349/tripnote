@@ -1,7 +1,7 @@
 package com.lenovo.tripnote.service;
 
-import com.lenovo.tripnote.entity.TTripnoteScheduleTripWithBLOBs;
+import com.lenovo.tripnote.entity.TTripnoteScheduleTrip;
 
-public interface TTripnoteScheduleTripService  extends IDbService<TTripnoteScheduleTripWithBLOBs>{
+public interface TTripnoteScheduleTripService  extends IDbService<TTripnoteScheduleTrip>{
 
 }

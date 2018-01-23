@@ -5,7 +5,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.lenovo.tripnote.dao.TTripnoteScheduleTripMapper;
-import com.lenovo.tripnote.entity.TTripnoteScheduleTripWithBLOBs;
+import com.lenovo.tripnote.entity.TTripnoteScheduleTrip;
 import com.lenovo.tripnote.service.TTripnoteScheduleTripService;
 @Service()
 public class TTripnoteScheduleTripServiceImpl implements TTripnoteScheduleTripService{
@@ -13,18 +13,18 @@ public class TTripnoteScheduleTripServiceImpl implements TTripnoteScheduleTripSe
    @Resource
     private TTripnoteScheduleTripMapper tTripnoteScheduleTripMapper;
 	@Override
-	public int insert(TTripnoteScheduleTripWithBLOBs t) {
+	public int insert(TTripnoteScheduleTrip t) {
 		return tTripnoteScheduleTripMapper.insert(t);
 	}
 
 	@Override
-	public TTripnoteScheduleTripWithBLOBs update(TTripnoteScheduleTripWithBLOBs t) {
+	public TTripnoteScheduleTrip update(TTripnoteScheduleTrip t) {
 		 this.tTripnoteScheduleTripMapper.updateByPrimaryKeyWithBLOBs(t);
 		 return t;
 	}
 
 	@Override
-	public TTripnoteScheduleTripWithBLOBs getByKey(Integer id) {
+	public TTripnoteScheduleTrip getByKey(Integer id) {
 		return this.tTripnoteScheduleTripMapper.selectByPrimaryKey(id);
 	}
 
@@ -35,7 +35,7 @@ public class TTripnoteScheduleTripServiceImpl implements TTripnoteScheduleTripSe
 	}
 
 	@Override
-	public int deleteCondition(TTripnoteScheduleTripWithBLOBs t) {
+	public int deleteCondition(TTripnoteScheduleTrip t) {
 		
 		return 0;
 	}

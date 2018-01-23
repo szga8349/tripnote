@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lenovo.tripnote.entity.BAccount;
-import com.lenovo.tripnote.entity.TTripnoteScheduleTripWithBLOBs;
+import com.lenovo.tripnote.entity.TTripnoteScheduleTrip;
 import com.lenovo.tripnote.entity.vo.TTripnoteScheduleTripVo;
 import com.lenovo.tripnote.service.TTripnoteScheduleTripService;
 import com.lenovo.tripnote.vo.Result;
@@ -34,15 +34,14 @@ public class TTripnoteScheduleTripController {
 		Subject subject = SecurityUtils.getSubject();
 		ResultVo vo = new ResultVo();
 		vo.setCode(Result.SUCESSFUL);
-		TTripnoteScheduleTripWithBLOBs schedule = new TTripnoteScheduleTripWithBLOBs();
+		TTripnoteScheduleTrip schedule = new TTripnoteScheduleTrip();
 		try {
 			BeanUtils.copyProperties(schedule, tripnoteScheduleVo);
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			e.printStackTrace();
 		}
 		BAccount account = (BAccount) subject.getPrincipal();
-		schedule.setCreateUserid(account.getId());
-		schedule.setCreateuserName(account.getLoginName());
+		schedule.setCreateUserId(account.getId());
 		tTripnoteScheduleTripService.insert(schedule);
 		vo.setData(schedule.getId());
 		return vo;
@@ -52,7 +51,7 @@ public class TTripnoteScheduleTripController {
 		Subject subject = SecurityUtils.getSubject();
 		ResultVo vo = new ResultVo();
 		vo.setCode(Result.SUCESSFUL);
-		TTripnoteScheduleTripWithBLOBs schedule = new TTripnoteScheduleTripWithBLOBs();
+		TTripnoteScheduleTrip schedule = new TTripnoteScheduleTrip();
 		try {
 			BeanUtils.copyProperties(schedule, tripnoteScheduleVo);
 		} catch (IllegalAccessException | InvocationTargetException e) {
@@ -60,7 +59,7 @@ public class TTripnoteScheduleTripController {
 		}
 		BAccount account = (BAccount) subject.getPrincipal();
 		schedule.setId(Integer.valueOf(id));
-		schedule.setCreateUserid(account.getId());
+		schedule.setCreateUserId(account.getId());
 		tTripnoteScheduleTripService.update(schedule);
 		vo.setData(schedule.getId());
 		return vo;

@@ -1,367 +1,443 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
-<mapper namespace="com.lenovo.tripnote.dao.TTripnoteScheduleMapper" >
-  <resultMap id="BaseResultMap" type="com.lenovo.tripnote.entity.TTripnoteSchedule" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="tripnote_id" property="tripnoteId" jdbcType="INTEGER" />
-    <result column="title" property="title" jdbcType="VARCHAR" />
-    <result column="indexdate" property="indexdate" jdbcType="INTEGER" />
-    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
-    <result column="create_userid" property="createUserid" jdbcType="INTEGER" />
-    <result column="createuser_name" property="createuserName" jdbcType="VARCHAR" />
-  </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.lenovo.tripnote.entity.TTripnoteSchedule" extends="BaseResultMap" >
-    <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
-  </resultMap>
-  
-  <resultMap id="DetailResultMap" type="com.lenovo.tripnote.entity.vo.TTripNoteScheduleResultVo" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="tripnote_id" property="tripnoteId" jdbcType="INTEGER" />
-    <result column="title" property="title" jdbcType="VARCHAR" />
-    <result column="indexdate" property="indexdate" jdbcType="INTEGER" />
-    <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
-    <collection property="traffics" javaType="java.util.List" ofType="com.lenovo.tripnote.entity.vo.TTripnoteScheduleTrafficResultVo">  
-            <result column="traffic_id" property="id" jdbcType="INTEGER" />  
-            <result column="traffic_schedule_id" property="scheduleId" jdbcType="INTEGER" />
-            <result column="start_schedule_trip" property="startScheduleTrip" jdbcType="INTEGER" />
-            <result column="end_schedule_trip" property="endScheduleTrip" jdbcType="INTEGER" />
-            <result column="distance" property="distance" jdbcType="REAL" />
-            <result column="spend_time" property="spendTime" jdbcType="BIGINT" />
-     </collection>  
-      <collection property="scheduletrips" javaType="java.util.List" ofType="com.lenovo.tripnote.entity.vo.TTripnoteScheduleTripResultVo">
-            <result column="scheduletrip_id" property="id" jdbcType="INTEGER" />  
-            <result column="scheduletrip_schedule_id" property="scheduleId" jdbcType="INTEGER" />  
-            <result column="briefly" property="briefly" jdbcType="VARCHAR" />  
-            <result column="scheduletrip_context" property="context" jdbcType="LONGVARCHAR" />
-     </collection> 
-     <collection property="usertripnotes" javaType="java.util.List" ofType="com.lenovo.tripnote.entity.vo.BUserTripnoteResultVo">
-            <result column="busertrip_id" property="id" jdbcType="INTEGER" />
-            <result column="busertrip_title" property="title" jdbcType="VARCHAR" />
-            <result column="cover" property="cover" jdbcType="VARCHAR" />    
-            <result column="busertrip_context" property="context" jdbcType="LONGVARCHAR" />
-     </collection> 
-     <collection property="citys" javaType="java.util.List" ofType="com.lenovo.tripnote.entity.vo.TTripnoteScheduleRCityVo">
-            <result column="rcity_id" property="id" jdbcType="INTEGER" />
-            <result column="city_id" property="cityId" jdbcType="INTEGER" />
-            <result column="country_id" property="countryId" jdbcType="INTEGER" />
-            <result column="schedule_id" property="scheduleId" jdbcType="INTEGER" />
-            <result column="name_cn" property="nameCn" jdbcType="VARCHAR" />    
-            <result column="name_en" property="nameEn" jdbcType="VARCHAR" />
-            <result column="lat" property="lat" jdbcType="DOUBLE" />
-            <result column="lon" property="lon" jdbcType="DOUBLE" />
-     </collection> 
-  </resultMap>
-  <sql id="Base_Column_List" >
-    id, tripnote_id, title, indexdate, createtime, create_userid, createuser_name
-  </sql>
-  <sql id="Blob_Column_List" >
-    introduction
-  </sql>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <select id="getDetailByKey" resultMap="DetailResultMap" parameterType="java.lang.Integer" >
-   select
-   t.id, t.tripnote_id, t.title, t.indexdate,t.introduction,
-   ttst.id as scheduletrip_id,ttst.schedule_id as scheduletrip_schedule_id,briefly,ttst.context as scheduletrip_context,
-   ttstc.id as traffic_id,ttstc.schedule_id as traffic_schedule_id,ttstc.start_schedule_trip,ttstc.end_schedule_trip,ttstc.distance,ttstc.spend_time,
-   but.id as busertrip_id,but.title as busertrip_title,but.cover,but.context as busertrip_context,
-   bc.id as city_id,bc.name_cn,bc.name_en,bc.lat,bc.lon,ttsrc.schedule_id as schedule_id,bc.country_id,ttsrc.id as rcity_id
-   from t_tripnote_schedule t
-   left join t_tripnote_schedule_trip ttst on ttst.schedule_id = t.id 
-   left join t_tripnote_schedule_traffic ttstc on ttstc.schedule_id = t.id
-   left join t_tripnote_schedule_r_usenote ttsru on ttsru.tripnote_schedule_id=t.id
-   left join b_user_tripnote but on but.id = ttsru.user_tripnote_id
-   left join t_tripnote_schedule_r_city ttsrc on ttsrc.schedule_id = t.id
-   left join b_city bc on ttsrc.city_id = bc.id
-   where t.id = #{id,jdbcType=INTEGER} order by ttsrc.create_time asc,ttsrc.id asc
-  </select>
-  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from t_tripnote_schedule
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from t_tripnote_schedule
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByExampleWithBLOBsAndPage" resultMap="ResultMapWithBLOBs" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from t_tripnote_schedule
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByExampleAndPage" resultMap="BaseResultMap" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from t_tripnote_schedule
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  <delete id="deleteByExample" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleExample" >
-    delete from t_tripnote_schedule
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <delete id="deleteTraffic" parameterType="com.lenovo.tripnote.entity.TTripnoteSchedule" >
-    delete ttst from t_tripnote_schedule_traffic ttst left join  t_tripnote_schedule  tts on tts.id = ttst.schedule_id where tts.id=#{record.id,jdbcType=INTEGER} and tts.create_userid = #{record.createUserid,jdbcType=INTEGER}
-  </delete>
-   <delete id="deleteScheduleRUsenote" parameterType="com.lenovo.tripnote.entity.TTripnoteSchedule" >
-    delete ttst from t_tripnote_schedule_r_usenote ttst left join t_tripnote_schedule  tts on tts.id = ttst.tripnote_schedule_id where tts.id=#{record.id,jdbcType=INTEGER} and tts.create_userid = #{record.createUserid,jdbcType=INTEGER}
-  </delete>
-  <delete id="deleteScheduleTrip" parameterType="com.lenovo.tripnote.entity.TTripnoteSchedule" >
-    delete ttst from t_tripnote_schedule_trip ttst left join t_tripnote_schedule  tts on tts.id = ttst.schedule_id where tts.id=#{record.id,jdbcType=INTEGER} and tts.create_userid = #{record.createUserid,jdbcType=INTEGER}
-  </delete>
-  <delete id="deleteScheduleRCity" parameterType="com.lenovo.tripnote.entity.TTripnoteSchedule" >
-    delete ttst from t_tripnote_schedule_r_city ttst left join t_tripnote_schedule  tts on tts.id = ttst.schedule_id where tts.id=#{record.id,jdbcType=INTEGER} and tts.create_userid = #{record.createUserid,jdbcType=INTEGER}
-  </delete>
-  
-  <select id="countByExample" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleExample" resultType="java.lang.Integer" >
-    select count(*) from t_tripnote_schedule
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map" >
-    update t_tripnote_schedule
-    <set >
-      <if test="record.id != null" >
-        id = #{record.id,jdbcType=INTEGER},
-      </if>
-      <if test="record.tripnoteId != null" >
-        tripnote_id = #{record.tripnoteId,jdbcType=INTEGER},
-      </if>
-      <if test="record.title != null" >
-        title = #{record.title,jdbcType=VARCHAR},
-      </if>
-      <if test="record.indexdate != null" >
-        indexdate = #{record.indexdate,jdbcType=INTEGER},
-      </if>
-      <if test="record.createtime != null" >
-        createtime = #{record.createtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.createUserid != null" >
-        create_userid = #{record.createUserid,jdbcType=INTEGER},
-      </if>
-      <if test="record.createuserName != null" >
-        createuser_name = #{record.createuserName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.introduction != null" >
-        introduction = #{record.introduction,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map" >
-    update t_tripnote_schedule
-    set id = #{record.id,jdbcType=INTEGER},
-      tripnote_id = #{record.tripnoteId,jdbcType=INTEGER},
-      title = #{record.title,jdbcType=VARCHAR},
-      indexdate = #{record.indexdate,jdbcType=INTEGER},
-      createtime = #{record.createtime,jdbcType=TIMESTAMP},
-      create_userid = #{record.createUserid,jdbcType=INTEGER},
-      createuser_name = #{record.createuserName,jdbcType=VARCHAR},
-      introduction = #{record.introduction,jdbcType=LONGVARCHAR}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map" >
-    update t_tripnote_schedule
-    set id = #{record.id,jdbcType=INTEGER},
-      tripnote_id = #{record.tripnoteId,jdbcType=INTEGER},
-      title = #{record.title,jdbcType=VARCHAR},
-      indexdate = #{record.indexdate,jdbcType=INTEGER},
-      createtime = #{record.createtime,jdbcType=TIMESTAMP},
-      create_userid = #{record.createUserid,jdbcType=INTEGER},
-      createuser_name = #{record.createuserName,jdbcType=VARCHAR}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from t_tripnote_schedule
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from t_tripnote_schedule
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.lenovo.tripnote.entity.TTripnoteSchedule" useGeneratedKeys="true"  keyProperty="id">
-    insert into t_tripnote_schedule (tripnote_id, title, indexdate, 
-      createtime, create_userid, createuser_name, 
-      introduction)
-    values (#{tripnoteId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{indexdate,jdbcType=INTEGER}, 
-      #{createtime,jdbcType=TIMESTAMP}, #{createUserid,jdbcType=INTEGER}, #{createuserName,jdbcType=VARCHAR}, 
-      #{introduction,jdbcType=LONGVARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.TTripnoteSchedule" useGeneratedKeys="true"  keyProperty="id">
-    insert into t_tripnote_schedule
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      tripnote_id,
-      title,
-      indexdate,
-      createtime,
-      create_userid,
-      createuser_name,
-      introduction,
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      #{tripnoteId,jdbcType=INTEGER},
-      #{title,jdbcType=VARCHAR},
-      #{indexdate,jdbcType=INTEGER},
-      #{createtime,jdbcType=TIMESTAMP},
-      #{createUserid,jdbcType=INTEGER},
-      #{createuserName,jdbcType=VARCHAR},
-      #{introduction,jdbcType=LONGVARCHAR},
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.lenovo.tripnote.entity.TTripnoteSchedule" >
-    update t_tripnote_schedule
-    <set >
-      <if test="tripnoteId != null" >
-        tripnote_id = #{tripnoteId,jdbcType=INTEGER},
-      </if>
-      <if test="title != null" >
-        title = #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="indexdate != null" >
-        indexdate = #{indexdate,jdbcType=INTEGER},
-      </if>
-      <if test="createtime != null" >
-        createtime = #{createtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="createUserid != null" >
-        create_userid = #{createUserid,jdbcType=INTEGER},
-      </if>
-      <if test="createuserName != null" >
-        createuser_name = #{createuserName,jdbcType=VARCHAR},
-      </if>
-      <if test="introduction != null" >
-        introduction = #{introduction,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lenovo.tripnote.entity.TTripnoteSchedule" >
-    update t_tripnote_schedule
-    set tripnote_id = #{tripnoteId,jdbcType=INTEGER},
-      title = #{title,jdbcType=VARCHAR},
-      indexdate = #{indexdate,jdbcType=INTEGER},
-      createtime = #{createtime,jdbcType=TIMESTAMP},
-      create_userid = #{createUserid,jdbcType=INTEGER},
-      createuser_name = #{createuserName,jdbcType=VARCHAR},
-      introduction = #{introduction,jdbcType=LONGVARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.lenovo.tripnote.entity.TTripnoteSchedule" >
-    update t_tripnote_schedule
-    set tripnote_id = #{tripnoteId,jdbcType=INTEGER},
-      title = #{title,jdbcType=VARCHAR},
-      indexdate = #{indexdate,jdbcType=INTEGER},
-      createtime = #{createtime,jdbcType=TIMESTAMP},
-      create_userid = #{createUserid,jdbcType=INTEGER},
-      createuser_name = #{createuserName,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+<mapper namespace="com.lenovo.tripnote.dao.TTripnoteScheduleMapper">
+	<resultMap id="BaseResultMap" type="com.lenovo.tripnote.entity.TTripnoteSchedule">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="tripnote_id" property="tripnoteId" jdbcType="INTEGER" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="indexdate" property="indexdate" jdbcType="INTEGER" />
+		<result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+		<result column="create_userid" property="createUserid"
+			jdbcType="INTEGER" />
+		<result column="createuser_name" property="createuserName"
+			jdbcType="VARCHAR" />
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs" type="com.lenovo.tripnote.entity.TTripnoteSchedule"
+		extends="BaseResultMap">
+		<result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
+	</resultMap>
+
+	<resultMap id="DetailResultMap"
+		type="com.lenovo.tripnote.entity.vo.TTripNoteScheduleResultVo">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="tripnote_id" property="tripnoteId" jdbcType="INTEGER" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="indexdate" property="indexdate" jdbcType="INTEGER" />
+		<result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
+		<collection property="traffics" javaType="java.util.List"
+			ofType="com.lenovo.tripnote.entity.vo.TTripnoteScheduleTrafficResultVo">
+			<result column="traffic_id" property="id" jdbcType="INTEGER" />
+			<result column="traffic_schedule_id" property="scheduleId"
+				jdbcType="INTEGER" />
+			<result column="start_schedule_trip" property="startScheduleTrip"
+				jdbcType="INTEGER" />
+			<result column="end_schedule_trip" property="endScheduleTrip"
+				jdbcType="INTEGER" />
+			<result column="distance" property="distance" jdbcType="REAL" />
+			<result column="spend_time" property="spendTime" jdbcType="BIGINT" />
+		</collection>
+		<collection property="scheduletrips" javaType="java.util.List"
+			ofType="com.lenovo.tripnote.entity.vo.TTripnoteScheduleTripResultVo">
+			<result column="scheduletrip_id" property="id" jdbcType="INTEGER" />
+			<result column="scheduletrip_schedule_id" property="scheduleId"
+				jdbcType="INTEGER" />
+			<result column="poi_id" property="poiId" jdbcType="INTEGER" />
+			<result column="trip_name_cn" property="nameCn" jdbcType="VARCHAR" />
+			<result column="trip_name_en" property="nameEn" jdbcType="VARCHAR" />
+			<result column="address" property="address" jdbcType="VARCHAR" />
+			<result column="trip_lon" property="lon" jdbcType="DOUBLE" />
+			<result column="trip_lat" property="lat" jdbcType="DOUBLE" />
+			<result column="trip_city_id" property="cityId" jdbcType="INTEGER" />
+			<result column="trip_cityname" property="cityname" jdbcType="VARCHAR" />
+			<result column="trip_type" property="type" jdbcType="INTEGER" />
+			<result column="phone" property="phone" jdbcType="VARCHAR" />
+			<result column="open_time" property="openTime" jdbcType="VARCHAR" />
+			<result column="consum_description" property="consumDescription"
+				jdbcType="VARCHAR" />
+			<result column="traffic_instructions" property="trafficInstructions"
+				jdbcType="VARCHAR" />
+			<result column="time_reference" property="timeReference"
+				jdbcType="VARCHAR" />
+			<result column="price" property="price" jdbcType="DOUBLE" />
+			<result column="address_instrations" property="addressInstrations"
+				jdbcType="VARCHAR" />
+			<result column="supplier" property="supplier" jdbcType="VARCHAR" />
+			<result column="imageurl" property="imageurl" jdbcType="VARCHAR" />
+			<result column="url" property="url" jdbcType="VARCHAR" />
+			<result column="guide" property="guide" jdbcType="LONGVARCHAR" />
+		</collection>
+		<collection property="usertripnotes" javaType="java.util.List"
+			ofType="com.lenovo.tripnote.entity.vo.BUserTripnoteResultVo">
+			<result column="busertrip_id" property="id" jdbcType="INTEGER" />
+			<result column="busertrip_title" property="title" jdbcType="VARCHAR" />
+			<result column="cover" property="cover" jdbcType="VARCHAR" />
+			<result column="busertrip_context" property="context"
+				jdbcType="LONGVARCHAR" />
+		</collection>
+		<collection property="citys" javaType="java.util.List"
+			ofType="com.lenovo.tripnote.entity.vo.TTripnoteScheduleRCityVo">
+			<result column="rcity_id" property="id" jdbcType="INTEGER" />
+			<result column="city_id" property="cityId" jdbcType="INTEGER" />
+			<result column="country_id" property="countryId" jdbcType="INTEGER" />
+			<result column="schedule_id" property="scheduleId" jdbcType="INTEGER" />
+			<result column="name_cn" property="nameCn" jdbcType="VARCHAR" />
+			<result column="name_en" property="nameEn" jdbcType="VARCHAR" />
+			<result column="lat" property="lat" jdbcType="DOUBLE" />
+			<result column="lon" property="lon" jdbcType="DOUBLE" />
+		</collection>
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, tripnote_id, title, indexdate, createtime, create_userid,
+		createuser_name
+	</sql>
+	<sql id="Blob_Column_List">
+		introduction
+	</sql>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<select id="getDetailByKey" resultMap="DetailResultMap"
+		parameterType="java.lang.Integer">
+		select
+		t.id, t.tripnote_id, t.title, t.indexdate,t.introduction,
+		ttst.id as scheduletrip_id,ttst.schedule_id as scheduletrip_schedule_id,
+		ttst.poi_id, ttst.schedule_id as scheduletrip_id, ttst.name_cn as
+		trip_name_cn, ttst.name_en as trip_name_en, ttst.address, ttst.lon as
+		trip_lon, ttst.lat as trip_lat, ttst.city_id as trip_city_id,
+		ttst.cityname as trip_cityname,
+		ttst.`type` as trip_type,ttst.phone as trip_phone, ttst.open_time,
+		ttst.consum_description, ttst.traffic_instructions,
+		ttst.time_reference, ttst.price,ttst.address_instrations,
+		ttst.supplier, ttst.imageurl,ttst.url,ttst.guide,
+		ttstc.id as traffic_id,ttstc.schedule_id as
+		traffic_schedule_id,ttstc.start_schedule_trip,ttstc.end_schedule_trip,ttstc.distance,ttstc.spend_time,
+		but.id as busertrip_id,but.title as
+		busertrip_title,but.cover,but.context as busertrip_context,
+		bc.id as city_id,bc.name_cn,bc.name_en,bc.lat,bc.lon,ttsrc.schedule_id as
+		schedule_id,bc.country_id,ttsrc.id as rcity_id
+		from t_tripnote_schedule t
+		left join t_tripnote_schedule_trip ttst on ttst.schedule_id = t.id
+		left join t_tripnote_schedule_traffic ttstc on ttstc.schedule_id = t.id
+		left join t_tripnote_schedule_r_usenote ttsru on
+		ttsru.tripnote_schedule_id=t.id
+		left join b_user_tripnote but on but.id = ttsru.user_tripnote_id
+		left join t_tripnote_schedule_r_city ttsrc on ttsrc.schedule_id = t.id
+		left join b_city bc on ttsrc.city_id = bc.id
+		where t.id = #{id,jdbcType=INTEGER} order by ttsrc.create_time asc,ttsrc.id
+		asc
+	</select>
+	<select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs"
+		parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from t_tripnote_schedule
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from t_tripnote_schedule
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByExampleWithBLOBsAndPage" resultMap="ResultMapWithBLOBs"
+		parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from t_tripnote_schedule
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByExampleAndPage" resultMap="BaseResultMap"
+		parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from t_tripnote_schedule
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<delete id="deleteByExample" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleExample">
+		delete from t_tripnote_schedule
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<delete id="deleteTraffic" parameterType="com.lenovo.tripnote.entity.TTripnoteSchedule">
+		delete ttst from t_tripnote_schedule_traffic ttst left join
+		t_tripnote_schedule tts on tts.id = ttst.schedule_id where
+		tts.id=#{record.id,jdbcType=INTEGER} and tts.create_userid =
+		#{record.createUserid,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteScheduleRUsenote" parameterType="com.lenovo.tripnote.entity.TTripnoteSchedule">
+		delete ttst from t_tripnote_schedule_r_usenote ttst left join
+		t_tripnote_schedule tts on tts.id = ttst.tripnote_schedule_id where
+		tts.id=#{record.id,jdbcType=INTEGER} and tts.create_userid =
+		#{record.createUserid,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteScheduleTrip" parameterType="com.lenovo.tripnote.entity.TTripnoteSchedule">
+		delete ttst from t_tripnote_schedule_trip ttst left join
+		t_tripnote_schedule tts on tts.id = ttst.schedule_id where
+		tts.id=#{record.id,jdbcType=INTEGER} and tts.create_userid =
+		#{record.createUserid,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteScheduleRCity" parameterType="com.lenovo.tripnote.entity.TTripnoteSchedule">
+		delete ttst from t_tripnote_schedule_r_city ttst left join
+		t_tripnote_schedule tts on tts.id = ttst.schedule_id where
+		tts.id=#{record.id,jdbcType=INTEGER} and tts.create_userid =
+		#{record.createUserid,jdbcType=INTEGER}
+	</delete>
+
+	<select id="countByExample" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleExample"
+		resultType="java.lang.Integer">
+		select count(*) from t_tripnote_schedule
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update t_tripnote_schedule
+		<set>
+			<if test="record.id != null">
+				id = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.tripnoteId != null">
+				tripnote_id = #{record.tripnoteId,jdbcType=INTEGER},
+			</if>
+			<if test="record.title != null">
+				title = #{record.title,jdbcType=VARCHAR},
+			</if>
+			<if test="record.indexdate != null">
+				indexdate = #{record.indexdate,jdbcType=INTEGER},
+			</if>
+			<if test="record.createtime != null">
+				createtime = #{record.createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.createUserid != null">
+				create_userid = #{record.createUserid,jdbcType=INTEGER},
+			</if>
+			<if test="record.createuserName != null">
+				createuser_name = #{record.createuserName,jdbcType=VARCHAR},
+			</if>
+			<if test="record.introduction != null">
+				introduction = #{record.introduction,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExampleWithBLOBs" parameterType="map">
+		update t_tripnote_schedule
+		set id = #{record.id,jdbcType=INTEGER},
+		tripnote_id = #{record.tripnoteId,jdbcType=INTEGER},
+		title = #{record.title,jdbcType=VARCHAR},
+		indexdate = #{record.indexdate,jdbcType=INTEGER},
+		createtime = #{record.createtime,jdbcType=TIMESTAMP},
+		create_userid = #{record.createUserid,jdbcType=INTEGER},
+		createuser_name = #{record.createuserName,jdbcType=VARCHAR},
+		introduction = #{record.introduction,jdbcType=LONGVARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update t_tripnote_schedule
+		set id = #{record.id,jdbcType=INTEGER},
+		tripnote_id = #{record.tripnoteId,jdbcType=INTEGER},
+		title = #{record.title,jdbcType=VARCHAR},
+		indexdate = #{record.indexdate,jdbcType=INTEGER},
+		createtime = #{record.createtime,jdbcType=TIMESTAMP},
+		create_userid = #{record.createUserid,jdbcType=INTEGER},
+		createuser_name = #{record.createuserName,jdbcType=VARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from t_tripnote_schedule
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from t_tripnote_schedule
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.lenovo.tripnote.entity.TTripnoteSchedule"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into t_tripnote_schedule (tripnote_id, title, indexdate,
+		createtime, create_userid, createuser_name,
+		introduction)
+		values (#{tripnoteId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR},
+		#{indexdate,jdbcType=INTEGER},
+		#{createtime,jdbcType=TIMESTAMP}, #{createUserid,jdbcType=INTEGER}, #{createuserName,jdbcType=VARCHAR},
+		#{introduction,jdbcType=LONGVARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.TTripnoteSchedule"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into t_tripnote_schedule
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			tripnote_id,
+			title,
+			indexdate,
+			createtime,
+			create_userid,
+			createuser_name,
+			introduction,
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			#{tripnoteId,jdbcType=INTEGER},
+			#{title,jdbcType=VARCHAR},
+			#{indexdate,jdbcType=INTEGER},
+			#{createtime,jdbcType=TIMESTAMP},
+			#{createUserid,jdbcType=INTEGER},
+			#{createuserName,jdbcType=VARCHAR},
+			#{introduction,jdbcType=LONGVARCHAR},
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.lenovo.tripnote.entity.TTripnoteSchedule">
+		update t_tripnote_schedule
+		<set>
+			<if test="tripnoteId != null">
+				tripnote_id = #{tripnoteId,jdbcType=INTEGER},
+			</if>
+			<if test="title != null">
+				title = #{title,jdbcType=VARCHAR},
+			</if>
+			<if test="indexdate != null">
+				indexdate = #{indexdate,jdbcType=INTEGER},
+			</if>
+			<if test="createtime != null">
+				createtime = #{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createUserid != null">
+				create_userid = #{createUserid,jdbcType=INTEGER},
+			</if>
+			<if test="createuserName != null">
+				createuser_name = #{createuserName,jdbcType=VARCHAR},
+			</if>
+			<if test="introduction != null">
+				introduction = #{introduction,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lenovo.tripnote.entity.TTripnoteSchedule">
+		update t_tripnote_schedule
+		set tripnote_id = #{tripnoteId,jdbcType=INTEGER},
+		title = #{title,jdbcType=VARCHAR},
+		indexdate = #{indexdate,jdbcType=INTEGER},
+		createtime = #{createtime,jdbcType=TIMESTAMP},
+		create_userid = #{createUserid,jdbcType=INTEGER},
+		createuser_name = #{createuserName,jdbcType=VARCHAR},
+		introduction = #{introduction,jdbcType=LONGVARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.lenovo.tripnote.entity.TTripnoteSchedule">
+		update t_tripnote_schedule
+		set tripnote_id = #{tripnoteId,jdbcType=INTEGER},
+		title = #{title,jdbcType=VARCHAR},
+		indexdate = #{indexdate,jdbcType=INTEGER},
+		createtime = #{createtime,jdbcType=TIMESTAMP},
+		create_userid = #{createUserid,jdbcType=INTEGER},
+		createuser_name = #{createuserName,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
 </mapper>
