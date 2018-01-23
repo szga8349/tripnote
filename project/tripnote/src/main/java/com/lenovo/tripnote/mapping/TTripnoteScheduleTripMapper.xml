@@ -325,7 +325,7 @@
     delete from t_tripnote_schedule_trip
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleTrip" >
+  <insert id="insert" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleTrip" useGeneratedKeys="true" keyProperty="id">
     insert into t_tripnote_schedule_trip (id, poi_id, schedule_id, 
       name_cn, name_en, address, 
       lon, lat, city_id, cityname, 
@@ -345,7 +345,7 @@
       #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, #{guide,jdbcType=LONGVARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleTrip" >
+  <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleTrip" useGeneratedKeys="true" keyProperty="id">
     insert into t_tripnote_schedule_trip
     <trim prefix="(" suffix=")" suffixOverrides="," >
       id,

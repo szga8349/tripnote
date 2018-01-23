@@ -1,6 +1,7 @@
 package com.lenovo.tripnote.controller;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -17,6 +18,7 @@ import com.google.common.collect.ImmutableList;
 import com.lenovo.tripnote.entity.BAccount;
 import com.lenovo.tripnote.entity.BPoi;
 import com.lenovo.tripnote.entity.TTripnoteScheduleTrip;
+import com.lenovo.tripnote.entity.vo.TTripnoteScheduleTripAddVo;
 import com.lenovo.tripnote.entity.vo.TTripnoteScheduleTripVo;
 import com.lenovo.tripnote.service.BPoiService;
 import com.lenovo.tripnote.service.TTripnoteScheduleTripService;
@@ -37,8 +39,10 @@ public class TTripnoteScheduleTripController {
 	private TTripnoteScheduleTripService tTripnoteScheduleTripService;
 	@Resource
 	private BPoiService bPoiService;
-	@RequestMapping(value = "/{model}/doAdd/{sourceId}")
-	public @ResponseBody ResultVo addScheduletrip(@PathVariable String model,@PathVariable String sourceId){
+	@RequestMapping(value = "/{model}/doAdd")
+	public @ResponseBody ResultVo addScheduletrip(@PathVariable String model,TTripnoteScheduleTripAddVo addVo){
+		Subject subject = SecurityUtils.getSubject();
+		BAccount account = (BAccount) subject.getPrincipal();
 		ResultVo vo = new ResultVo();
 		vo.setCode(Result.SUCESSFUL);
 		if(!this.model.contains(model)){
@@ -47,15 +51,19 @@ public class TTripnoteScheduleTripController {
 		}else{
 			switch (model) {
 			case "poi":
-				BPoi bpoi = bPoiService.getByKey(Integer.valueOf(sourceId));
+				BPoi bpoi = bPoiService.getByKey(addVo.getSourceId());
 				TTripnoteScheduleTrip trip = new TTripnoteScheduleTrip();
 				try {
 					BeanUtils.copyProperties(trip, bpoi);
 				} catch (IllegalAccessException | InvocationTargetException e) {
 					e.printStackTrace();
 				}
+				trip.setScheduleId(addVo.getScheduleId());
 				trip.setPoiId(bpoi.getId());
 				trip.setId(null);
+				//重新设置创建人和创建时间
+				trip.setCreateUserId(account.getId());
+				trip.setCreateTime(new Date());
 				tTripnoteScheduleTripService.insert(trip);
 				vo.setData(trip.getId());
 				break;
