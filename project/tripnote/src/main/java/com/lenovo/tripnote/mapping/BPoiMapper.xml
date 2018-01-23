@@ -20,6 +20,7 @@
     <result column="price" property="price" jdbcType="DOUBLE" />
     <result column="address_instrations" property="addressInstrations" jdbcType="VARCHAR" />
     <result column="supplier" property="supplier" jdbcType="VARCHAR" />
+    <result column="imageurl" property="imageurl" jdbcType="VARCHAR" />
     <result column="url" property="url" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
@@ -27,8 +28,6 @@
   <resultMap id="ResultMapWithBLOBs" type="com.lenovo.tripnote.entity.BPoi" extends="BaseResultMap" >
     <result column="guide" property="guide" jdbcType="LONGVARCHAR" />
   </resultMap>
-  
-  
    <resultMap id="SearchResultMap" type="com.lenovo.tripnote.entity.vo.BPoiResultVo" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name_cn" property="nameCn" jdbcType="VARCHAR" />
@@ -48,6 +47,7 @@
     <result column="price" property="price" jdbcType="DOUBLE" />
     <result column="address_instrations" property="addressInstrations" jdbcType="VARCHAR" />
     <result column="supplier" property="supplier" jdbcType="VARCHAR" />
+    <result column="imageurl" property="imageurl" jdbcType="VARCHAR" />
     <result column="url" property="url" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
@@ -61,11 +61,10 @@
     <result column="city_lat" property="lat" jdbcType="DOUBLE" />
     <result column="city_lon" property="lon" jdbcType="DOUBLE" />
   </resultMap>
-  
   <sql id="Base_Column_List" >
     id, name_cn, name_en, address, lon, lat, city_id, cityname, `type`, permissions_type, 
     phone, open_time, consum_description, traffic_instructions, time_reference, price, 
-    address_instrations, supplier, url, create_time, create_user_id
+    address_instrations, supplier, imageurl, url, create_time, create_user_id
   </sql>
   <sql id="Blob_Column_List" >
     guide
@@ -188,12 +187,12 @@
       order by ${orderByClause}
     </if>
   </select>
-  
+   
   <select id="selectAndPage" resultMap="SearchResultMap" parameterType="com.lenovo.tripnote.entity.vo.BPoiSearchVo" >
     select
     bp.id, bp.name_cn, bp.name_en, bp.address, bp.lon, bp.lat, bp.city_id, bp.cityname, bp.`type`, bp.permissions_type, 
     bp.phone, bp.open_time, bp.consum_description, bp.traffic_instructions, bp.time_reference, bp.price, 
-    bp.address_instrations, bp.supplier,bp.url,bp.create_time,bp.create_user_id,
+    bp.address_instrations, bp.supplier,bp.url,bp.imageurl,bp.create_time,bp.create_user_id,
     bc.id as cityid,bc.name_cn as city_name_cn,bc.name_en as city_name_en,bc.lat as city_lat,bc.lon as city_lon
     from b_poi bp left join b_city bc on bc.id = bp.city_id 
     where 1 = 1
@@ -283,6 +282,9 @@
       <if test="record.supplier != null" >
         supplier = #{record.supplier,jdbcType=VARCHAR},
       </if>
+      <if test="record.imageurl != null" >
+        imageurl = #{record.imageurl,jdbcType=VARCHAR},
+      </if>
       <if test="record.url != null" >
         url = #{record.url,jdbcType=VARCHAR},
       </if>
@@ -320,6 +322,7 @@
       price = #{record.price,jdbcType=DOUBLE},
       address_instrations = #{record.addressInstrations,jdbcType=VARCHAR},
       supplier = #{record.supplier,jdbcType=VARCHAR},
+      imageurl = #{record.imageurl,jdbcType=VARCHAR},
       url = #{record.url,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       create_user_id = #{record.createUserId,jdbcType=INTEGER},
@@ -348,6 +351,7 @@
       price = #{record.price,jdbcType=DOUBLE},
       address_instrations = #{record.addressInstrations,jdbcType=VARCHAR},
       supplier = #{record.supplier,jdbcType=VARCHAR},
+      imageurl = #{record.imageurl,jdbcType=VARCHAR},
       url = #{record.url,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       create_user_id = #{record.createUserId,jdbcType=INTEGER}
@@ -373,15 +377,17 @@
       `type`, permissions_type, phone, 
       open_time, consum_description, traffic_instructions, 
       time_reference, price, address_instrations, 
-      supplier, url, create_time, 
-      create_user_id, guide)
+      supplier, imageurl, url, 
+      create_time, create_user_id, guide
+      )
     values (#{nameCn,jdbcType=VARCHAR}, #{nameEn,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
       #{lon,jdbcType=DOUBLE}, #{lat,jdbcType=DOUBLE}, #{cityId,jdbcType=INTEGER}, #{cityname,jdbcType=VARCHAR}, 
       #{type,jdbcType=INTEGER}, #{permissionsType,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, 
       #{openTime,jdbcType=VARCHAR}, #{consumDescription,jdbcType=VARCHAR}, #{trafficInstructions,jdbcType=VARCHAR}, 
       #{timeReference,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}, #{addressInstrations,jdbcType=VARCHAR}, 
-      #{supplier,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{createUserId,jdbcType=INTEGER}, #{guide,jdbcType=LONGVARCHAR})
+      #{supplier,jdbcType=VARCHAR}, #{imageurl,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, #{guide,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.BPoi" useGeneratedKeys="true" keyProperty="id" >
     insert into b_poi
@@ -403,6 +409,7 @@
       price,
       address_instrations,
       supplier,
+      imageurl,
       url,
       create_time,
       create_user_id,
@@ -426,6 +433,7 @@
       #{price,jdbcType=DOUBLE},
       #{addressInstrations,jdbcType=VARCHAR},
       #{supplier,jdbcType=VARCHAR},
+      #{imageurl,jdbcType=VARCHAR},
       #{url,jdbcType=VARCHAR},
       #{createTime,jdbcType=TIMESTAMP},
       #{createUserId,jdbcType=INTEGER},
@@ -486,6 +494,9 @@
       <if test="supplier != null" >
         supplier = #{supplier,jdbcType=VARCHAR},
       </if>
+      <if test="imageurl != null" >
+        imageurl = #{imageurl,jdbcType=VARCHAR},
+      </if>
       <if test="url != null" >
         url = #{url,jdbcType=VARCHAR},
       </if>
@@ -520,6 +531,7 @@
       price = #{price,jdbcType=DOUBLE},
       address_instrations = #{addressInstrations,jdbcType=VARCHAR},
       supplier = #{supplier,jdbcType=VARCHAR},
+      imageurl = #{imageurl,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user_id = #{createUserId,jdbcType=INTEGER},
@@ -545,6 +557,7 @@
       price = #{price,jdbcType=DOUBLE},
       address_instrations = #{addressInstrations,jdbcType=VARCHAR},
       supplier = #{supplier,jdbcType=VARCHAR},
+      imageurl = #{imageurl,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user_id = #{createUserId,jdbcType=INTEGER}
