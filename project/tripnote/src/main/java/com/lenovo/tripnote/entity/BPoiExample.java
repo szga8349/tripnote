@@ -7,25 +7,25 @@ import java.util.List;
 public class BPoiExample {
     /**
      * 主键字段
-     * @ibatorgenerated 2018-01-22 16:27:38
+     * @ibatorgenerated 2018-01-23 13:46:12
      */
     protected String pk_name = "id";
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-01-22 16:27:38
+     * @ibatorgenerated 2018-01-23 13:46:12
      */
     protected String orderByClause;
 
     /**
      * 去重复
-     * @ibatorgenerated 2018-01-22 16:27:38
+     * @ibatorgenerated 2018-01-23 13:46:12
      */
     protected boolean distinct;
 
     /**
      * 条件集
-     * @ibatorgenerated 2018-01-22 16:27:38
+     * @ibatorgenerated 2018-01-23 13:46:12
      */
     protected List<Criteria> oredCriteria;
 
@@ -43,7 +43,7 @@ public class BPoiExample {
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-01-22 16:27:38
+     * @ibatorgenerated 2018-01-23 13:46:12
      */
     public void setOrderByClause(String orderByClause) {
         this.orderByClause = orderByClause;
@@ -55,7 +55,7 @@ public class BPoiExample {
 
     /**
      * 设置去重复
-     * @ibatorgenerated 2018-01-22 16:27:38
+     * @ibatorgenerated 2018-01-23 13:46:12
      */
     public void setDistinct(boolean distinct) {
         this.distinct = distinct;
@@ -81,7 +81,7 @@ public class BPoiExample {
 
     /**
      * 条件查询要先创建Criteria
-     * @ibatorgenerated 2018-01-22 16:27:38
+     * @ibatorgenerated 2018-01-23 13:46:12
      */
     public Criteria createCriteria() {
         Criteria criteria = createCriteriaInternal();
@@ -105,7 +105,7 @@ public class BPoiExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-01-22 16:27:38
+     * @ibatorgenerated 2018-01-23 13:46:12
      */
     protected abstract static class GeneratedCriteria {
         protected List<Criterion> criteria;
@@ -1338,6 +1338,76 @@ public class BPoiExample {
             return (Criteria) this;
         }
 
+        public Criteria andUrlIsNull() {
+            addCriterion("url is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUrlIsNotNull() {
+            addCriterion("url is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUrlEqualTo(String value) {
+            addCriterion("url =", value, "url");
+            return (Criteria) this;
+        }
+
+        public Criteria andUrlNotEqualTo(String value) {
+            addCriterion("url <>", value, "url");
+            return (Criteria) this;
+        }
+
+        public Criteria andUrlGreaterThan(String value) {
+            addCriterion("url >", value, "url");
+            return (Criteria) this;
+        }
+
+        public Criteria andUrlGreaterThanOrEqualTo(String value) {
+            addCriterion("url >=", value, "url");
+            return (Criteria) this;
+        }
+
+        public Criteria andUrlLessThan(String value) {
+            addCriterion("url <", value, "url");
+            return (Criteria) this;
+        }
+
+        public Criteria andUrlLessThanOrEqualTo(String value) {
+            addCriterion("url <=", value, "url");
+            return (Criteria) this;
+        }
+
+        public Criteria andUrlLike(String value) {
+            addCriterion("url like", value, "url");
+            return (Criteria) this;
+        }
+
+        public Criteria andUrlNotLike(String value) {
+            addCriterion("url not like", value, "url");
+            return (Criteria) this;
+        }
+
+        public Criteria andUrlIn(List<String> values) {
+            addCriterion("url in", values, "url");
+            return (Criteria) this;
+        }
+
+        public Criteria andUrlNotIn(List<String> values) {
+            addCriterion("url not in", values, "url");
+            return (Criteria) this;
+        }
+
+        public Criteria andUrlBetween(String value1, String value2) {
+            addCriterion("url between", value1, value2, "url");
+            return (Criteria) this;
+        }
+
+        public Criteria andUrlNotBetween(String value1, String value2) {
+            addCriterion("url not between", value1, value2, "url");
+            return (Criteria) this;
+        }
+
         public Criteria andCreateTimeIsNull() {
             addCriterion("create_time is null");
             return (Criteria) this;
@@ -1461,7 +1531,7 @@ public class BPoiExample {
 
     /**
      * b_poi
-     * @ibatorgenerated do_not_delete_during_merge 2018-01-22 16:27:38
+     * @ibatorgenerated do_not_delete_during_merge 2018-01-23 13:46:12
      */
     public static class Criteria extends GeneratedCriteria {
 
@@ -1473,7 +1543,7 @@ public class BPoiExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-01-22 16:27:38
+     * @ibatorgenerated 2018-01-23 13:46:12
      */
     public static class Criterion {
         private String condition;
