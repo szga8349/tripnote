@@ -1,6 +1,7 @@
 package com.lenovo.tripnote.controller;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -12,9 +13,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.common.collect.ImmutableList;
 import com.lenovo.tripnote.entity.BAccount;
+import com.lenovo.tripnote.entity.BPoi;
 import com.lenovo.tripnote.entity.TTripnoteScheduleTrip;
 import com.lenovo.tripnote.entity.vo.TTripnoteScheduleTripVo;
+import com.lenovo.tripnote.service.BPoiService;
 import com.lenovo.tripnote.service.TTripnoteScheduleTripService;
 import com.lenovo.tripnote.vo.Result;
 import com.lenovo.tripnote.vo.ResultVo;
@@ -27,23 +31,38 @@ import com.lenovo.tripnote.vo.ResultVo;
 @RequestMapping(value = "/tripnote/scheduletrip")
 public class TTripnoteScheduleTripController {
 	
+	private List<String> model =  (List<String>) ImmutableList.of("poi","hotel","traffic","rent");
+	
 	@Resource
 	private TTripnoteScheduleTripService tTripnoteScheduleTripService;
-	@RequestMapping(value = "/doAdd")
-	public @ResponseBody ResultVo addScheduletrip(TTripnoteScheduleTripVo tripnoteScheduleVo){
-		Subject subject = SecurityUtils.getSubject();
+	@Resource
+	private BPoiService bPoiService;
+	@RequestMapping(value = "/{model}/doAdd/{sourceId}")
+	public @ResponseBody ResultVo addScheduletrip(@PathVariable String model,@PathVariable String sourceId){
 		ResultVo vo = new ResultVo();
 		vo.setCode(Result.SUCESSFUL);
-		TTripnoteScheduleTrip schedule = new TTripnoteScheduleTrip();
-		try {
-			BeanUtils.copyProperties(schedule, tripnoteScheduleVo);
-		} catch (IllegalAccessException | InvocationTargetException e) {
-			e.printStackTrace();
+		if(!this.model.contains(model)){
+			vo.setCode(Result.FAUL);
+			vo.setMessage("暂不支持该模块数据");
+		}else{
+			switch (model) {
+			case "poi":
+				BPoi bpoi = bPoiService.getByKey(Integer.valueOf(sourceId));
+				TTripnoteScheduleTrip trip = new TTripnoteScheduleTrip();
+				try {
+					BeanUtils.copyProperties(trip, bpoi);
+				} catch (IllegalAccessException | InvocationTargetException e) {
+					e.printStackTrace();
+				}
+				trip.setPoiId(bpoi.getId());
+				trip.setId(null);
+				tTripnoteScheduleTripService.insert(trip);
+				vo.setData(trip.getId());
+				break;
+			default:
+				break;
+			}
 		}
-		BAccount account = (BAccount) subject.getPrincipal();
-		schedule.setCreateUserId(account.getId());
-		tTripnoteScheduleTripService.insert(schedule);
-		vo.setData(schedule.getId());
 		return vo;
 	}
 	@RequestMapping(value = "/doUpdate/{id}")
