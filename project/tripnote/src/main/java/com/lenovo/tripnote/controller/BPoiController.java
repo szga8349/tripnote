@@ -82,4 +82,11 @@ public class BPoiController {
 		bPoiService.update(t);
 		return vo;
 	}
+	@RequestMapping(value = "/doDetail/{id}")
+	public @ResponseBody ResultVo getDetail(@PathVariable String id) throws IllegalAccessException, InvocationTargetException {
+		ResultVo vo = new ResultVo();
+		vo.setCode(Result.SUCESSFUL);
+		vo.setData(bPoiService.getByKey(Integer.valueOf(id)));
+		return vo;
+	}
 }
