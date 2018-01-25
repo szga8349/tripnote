@@ -171,7 +171,7 @@
 		ttst.time_reference, ttst.price,ttst.address_instrations,
 		ttst.supplier, ttst.imageurl,ttst.url,ttst.guide,
 		ttstc.id as traffic_id,ttstc.schedule_id as
-		traffic_schedule_id,ttstc.start_schedule_trip,ttstc.end_schedule_trip,ttstc.distance,ttstc.spend_time,ttstc.traffic_type
+		traffic_schedule_id,ttstc.start_schedule_trip,ttstc.end_schedule_trip,ttstc.distance,ttstc.spend_time,ttstc.traffic_type,
 		but.id as busertrip_id,but.title as
 		busertrip_title,but.cover,but.context as busertrip_context,
 		bc.id as city_id,bc.name_cn,bc.name_en,bc.lat,bc.lon,ttsrc.schedule_id as
