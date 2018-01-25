@@ -5,12 +5,28 @@ import java.util.Date;
 import java.util.List;
 
 public class TTripnoteScheduleTrafficExample {
+    /**
+     * 主键字段
+     * @ibatorgenerated 2018-01-25 16:25:06
+     */
     protected String pk_name = "id";
 
+    /**
+     * 排序字段
+     * @ibatorgenerated 2018-01-25 16:25:06
+     */
     protected String orderByClause;
 
+    /**
+     * 去重复
+     * @ibatorgenerated 2018-01-25 16:25:06
+     */
     protected boolean distinct;
 
+    /**
+     * 条件集
+     * @ibatorgenerated 2018-01-25 16:25:06
+     */
     protected List<Criteria> oredCriteria;
 
     public TTripnoteScheduleTrafficExample() {
@@ -25,6 +41,10 @@ public class TTripnoteScheduleTrafficExample {
         return pk_name;
     }
 
+    /**
+     * 排序字段
+     * @ibatorgenerated 2018-01-25 16:25:06
+     */
     public void setOrderByClause(String orderByClause) {
         this.orderByClause = orderByClause;
     }
@@ -33,6 +53,10 @@ public class TTripnoteScheduleTrafficExample {
         return orderByClause;
     }
 
+    /**
+     * 设置去重复
+     * @ibatorgenerated 2018-01-25 16:25:06
+     */
     public void setDistinct(boolean distinct) {
         this.distinct = distinct;
     }
@@ -55,6 +79,10 @@ public class TTripnoteScheduleTrafficExample {
         return criteria;
     }
 
+    /**
+     * 条件查询要先创建Criteria
+     * @ibatorgenerated 2018-01-25 16:25:06
+     */
     public Criteria createCriteria() {
         Criteria criteria = createCriteriaInternal();
         if (oredCriteria.size() == 0) {
@@ -74,6 +102,11 @@ public class TTripnoteScheduleTrafficExample {
         distinct = false;
     }
 
+    /**
+     * 
+     * 内类部，系统内部调用1
+     * @ibatorgenerated 2018-01-25 16:25:06
+     */
     protected abstract static class GeneratedCriteria {
         protected List<Criterion> criteria;
 
@@ -475,6 +508,66 @@ public class TTripnoteScheduleTrafficExample {
             return (Criteria) this;
         }
 
+        public Criteria andTrafficTypeIsNull() {
+            addCriterion("traffic_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrafficTypeIsNotNull() {
+            addCriterion("traffic_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrafficTypeEqualTo(Integer value) {
+            addCriterion("traffic_type =", value, "trafficType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrafficTypeNotEqualTo(Integer value) {
+            addCriterion("traffic_type <>", value, "trafficType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrafficTypeGreaterThan(Integer value) {
+            addCriterion("traffic_type >", value, "trafficType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrafficTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("traffic_type >=", value, "trafficType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrafficTypeLessThan(Integer value) {
+            addCriterion("traffic_type <", value, "trafficType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrafficTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("traffic_type <=", value, "trafficType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrafficTypeIn(List<Integer> values) {
+            addCriterion("traffic_type in", values, "trafficType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrafficTypeNotIn(List<Integer> values) {
+            addCriterion("traffic_type not in", values, "trafficType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrafficTypeBetween(Integer value1, Integer value2) {
+            addCriterion("traffic_type between", value1, value2, "trafficType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrafficTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("traffic_type not between", value1, value2, "trafficType");
+            return (Criteria) this;
+        }
+
         public Criteria andCreatetimeIsNull() {
             addCriterion("createtime is null");
             return (Criteria) this;
@@ -666,6 +759,10 @@ public class TTripnoteScheduleTrafficExample {
         }
     }
 
+    /**
+     * t_tripnote_schedule_traffic
+     * @ibatorgenerated do_not_delete_during_merge 2018-01-25 16:25:06
+     */
     public static class Criteria extends GeneratedCriteria {
 
         protected Criteria() {
@@ -673,6 +770,11 @@ public class TTripnoteScheduleTrafficExample {
         }
     }
 
+    /**
+     * 
+     * 内类部，系统内部调用1
+     * @ibatorgenerated 2018-01-25 16:25:06
+     */
     public static class Criterion {
         private String condition;
 

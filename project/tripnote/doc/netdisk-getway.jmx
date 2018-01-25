@@ -454,7 +454,12 @@
       </ThreadGroup>
       <hashTree>
         <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP信息头管理器" enabled="true">
-          <collectionProp name="HeaderManager.headers"/>
+          <collectionProp name="HeaderManager.headers">
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">content-Type</stringProp>
+              <stringProp name="Header.value">application/json</stringProp>
+            </elementProp>
+          </collectionProp>
         </HeaderManager>
         <hashTree/>
         <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP请求默认值" enabled="true">
@@ -467,19 +472,18 @@
           <stringProp name="HTTPSampler.response_timeout"></stringProp>
           <stringProp name="HTTPSampler.protocol"></stringProp>
           <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
-          <stringProp name="HTTPSampler.path">datax-web</stringProp>
+          <stringProp name="HTTPSampler.path">spring-web-demo</stringProp>
           <stringProp name="HTTPSampler.concurrentPool">4</stringProp>
         </ConfigTestElement>
         <hashTree/>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="添加流任务请求" enabled="true">
-          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="用户定义的变量" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
             <collectionProp name="Arguments.arguments">
-              <elementProp name="processJson" elementType="HTTPArgument">
+              <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{     &quot;processId&quot;: &quot;111&quot;,     &quot;processName&quot;: &quot;实时计算&quot;,     &quot;processDesc&quot;: &quot;实时计算&quot;,     &quot;appId&quot;: &quot;1&quot;,     &quot;scheduleType&quot;: &quot;O&quot;,     &quot;freqType&quot;: &quot;&quot;,     &quot;interval&quot;: &quot;&quot;,     &quot;selectDay&quot;: &quot;&quot;,     &quot;intervalDay&quot;: &quot;&quot;,     &quot;scheduleDate&quot;: &quot;2017-02-21&quot;,     &quot;scheduleTime&quot;: &quot;17:22:00&quot;,     &quot;scheduleEndDate&quot;: &quot;&quot;,     &quot;scheduleEndTime&quot;: &quot;&quot;,     &quot;alermMethod&quot;: &quot;&quot;,     &quot;alermPerson&quot;: &quot;&quot;,     &quot;processVariables&quot;: &quot;&quot;,     &quot;states&quot;: [         {             &quot;taskId&quot;: &quot;44d4835a-c68d-4c2d-acc6-dffd0b9eb768&quot;,             &quot;taskName&quot;: &quot;Kafka输入&quot;,             &quot;taskType&quot;: &quot;Kafka输入&quot;,             &quot;props&quot;: {                 &quot;brokeUrl&quot;: &quot;localhost:9092&quot;,                 &quot;topic&quot;: &quot;test&quot;, 		&quot;windowSize&quot;:10,                 &quot;classname&quot;:&quot;com.lenovo.datax.step.input.BeamKafakInpuStep&quot;, 		&quot;runner&quot;:&quot;SPARKRUNNER&quot;             }         },         {             &quot;taskId&quot;: &quot;8e5e431a-de37-4a69-80ef-df11f3e54826&quot;,             &quot;taskName&quot;: &quot;KeyValueStep&quot;,             &quot;taskType&quot;: &quot;KeyValueStep&quot;,             &quot;props&quot;: {                 &quot;value&quot;: &quot;!~0&quot;, 		&quot;classname&quot;:&quot;com.lenovo.datax.step.dataquality.KeyValueStep&quot;             }         }, 	 {             &quot;taskId&quot;: &quot;8e5e431a-de37-4a69-80ef-df11f3e54827&quot;,             &quot;taskName&quot;: &quot;KeyConut&quot;,             &quot;taskType&quot;: &quot;KeyConut&quot;,             &quot;props&quot;: { 		 &quot;classname&quot;:&quot;com.lenovo.datax.step.dataquality.KeyCountStep&quot;             }         },{             &quot;taskId&quot;: &quot;8e5e431a-de37-4a69-80ef-df11f3e54828&quot;,             &quot;taskName&quot;: &quot;FileOut&quot;,             &quot;taskType&quot;: &quot;FileOut&quot;,             &quot;props&quot;: {                 &quot;outFile&quot;: &quot;beamfileout.txt&quot;, 		 &quot;classname&quot;:&quot;com.lenovo.datax.step.output.BeamFileOutStep&quot;             }         }     ],     &quot;paths&quot;: [         {             &quot;condition&quot;: &quot;&quot;,             &quot;from&quot;: &quot;44d4835a-c68d-4c2d-acc6-dffd0b9eb768&quot;,             &quot;to&quot;: &quot;8e5e431a-de37-4a69-80ef-df11f3e54828&quot;,             &quot;text&quot;: &quot;&quot;         }     ] }</stringProp>
+                <stringProp name="Argument.value">{&quot;name&quot;:&quot;222&quot;,&quot;id&quot;:1}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
-                <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                <stringProp name="Argument.name">processJson</stringProp>
               </elementProp>
             </collectionProp>
           </elementProp>
@@ -489,7 +493,7 @@
           <stringProp name="HTTPSampler.response_timeout"></stringProp>
           <stringProp name="HTTPSampler.protocol"></stringProp>
           <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
-          <stringProp name="HTTPSampler.path">datax-web/trans/execute/stream</stringProp>
+          <stringProp name="HTTPSampler.path">spring-web-demo/app/hello3/MQ==</stringProp>
           <stringProp name="HTTPSampler.method">POST</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -1658,7 +1662,7 @@
           </RegexExtractor>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="tripnote增加日程行程接口" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="tripnote增加日程行程接口" enabled="false">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="用户定义的变量" enabled="true">
             <collectionProp name="Arguments.arguments">
               <elementProp name="scheduleId" elementType="HTTPArgument">
@@ -1884,7 +1888,7 @@
           </RegexExtractor>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="tripnote增加日程交通接口" enabled="false">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="tripnote增加日程交通接口" enabled="true">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="用户定义的变量" enabled="true">
             <collectionProp name="Arguments.arguments">
               <elementProp name="scheduleId" elementType="HTTPArgument">
@@ -1921,6 +1925,13 @@
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">spendTime</stringProp>
+              </elementProp>
+              <elementProp name="trafficType" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">1</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">trafficType</stringProp>
               </elementProp>
             </collectionProp>
           </elementProp>
