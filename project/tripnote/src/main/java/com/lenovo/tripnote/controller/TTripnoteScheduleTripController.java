@@ -98,4 +98,11 @@ public class TTripnoteScheduleTripController {
 		tTripnoteScheduleTripService.deleteBykey(Integer.valueOf(id));
 		return vo;
 	}
+	@RequestMapping(value = "/doDetail/{id}")
+	public @ResponseBody ResultVo detailScheduletrip(@PathVariable String id){
+		ResultVo vo = new ResultVo();
+		vo.setCode(Result.SUCESSFUL);
+		vo.setData(tTripnoteScheduleTripService.getByKey(Integer.valueOf(id)));
+		return vo;
+	}
 }
