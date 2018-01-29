@@ -2,30 +2,31 @@ package com.lenovo.tripnote.entity;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 public class TTripnoteScheduleTrafficExample {
     /**
      * 主键字段
-     * @ibatorgenerated 2018-01-25 16:25:06
+     * @ibatorgenerated 2018-01-29 11:35:30
      */
     protected String pk_name = "id";
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-01-25 16:25:06
+     * @ibatorgenerated 2018-01-29 11:35:30
      */
     protected String orderByClause;
 
     /**
      * 去重复
-     * @ibatorgenerated 2018-01-25 16:25:06
+     * @ibatorgenerated 2018-01-29 11:35:30
      */
     protected boolean distinct;
 
     /**
      * 条件集
-     * @ibatorgenerated 2018-01-25 16:25:06
+     * @ibatorgenerated 2018-01-29 11:35:30
      */
     protected List<Criteria> oredCriteria;
 
@@ -43,7 +44,7 @@ public class TTripnoteScheduleTrafficExample {
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-01-25 16:25:06
+     * @ibatorgenerated 2018-01-29 11:35:30
      */
     public void setOrderByClause(String orderByClause) {
         this.orderByClause = orderByClause;
@@ -55,7 +56,7 @@ public class TTripnoteScheduleTrafficExample {
 
     /**
      * 设置去重复
-     * @ibatorgenerated 2018-01-25 16:25:06
+     * @ibatorgenerated 2018-01-29 11:35:30
      */
     public void setDistinct(boolean distinct) {
         this.distinct = distinct;
@@ -81,7 +82,7 @@ public class TTripnoteScheduleTrafficExample {
 
     /**
      * 条件查询要先创建Criteria
-     * @ibatorgenerated 2018-01-25 16:25:06
+     * @ibatorgenerated 2018-01-29 11:35:30
      */
     public Criteria createCriteria() {
         Criteria criteria = createCriteriaInternal();
@@ -105,7 +106,7 @@ public class TTripnoteScheduleTrafficExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-01-25 16:25:06
+     * @ibatorgenerated 2018-01-29 11:35:30
      */
     protected abstract static class GeneratedCriteria {
         protected List<Criterion> criteria;
@@ -146,6 +147,32 @@ public class TTripnoteScheduleTrafficExample {
                 throw new RuntimeException("Between values for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value1, value2));
+        }
+
+        protected void addCriterionForJDBCTime(String condition, Date value, String property) {
+            if (value == null) {
+                throw new RuntimeException("Value for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Time(value.getTime()), property);
+        }
+
+        protected void addCriterionForJDBCTime(String condition, List<Date> values, String property) {
+            if (values == null || values.size() == 0) {
+                throw new RuntimeException("Value list for " + property + " cannot be null or empty");
+            }
+            List<java.sql.Time> timeList = new ArrayList<java.sql.Time>();
+            Iterator<Date> iter = values.iterator();
+            while (iter.hasNext()) {
+                timeList.add(new java.sql.Time(iter.next().getTime()));
+            }
+            addCriterion(condition, timeList, property);
+        }
+
+        protected void addCriterionForJDBCTime(String condition, Date value1, Date value2, String property) {
+            if (value1 == null || value2 == null) {
+                throw new RuntimeException("Between values for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Time(value1.getTime()), new java.sql.Time(value2.getTime()), property);
         }
 
         public Criteria andIdIsNull() {
@@ -568,6 +595,66 @@ public class TTripnoteScheduleTrafficExample {
             return (Criteria) this;
         }
 
+        public Criteria andArrivalTimeIsNull() {
+            addCriterion("arrival_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andArrivalTimeIsNotNull() {
+            addCriterion("arrival_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andArrivalTimeEqualTo(Date value) {
+            addCriterionForJDBCTime("arrival_time =", value, "arrivalTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andArrivalTimeNotEqualTo(Date value) {
+            addCriterionForJDBCTime("arrival_time <>", value, "arrivalTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andArrivalTimeGreaterThan(Date value) {
+            addCriterionForJDBCTime("arrival_time >", value, "arrivalTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andArrivalTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCTime("arrival_time >=", value, "arrivalTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andArrivalTimeLessThan(Date value) {
+            addCriterionForJDBCTime("arrival_time <", value, "arrivalTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andArrivalTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCTime("arrival_time <=", value, "arrivalTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andArrivalTimeIn(List<Date> values) {
+            addCriterionForJDBCTime("arrival_time in", values, "arrivalTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andArrivalTimeNotIn(List<Date> values) {
+            addCriterionForJDBCTime("arrival_time not in", values, "arrivalTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andArrivalTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCTime("arrival_time between", value1, value2, "arrivalTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andArrivalTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCTime("arrival_time not between", value1, value2, "arrivalTime");
+            return (Criteria) this;
+        }
+
         public Criteria andCreatetimeIsNull() {
             addCriterion("createtime is null");
             return (Criteria) this;
@@ -688,6 +775,76 @@ public class TTripnoteScheduleTrafficExample {
             return (Criteria) this;
         }
 
+        public Criteria andShiftIsNull() {
+            addCriterion("shift is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andShiftIsNotNull() {
+            addCriterion("shift is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andShiftEqualTo(String value) {
+            addCriterion("shift =", value, "shift");
+            return (Criteria) this;
+        }
+
+        public Criteria andShiftNotEqualTo(String value) {
+            addCriterion("shift <>", value, "shift");
+            return (Criteria) this;
+        }
+
+        public Criteria andShiftGreaterThan(String value) {
+            addCriterion("shift >", value, "shift");
+            return (Criteria) this;
+        }
+
+        public Criteria andShiftGreaterThanOrEqualTo(String value) {
+            addCriterion("shift >=", value, "shift");
+            return (Criteria) this;
+        }
+
+        public Criteria andShiftLessThan(String value) {
+            addCriterion("shift <", value, "shift");
+            return (Criteria) this;
+        }
+
+        public Criteria andShiftLessThanOrEqualTo(String value) {
+            addCriterion("shift <=", value, "shift");
+            return (Criteria) this;
+        }
+
+        public Criteria andShiftLike(String value) {
+            addCriterion("shift like", value, "shift");
+            return (Criteria) this;
+        }
+
+        public Criteria andShiftNotLike(String value) {
+            addCriterion("shift not like", value, "shift");
+            return (Criteria) this;
+        }
+
+        public Criteria andShiftIn(List<String> values) {
+            addCriterion("shift in", values, "shift");
+            return (Criteria) this;
+        }
+
+        public Criteria andShiftNotIn(List<String> values) {
+            addCriterion("shift not in", values, "shift");
+            return (Criteria) this;
+        }
+
+        public Criteria andShiftBetween(String value1, String value2) {
+            addCriterion("shift between", value1, value2, "shift");
+            return (Criteria) this;
+        }
+
+        public Criteria andShiftNotBetween(String value1, String value2) {
+            addCriterion("shift not between", value1, value2, "shift");
+            return (Criteria) this;
+        }
+
         public Criteria andCreateuserNameIsNull() {
             addCriterion("createuser_name is null");
             return (Criteria) this;
@@ -757,11 +914,71 @@ public class TTripnoteScheduleTrafficExample {
             addCriterion("createuser_name not between", value1, value2, "createuserName");
             return (Criteria) this;
         }
+
+        public Criteria andStartTimeIsNull() {
+            addCriterion("start_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartTimeIsNotNull() {
+            addCriterion("start_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartTimeEqualTo(Date value) {
+            addCriterionForJDBCTime("start_time =", value, "startTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartTimeNotEqualTo(Date value) {
+            addCriterionForJDBCTime("start_time <>", value, "startTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartTimeGreaterThan(Date value) {
+            addCriterionForJDBCTime("start_time >", value, "startTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCTime("start_time >=", value, "startTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartTimeLessThan(Date value) {
+            addCriterionForJDBCTime("start_time <", value, "startTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCTime("start_time <=", value, "startTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartTimeIn(List<Date> values) {
+            addCriterionForJDBCTime("start_time in", values, "startTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartTimeNotIn(List<Date> values) {
+            addCriterionForJDBCTime("start_time not in", values, "startTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCTime("start_time between", value1, value2, "startTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCTime("start_time not between", value1, value2, "startTime");
+            return (Criteria) this;
+        }
     }
 
     /**
      * t_tripnote_schedule_traffic
-     * @ibatorgenerated do_not_delete_during_merge 2018-01-25 16:25:06
+     * @ibatorgenerated do_not_delete_during_merge 2018-01-29 11:35:30
      */
     public static class Criteria extends GeneratedCriteria {
 
@@ -773,7 +990,7 @@ public class TTripnoteScheduleTrafficExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-01-25 16:25:06
+     * @ibatorgenerated 2018-01-29 11:35:30
      */
     public static class Criterion {
         private String condition;

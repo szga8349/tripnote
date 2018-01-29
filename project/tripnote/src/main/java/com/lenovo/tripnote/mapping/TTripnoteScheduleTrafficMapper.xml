@@ -9,13 +9,16 @@
     <result column="distance" property="distance" jdbcType="REAL" />
     <result column="spend_time" property="spendTime" jdbcType="BIGINT" />
     <result column="traffic_type" property="trafficType" jdbcType="INTEGER" />
+    <result column="arrival_time" property="arrivalTime" jdbcType="TIME" />
     <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
     <result column="create_userid" property="createUserid" jdbcType="INTEGER" />
+    <result column="shift" property="shift" jdbcType="VARCHAR" />
     <result column="createuser_name" property="createuserName" jdbcType="VARCHAR" />
+    <result column="start_time" property="startTime" jdbcType="TIME" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, schedule_id, start_schedule_trip, end_schedule_trip, distance, spend_time, traffic_type, 
-    createtime, create_userid, createuser_name
+    arrival_time, createtime, create_userid, shift, createuser_name, start_time
   </sql>
   <sql id="Example_Where_Clause" >
     <where >
@@ -139,14 +142,23 @@
       <if test="record.trafficType != null" >
         traffic_type = #{record.trafficType,jdbcType=INTEGER},
       </if>
+      <if test="record.arrivalTime != null" >
+        arrival_time = #{record.arrivalTime,jdbcType=TIME},
+      </if>
       <if test="record.createtime != null" >
         createtime = #{record.createtime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.createUserid != null" >
         create_userid = #{record.createUserid,jdbcType=INTEGER},
       </if>
+      <if test="record.shift != null" >
+        shift = #{record.shift,jdbcType=VARCHAR},
+      </if>
       <if test="record.createuserName != null" >
         createuser_name = #{record.createuserName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.startTime != null" >
+        start_time = #{record.startTime,jdbcType=TIME},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -162,9 +174,12 @@
       distance = #{record.distance,jdbcType=REAL},
       spend_time = #{record.spendTime,jdbcType=BIGINT},
       traffic_type = #{record.trafficType,jdbcType=INTEGER},
+      arrival_time = #{record.arrivalTime,jdbcType=TIME},
       createtime = #{record.createtime,jdbcType=TIMESTAMP},
       create_userid = #{record.createUserid,jdbcType=INTEGER},
-      createuser_name = #{record.createuserName,jdbcType=VARCHAR}
+      shift = #{record.shift,jdbcType=VARCHAR},
+      createuser_name = #{record.createuserName,jdbcType=VARCHAR},
+      start_time = #{record.startTime,jdbcType=TIME}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -182,11 +197,13 @@
   <insert id="insert" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleTraffic" useGeneratedKeys="true" keyProperty="id" >
     insert into t_tripnote_schedule_traffic (schedule_id, start_schedule_trip, end_schedule_trip, 
       distance, spend_time, traffic_type, 
-      createtime, create_userid, createuser_name
+      arrival_time, createtime, create_userid, 
+      shift, createuser_name, start_time
       )
     values (#{scheduleId,jdbcType=INTEGER}, #{startScheduleTrip,jdbcType=INTEGER}, #{endScheduleTrip,jdbcType=INTEGER}, 
       #{distance,jdbcType=REAL}, #{spendTime,jdbcType=BIGINT}, #{trafficType,jdbcType=INTEGER}, 
-      #{createtime,jdbcType=TIMESTAMP}, #{createUserid,jdbcType=INTEGER}, #{createuserName,jdbcType=VARCHAR}
+      #{arrivalTime,jdbcType=TIME}, #{createtime,jdbcType=TIMESTAMP}, #{createUserid,jdbcType=INTEGER}, 
+      #{shift,jdbcType=VARCHAR}, #{createuserName,jdbcType=VARCHAR}, #{startTime,jdbcType=TIME}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleTraffic" useGeneratedKeys="true" keyProperty="id" >
@@ -198,9 +215,12 @@
       distance,
       spend_time,
       traffic_type,
+      arrival_time,
       createtime,
       create_userid,
+      shift,
       createuser_name,
+      start_time,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       #{scheduleId,jdbcType=INTEGER},
@@ -209,9 +229,12 @@
       #{distance,jdbcType=REAL},
       #{spendTime,jdbcType=BIGINT},
       #{trafficType,jdbcType=INTEGER},
+      #{arrivalTime,jdbcType=TIME},
       #{createtime,jdbcType=TIMESTAMP},
       #{createUserid,jdbcType=INTEGER},
+      #{shift,jdbcType=VARCHAR},
       #{createuserName,jdbcType=VARCHAR},
+      #{startTime,jdbcType=TIME},
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleTraffic" >
@@ -235,14 +258,23 @@
       <if test="trafficType != null" >
         traffic_type = #{trafficType,jdbcType=INTEGER},
       </if>
+      <if test="arrivalTime != null" >
+        arrival_time = #{arrivalTime,jdbcType=TIME},
+      </if>
       <if test="createtime != null" >
         createtime = #{createtime,jdbcType=TIMESTAMP},
       </if>
       <if test="createUserid != null" >
         create_userid = #{createUserid,jdbcType=INTEGER},
       </if>
+      <if test="shift != null" >
+        shift = #{shift,jdbcType=VARCHAR},
+      </if>
       <if test="createuserName != null" >
         createuser_name = #{createuserName,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=TIME},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -255,9 +287,12 @@
       distance = #{distance,jdbcType=REAL},
       spend_time = #{spendTime,jdbcType=BIGINT},
       traffic_type = #{trafficType,jdbcType=INTEGER},
+      arrival_time = #{arrivalTime,jdbcType=TIME},
       createtime = #{createtime,jdbcType=TIMESTAMP},
       create_userid = #{createUserid,jdbcType=INTEGER},
-      createuser_name = #{createuserName,jdbcType=VARCHAR}
+      shift = #{shift,jdbcType=VARCHAR},
+      createuser_name = #{createuserName,jdbcType=VARCHAR},
+      start_time = #{startTime,jdbcType=TIME}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

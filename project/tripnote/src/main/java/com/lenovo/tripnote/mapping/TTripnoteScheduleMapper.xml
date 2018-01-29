@@ -36,6 +36,9 @@
 		    <result column="traffic_type" property="trafficType" jdbcType="INTEGER" />
 			<result column="distance" property="distance" jdbcType="REAL" />
 			<result column="spend_time" property="spendTime" jdbcType="BIGINT" />
+			<result column="arrival_time" property="arrivalTime" jdbcType="TIME" />
+			<result column="shift" property="shift" jdbcType="VARCHAR" />
+			<result column="start_time" property="startTime" jdbcType="TIME" />
 		</collection>
 		<collection property="scheduletrips" javaType="java.util.List"
 			ofType="com.lenovo.tripnote.entity.vo.TTripnoteScheduleTripResultVo">
@@ -172,6 +175,7 @@
 		ttst.supplier, ttst.imageurl,ttst.url,ttst.guide,
 		ttstc.id as traffic_id,ttstc.schedule_id as
 		traffic_schedule_id,ttstc.start_schedule_trip,ttstc.end_schedule_trip,ttstc.distance,ttstc.spend_time,ttstc.traffic_type,
+		ttstc.arrival_time,ttstc.start_time,ttstc.shift,
 		but.id as busertrip_id,but.title as
 		busertrip_title,but.cover,but.context as busertrip_context,
 		bc.id as city_id,bc.name_cn,bc.name_en,bc.lat,bc.lon,ttsrc.schedule_id as
