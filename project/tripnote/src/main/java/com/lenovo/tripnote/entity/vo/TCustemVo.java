@@ -8,7 +8,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class TCustemVo {
-
+    private Integer id;
+    
 	private String name;
 	
 	private String phone;

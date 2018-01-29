@@ -20,28 +20,6 @@
   </resultMap>
   
   
-  
-   <resultMap id="SearchResultMap" type="com.lenovo.tripnote.entity.vo.TTripNoteSearchResultVo" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="code" property="code" jdbcType="VARCHAR" />
-    <result column="title" property="title" jdbcType="VARCHAR" />
-    <result column="start_date" property="startDate" jdbcType="DATE" />
-    <result column="end_date" property="endDate" jdbcType="DATE" />
-    <result column="days" property="days" jdbcType="INTEGER" />
-    <result column="destination" property="destination" jdbcType="VARCHAR" />
-    <result column="status" property="status" jdbcType="INTEGER" />
-    <result column="start_city" property="startCity" jdbcType="VARCHAR" />
-    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
-    <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
-    <collection property="custems" javaType="java.util.List" ofType="com.lenovo.tripnote.entity.vo.TCustemVo">  
-            <result column="phone1" property="phone" jdbcType="VARCHAR" />  
-            <result column="name" property="name" jdbcType="VARCHAR" />  
-     </collection>  
-      <collection property="tTripNoteSchedules" javaType="java.util.List" ofType="com.lenovo.tripnote.entity.vo.SampleScheduleResultVo">
-            <result column="schedule_title" property="title" jdbcType="VARCHAR" />  
-     </collection> 
-  </resultMap>
-  
    <resultMap id="DetailResultMap" type="com.lenovo.tripnote.entity.vo.TTripNoteDetailResultVo" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="code" property="code" jdbcType="VARCHAR" />
@@ -55,7 +33,8 @@
     <result column="remarks" property="remarks" jdbcType="VARCHAR" />
     <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
     <collection property="custems" javaType="java.util.List" ofType="com.lenovo.tripnote.entity.vo.TCustemVo">  
-            <result column="phone1" property="phone" jdbcType="VARCHAR" />  
+            <result column="customer_id" property="id" jdbcType="INTEGER" />
+            <result column="phone1" property="phone" jdbcType="VARCHAR" />
             <result column="name" property="name" jdbcType="VARCHAR" />  
      </collection>  
      <collection property="tTripNoteSchedules" javaType="java.util.List" ofType="com.lenovo.tripnote.entity.vo.TTripNoteScheduleResultVo">
@@ -142,7 +121,7 @@
   <select id="queryCondition" resultMap="DetailResultMap" parameterType="com.lenovo.tripnote.entity.vo.TTripNoteSearchVo" >
     select
     t.id,t.code, t.title,t.start_date, t.end_date, t.`days`, t.destination, 
-    t.`status`, t.start_city, t.remarks,tc.name,tc.phone1,t.introduction,
+    t.`status`, t.start_city, t.remarks,tc.name,tc.phone1,tc.id as customer_id,t.introduction,
     tts.id as schedule_id, tts.title as schedule_title,tts.indexdate,
     bc.id as city_id,bc.name_cn,bc.name_en,bc.lat,bc.lon,ttsrc.schedule_id as rcity_schedule_id,bc.country_id,ttsrc.id as rcity_id
     from (select 
@@ -201,19 +180,46 @@
   <select id="queryConditionAndPage" resultMap="DetailResultMap" parameterType="com.lenovo.tripnote.entity.vo.TTripNoteSearchVo" >
     select
     t.id,t.code, t.title,t.start_date, t.end_date, t.`days`, t.destination, 
-    t.`status`, t.start_city, t.remarks,tc.name,tc.phone1,t.introduction,
+    t.`status`, t.start_city, t.remarks,tc.name,tc.phone1,tc.id as customer_id,t.introduction,
     tts.id as schedule_id, tts.title as schedule_title,tts.indexdate,
-    bc.id as city_id,bc.name_cn,bc.name_en,bc.lat,bc.lon,ttsrc.schedule_id as rcity_schedule_id,bc.country_id,ttsrc.id as rcity_id 
-    from (select *  from t_trip_note t1 where  t1.type = #{record.type,jdbcType=INTEGER} and create_user_id = #{record.userId,jdbcType=INTEGER}
+    bc.id as city_id,bc.name_cn,bc.name_en,bc.lat,bc.lon,ttsrc.schedule_id as rcity_schedule_id,bc.country_id,ttsrc.id as rcity_id
+    from (select 
+     <include refid="Base_Column_List" />
+     from t_trip_note t where  type = #{record.type,jdbcType=INTEGER} and create_user_id = #{record.userId,jdbcType=INTEGER}
      <if test="record.title != null" >
-        and t1.title like #{record.title,jdbcType=VARCHAR}
+        and t.title like #{record.title,jdbcType=VARCHAR}
      </if>
-    order by t1.create_time desc limit #{record.pageNo,jdbcType=INTEGER},#{record.pageSize,jdbcType=INTEGER}) as t 
+     <choose>
+         <when test="record.sortField != null">
+         order by t.${record.sortField}  
+         <choose>  
+             <when test="record.ascOrDes==1">asc</when>  
+             <when test="record.ascOrDes!=1">desc</when>  
+          </choose>
+          </when>
+          <when test="record.sortField == null">
+              order by t.create_time desc
+          </when>
+    </choose>
+    limit #{record.pageNo,jdbcType=INTEGER},#{record.pageSize,jdbcType=INTEGER}) as t 
     left join t_tripnote_r_customer ts on t.id = ts.tripnote_id 
     left join t_customer tc on tc.id = ts.customer_id 
     left join t_tripnote_schedule tts on tts.tripnote_id = t.id 
     left join t_tripnote_schedule_r_city ttsrc on ttsrc.schedule_id = tts.id
-    left join b_city bc on ttsrc.city_id = bc.id order by  t.create_time desc,tts.indexdate asc,ttsrc.create_time asc,ttsrc.id asc
+    left join b_city bc on ttsrc.city_id = bc.id 
+     <choose>
+         <when test="record.sortField != null">
+         order by t.${record.sortField}
+         <choose>  
+             <when test="record.ascOrDes==1">asc</when>  
+             <when test="record.ascOrDes!=1">desc</when>  
+          </choose>
+          </when>
+          <when test="record.sortField == null">
+              order by t.create_time desc
+          </when>
+    </choose>
+    ,tts.indexdate asc,ttsrc.create_time asc,ttsrc.id asc
   </select>
   
   <delete id="deleteByExample" parameterType="com.lenovo.tripnote.entity.TTripNoteExample" >
