@@ -8,6 +8,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.beanutils.converters.DoubleConverter;
+import org.apache.commons.beanutils.converters.IntegerConverter;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
@@ -19,6 +21,8 @@ public class AuthenticationFilter  extends FormAuthenticationFilter {
 	
 	public AuthenticationFilter (){
 		ConvertUtils.register(new StringToDateConverter(null), Date.class);
+		ConvertUtils.register(new DoubleConverter(null), Double.class);
+		ConvertUtils.register(new IntegerConverter(null), Integer.class);
 	}
 	
 	protected AuthenticationToken createToken(ServletRequest request, ServletResponse response) {
