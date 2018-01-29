@@ -19,7 +19,7 @@ public class TTripnoteScheduleTripServiceImpl implements TTripnoteScheduleTripSe
 
 	@Override
 	public TTripnoteScheduleTrip update(TTripnoteScheduleTrip t) {
-		 this.tTripnoteScheduleTripMapper.updateByPrimaryKeyWithBLOBs(t);
+		 this.tTripnoteScheduleTripMapper.updateByPrimaryKeySelective(t);
 		 return t;
 	}
 
