@@ -16,8 +16,13 @@ public class TimeUtils {
 		try {
 			return dateformat.parse(dateString);
 		} catch (ParseException e) {
-			log.error(e.getMessage(), e);
-			e.fillInStackTrace();
+			try {
+				dateformat = new SimpleDateFormat("HH:mm");
+				return dateformat.parse(dateString);
+			} catch (ParseException e1) {
+				log.error(e1.getMessage(), e1);
+				e1.printStackTrace();
+			}
 		}
 		return null;
 	}
