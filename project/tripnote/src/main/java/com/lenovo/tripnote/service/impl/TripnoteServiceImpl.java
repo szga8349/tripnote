@@ -200,5 +200,11 @@ public class TripnoteServiceImpl implements TTripnoteService{
 		return this.tTripNoteMapper.countByExample(example);
 	}
 
+	@Override
+	public TTripNoteDetailResultVo getTravelQuotationByKey(Integer id) {
+		// TODO Auto-generated method stub
+		return tTripNoteMapper.getTravelQuotationByKey(id);
+	}
+
 	
 }

@@ -62,4 +62,12 @@ public interface TTripNoteMapper {
      * @return
      */
     int deleteScheduleRCity(@Param("record") TTripNote record);
+    
+
+	
+	/**查询路书所有关联POI和交通的价格信息
+	 * @param id
+	 * @return
+	 */
+	TTripNoteDetailResultVo getTravelQuotationByKey(Integer id);
 }

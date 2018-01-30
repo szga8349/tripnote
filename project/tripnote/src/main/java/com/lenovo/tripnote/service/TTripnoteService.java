@@ -30,4 +30,11 @@ public interface TTripnoteService extends IDbService<TTripNote>{
 	
 	public int queryCountCondition(TTripNoteSearchVo t);
 	
+	
+	/**查询路书所有关联POI和交通的价格信息
+	 * @param id
+	 * @return
+	 */
+	public TTripNoteDetailResultVo getTravelQuotationByKey(Integer id);
+	
 }

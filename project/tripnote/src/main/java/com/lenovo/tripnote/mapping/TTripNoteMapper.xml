@@ -55,6 +55,42 @@
      </collection> 
   </resultMap>
   
+   <resultMap id="TravelResultMap" type="com.lenovo.tripnote.entity.vo.TTripNoteDetailResultVo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="start_date" property="startDate" jdbcType="DATE" />
+    <result column="end_date" property="endDate" jdbcType="DATE" />
+    <result column="days" property="days" jdbcType="INTEGER" />
+    <result column="destination" property="destination" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="start_city" property="startCity" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
+    <collection property="custems" javaType="java.util.List" ofType="com.lenovo.tripnote.entity.vo.TCustemVo">  
+            <result column="customer_id" property="id" jdbcType="INTEGER" />
+            <result column="phone1" property="phone" jdbcType="VARCHAR" />
+            <result column="name" property="name" jdbcType="VARCHAR" />  
+     </collection>  
+     <collection property="tTripNoteSchedules" javaType="java.util.List" ofType="com.lenovo.tripnote.entity.vo.TTripNoteScheduleResultVo">
+            <result column="id" property="tripnoteId" jdbcType="INTEGER" />
+            <result column="schedule_id" property="id" jdbcType="INTEGER" />
+            <result column="schedule_title" property="title" jdbcType="VARCHAR" />  
+            <result column="indexdate" property="indexdate" jdbcType="INTEGER" />
+          <collection property="scheduletrips" javaType="java.util.List" ofType="com.lenovo.tripnote.entity.vo.TTripnoteScheduleTripResultVo">
+			<result column="scheduletrip_id" property="id" jdbcType="INTEGER" />
+			<result column="scheduletrip_schedule_id" property="scheduleId"
+				jdbcType="INTEGER" />
+		    <result column="supplier" property="supplier" jdbcType="VARCHAR" />
+			<result column="poi_id" property="poiId" jdbcType="INTEGER" />
+			<result column="trip_name_cn" property="nameCn" jdbcType="VARCHAR" />
+			<result column="trip_name_en" property="nameEn" jdbcType="VARCHAR" />
+			<result column="trip_type" property="type" jdbcType="INTEGER" />
+			<result column="price" property="price" jdbcType="DOUBLE" />
+		</collection>
+     </collection> 
+  </resultMap>
+  
   <sql id="Base_Column_List" >
     id, code, title, start_date, end_date, `days`, destination, create_time, create_user_id, 
     `status`, start_city, remarks,introduction,type,publish_time
@@ -177,6 +213,22 @@
     left join b_city bc on ttsrc.city_id = bc.id
     where t.id = #{id,jdbcType=INTEGER} order by tts.indexdate asc,ttsrc.create_time asc
   </select>
+  
+  <select id="getTravelQuotationByKey" resultMap="TravelResultMap" parameterType="java.lang.Integer" >
+    select
+    t.id,t.code, t.title,t.start_date, t.end_date, t.`days`, t.destination, 
+    t.`status`, t.start_city, t.remarks,tc.name,tc.phone1,t.introduction,
+    tts.id as schedule_id, tts.title as schedule_title,tts.indexdate,
+    ttst.id as scheduletrip_id,ttst.schedule_id as scheduletrip_schedule_id,ttst.poi_id,ttst.name_cn as trip_name_cn,
+    ttst.name_en as trip_name_en,ttst.type as trip_type,ttst.price,ttst.supplier
+    from t_trip_note t 
+    left join t_tripnote_r_customer ts on t.id = ts.tripnote_id 
+    left join t_customer tc on tc.id = ts.customer_id 
+    left join t_tripnote_schedule tts on tts.tripnote_id = t.id 
+    left join t_tripnote_schedule_trip ttst on ttst.schedule_id = tts.id
+    where t.id = #{id,jdbcType=INTEGER} order by tts.indexdate asc
+  </select>
+  
   <select id="queryConditionAndPage" resultMap="DetailResultMap" parameterType="com.lenovo.tripnote.entity.vo.TTripNoteSearchVo" >
     select
     t.id,t.code, t.title,t.start_date, t.end_date, t.`days`, t.destination, 
