@@ -1,4 +1,4 @@
-package com.lenovo.tripnote.web;
+package com.lenovo.tripnote.converter;
 
 import org.apache.commons.beanutils.converters.DateTimeConverter;
 

@@ -43,9 +43,18 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <!-- <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" /> -->
 
     <!-- 开启注解方案2 -->
-    <mvc:annotation-driven />
+    <mvc:annotation-driven conversion-service="conversionService"/>
 
-
+    <!-- 增加日期转换规则-->
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="converters">
+            <set>
+                <ref bean="dateConvert"/>
+            </set>
+        </property>
+    </bean>
+    <!-- 第一步:  创建自定义日期转换规则 -->   
+    <bean id="dateConvert" class="com.lenovo.tripnote.converter.DateConvert"/>
 
     <!-- 静态资源访问，方案1 -->
     <!--<mvc:resources mapping="/static/**" location="/static/" /> 
