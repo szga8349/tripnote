@@ -16,11 +16,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.common.collect.ImmutableList;
 import com.lenovo.tripnote.entity.BAccount;
+import com.lenovo.tripnote.entity.BHotel;
 import com.lenovo.tripnote.entity.BPoi;
+import com.lenovo.tripnote.entity.TTripnoteScheduleHotel;
 import com.lenovo.tripnote.entity.TTripnoteScheduleTrip;
 import com.lenovo.tripnote.entity.vo.TTripnoteScheduleTripAddVo;
 import com.lenovo.tripnote.entity.vo.TTripnoteScheduleTripVo;
+import com.lenovo.tripnote.service.BHotelService;
 import com.lenovo.tripnote.service.BPoiService;
+import com.lenovo.tripnote.service.TTripnoteScheduleHotelService;
 import com.lenovo.tripnote.service.TTripnoteScheduleTripService;
 import com.lenovo.tripnote.vo.Result;
 import com.lenovo.tripnote.vo.ResultVo;
@@ -39,6 +43,11 @@ public class TTripnoteScheduleTripController {
 	private TTripnoteScheduleTripService tTripnoteScheduleTripService;
 	@Resource
 	private BPoiService bPoiService;
+	@Resource
+	private BHotelService bHotelService;
+	@Resource
+	private TTripnoteScheduleHotelService tTripnoteScheduleHotelService;
+	
 	@RequestMapping(value = "/{model}/doAdd")
 	public @ResponseBody ResultVo addScheduletrip(@PathVariable String model,TTripnoteScheduleTripAddVo addVo){
 		Subject subject = SecurityUtils.getSubject();
@@ -66,6 +75,23 @@ public class TTripnoteScheduleTripController {
 				trip.setCreateTime(new Date());
 				tTripnoteScheduleTripService.insert(trip);
 				vo.setData(trip.getId());
+				break;
+			case "hotel":
+				BHotel hotel = bHotelService.getByKey(addVo.getSourceId());
+				TTripnoteScheduleHotel scheduleHotel = new TTripnoteScheduleHotel();
+				try {
+					BeanUtils.copyProperties(scheduleHotel,  hotel);
+				} catch (IllegalAccessException | InvocationTargetException e) {
+					e.printStackTrace();
+				}
+				scheduleHotel.setScheduleId(addVo.getScheduleId());
+				scheduleHotel.setHotalId(hotel.getId());
+				scheduleHotel.setId(null);
+				//重新设置创建人和创建时间
+				scheduleHotel.setCreateUserId(account.getId());
+				scheduleHotel.setCreateTime(new Date());
+				tTripnoteScheduleHotelService.insert(scheduleHotel);
+				vo.setData(scheduleHotel.getId());
 				break;
 			default:
 				break;

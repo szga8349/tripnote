@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
-<mapper namespace="com.lenovo.tripnote.dao.BHotelMapper" >
-  <resultMap id="BaseResultMap" type="com.lenovo.tripnote.entity.BHotel" >
+<mapper namespace="com.lenovo.tripnote.dao.TTripnoteScheduleHotelMapper" >
+  <resultMap id="BaseResultMap" type="com.lenovo.tripnote.entity.TTripnoteScheduleHotel" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name_cn" property="nameCn" jdbcType="VARCHAR" />
     <result column="name_en" property="nameEn" jdbcType="VARCHAR" />
@@ -26,14 +26,16 @@
     <result column="url" property="url" jdbcType="VARCHAR" />
     <result column="imageurl" property="imageurl" jdbcType="VARCHAR" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="schedule_id" property="scheduleId" jdbcType="INTEGER" />
+    <result column="hotal_id" property="hotalId" jdbcType="INTEGER" />
   </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.lenovo.tripnote.entity.BHotel" extends="BaseResultMap" >
+  <resultMap id="ResultMapWithBLOBs" type="com.lenovo.tripnote.entity.TTripnoteScheduleHotel" extends="BaseResultMap" >
     <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, name_cn, name_en, address, type_id, star_level, brand, check_in_time, check_ou_time, 
     built_in, repair_time, floor_number, room_number, `status`, city_id, city_name, create_time, 
-    create_user_id, lon, lat, traffic, url, imageurl, phone
+    create_user_id, lon, lat, traffic, url, imageurl, phone, schedule_id, hotal_id
   </sql>
   <sql id="Blob_Column_List" >
     introduction
@@ -96,7 +98,7 @@
       </foreach>
     </where>
   </sql>
-  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.lenovo.tripnote.entity.BHotelExample" >
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleHotelExample" >
     select
     <if test="distinct" >
       distinct
@@ -104,7 +106,7 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from b_hotel
+    from t_tripnote_schedule_hotel
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -112,13 +114,13 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lenovo.tripnote.entity.BHotelExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleHotelExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from b_hotel
+    from t_tripnote_schedule_hotel
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -126,7 +128,7 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByExampleWithBLOBsAndPage" resultMap="ResultMapWithBLOBs" parameterType="com.lenovo.tripnote.entity.BHotelExample" >
+  <select id="selectByExampleWithBLOBsAndPage" resultMap="ResultMapWithBLOBs" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleHotelExample" >
     select
     <if test="distinct" >
       distinct
@@ -134,7 +136,7 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from b_hotel
+    from t_tripnote_schedule_hotel
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -142,13 +144,13 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByExampleAndPage" resultMap="BaseResultMap" parameterType="com.lenovo.tripnote.entity.BHotelExample" >
+  <select id="selectByExampleAndPage" resultMap="BaseResultMap" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleHotelExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from b_hotel
+    from t_tripnote_schedule_hotel
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -156,20 +158,20 @@
       order by ${orderByClause}
     </if>
   </select>
-  <delete id="deleteByExample" parameterType="com.lenovo.tripnote.entity.BHotelExample" >
-    delete from b_hotel
+  <delete id="deleteByExample" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleHotelExample" >
+    delete from t_tripnote_schedule_hotel
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <select id="countByExample" parameterType="com.lenovo.tripnote.entity.BHotelExample" resultType="java.lang.Integer" >
-    select count(*) from b_hotel
+  <select id="countByExample" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleHotelExample" resultType="java.lang.Integer" >
+    select count(*) from t_tripnote_schedule_hotel
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update b_hotel
+    update t_tripnote_schedule_hotel
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
@@ -243,6 +245,12 @@
       <if test="record.phone != null" >
         phone = #{record.phone,jdbcType=VARCHAR},
       </if>
+      <if test="record.scheduleId != null" >
+        schedule_id = #{record.scheduleId,jdbcType=INTEGER},
+      </if>
+      <if test="record.hotalId != null" >
+        hotal_id = #{record.hotalId,jdbcType=INTEGER},
+      </if>
       <if test="record.introduction != null" >
         introduction = #{record.introduction,jdbcType=LONGVARCHAR},
       </if>
@@ -252,7 +260,7 @@
     </if>
   </update>
   <update id="updateByExampleWithBLOBs" parameterType="map" >
-    update b_hotel
+    update t_tripnote_schedule_hotel
     set id = #{record.id,jdbcType=INTEGER},
       name_cn = #{record.nameCn,jdbcType=VARCHAR},
       name_en = #{record.nameEn,jdbcType=VARCHAR},
@@ -277,13 +285,15 @@
       url = #{record.url,jdbcType=VARCHAR},
       imageurl = #{record.imageurl,jdbcType=VARCHAR},
       phone = #{record.phone,jdbcType=VARCHAR},
+      schedule_id = #{record.scheduleId,jdbcType=INTEGER},
+      hotal_id = #{record.hotalId,jdbcType=INTEGER},
       introduction = #{record.introduction,jdbcType=LONGVARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update b_hotel
+    update t_tripnote_schedule_hotel
     set id = #{record.id,jdbcType=INTEGER},
       name_cn = #{record.nameCn,jdbcType=VARCHAR},
       name_en = #{record.nameEn,jdbcType=VARCHAR},
@@ -307,7 +317,9 @@
       traffic = #{record.traffic,jdbcType=VARCHAR},
       url = #{record.url,jdbcType=VARCHAR},
       imageurl = #{record.imageurl,jdbcType=VARCHAR},
-      phone = #{record.phone,jdbcType=VARCHAR}
+      phone = #{record.phone,jdbcType=VARCHAR},
+      schedule_id = #{record.scheduleId,jdbcType=INTEGER},
+      hotal_id = #{record.hotalId,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -317,34 +329,37 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from b_hotel
+    from t_tripnote_schedule_hotel
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from b_hotel
+    delete from t_tripnote_schedule_hotel
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.lenovo.tripnote.entity.BHotel" useGeneratedKeys="true" keyProperty="id" >
-    insert into b_hotel (name_cn, name_en, address, 
-      type_id, star_level, brand, 
-      check_in_time, check_ou_time, built_in, 
-      repair_time, floor_number, room_number, 
-      `status`, city_id, city_name, 
-      create_time, create_user_id, lon, 
-      lat, traffic, url, imageurl, 
-      phone, introduction)
-    values (#{nameCn,jdbcType=VARCHAR}, #{nameEn,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
-      #{typeId,jdbcType=INTEGER}, #{starLevel,jdbcType=INTEGER}, #{brand,jdbcType=VARCHAR}, 
-      #{checkInTime,jdbcType=VARCHAR}, #{checkOuTime,jdbcType=VARCHAR}, #{builtIn,jdbcType=VARCHAR}, 
-      #{repairTime,jdbcType=VARCHAR}, #{floorNumber,jdbcType=INTEGER}, #{roomNumber,jdbcType=INTEGER}, 
-      #{status,jdbcType=INTEGER}, #{cityId,jdbcType=INTEGER}, #{cityName,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, #{lon,jdbcType=DOUBLE}, 
-      #{lat,jdbcType=DOUBLE}, #{traffic,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{imageurl,jdbcType=VARCHAR}, 
-      #{phone,jdbcType=VARCHAR}, #{introduction,jdbcType=LONGVARCHAR})
+  <insert id="insert" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleHotel" useGeneratedKeys="true" keyProperty="id" >
+    insert into t_tripnote_schedule_hotel (id, name_cn, name_en, 
+      address, type_id, star_level, 
+      brand, check_in_time, check_ou_time, 
+      built_in, repair_time, floor_number, 
+      room_number, `status`, city_id, 
+      city_name, create_time, create_user_id, 
+      lon, lat, traffic, url, 
+      imageurl, phone, schedule_id, 
+      hotal_id, introduction)
+    values (#{id,jdbcType=INTEGER}, #{nameCn,jdbcType=VARCHAR}, #{nameEn,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{typeId,jdbcType=INTEGER}, #{starLevel,jdbcType=INTEGER}, 
+      #{brand,jdbcType=VARCHAR}, #{checkInTime,jdbcType=VARCHAR}, #{checkOuTime,jdbcType=VARCHAR}, 
+      #{builtIn,jdbcType=VARCHAR}, #{repairTime,jdbcType=VARCHAR}, #{floorNumber,jdbcType=INTEGER}, 
+      #{roomNumber,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{cityId,jdbcType=INTEGER}, 
+      #{cityName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, 
+      #{lon,jdbcType=DOUBLE}, #{lat,jdbcType=DOUBLE}, #{traffic,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+      #{imageurl,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{scheduleId,jdbcType=INTEGER}, 
+      #{hotalId,jdbcType=INTEGER}, #{introduction,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.BHotel" useGeneratedKeys="true" keyProperty="id" >
-    insert into b_hotel
+  <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleHotel" useGeneratedKeys="true" keyProperty="id">
+    insert into t_tripnote_schedule_hotel
     <trim prefix="(" suffix=")" suffixOverrides="," >
+      id,
       name_cn,
       name_en,
       address,
@@ -368,9 +383,12 @@
       url,
       imageurl,
       phone,
+      schedule_id,
+      hotal_id,
       introduction,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=INTEGER},
       #{nameCn,jdbcType=VARCHAR},
       #{nameEn,jdbcType=VARCHAR},
       #{address,jdbcType=VARCHAR},
@@ -394,11 +412,13 @@
       #{url,jdbcType=VARCHAR},
       #{imageurl,jdbcType=VARCHAR},
       #{phone,jdbcType=VARCHAR},
+      #{scheduleId,jdbcType=INTEGER},
+      #{hotalId,jdbcType=INTEGER},
       #{introduction,jdbcType=LONGVARCHAR},
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.lenovo.tripnote.entity.BHotel" >
-    update b_hotel
+  <update id="updateByPrimaryKeySelective" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleHotel" >
+    update t_tripnote_schedule_hotel
     <set >
       <if test="nameCn != null" >
         name_cn = #{nameCn,jdbcType=VARCHAR},
@@ -469,14 +489,20 @@
       <if test="phone != null" >
         phone = #{phone,jdbcType=VARCHAR},
       </if>
+      <if test="scheduleId != null" >
+        schedule_id = #{scheduleId,jdbcType=INTEGER},
+      </if>
+      <if test="hotalId != null" >
+        hotal_id = #{hotalId,jdbcType=INTEGER},
+      </if>
       <if test="introduction != null" >
         introduction = #{introduction,jdbcType=LONGVARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lenovo.tripnote.entity.BHotel" >
-    update b_hotel
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleHotel" >
+    update t_tripnote_schedule_hotel
     set name_cn = #{nameCn,jdbcType=VARCHAR},
       name_en = #{nameEn,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},
@@ -500,11 +526,13 @@
       url = #{url,jdbcType=VARCHAR},
       imageurl = #{imageurl,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
+      schedule_id = #{scheduleId,jdbcType=INTEGER},
+      hotal_id = #{hotalId,jdbcType=INTEGER},
       introduction = #{introduction,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.lenovo.tripnote.entity.BHotel" >
-    update b_hotel
+  <update id="updateByPrimaryKey" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleHotel" >
+    update t_tripnote_schedule_hotel
     set name_cn = #{nameCn,jdbcType=VARCHAR},
       name_en = #{nameEn,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},
@@ -527,7 +555,9 @@
       traffic = #{traffic,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
       imageurl = #{imageurl,jdbcType=VARCHAR},
-      phone = #{phone,jdbcType=VARCHAR}
+      phone = #{phone,jdbcType=VARCHAR},
+      schedule_id = #{scheduleId,jdbcType=INTEGER},
+      hotal_id = #{hotalId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

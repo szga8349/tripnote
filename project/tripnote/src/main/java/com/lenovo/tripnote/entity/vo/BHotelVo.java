@@ -1,23 +1,16 @@
-package com.lenovo.tripnote.entity;
+package com.lenovo.tripnote.entity.vo;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-@SuppressWarnings("serial")
+
 @Getter
 @Setter
 @NoArgsConstructor
-public class BHotel implements Serializable {
-    /**
-     * b_hotel.id
-     * @ibatorgenerated 2018-01-30 15:54:59
-     */
-    private Integer id;
-
-    /**
+public class BHotelVo {
+	 /**
      * b_hotel.name_cn (酒店名称-中文)
      * @ibatorgenerated 2018-01-30 15:54:59
      */

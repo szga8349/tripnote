@@ -4,32 +4,32 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class BHotelExample {
+public class TTripnoteScheduleHotelExample {
     /**
      * 主键字段
-     * @ibatorgenerated 2018-01-30 15:54:59
+     * @ibatorgenerated 2018-01-30 16:34:45
      */
     protected String pk_name = "id";
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-01-30 15:54:59
+     * @ibatorgenerated 2018-01-30 16:34:45
      */
     protected String orderByClause;
 
     /**
      * 去重复
-     * @ibatorgenerated 2018-01-30 15:54:59
+     * @ibatorgenerated 2018-01-30 16:34:45
      */
     protected boolean distinct;
 
     /**
      * 条件集
-     * @ibatorgenerated 2018-01-30 15:54:59
+     * @ibatorgenerated 2018-01-30 16:34:45
      */
     protected List<Criteria> oredCriteria;
 
-    public BHotelExample() {
+    public TTripnoteScheduleHotelExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -43,7 +43,7 @@ public class BHotelExample {
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-01-30 15:54:59
+     * @ibatorgenerated 2018-01-30 16:34:45
      */
     public void setOrderByClause(String orderByClause) {
         this.orderByClause = orderByClause;
@@ -55,7 +55,7 @@ public class BHotelExample {
 
     /**
      * 设置去重复
-     * @ibatorgenerated 2018-01-30 15:54:59
+     * @ibatorgenerated 2018-01-30 16:34:45
      */
     public void setDistinct(boolean distinct) {
         this.distinct = distinct;
@@ -81,7 +81,7 @@ public class BHotelExample {
 
     /**
      * 条件查询要先创建Criteria
-     * @ibatorgenerated 2018-01-30 15:54:59
+     * @ibatorgenerated 2018-01-30 16:34:45
      */
     public Criteria createCriteria() {
         Criteria criteria = createCriteriaInternal();
@@ -105,7 +105,7 @@ public class BHotelExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-01-30 15:54:59
+     * @ibatorgenerated 2018-01-30 16:34:45
      */
     protected abstract static class GeneratedCriteria {
         protected List<Criterion> criteria;
@@ -1717,11 +1717,131 @@ public class BHotelExample {
             addCriterion("phone not between", value1, value2, "phone");
             return (Criteria) this;
         }
+
+        public Criteria andScheduleIdIsNull() {
+            addCriterion("schedule_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andScheduleIdIsNotNull() {
+            addCriterion("schedule_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andScheduleIdEqualTo(Integer value) {
+            addCriterion("schedule_id =", value, "scheduleId");
+            return (Criteria) this;
+        }
+
+        public Criteria andScheduleIdNotEqualTo(Integer value) {
+            addCriterion("schedule_id <>", value, "scheduleId");
+            return (Criteria) this;
+        }
+
+        public Criteria andScheduleIdGreaterThan(Integer value) {
+            addCriterion("schedule_id >", value, "scheduleId");
+            return (Criteria) this;
+        }
+
+        public Criteria andScheduleIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("schedule_id >=", value, "scheduleId");
+            return (Criteria) this;
+        }
+
+        public Criteria andScheduleIdLessThan(Integer value) {
+            addCriterion("schedule_id <", value, "scheduleId");
+            return (Criteria) this;
+        }
+
+        public Criteria andScheduleIdLessThanOrEqualTo(Integer value) {
+            addCriterion("schedule_id <=", value, "scheduleId");
+            return (Criteria) this;
+        }
+
+        public Criteria andScheduleIdIn(List<Integer> values) {
+            addCriterion("schedule_id in", values, "scheduleId");
+            return (Criteria) this;
+        }
+
+        public Criteria andScheduleIdNotIn(List<Integer> values) {
+            addCriterion("schedule_id not in", values, "scheduleId");
+            return (Criteria) this;
+        }
+
+        public Criteria andScheduleIdBetween(Integer value1, Integer value2) {
+            addCriterion("schedule_id between", value1, value2, "scheduleId");
+            return (Criteria) this;
+        }
+
+        public Criteria andScheduleIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("schedule_id not between", value1, value2, "scheduleId");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotalIdIsNull() {
+            addCriterion("hotal_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotalIdIsNotNull() {
+            addCriterion("hotal_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotalIdEqualTo(Integer value) {
+            addCriterion("hotal_id =", value, "hotalId");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotalIdNotEqualTo(Integer value) {
+            addCriterion("hotal_id <>", value, "hotalId");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotalIdGreaterThan(Integer value) {
+            addCriterion("hotal_id >", value, "hotalId");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotalIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("hotal_id >=", value, "hotalId");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotalIdLessThan(Integer value) {
+            addCriterion("hotal_id <", value, "hotalId");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotalIdLessThanOrEqualTo(Integer value) {
+            addCriterion("hotal_id <=", value, "hotalId");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotalIdIn(List<Integer> values) {
+            addCriterion("hotal_id in", values, "hotalId");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotalIdNotIn(List<Integer> values) {
+            addCriterion("hotal_id not in", values, "hotalId");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotalIdBetween(Integer value1, Integer value2) {
+            addCriterion("hotal_id between", value1, value2, "hotalId");
+            return (Criteria) this;
+        }
+
+        public Criteria andHotalIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("hotal_id not between", value1, value2, "hotalId");
+            return (Criteria) this;
+        }
     }
 
     /**
-     * b_hotel
-     * @ibatorgenerated do_not_delete_during_merge 2018-01-30 15:54:59
+     * t_tripnote_schedule_hotel
+     * @ibatorgenerated do_not_delete_during_merge 2018-01-30 16:34:45
      */
     public static class Criteria extends GeneratedCriteria {
 
@@ -1733,7 +1853,7 @@ public class BHotelExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-01-30 15:54:59
+     * @ibatorgenerated 2018-01-30 16:34:45
      */
     public static class Criterion {
         private String condition;
