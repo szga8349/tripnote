@@ -199,9 +199,10 @@
     <if test="userId != null" >
         and bp.create_user_id in(0,#{userId,jdbcType=INTEGER})
     </if>
-     <if test="type != null" >
-       and bp.`type` = #{type,jdbcType=INTEGER}
-    </if>
+    <choose>  
+             <when test="type != null">and bp.`type` = #{type,jdbcType=INTEGER}</when>  
+             <when test="type==null ">and bp.`type` in (1,2,3,4)</when>  <!--不传入类型时不将产品数据查询出 -->
+    </choose>
      <if test="cityId != null" >
        and bp.city_id like #{cityId,jdbcType=INTEGER}
     </if>
