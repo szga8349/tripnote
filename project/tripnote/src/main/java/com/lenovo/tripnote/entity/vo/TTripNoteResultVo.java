@@ -41,4 +41,6 @@ public class TTripNoteResultVo implements Serializable {
 	private String remarks;
 	
 	private String introduction;
+	
+	private String imageurl;
 }

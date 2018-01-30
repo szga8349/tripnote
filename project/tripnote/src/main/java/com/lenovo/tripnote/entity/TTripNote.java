@@ -46,5 +46,10 @@ public class TTripNote implements Serializable {
      * 发布时间
      */
     private Date publishTime;
+    
+    /**
+     * 制定封面url地址
+     */
+    private String imageurl;
 
 }

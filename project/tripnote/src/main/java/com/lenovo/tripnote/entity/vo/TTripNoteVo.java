@@ -60,4 +60,6 @@ public class TTripNoteVo implements Serializable {
      * 状态：0-草稿、1-已发布(未预订)、2-已预订(行程前)、3-行程中、4-行程结束
      */
     private Integer status = 0;
+    
+    private String imageurl;
 }
