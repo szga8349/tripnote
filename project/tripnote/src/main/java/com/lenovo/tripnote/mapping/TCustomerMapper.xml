@@ -4,20 +4,40 @@
   <resultMap id="BaseResultMap" type="com.lenovo.tripnote.entity.TCustomer" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="importance" property="importance" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="sex" property="sex" jdbcType="INTEGER" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="DATE" />
+    <result column="IDCard" property="idcard" jdbcType="VARCHAR" />
+    <result column="constellation" property="constellation" jdbcType="VARCHAR" />
     <result column="phone1" property="phone1" jdbcType="VARCHAR" />
     <result column="phone2" property="phone2" jdbcType="VARCHAR" />
     <result column="phone3" property="phone3" jdbcType="VARCHAR" />
+    <result column="blood_type" property="bloodType" jdbcType="INTEGER" />
+    <result column="occupation" property="occupation" jdbcType="VARCHAR" />
     <result column="email" property="email" jdbcType="VARCHAR" />
     <result column="qq" property="qq" jdbcType="VARCHAR" />
+    <result column="acceptprice" property="acceptprice" jdbcType="VARCHAR" />
+    <result column="arrive_space" property="arriveSpace" jdbcType="VARCHAR" />
+    <result column="interest_space" property="interestSpace" jdbcType="VARCHAR" />
     <result column="weixin" property="weixin" jdbcType="VARCHAR" />
+    <result column="catogry_id" property="catogryId" jdbcType="INTEGER" />
+    <result column="portraiturl" property="portraiturl" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.lenovo.tripnote.entity.TCustomer" extends="BaseResultMap" >
+    <result column="family" property="family" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, `name`, create_user_id, create_time, `status`, sex, phone1, phone2, phone3, email, 
-    qq, weixin
+    id, `name`, importance, `status`, sex, address, birthday, IDCard, constellation, 
+    phone1, phone2, phone3, blood_type, occupation, email, qq, acceptprice, arrive_space, 
+    interest_space, weixin, catogry_id, portraiturl, remark, create_user_id, create_time
+  </sql>
+  <sql id="Blob_Column_List" >
+    family
   </sql>
   <sql id="Example_Where_Clause" >
     <where >
@@ -77,12 +97,44 @@
       </foreach>
     </where>
   </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.lenovo.tripnote.entity.TCustomerExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_customer
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lenovo.tripnote.entity.TCustomerExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
+    from t_customer
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleWithBLOBsAndPage" resultMap="ResultMapWithBLOBs" parameterType="com.lenovo.tripnote.entity.TCustomerExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from t_customer
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -126,17 +178,26 @@
       <if test="record.name != null" >
         `name` = #{record.name,jdbcType=VARCHAR},
       </if>
-      <if test="record.createUserId != null" >
-        create_user_id = #{record.createUserId,jdbcType=INTEGER},
-      </if>
-      <if test="record.createTime != null" >
-        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      <if test="record.importance != null" >
+        importance = #{record.importance,jdbcType=INTEGER},
       </if>
       <if test="record.status != null" >
         `status` = #{record.status,jdbcType=INTEGER},
       </if>
       <if test="record.sex != null" >
         sex = #{record.sex,jdbcType=INTEGER},
+      </if>
+      <if test="record.address != null" >
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.birthday != null" >
+        birthday = #{record.birthday,jdbcType=DATE},
+      </if>
+      <if test="record.idcard != null" >
+        IDCard = #{record.idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.constellation != null" >
+        constellation = #{record.constellation,jdbcType=VARCHAR},
       </if>
       <if test="record.phone1 != null" >
         phone1 = #{record.phone1,jdbcType=VARCHAR},
@@ -147,16 +208,81 @@
       <if test="record.phone3 != null" >
         phone3 = #{record.phone3,jdbcType=VARCHAR},
       </if>
+      <if test="record.bloodType != null" >
+        blood_type = #{record.bloodType,jdbcType=INTEGER},
+      </if>
+      <if test="record.occupation != null" >
+        occupation = #{record.occupation,jdbcType=VARCHAR},
+      </if>
       <if test="record.email != null" >
         email = #{record.email,jdbcType=VARCHAR},
       </if>
       <if test="record.qq != null" >
         qq = #{record.qq,jdbcType=VARCHAR},
       </if>
+      <if test="record.acceptprice != null" >
+        acceptprice = #{record.acceptprice,jdbcType=VARCHAR},
+      </if>
+      <if test="record.arriveSpace != null" >
+        arrive_space = #{record.arriveSpace,jdbcType=VARCHAR},
+      </if>
+      <if test="record.interestSpace != null" >
+        interest_space = #{record.interestSpace,jdbcType=VARCHAR},
+      </if>
       <if test="record.weixin != null" >
         weixin = #{record.weixin,jdbcType=VARCHAR},
       </if>
+      <if test="record.catogryId != null" >
+        catogry_id = #{record.catogryId,jdbcType=INTEGER},
+      </if>
+      <if test="record.portraiturl != null" >
+        portraiturl = #{record.portraiturl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUserId != null" >
+        create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.family != null" >
+        family = #{record.family,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update t_customer
+    set id = #{record.id,jdbcType=INTEGER},
+      `name` = #{record.name,jdbcType=VARCHAR},
+      importance = #{record.importance,jdbcType=INTEGER},
+      `status` = #{record.status,jdbcType=INTEGER},
+      sex = #{record.sex,jdbcType=INTEGER},
+      address = #{record.address,jdbcType=VARCHAR},
+      birthday = #{record.birthday,jdbcType=DATE},
+      IDCard = #{record.idcard,jdbcType=VARCHAR},
+      constellation = #{record.constellation,jdbcType=VARCHAR},
+      phone1 = #{record.phone1,jdbcType=VARCHAR},
+      phone2 = #{record.phone2,jdbcType=VARCHAR},
+      phone3 = #{record.phone3,jdbcType=VARCHAR},
+      blood_type = #{record.bloodType,jdbcType=INTEGER},
+      occupation = #{record.occupation,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
+      qq = #{record.qq,jdbcType=VARCHAR},
+      acceptprice = #{record.acceptprice,jdbcType=VARCHAR},
+      arrive_space = #{record.arriveSpace,jdbcType=VARCHAR},
+      interest_space = #{record.interestSpace,jdbcType=VARCHAR},
+      weixin = #{record.weixin,jdbcType=VARCHAR},
+      catogry_id = #{record.catogryId,jdbcType=INTEGER},
+      portraiturl = #{record.portraiturl,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      family = #{record.family,jdbcType=LONGVARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -165,23 +291,38 @@
     update t_customer
     set id = #{record.id,jdbcType=INTEGER},
       `name` = #{record.name,jdbcType=VARCHAR},
-      create_user_id = #{record.createUserId,jdbcType=INTEGER},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      importance = #{record.importance,jdbcType=INTEGER},
       `status` = #{record.status,jdbcType=INTEGER},
       sex = #{record.sex,jdbcType=INTEGER},
+      address = #{record.address,jdbcType=VARCHAR},
+      birthday = #{record.birthday,jdbcType=DATE},
+      IDCard = #{record.idcard,jdbcType=VARCHAR},
+      constellation = #{record.constellation,jdbcType=VARCHAR},
       phone1 = #{record.phone1,jdbcType=VARCHAR},
       phone2 = #{record.phone2,jdbcType=VARCHAR},
       phone3 = #{record.phone3,jdbcType=VARCHAR},
+      blood_type = #{record.bloodType,jdbcType=INTEGER},
+      occupation = #{record.occupation,jdbcType=VARCHAR},
       email = #{record.email,jdbcType=VARCHAR},
       qq = #{record.qq,jdbcType=VARCHAR},
-      weixin = #{record.weixin,jdbcType=VARCHAR}
+      acceptprice = #{record.acceptprice,jdbcType=VARCHAR},
+      arrive_space = #{record.arriveSpace,jdbcType=VARCHAR},
+      interest_space = #{record.interestSpace,jdbcType=VARCHAR},
+      weixin = #{record.weixin,jdbcType=VARCHAR},
+      catogry_id = #{record.catogryId,jdbcType=INTEGER},
+      portraiturl = #{record.portraiturl,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from t_customer
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -189,43 +330,83 @@
     delete from t_customer
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.lenovo.tripnote.entity.TCustomer" useGeneratedKeys="true" keyProperty="id" >
-    insert into t_customer (`name`, create_user_id, create_time, 
-      `status`, sex, phone1, 
-      phone2, phone3, email, 
-      qq, weixin)
-    values (#{name,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{status,jdbcType=INTEGER}, #{sex,jdbcType=INTEGER}, #{phone1,jdbcType=VARCHAR}, 
-      #{phone2,jdbcType=VARCHAR}, #{phone3,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{qq,jdbcType=VARCHAR}, #{weixin,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="com.lenovo.tripnote.entity.TCustomer" >
+    insert into t_customer (id, `name`, importance, 
+      `status`, sex, address, 
+      birthday, IDCard, constellation, 
+      phone1, phone2, phone3, 
+      blood_type, occupation, email, 
+      qq, acceptprice, arrive_space, 
+      interest_space, weixin, catogry_id, 
+      portraiturl, remark, create_user_id, 
+      create_time, family)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{importance,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER}, #{sex,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, 
+      #{birthday,jdbcType=DATE}, #{idcard,jdbcType=VARCHAR}, #{constellation,jdbcType=VARCHAR}, 
+      #{phone1,jdbcType=VARCHAR}, #{phone2,jdbcType=VARCHAR}, #{phone3,jdbcType=VARCHAR}, 
+      #{bloodType,jdbcType=INTEGER}, #{occupation,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{qq,jdbcType=VARCHAR}, #{acceptprice,jdbcType=VARCHAR}, #{arriveSpace,jdbcType=VARCHAR}, 
+      #{interestSpace,jdbcType=VARCHAR}, #{weixin,jdbcType=VARCHAR}, #{catogryId,jdbcType=INTEGER}, 
+      #{portraiturl,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{family,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.TCustomer"  useGeneratedKeys="true" keyProperty="id">
+  <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.TCustomer" >
     insert into t_customer
     <trim prefix="(" suffix=")" suffixOverrides="," >
+      id,
       `name`,
-      create_user_id,
-      create_time,
+      importance,
       `status`,
       sex,
+      address,
+      birthday,
+      IDCard,
+      constellation,
       phone1,
       phone2,
       phone3,
+      blood_type,
+      occupation,
       email,
       qq,
+      acceptprice,
+      arrive_space,
+      interest_space,
       weixin,
+      catogry_id,
+      portraiturl,
+      remark,
+      create_user_id,
+      create_time,
+      family,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=INTEGER},
       #{name,jdbcType=VARCHAR},
-      #{createUserId,jdbcType=INTEGER},
-      #{createTime,jdbcType=TIMESTAMP},
+      #{importance,jdbcType=INTEGER},
       #{status,jdbcType=INTEGER},
       #{sex,jdbcType=INTEGER},
+      #{address,jdbcType=VARCHAR},
+      #{birthday,jdbcType=DATE},
+      #{idcard,jdbcType=VARCHAR},
+      #{constellation,jdbcType=VARCHAR},
       #{phone1,jdbcType=VARCHAR},
       #{phone2,jdbcType=VARCHAR},
       #{phone3,jdbcType=VARCHAR},
+      #{bloodType,jdbcType=INTEGER},
+      #{occupation,jdbcType=VARCHAR},
       #{email,jdbcType=VARCHAR},
       #{qq,jdbcType=VARCHAR},
+      #{acceptprice,jdbcType=VARCHAR},
+      #{arriveSpace,jdbcType=VARCHAR},
+      #{interestSpace,jdbcType=VARCHAR},
       #{weixin,jdbcType=VARCHAR},
+      #{catogryId,jdbcType=INTEGER},
+      #{portraiturl,jdbcType=VARCHAR},
+      #{remark,jdbcType=VARCHAR},
+      #{createUserId,jdbcType=INTEGER},
+      #{createTime,jdbcType=TIMESTAMP},
+      #{family,jdbcType=LONGVARCHAR},
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.lenovo.tripnote.entity.TCustomer" >
@@ -234,17 +415,26 @@
       <if test="name != null" >
         `name` = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="createUserId != null" >
-        create_user_id = #{createUserId,jdbcType=INTEGER},
-      </if>
-      <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
+      <if test="importance != null" >
+        importance = #{importance,jdbcType=INTEGER},
       </if>
       <if test="status != null" >
         `status` = #{status,jdbcType=INTEGER},
       </if>
       <if test="sex != null" >
         sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        birthday = #{birthday,jdbcType=DATE},
+      </if>
+      <if test="idcard != null" >
+        IDCard = #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="constellation != null" >
+        constellation = #{constellation,jdbcType=VARCHAR},
       </if>
       <if test="phone1 != null" >
         phone1 = #{phone1,jdbcType=VARCHAR},
@@ -255,31 +445,106 @@
       <if test="phone3 != null" >
         phone3 = #{phone3,jdbcType=VARCHAR},
       </if>
+      <if test="bloodType != null" >
+        blood_type = #{bloodType,jdbcType=INTEGER},
+      </if>
+      <if test="occupation != null" >
+        occupation = #{occupation,jdbcType=VARCHAR},
+      </if>
       <if test="email != null" >
         email = #{email,jdbcType=VARCHAR},
       </if>
       <if test="qq != null" >
         qq = #{qq,jdbcType=VARCHAR},
       </if>
+      <if test="acceptprice != null" >
+        acceptprice = #{acceptprice,jdbcType=VARCHAR},
+      </if>
+      <if test="arriveSpace != null" >
+        arrive_space = #{arriveSpace,jdbcType=VARCHAR},
+      </if>
+      <if test="interestSpace != null" >
+        interest_space = #{interestSpace,jdbcType=VARCHAR},
+      </if>
       <if test="weixin != null" >
         weixin = #{weixin,jdbcType=VARCHAR},
       </if>
+      <if test="catogryId != null" >
+        catogry_id = #{catogryId,jdbcType=INTEGER},
+      </if>
+      <if test="portraiturl != null" >
+        portraiturl = #{portraiturl,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="family != null" >
+        family = #{family,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lenovo.tripnote.entity.TCustomer" >
+    update t_customer
+    set `name` = #{name,jdbcType=VARCHAR},
+      importance = #{importance,jdbcType=INTEGER},
+      `status` = #{status,jdbcType=INTEGER},
+      sex = #{sex,jdbcType=INTEGER},
+      address = #{address,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=DATE},
+      IDCard = #{idcard,jdbcType=VARCHAR},
+      constellation = #{constellation,jdbcType=VARCHAR},
+      phone1 = #{phone1,jdbcType=VARCHAR},
+      phone2 = #{phone2,jdbcType=VARCHAR},
+      phone3 = #{phone3,jdbcType=VARCHAR},
+      blood_type = #{bloodType,jdbcType=INTEGER},
+      occupation = #{occupation,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      qq = #{qq,jdbcType=VARCHAR},
+      acceptprice = #{acceptprice,jdbcType=VARCHAR},
+      arrive_space = #{arriveSpace,jdbcType=VARCHAR},
+      interest_space = #{interestSpace,jdbcType=VARCHAR},
+      weixin = #{weixin,jdbcType=VARCHAR},
+      catogry_id = #{catogryId,jdbcType=INTEGER},
+      portraiturl = #{portraiturl,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      family = #{family,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.lenovo.tripnote.entity.TCustomer" >
     update t_customer
     set `name` = #{name,jdbcType=VARCHAR},
-      create_user_id = #{createUserId,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
+      importance = #{importance,jdbcType=INTEGER},
       `status` = #{status,jdbcType=INTEGER},
       sex = #{sex,jdbcType=INTEGER},
+      address = #{address,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=DATE},
+      IDCard = #{idcard,jdbcType=VARCHAR},
+      constellation = #{constellation,jdbcType=VARCHAR},
       phone1 = #{phone1,jdbcType=VARCHAR},
       phone2 = #{phone2,jdbcType=VARCHAR},
       phone3 = #{phone3,jdbcType=VARCHAR},
+      blood_type = #{bloodType,jdbcType=INTEGER},
+      occupation = #{occupation,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
       qq = #{qq,jdbcType=VARCHAR},
-      weixin = #{weixin,jdbcType=VARCHAR}
+      acceptprice = #{acceptprice,jdbcType=VARCHAR},
+      arrive_space = #{arriveSpace,jdbcType=VARCHAR},
+      interest_space = #{interestSpace,jdbcType=VARCHAR},
+      weixin = #{weixin,jdbcType=VARCHAR},
+      catogry_id = #{catogryId,jdbcType=INTEGER},
+      portraiturl = #{portraiturl,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
