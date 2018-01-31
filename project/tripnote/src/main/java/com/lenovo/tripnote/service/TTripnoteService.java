@@ -9,6 +9,7 @@ import com.lenovo.tripnote.entity.TTripNote;
 import com.lenovo.tripnote.entity.vo.TTripNoteDetailResultVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteSearchResultVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteSearchVo;
+import com.lenovo.tripnote.entity.vo.TTripNoteTravelResultVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteVo;
 
 public interface TTripnoteService extends IDbService<TTripNote>{
@@ -42,6 +43,6 @@ public interface TTripnoteService extends IDbService<TTripNote>{
 	 * @param id
 	 * @return
 	 */
-	public TTripNoteDetailResultVo getTravelQuotationGroupByTypeByKey(Integer id);
+	public TTripNoteTravelResultVo getTravelQuotationGroupByTypeByKey(Integer id);
 	
 }

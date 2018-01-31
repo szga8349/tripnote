@@ -55,7 +55,7 @@ public class TTravelController {
 		if(list!=null && !list.isEmpty()){
 			vo.setData(list);
 		}
-		else vo.setData(tTripnoteService.getTravelQuotationByKey(Integer.valueOf(id)));
+	    vo.setData(tTripnoteService.getTravelQuotationByKey(Integer.valueOf(id)));
 		return vo;
 	}
 	
@@ -70,7 +70,18 @@ public class TTravelController {
 			throws IllegalAccessException, InvocationTargetException {
 		ResultVo vo = new ResultVo();
 		vo.setCode(Result.SUCESSFUL);
-		vo.setData(tTripnoteService.getTravelQuotationByKey(Integer.valueOf(id)));
+		Subject subject = SecurityUtils.getSubject();
+		BAccount account = (BAccount) subject.getPrincipal();
+		//优先查询行程报价表 如果不存在的情况下 从行程历史数据查询
+		TTripnoteScheduleOfferSearchVo offer = new TTripnoteScheduleOfferSearchVo();
+		offer.setTripnoteId(Integer.valueOf(id));
+		offer.setCreateUserId(account.getId());
+		offer.setOrderby("ttso.`type` desc");
+		List<TTripnoteScheduleOfferResultVo> list = tTripnoteScheduleOfferService.search(offer);
+		if(list!=null && !list.isEmpty()){
+			vo.setData(list);
+		}
+		vo.setData(tTripnoteService.getTravelQuotationGroupByTypeByKey(Integer.valueOf(id)));
 		return vo;
 	}
 	@RequestMapping(value = "/price/doAdd")

@@ -23,6 +23,7 @@ import com.lenovo.tripnote.entity.TTripnoteScheduleExample;
 import com.lenovo.tripnote.entity.vo.TTripNoteDetailResultVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteSearchResultVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteSearchVo;
+import com.lenovo.tripnote.entity.vo.TTripNoteTravelResultVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteVo;
 import com.lenovo.tripnote.service.TCustomerService;
 import com.lenovo.tripnote.service.TTripnoteService;
@@ -207,9 +208,9 @@ public class TripnoteServiceImpl implements TTripnoteService{
 	}
 
 	@Override
-	public TTripNoteDetailResultVo getTravelQuotationGroupByTypeByKey(Integer id) {
+	public TTripNoteTravelResultVo getTravelQuotationGroupByTypeByKey(Integer id) {
 		// TODO 暂时未做实现
-		return this.tTripNoteMapper.getTravelQuotationByKey(id);
+		return this.tTripNoteMapper.getTravelQuotationGroupByTypeByKey(id);
 	}
 
 	

@@ -133,7 +133,7 @@
           and ttso.tripnote_id = #{record.tripnoteId,jdbcType=INTEGER}
     </if>
     <if test="record.orderby != null" >
-      order by ${record.orderByClause}
+      order by ${record.orderby}
     </if>
   </select>
   

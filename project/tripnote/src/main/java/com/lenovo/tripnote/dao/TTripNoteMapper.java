@@ -10,6 +10,7 @@ import com.lenovo.tripnote.entity.TTripNoteExample;
 import com.lenovo.tripnote.entity.vo.TTripNoteDetailResultVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteSearchResultVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteSearchVo;
+import com.lenovo.tripnote.entity.vo.TTripNoteTravelResultVo;
 
 public interface TTripNoteMapper {
     int countByExample(TTripNoteExample example);
@@ -70,4 +71,11 @@ public interface TTripNoteMapper {
 	 * @return
 	 */
 	TTripNoteDetailResultVo getTravelQuotationByKey(Integer id);
+	
+
+	/**查询路书所有关联POI和交通的价格信息 按类型排序
+	 * @param id
+	 * @return
+	 */
+	TTripNoteTravelResultVo getTravelQuotationGroupByTypeByKey(Integer id);
 }
