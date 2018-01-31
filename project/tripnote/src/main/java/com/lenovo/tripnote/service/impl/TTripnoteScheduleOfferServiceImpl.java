@@ -14,8 +14,9 @@ import com.lenovo.tripnote.dao.TTripnoteScheduleOfferMapper;
 import com.lenovo.tripnote.entity.BAccount;
 import com.lenovo.tripnote.entity.TTripNote;
 import com.lenovo.tripnote.entity.TTripnoteScheduleOffer;
-import com.lenovo.tripnote.entity.TTripnoteScheduleOfferExample;
 import com.lenovo.tripnote.entity.vo.TTravelVo;
+import com.lenovo.tripnote.entity.vo.TTripnoteScheduleOfferResultVo;
+import com.lenovo.tripnote.entity.vo.TTripnoteScheduleOfferSearchVo;
 import com.lenovo.tripnote.entity.vo.TTripnoteScheduleOfferVo;
 import com.lenovo.tripnote.service.TTripnoteScheduleOfferService;
 @Service
@@ -86,8 +87,8 @@ public class TTripnoteScheduleOfferServiceImpl implements TTripnoteScheduleOffer
 	}
 
 	@Override
-	public List<TTripnoteScheduleOffer> search(TTripnoteScheduleOfferExample offer) {	
-		return this.tTripnoteScheduleOfferMapper.selectByExample(offer);
+	public List<TTripnoteScheduleOfferResultVo> search(TTripnoteScheduleOfferSearchVo offer) {	
+		return this.tTripnoteScheduleOfferMapper.search(offer);
 	}
 
 }

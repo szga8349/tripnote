@@ -14,6 +14,23 @@
     <result column="tripnote_id" property="tripnoteId" jdbcType="INTEGER" />
     <result column="indexdate" property="indexdate" jdbcType="INTEGER" />
   </resultMap>
+  
+  <resultMap id="SearchResultMap" type="com.lenovo.tripnote.entity.vo.TTripnoteScheduleOfferResultVo" >
+     <id column="tripnote_id" property="tripnoteId" jdbcType="INTEGER" />
+     <result column="tripnote_price" property="price" jdbcType="DOUBLE" />
+     <collection property="scheduleOffers" javaType="java.util.List" ofType="com.lenovo.tripnote.entity.vo.TTripnoteScheduleOfferVo">  
+            <id column="id" property="id" jdbcType="INTEGER" />
+            <result column="name_cn" property="nameCn" jdbcType="VARCHAR" />
+            <result column="name_en" property="nameEn" jdbcType="VARCHAR" />
+            <result column="num" property="num" jdbcType="INTEGER" />
+            <result column="price" property="price" jdbcType="DOUBLE" />
+            <result column="supplier" property="supplier" jdbcType="VARCHAR" />
+            <result column="type" property="type" jdbcType="INTEGER" />
+            <result column="tripnote_id" property="tripnoteId" jdbcType="INTEGER" />
+            <result column="indexdate" property="indexdate" jdbcType="INTEGER" />
+     </collection>  
+  </resultMap>
+  
   <sql id="Base_Column_List" >
     id, name_cn, name_en, num, price, supplier, create_time, create_user_id, `type`, 
     tripnote_id, indexdate
@@ -104,6 +121,22 @@
       order by ${orderByClause}
     </if>
   </select>
+  <select id="search" resultMap="SearchResultMap" parameterType="com.lenovo.tripnote.entity.vo.TTripnoteScheduleOfferSearchVo" >
+    select
+    ttso.id, ttso.name_cn, ttso.name_en, ttso.num, ttso.price, ttso.supplier,ttso.`type`, 
+    ttso.tripnote_id, ttso.indexdate,ttn.price as tripnote_price
+    from t_tripnote_schedule_offer ttso left join t_trip_note ttn on ttso.tripnote_id=ttn.id where 1=1
+    <if test="record.createUserId != null" >
+          and ttso.create_user_id = #{record.createUserId,jdbcType=INTEGER}
+    </if>
+      <if test="record.tripnoteId != null" >
+          and ttso.tripnote_id = #{record.tripnoteId,jdbcType=INTEGER}
+    </if>
+    <if test="record.orderby != null" >
+      order by ${record.orderByClause}
+    </if>
+  </select>
+  
   <delete id="deleteByExample" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleOfferExample" >
     delete from t_tripnote_schedule_offer
     <if test="_parameter != null" >

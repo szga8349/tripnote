@@ -14,10 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lenovo.tripnote.entity.BAccount;
-import com.lenovo.tripnote.entity.TTripnoteScheduleOffer;
-import com.lenovo.tripnote.entity.TTripnoteScheduleOfferExample;
-import com.lenovo.tripnote.entity.TTripnoteScheduleOfferExample.Criteria;
 import com.lenovo.tripnote.entity.vo.TTravelVo;
+import com.lenovo.tripnote.entity.vo.TTripnoteScheduleOfferResultVo;
+import com.lenovo.tripnote.entity.vo.TTripnoteScheduleOfferSearchVo;
 import com.lenovo.tripnote.service.TTripnoteScheduleOfferService;
 import com.lenovo.tripnote.service.TTripnoteService;
 import com.lenovo.tripnote.vo.Result;
@@ -49,11 +48,10 @@ public class TTravelController {
 		Subject subject = SecurityUtils.getSubject();
 		BAccount account = (BAccount) subject.getPrincipal();
 		//优先查询行程报价表 如果不存在的情况下 从行程历史数据查询
-		TTripnoteScheduleOfferExample offer = new TTripnoteScheduleOfferExample();
-		Criteria cri = offer.createCriteria();
-		cri.andTripnoteIdEqualTo(Integer.valueOf(id));
-		cri.andCreateUserIdEqualTo(account.getId());
-		List<TTripnoteScheduleOffer> list = tTripnoteScheduleOfferService.search(offer);
+		TTripnoteScheduleOfferSearchVo offer = new TTripnoteScheduleOfferSearchVo();
+		offer.setTripnoteId(Integer.valueOf(id));
+		offer.setCreateUserId(account.getId());
+		List<TTripnoteScheduleOfferResultVo> list = tTripnoteScheduleOfferService.search(offer);
 		if(list!=null && !list.isEmpty()){
 			vo.setData(list);
 		}

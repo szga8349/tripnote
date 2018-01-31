@@ -2,6 +2,9 @@ package com.lenovo.tripnote.dao;
 
 import com.lenovo.tripnote.entity.TTripnoteScheduleOffer;
 import com.lenovo.tripnote.entity.TTripnoteScheduleOfferExample;
+import com.lenovo.tripnote.entity.vo.TTripnoteScheduleOfferResultVo;
+import com.lenovo.tripnote.entity.vo.TTripnoteScheduleOfferSearchVo;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
@@ -103,4 +106,13 @@ public interface TTripnoteScheduleOfferMapper {
      * @ibatorgenerated 2018-01-31 10:40:23
      */
     int updateByPrimaryKey(TTripnoteScheduleOffer record);
+    
+    
+    /**
+     * 批量条件查询
+     * 参数:查询条件,null查整张表
+     * 返回:对象集合
+     * @ibatorgenerated 2018-01-31 10:40:23
+     */
+    List<TTripnoteScheduleOfferResultVo> search(@Param("record") TTripnoteScheduleOfferSearchVo record);
 }

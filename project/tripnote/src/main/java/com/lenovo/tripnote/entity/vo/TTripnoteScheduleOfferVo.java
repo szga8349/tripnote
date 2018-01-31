@@ -51,6 +51,12 @@ public class TTripnoteScheduleOfferVo {
      * @ibatorgenerated 2018-01-31 10:40:22
      */
     private Integer indexdate;
+    
+    /**
+     * t_tripnote_schedule_offer.tripnoteId (定制ID)
+     * @ibatorgenerated 2018-01-31 10:40:22
+     */
+    private Integer tripnoteId;
 	
 
 }
