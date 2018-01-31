@@ -51,5 +51,9 @@ public class TTripNote implements Serializable {
      * 制定封面url地址
      */
     private String imageurl;
+    /**
+     * 定制行程客户报价,在行程报价中会更新此值
+     */
+    private Double price;
 
 }

@@ -18,6 +18,7 @@
     <result column="type" property="type" jdbcType="INTEGER" />
     <result column="publish_time" property="publishTime" jdbcType="TIMESTAMP" />
     <result column="imageurl" property="imageurl" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="INTEGER" />
   </resultMap>
   
   
@@ -34,6 +35,7 @@
     <result column="remarks" property="remarks" jdbcType="VARCHAR" />
     <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
     <result column="imageurl" property="imageurl" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="INTEGER" />
     <collection property="custems" javaType="java.util.List" ofType="com.lenovo.tripnote.entity.vo.TCustemVo">  
             <result column="customer_id" property="id" jdbcType="INTEGER" />
             <result column="phone1" property="phone" jdbcType="VARCHAR" />
@@ -69,6 +71,7 @@
     <result column="start_city" property="startCity" jdbcType="VARCHAR" />
     <result column="remarks" property="remarks" jdbcType="VARCHAR" />
     <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
+    <result column="price" property="price" jdbcType="INTEGER" />
     <collection property="custems" javaType="java.util.List" ofType="com.lenovo.tripnote.entity.vo.TCustemVo">  
             <result column="customer_id" property="id" jdbcType="INTEGER" />
             <result column="phone1" property="phone" jdbcType="VARCHAR" />
@@ -95,7 +98,7 @@
   
   <sql id="Base_Column_List" >
     id, code, title, start_date, end_date, `days`, destination, create_time, create_user_id, 
-    `status`, start_city, remarks,introduction,type,publish_time,imageurl
+    `status`, start_city, remarks,introduction,type,publish_time,imageurl,price
   </sql>
   
   <sql id="Example_Where_Clause" >
@@ -159,7 +162,7 @@
   <select id="queryCondition" resultMap="DetailResultMap" parameterType="com.lenovo.tripnote.entity.vo.TTripNoteSearchVo" >
     select
     t.id,t.code, t.title,t.start_date, t.end_date, t.`days`, t.destination, 
-    t.`status`, t.start_city, t.remarks,tc.name,tc.phone1,tc.id as customer_id,t.introduction,t.imageurl,
+    t.`status`, t.start_city, t.remarks,tc.name,tc.phone1,tc.id as customer_id,t.introduction,t.imageurl,t.price,
     tts.id as schedule_id, tts.title as schedule_title,tts.indexdate,
     bc.id as city_id,bc.name_cn,bc.name_en,bc.lat,bc.lon,ttsrc.schedule_id as rcity_schedule_id,bc.country_id,ttsrc.id as rcity_id
     from (select 
@@ -205,7 +208,7 @@
     select
     t.id,t.code, t.title,t.start_date, t.end_date, t.`days`, t.destination, 
     t.`status`, t.start_city, t.remarks,tc.name,tc.phone1,t.introduction,
-    tts.id as schedule_id, tts.title as schedule_title,tts.indexdate,t.imageurl,
+    tts.id as schedule_id, tts.title as schedule_title,tts.indexdate,t.imageurl,t.price,
     bc.id as city_id,bc.name_cn,bc.name_en,bc.lat,bc.lon,ttsrc.schedule_id as rcity_schedule_id,bc.country_id,ttsrc.id as rcity_id
     from t_trip_note t 
     left join t_tripnote_r_customer ts on t.id = ts.tripnote_id 
@@ -220,7 +223,7 @@
     select
     t.id,t.code, t.title,t.start_date, t.end_date, t.`days`, t.destination, 
     t.`status`, t.start_city, t.remarks,tc.name,tc.phone1,t.introduction,
-    tts.id as schedule_id, tts.title as schedule_title,tts.indexdate,
+    tts.id as schedule_id, tts.title as schedule_title,tts.indexdate,t.price,
     ttst.id as scheduletrip_id,ttst.schedule_id as scheduletrip_schedule_id,ttst.poi_id,ttst.name_cn as trip_name_cn,
     ttst.name_en as trip_name_en,ttst.type as trip_type,ttst.price,ttst.supplier
     from t_trip_note t 
@@ -234,7 +237,7 @@
   <select id="queryConditionAndPage" resultMap="DetailResultMap" parameterType="com.lenovo.tripnote.entity.vo.TTripNoteSearchVo" >
     select
     t.id,t.code, t.title,t.start_date, t.end_date, t.`days`, t.destination, 
-    t.`status`, t.start_city, t.remarks,tc.name,tc.phone1,tc.id as customer_id,t.introduction,t.imageurl,
+    t.`status`, t.start_city, t.remarks,tc.name,tc.phone1,tc.id as customer_id,t.introduction,t.imageurl,t.price,
     tts.id as schedule_id, tts.title as schedule_title,tts.indexdate,
     bc.id as city_id,bc.name_cn,bc.name_en,bc.lat,bc.lon,ttsrc.schedule_id as rcity_schedule_id,bc.country_id,ttsrc.id as rcity_id
     from (select 
@@ -353,6 +356,9 @@
       <if test="record.imageurl != null" >
         imageurl = #{record.imageurl,jdbcType=VARCHAR},
       </if>
+      <if test="record.price != null" >
+        price = #{record.price,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -376,6 +382,7 @@
       type = #{record.type,jdbcType=INTEGER},
       publish_time = #{record.publishTime,jdbcType=TIMESTAMP},
       imageurl = #{record.imageurl,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=INTEGER},
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -394,11 +401,11 @@
     insert into t_trip_note (code, title, start_date, 
       end_date, `days`, destination, 
       create_time, create_user_id, `status`, 
-      start_city, remarks, introduction,type,publish_time,imageurl)
+      start_city, remarks, introduction,type,publish_time,imageurl,price)
     values (#{code,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{startDate,jdbcType=DATE}, 
       #{endDate,jdbcType=DATE}, #{days,jdbcType=INTEGER}, #{destination,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
-      #{startCity,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR},#{introduction,jdbcType=LONGVARCHAR},#{type,jdbcType=INTEGER},#{publishTime,jdbcType=TIMESTAMP},#{imageurl,jdbcType=VARCHAR})
+      #{startCity,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR},#{introduction,jdbcType=LONGVARCHAR},#{type,jdbcType=INTEGER},#{publishTime,jdbcType=TIMESTAMP},#{imageurl,jdbcType=VARCHAR},#{price,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.TTripNote" useGeneratedKeys="true" keyProperty="id">
     insert into t_trip_note
@@ -418,6 +425,7 @@
       type,
       publish_time,
       imageurl,
+      price,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       #{code,jdbcType=VARCHAR},
@@ -435,6 +443,7 @@
       #{type,jdbcType=INTEGER},
       #{publishTime,jdbcType=TIMESTAMP},
       #{imageurl,jdbcType=VARCHAR},
+      #{price,jdbcType=INTEGER},
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.lenovo.tripnote.entity.TTripNote" >
@@ -485,6 +494,9 @@
         <if test="imageurl != null" >
          imageurl = #{imageurl,jdbcType=VARCHAR},
       </if>
+      <if test="price != null" >
+         price = #{price,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -504,7 +516,8 @@
       introduction = #{introduction,jdbcType=LONGVARCHAR},
       type = #{type,jdbcType=LONGVARCHAR},
       publish_time = #{publishTime,jdbcType=TIMESTAMP},
-      imageurl = #{imageurl,jdbcType=VARCHAR}
+      imageurl = #{imageurl,jdbcType=VARCHAR},
+      price = #{price,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

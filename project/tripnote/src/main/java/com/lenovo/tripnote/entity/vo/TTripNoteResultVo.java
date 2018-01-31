@@ -43,4 +43,9 @@ public class TTripNoteResultVo implements Serializable {
 	private String introduction;
 	
 	private String imageurl;
+	
+    /**
+     * 定制行程客户报价,在行程报价中会更新此值
+     */
+    private Double price;
 }
