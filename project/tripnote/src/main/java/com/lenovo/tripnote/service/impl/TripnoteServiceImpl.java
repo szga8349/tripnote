@@ -206,5 +206,11 @@ public class TripnoteServiceImpl implements TTripnoteService{
 		return tTripNoteMapper.getTravelQuotationByKey(id);
 	}
 
+	@Override
+	public TTripNoteDetailResultVo getTravelQuotationGroupByTypeByKey(Integer id) {
+		// TODO 暂时未做实现
+		return this.tTripNoteMapper.getTravelQuotationByKey(id);
+	}
+
 	
 }

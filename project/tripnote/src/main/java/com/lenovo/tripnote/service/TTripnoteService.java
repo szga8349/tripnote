@@ -37,4 +37,11 @@ public interface TTripnoteService extends IDbService<TTripNote>{
 	 */
 	public TTripNoteDetailResultVo getTravelQuotationByKey(Integer id);
 	
+	
+	/**行程报价按照类型归类
+	 * @param id
+	 * @return
+	 */
+	public TTripNoteDetailResultVo getTravelQuotationGroupByTypeByKey(Integer id);
+	
 }
