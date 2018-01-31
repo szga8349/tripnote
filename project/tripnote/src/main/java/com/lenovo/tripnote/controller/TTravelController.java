@@ -55,7 +55,7 @@ public class TTravelController {
 		if(list!=null && !list.isEmpty()){
 			vo.setData(list);
 		}
-	    vo.setData(tTripnoteService.getTravelQuotationByKey(Integer.valueOf(id)));
+		else vo.setData(tTripnoteService.getTravelQuotationByKey(Integer.valueOf(id)));
 		return vo;
 	}
 	
@@ -81,7 +81,7 @@ public class TTravelController {
 		if(list!=null && !list.isEmpty()){
 			vo.setData(list);
 		}
-		vo.setData(tTripnoteService.getTravelQuotationGroupByTypeByKey(Integer.valueOf(id)));
+		else vo.setData(tTripnoteService.getTravelQuotationGroupByTypeByKey(Integer.valueOf(id)));
 		return vo;
 	}
 	@RequestMapping(value = "/price/doAdd")
