@@ -9,4 +9,5 @@ public interface TCustomerService extends IDbService<TCustomer>{
       public int insertTripnoteRCustomer(Integer tripnoteId,Integer customerId);
       /*public List<TCustomer> selectCondition(TCustomer t);*/
 	  public List<TCustomer> search(TCustomer search, BAccount account, boolean b);
+	  int deleteTripnoteRCustomer(Integer tripnoteId, Integer customerId);
 }

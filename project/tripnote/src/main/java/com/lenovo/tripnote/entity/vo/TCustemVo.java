@@ -13,5 +13,11 @@ public class TCustemVo {
 	private String name;
 	
 	private String phone;
+	
+	/**
+     * t_customer.IDCard (身份证信息)
+     * @ibatorgenerated 2018-01-31 18:03:56
+     */
+    private String idcard;
 
 }

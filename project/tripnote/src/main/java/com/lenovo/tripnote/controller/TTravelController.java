@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lenovo.tripnote.entity.BAccount;
+import com.lenovo.tripnote.entity.vo.TCustemVo;
 import com.lenovo.tripnote.entity.vo.TTravelVo;
 import com.lenovo.tripnote.entity.vo.TTripnoteScheduleOfferResultVo;
 import com.lenovo.tripnote.entity.vo.TTripnoteScheduleOfferSearchVo;
@@ -92,6 +93,38 @@ public class TTravelController {
 		BAccount account = (BAccount) subject.getPrincipal();
 		vo.setCode(Result.SUCESSFUL);
 		vo.setData(tTripnoteScheduleOfferService.batchAdd(ttavelVo, account));
+		return vo;
+	}
+	/**行程报价时 增加客户
+	 * @param ttavelVo
+	 * @return
+	 * @throws IllegalAccessException
+	 * @throws InvocationTargetException
+	 */
+	@RequestMapping(value = "/price/customer/doAdd/{id}")
+	public @ResponseBody ResultVo addTravelPriceCustomer(TCustemVo ttavelVo,@PathVariable String id)
+			throws IllegalAccessException, InvocationTargetException {
+		ResultVo vo = new ResultVo();
+		Subject subject = SecurityUtils.getSubject();
+		BAccount account = (BAccount) subject.getPrincipal();
+		vo.setCode(Result.SUCESSFUL);
+		ttavelVo.setId(Integer.valueOf(id));
+		vo.setData(tTripnoteScheduleOfferService.addCustem(ttavelVo, account));
+		return vo;
+	}
+	/**行程报价时 增加客户
+	 * @param ttavelVo
+	 * @return
+	 * @throws IllegalAccessException
+	 * @throws InvocationTargetException
+	 */
+	@RequestMapping(value = "/price/customer/doDelete/{id}")
+	public @ResponseBody ResultVo deleteTravelPriceCustomer(TCustemVo ttavelVo,@PathVariable String id)
+			throws IllegalAccessException, InvocationTargetException {
+		ResultVo vo = new ResultVo();
+		ttavelVo.setId(Integer.valueOf(id));
+		vo.setCode(Result.SUCESSFUL);
+		vo.setData(tTripnoteScheduleOfferService.deleteTripnoteRCustomer(Integer.valueOf(id),ttavelVo.getId()));
 		return vo;
 	}
 }

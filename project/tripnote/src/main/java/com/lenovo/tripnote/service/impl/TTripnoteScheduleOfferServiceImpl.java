@@ -12,12 +12,15 @@ import org.springframework.stereotype.Service;
 import com.lenovo.tripnote.dao.TTripNoteMapper;
 import com.lenovo.tripnote.dao.TTripnoteScheduleOfferMapper;
 import com.lenovo.tripnote.entity.BAccount;
+import com.lenovo.tripnote.entity.TCustomer;
 import com.lenovo.tripnote.entity.TTripNote;
 import com.lenovo.tripnote.entity.TTripnoteScheduleOffer;
+import com.lenovo.tripnote.entity.vo.TCustemVo;
 import com.lenovo.tripnote.entity.vo.TTravelVo;
 import com.lenovo.tripnote.entity.vo.TTripnoteScheduleOfferResultVo;
 import com.lenovo.tripnote.entity.vo.TTripnoteScheduleOfferSearchVo;
 import com.lenovo.tripnote.entity.vo.TTripnoteScheduleOfferVo;
+import com.lenovo.tripnote.service.TCustomerService;
 import com.lenovo.tripnote.service.TTripnoteScheduleOfferService;
 @Service
 public class TTripnoteScheduleOfferServiceImpl implements TTripnoteScheduleOfferService {
@@ -25,7 +28,8 @@ public class TTripnoteScheduleOfferServiceImpl implements TTripnoteScheduleOffer
 	private TTripnoteScheduleOfferMapper tTripnoteScheduleOfferMapper;
 	@Resource
 	private TTripNoteMapper tTripNoteMapper;
-
+	@Resource
+	private TCustomerService tCustomerService;
 	@Override
 	public int insert(TTripnoteScheduleOffer t) {
 		// TODO Auto-generated method stub
@@ -89,6 +93,29 @@ public class TTripnoteScheduleOfferServiceImpl implements TTripnoteScheduleOffer
 	@Override
 	public List<TTripnoteScheduleOfferResultVo> search(TTripnoteScheduleOfferSearchVo offer) {	
 		return this.tTripnoteScheduleOfferMapper.search(offer);
+	}
+
+	@Override
+	public Integer addCustem(TCustemVo vo, BAccount account) {
+		TCustomer search = new TCustomer();
+		search.setName(vo.getName());
+		search.setCreateUserId(account.getId());
+		search.setPhone1(vo.getPhone());
+		List<TCustomer> oldCustomer = tCustomerService.search(search, account, true);
+		if(oldCustomer!=null && !oldCustomer.isEmpty()){//原有客户存在
+			//设置定制与客户的关联关系
+			search.setId(oldCustomer.get(0).getId());
+		}else{
+			//如果不存在该客户 创建该客户并关联到当前登录人上
+			tCustomerService.insert(search);
+		}
+		tCustomerService.insertTripnoteRCustomer(vo.getId(),search.getId());
+		return search.getId();
+	}
+
+	@Override
+	public int deleteTripnoteRCustomer(Integer tripnoteId, Integer customerId) {
+		return tCustomerService.deleteTripnoteRCustomer(tripnoteId, customerId);
 	}
 
 }

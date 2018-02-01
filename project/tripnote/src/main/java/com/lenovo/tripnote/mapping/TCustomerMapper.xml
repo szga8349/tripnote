@@ -9,7 +9,7 @@
     <result column="sex" property="sex" jdbcType="INTEGER" />
     <result column="address" property="address" jdbcType="VARCHAR" />
     <result column="birthday" property="birthday" jdbcType="DATE" />
-    <result column="IDCard" property="idcard" jdbcType="VARCHAR" />
+    <result column="idcard" property="idcard" jdbcType="VARCHAR" />
     <result column="constellation" property="constellation" jdbcType="VARCHAR" />
     <result column="phone1" property="phone1" jdbcType="VARCHAR" />
     <result column="phone2" property="phone2" jdbcType="VARCHAR" />
@@ -32,7 +32,7 @@
     <result column="family" property="family" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, `name`, importance, `status`, sex, address, birthday, IDCard, constellation, 
+    id, `name`, importance, `status`, sex, address, birthday, idcard, constellation, 
     phone1, phone2, phone3, blood_type, occupation, email, qq, acceptprice, arrive_space, 
     interest_space, weixin, catogry_id, portraiturl, remark, create_user_id, create_time
   </sql>
@@ -194,7 +194,7 @@
         birthday = #{record.birthday,jdbcType=DATE},
       </if>
       <if test="record.idcard != null" >
-        IDCard = #{record.idcard,jdbcType=VARCHAR},
+        idcard = #{record.idcard,jdbcType=VARCHAR},
       </if>
       <if test="record.constellation != null" >
         constellation = #{record.constellation,jdbcType=VARCHAR},
@@ -264,7 +264,7 @@
       sex = #{record.sex,jdbcType=INTEGER},
       address = #{record.address,jdbcType=VARCHAR},
       birthday = #{record.birthday,jdbcType=DATE},
-      IDCard = #{record.idcard,jdbcType=VARCHAR},
+      idcard = #{record.idcard,jdbcType=VARCHAR},
       constellation = #{record.constellation,jdbcType=VARCHAR},
       phone1 = #{record.phone1,jdbcType=VARCHAR},
       phone2 = #{record.phone2,jdbcType=VARCHAR},
@@ -296,7 +296,7 @@
       sex = #{record.sex,jdbcType=INTEGER},
       address = #{record.address,jdbcType=VARCHAR},
       birthday = #{record.birthday,jdbcType=DATE},
-      IDCard = #{record.idcard,jdbcType=VARCHAR},
+      idcard = #{record.idcard,jdbcType=VARCHAR},
       constellation = #{record.constellation,jdbcType=VARCHAR},
       phone1 = #{record.phone1,jdbcType=VARCHAR},
       phone2 = #{record.phone2,jdbcType=VARCHAR},
@@ -333,7 +333,7 @@
   <insert id="insert" parameterType="com.lenovo.tripnote.entity.TCustomer" useGeneratedKeys="true" keyProperty="id">
     insert into t_customer (id, `name`, importance, 
       `status`, sex, address, 
-      birthday, IDCard, constellation, 
+      birthday, idcard, constellation, 
       phone1, phone2, phone3, 
       blood_type, occupation, email, 
       qq, acceptprice, arrive_space, 
@@ -360,7 +360,7 @@
       sex,
       address,
       birthday,
-      IDCard,
+      idcard,
       constellation,
       phone1,
       phone2,
@@ -431,7 +431,7 @@
         birthday = #{birthday,jdbcType=DATE},
       </if>
       <if test="idcard != null" >
-        IDCard = #{idcard,jdbcType=VARCHAR},
+        idcard = #{idcard,jdbcType=VARCHAR},
       </if>
       <if test="constellation != null" >
         constellation = #{constellation,jdbcType=VARCHAR},
@@ -498,7 +498,7 @@
       sex = #{sex,jdbcType=INTEGER},
       address = #{address,jdbcType=VARCHAR},
       birthday = #{birthday,jdbcType=DATE},
-      IDCard = #{idcard,jdbcType=VARCHAR},
+      idcard = #{idcard,jdbcType=VARCHAR},
       constellation = #{constellation,jdbcType=VARCHAR},
       phone1 = #{phone1,jdbcType=VARCHAR},
       phone2 = #{phone2,jdbcType=VARCHAR},
@@ -527,7 +527,7 @@
       sex = #{sex,jdbcType=INTEGER},
       address = #{address,jdbcType=VARCHAR},
       birthday = #{birthday,jdbcType=DATE},
-      IDCard = #{idcard,jdbcType=VARCHAR},
+      idcard = #{idcard,jdbcType=VARCHAR},
       constellation = #{constellation,jdbcType=VARCHAR},
       phone1 = #{phone1,jdbcType=VARCHAR},
       phone2 = #{phone2,jdbcType=VARCHAR},
