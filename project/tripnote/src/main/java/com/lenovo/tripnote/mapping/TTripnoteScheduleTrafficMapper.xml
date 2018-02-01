@@ -4,7 +4,9 @@
   <resultMap id="BaseResultMap" type="com.lenovo.tripnote.entity.TTripnoteScheduleTraffic" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="schedule_id" property="scheduleId" jdbcType="INTEGER" />
+    <result column="start_schedule_type" property="startScheduleType" jdbcType="INTEGER" />
     <result column="start_schedule_trip" property="startScheduleTrip" jdbcType="INTEGER" />
+    <result column="end_schedule_type" property="endScheduleType" jdbcType="INTEGER" />
     <result column="end_schedule_trip" property="endScheduleTrip" jdbcType="INTEGER" />
     <result column="distance" property="distance" jdbcType="REAL" />
     <result column="spend_time" property="spendTime" jdbcType="BIGINT" />
@@ -17,8 +19,9 @@
     <result column="start_time" property="startTime" jdbcType="TIME" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, schedule_id, start_schedule_trip, end_schedule_trip, distance, spend_time, traffic_type, 
-    arrival_time, createtime, create_userid, shift, createuser_name, start_time
+    id, schedule_id, start_schedule_type, start_schedule_trip, end_schedule_type, end_schedule_trip, 
+    distance, spend_time, traffic_type, arrival_time, createtime, create_userid, shift, 
+    createuser_name, start_time
   </sql>
   <sql id="Example_Where_Clause" >
     <where >
@@ -127,8 +130,14 @@
       <if test="record.scheduleId != null" >
         schedule_id = #{record.scheduleId,jdbcType=INTEGER},
       </if>
+      <if test="record.startScheduleType != null" >
+        start_schedule_type = #{record.startScheduleType,jdbcType=INTEGER},
+      </if>
       <if test="record.startScheduleTrip != null" >
         start_schedule_trip = #{record.startScheduleTrip,jdbcType=INTEGER},
+      </if>
+      <if test="record.endScheduleType != null" >
+        end_schedule_type = #{record.endScheduleType,jdbcType=INTEGER},
       </if>
       <if test="record.endScheduleTrip != null" >
         end_schedule_trip = #{record.endScheduleTrip,jdbcType=INTEGER},
@@ -169,7 +178,9 @@
     update t_tripnote_schedule_traffic
     set id = #{record.id,jdbcType=INTEGER},
       schedule_id = #{record.scheduleId,jdbcType=INTEGER},
+      start_schedule_type = #{record.startScheduleType,jdbcType=INTEGER},
       start_schedule_trip = #{record.startScheduleTrip,jdbcType=INTEGER},
+      end_schedule_type = #{record.endScheduleType,jdbcType=INTEGER},
       end_schedule_trip = #{record.endScheduleTrip,jdbcType=INTEGER},
       distance = #{record.distance,jdbcType=REAL},
       spend_time = #{record.spendTime,jdbcType=BIGINT},
@@ -195,22 +206,24 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleTraffic" useGeneratedKeys="true" keyProperty="id" >
-    insert into t_tripnote_schedule_traffic (schedule_id, start_schedule_trip, end_schedule_trip, 
-      distance, spend_time, traffic_type, 
-      arrival_time, createtime, create_userid, 
-      shift, createuser_name, start_time
-      )
-    values (#{scheduleId,jdbcType=INTEGER}, #{startScheduleTrip,jdbcType=INTEGER}, #{endScheduleTrip,jdbcType=INTEGER}, 
-      #{distance,jdbcType=REAL}, #{spendTime,jdbcType=BIGINT}, #{trafficType,jdbcType=INTEGER}, 
-      #{arrivalTime,jdbcType=TIME}, #{createtime,jdbcType=TIMESTAMP}, #{createUserid,jdbcType=INTEGER}, 
-      #{shift,jdbcType=VARCHAR}, #{createuserName,jdbcType=VARCHAR}, #{startTime,jdbcType=TIME}
-      )
+    insert into t_tripnote_schedule_traffic (schedule_id, start_schedule_type, start_schedule_trip, 
+      end_schedule_type, end_schedule_trip, distance, 
+      spend_time, traffic_type, arrival_time, 
+      createtime, create_userid, shift, 
+      createuser_name, start_time)
+    values (#{scheduleId,jdbcType=INTEGER}, #{startScheduleType,jdbcType=INTEGER}, #{startScheduleTrip,jdbcType=INTEGER}, 
+      #{endScheduleType,jdbcType=INTEGER}, #{endScheduleTrip,jdbcType=INTEGER}, #{distance,jdbcType=REAL}, 
+      #{spendTime,jdbcType=BIGINT}, #{trafficType,jdbcType=INTEGER}, #{arrivalTime,jdbcType=TIME}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{createUserid,jdbcType=INTEGER}, #{shift,jdbcType=VARCHAR}, 
+      #{createuserName,jdbcType=VARCHAR}, #{startTime,jdbcType=TIME})
   </insert>
   <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleTraffic" useGeneratedKeys="true" keyProperty="id" >
     insert into t_tripnote_schedule_traffic
     <trim prefix="(" suffix=")" suffixOverrides="," >
       schedule_id,
+      start_schedule_type,
       start_schedule_trip,
+      end_schedule_type,
       end_schedule_trip,
       distance,
       spend_time,
@@ -224,7 +237,9 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       #{scheduleId,jdbcType=INTEGER},
+      #{startScheduleType,jdbcType=INTEGER},
       #{startScheduleTrip,jdbcType=INTEGER},
+      #{endScheduleType,jdbcType=INTEGER},
       #{endScheduleTrip,jdbcType=INTEGER},
       #{distance,jdbcType=REAL},
       #{spendTime,jdbcType=BIGINT},
@@ -243,8 +258,14 @@
       <if test="scheduleId != null" >
         schedule_id = #{scheduleId,jdbcType=INTEGER},
       </if>
+      <if test="startScheduleType != null" >
+        start_schedule_type = #{startScheduleType,jdbcType=INTEGER},
+      </if>
       <if test="startScheduleTrip != null" >
         start_schedule_trip = #{startScheduleTrip,jdbcType=INTEGER},
+      </if>
+      <if test="endScheduleType != null" >
+        end_schedule_type = #{endScheduleType,jdbcType=INTEGER},
       </if>
       <if test="endScheduleTrip != null" >
         end_schedule_trip = #{endScheduleTrip,jdbcType=INTEGER},
@@ -282,7 +303,9 @@
   <update id="updateByPrimaryKey" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleTraffic" >
     update t_tripnote_schedule_traffic
     set schedule_id = #{scheduleId,jdbcType=INTEGER},
+      start_schedule_type = #{startScheduleType,jdbcType=INTEGER},
       start_schedule_trip = #{startScheduleTrip,jdbcType=INTEGER},
+      end_schedule_type = #{endScheduleType,jdbcType=INTEGER},
       end_schedule_trip = #{endScheduleTrip,jdbcType=INTEGER},
       distance = #{distance,jdbcType=REAL},
       spend_time = #{spendTime,jdbcType=BIGINT},

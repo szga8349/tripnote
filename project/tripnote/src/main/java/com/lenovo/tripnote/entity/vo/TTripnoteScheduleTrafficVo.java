@@ -13,7 +13,24 @@ public class TTripnoteScheduleTrafficVo {
 	
 	private Integer scheduleId;
 
-	private Integer startScheduleTrip;
+	/**
+     * t_tripnote_schedule_traffic.start_schedule_type (起点日程行程类型)
+     * @ibatorgenerated 2018-02-01 14:07:39
+     */
+    private Integer startScheduleType;
+
+    /**
+     * t_tripnote_schedule_traffic.start_schedule_trip
+     * @ibatorgenerated 2018-02-01 14:07:39
+     */
+    private Integer startScheduleTrip;
+
+    /**
+     * t_tripnote_schedule_traffic.end_schedule_type (终点日程行程类型)
+     * @ibatorgenerated 2018-02-01 14:07:39
+     */
+    private Integer endScheduleType;
+    
 
 	private Integer endScheduleTrip;
 

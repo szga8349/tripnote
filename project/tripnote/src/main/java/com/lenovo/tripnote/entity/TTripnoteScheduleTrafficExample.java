@@ -8,25 +8,25 @@ import java.util.List;
 public class TTripnoteScheduleTrafficExample {
     /**
      * 主键字段
-     * @ibatorgenerated 2018-01-29 11:35:30
+     * @ibatorgenerated 2018-02-01 14:07:39
      */
     protected String pk_name = "id";
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-01-29 11:35:30
+     * @ibatorgenerated 2018-02-01 14:07:39
      */
     protected String orderByClause;
 
     /**
      * 去重复
-     * @ibatorgenerated 2018-01-29 11:35:30
+     * @ibatorgenerated 2018-02-01 14:07:39
      */
     protected boolean distinct;
 
     /**
      * 条件集
-     * @ibatorgenerated 2018-01-29 11:35:30
+     * @ibatorgenerated 2018-02-01 14:07:39
      */
     protected List<Criteria> oredCriteria;
 
@@ -44,7 +44,7 @@ public class TTripnoteScheduleTrafficExample {
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-01-29 11:35:30
+     * @ibatorgenerated 2018-02-01 14:07:39
      */
     public void setOrderByClause(String orderByClause) {
         this.orderByClause = orderByClause;
@@ -56,7 +56,7 @@ public class TTripnoteScheduleTrafficExample {
 
     /**
      * 设置去重复
-     * @ibatorgenerated 2018-01-29 11:35:30
+     * @ibatorgenerated 2018-02-01 14:07:39
      */
     public void setDistinct(boolean distinct) {
         this.distinct = distinct;
@@ -82,7 +82,7 @@ public class TTripnoteScheduleTrafficExample {
 
     /**
      * 条件查询要先创建Criteria
-     * @ibatorgenerated 2018-01-29 11:35:30
+     * @ibatorgenerated 2018-02-01 14:07:39
      */
     public Criteria createCriteria() {
         Criteria criteria = createCriteriaInternal();
@@ -106,7 +106,7 @@ public class TTripnoteScheduleTrafficExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-01-29 11:35:30
+     * @ibatorgenerated 2018-02-01 14:07:39
      */
     protected abstract static class GeneratedCriteria {
         protected List<Criterion> criteria;
@@ -295,6 +295,66 @@ public class TTripnoteScheduleTrafficExample {
             return (Criteria) this;
         }
 
+        public Criteria andStartScheduleTypeIsNull() {
+            addCriterion("start_schedule_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartScheduleTypeIsNotNull() {
+            addCriterion("start_schedule_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartScheduleTypeEqualTo(Integer value) {
+            addCriterion("start_schedule_type =", value, "startScheduleType");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartScheduleTypeNotEqualTo(Integer value) {
+            addCriterion("start_schedule_type <>", value, "startScheduleType");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartScheduleTypeGreaterThan(Integer value) {
+            addCriterion("start_schedule_type >", value, "startScheduleType");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartScheduleTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("start_schedule_type >=", value, "startScheduleType");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartScheduleTypeLessThan(Integer value) {
+            addCriterion("start_schedule_type <", value, "startScheduleType");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartScheduleTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("start_schedule_type <=", value, "startScheduleType");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartScheduleTypeIn(List<Integer> values) {
+            addCriterion("start_schedule_type in", values, "startScheduleType");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartScheduleTypeNotIn(List<Integer> values) {
+            addCriterion("start_schedule_type not in", values, "startScheduleType");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartScheduleTypeBetween(Integer value1, Integer value2) {
+            addCriterion("start_schedule_type between", value1, value2, "startScheduleType");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartScheduleTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("start_schedule_type not between", value1, value2, "startScheduleType");
+            return (Criteria) this;
+        }
+
         public Criteria andStartScheduleTripIsNull() {
             addCriterion("start_schedule_trip is null");
             return (Criteria) this;
@@ -352,6 +412,66 @@ public class TTripnoteScheduleTrafficExample {
 
         public Criteria andStartScheduleTripNotBetween(Integer value1, Integer value2) {
             addCriterion("start_schedule_trip not between", value1, value2, "startScheduleTrip");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndScheduleTypeIsNull() {
+            addCriterion("end_schedule_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndScheduleTypeIsNotNull() {
+            addCriterion("end_schedule_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndScheduleTypeEqualTo(Integer value) {
+            addCriterion("end_schedule_type =", value, "endScheduleType");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndScheduleTypeNotEqualTo(Integer value) {
+            addCriterion("end_schedule_type <>", value, "endScheduleType");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndScheduleTypeGreaterThan(Integer value) {
+            addCriterion("end_schedule_type >", value, "endScheduleType");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndScheduleTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("end_schedule_type >=", value, "endScheduleType");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndScheduleTypeLessThan(Integer value) {
+            addCriterion("end_schedule_type <", value, "endScheduleType");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndScheduleTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("end_schedule_type <=", value, "endScheduleType");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndScheduleTypeIn(List<Integer> values) {
+            addCriterion("end_schedule_type in", values, "endScheduleType");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndScheduleTypeNotIn(List<Integer> values) {
+            addCriterion("end_schedule_type not in", values, "endScheduleType");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndScheduleTypeBetween(Integer value1, Integer value2) {
+            addCriterion("end_schedule_type between", value1, value2, "endScheduleType");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndScheduleTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("end_schedule_type not between", value1, value2, "endScheduleType");
             return (Criteria) this;
         }
 
@@ -978,7 +1098,7 @@ public class TTripnoteScheduleTrafficExample {
 
     /**
      * t_tripnote_schedule_traffic
-     * @ibatorgenerated do_not_delete_during_merge 2018-01-29 11:35:30
+     * @ibatorgenerated do_not_delete_during_merge 2018-02-01 14:07:39
      */
     public static class Criteria extends GeneratedCriteria {
 
@@ -990,7 +1110,7 @@ public class TTripnoteScheduleTrafficExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-01-29 11:35:30
+     * @ibatorgenerated 2018-02-01 14:07:39
      */
     public static class Criterion {
         private String condition;
