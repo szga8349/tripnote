@@ -126,7 +126,7 @@ public class TripnoteServiceImpl implements TTripnoteService{
 	    		TCustomer t1 = new TCustomer();
 		    	t1.setName(custer.getString("name"));
 		    	t1.setPhone1(custer.getString("phone"));
-		    	List<TCustomer> customer = tCustomerService.selectCondition(t1); 
+		    	List<TCustomer> customer = tCustomerService.search(t1,account,true); 
 		    	if(customer!=null && !customer.isEmpty()){
 		    		tCustomerService.insertTripnoteRCustomer(t.getId(), customer.get(0).getId());
 		    	}else{
@@ -165,7 +165,7 @@ public class TripnoteServiceImpl implements TTripnoteService{
 	    		TCustomer t1 = new TCustomer();
 		    	t1.setName(custer.getString("name"));
 		    	t1.setPhone1(custer.getString("phone"));
-		    	List<TCustomer> customer = tCustomerService.selectCondition(t1); 
+		    	List<TCustomer> customer = tCustomerService.search(t1,account,true); 
 		    	if(customer!=null && !customer.isEmpty()){
 		    		tCustomerService.insertTripnoteRCustomer(t.getId(), customer.get(0).getId());
 		    	}else{
