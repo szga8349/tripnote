@@ -33,5 +33,10 @@ public class TTripnoteScheduleHotelResultVo{
      * @ibatorgenerated 2018-01-30 16:34:45
      */
     private String checkOuTime;
+    /**
+     * t_tripnote_schedule_hotel.check_in_type (入住类型:1入住 2退房)
+     * @ibatorgenerated 2018-02-01 11:24:53
+     */
+    private Integer checkInType;
 
 }

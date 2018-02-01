@@ -7,25 +7,25 @@ import java.util.List;
 public class TTripnoteScheduleHotelExample {
     /**
      * 主键字段
-     * @ibatorgenerated 2018-01-30 16:34:45
+     * @ibatorgenerated 2018-02-01 11:24:53
      */
     protected String pk_name = "id";
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-01-30 16:34:45
+     * @ibatorgenerated 2018-02-01 11:24:53
      */
     protected String orderByClause;
 
     /**
      * 去重复
-     * @ibatorgenerated 2018-01-30 16:34:45
+     * @ibatorgenerated 2018-02-01 11:24:53
      */
     protected boolean distinct;
 
     /**
      * 条件集
-     * @ibatorgenerated 2018-01-30 16:34:45
+     * @ibatorgenerated 2018-02-01 11:24:53
      */
     protected List<Criteria> oredCriteria;
 
@@ -43,7 +43,7 @@ public class TTripnoteScheduleHotelExample {
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-01-30 16:34:45
+     * @ibatorgenerated 2018-02-01 11:24:53
      */
     public void setOrderByClause(String orderByClause) {
         this.orderByClause = orderByClause;
@@ -55,7 +55,7 @@ public class TTripnoteScheduleHotelExample {
 
     /**
      * 设置去重复
-     * @ibatorgenerated 2018-01-30 16:34:45
+     * @ibatorgenerated 2018-02-01 11:24:53
      */
     public void setDistinct(boolean distinct) {
         this.distinct = distinct;
@@ -81,7 +81,7 @@ public class TTripnoteScheduleHotelExample {
 
     /**
      * 条件查询要先创建Criteria
-     * @ibatorgenerated 2018-01-30 16:34:45
+     * @ibatorgenerated 2018-02-01 11:24:53
      */
     public Criteria createCriteria() {
         Criteria criteria = createCriteriaInternal();
@@ -105,7 +105,7 @@ public class TTripnoteScheduleHotelExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-01-30 16:34:45
+     * @ibatorgenerated 2018-02-01 11:24:53
      */
     protected abstract static class GeneratedCriteria {
         protected List<Criterion> criteria;
@@ -675,6 +675,66 @@ public class TTripnoteScheduleHotelExample {
 
         public Criteria andCheckInTimeNotBetween(String value1, String value2) {
             addCriterion("check_in_time not between", value1, value2, "checkInTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckInTypeIsNull() {
+            addCriterion("check_in_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckInTypeIsNotNull() {
+            addCriterion("check_in_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckInTypeEqualTo(Integer value) {
+            addCriterion("check_in_type =", value, "checkInType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckInTypeNotEqualTo(Integer value) {
+            addCriterion("check_in_type <>", value, "checkInType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckInTypeGreaterThan(Integer value) {
+            addCriterion("check_in_type >", value, "checkInType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckInTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("check_in_type >=", value, "checkInType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckInTypeLessThan(Integer value) {
+            addCriterion("check_in_type <", value, "checkInType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckInTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("check_in_type <=", value, "checkInType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckInTypeIn(List<Integer> values) {
+            addCriterion("check_in_type in", values, "checkInType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckInTypeNotIn(List<Integer> values) {
+            addCriterion("check_in_type not in", values, "checkInType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckInTypeBetween(Integer value1, Integer value2) {
+            addCriterion("check_in_type between", value1, value2, "checkInType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckInTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("check_in_type not between", value1, value2, "checkInType");
             return (Criteria) this;
         }
 
@@ -1841,7 +1901,7 @@ public class TTripnoteScheduleHotelExample {
 
     /**
      * t_tripnote_schedule_hotel
-     * @ibatorgenerated do_not_delete_during_merge 2018-01-30 16:34:45
+     * @ibatorgenerated do_not_delete_during_merge 2018-02-01 11:24:53
      */
     public static class Criteria extends GeneratedCriteria {
 
@@ -1853,7 +1913,7 @@ public class TTripnoteScheduleHotelExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-01-30 16:34:45
+     * @ibatorgenerated 2018-02-01 11:24:53
      */
     public static class Criterion {
         private String condition;

@@ -2,7 +2,6 @@ package com.lenovo.tripnote.controller;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
-import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -11,16 +10,15 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.common.collect.ImmutableList;
 import com.lenovo.tripnote.entity.BAccount;
-import com.lenovo.tripnote.entity.BHotel;
 import com.lenovo.tripnote.entity.BPoi;
-import com.lenovo.tripnote.entity.TTripnoteScheduleHotel;
 import com.lenovo.tripnote.entity.TTripnoteScheduleTrip;
 import com.lenovo.tripnote.entity.vo.TTripnoteScheduleTripAddVo;
+import com.lenovo.tripnote.entity.vo.TTripnoteScheduleTripHotelAddVo;
 import com.lenovo.tripnote.entity.vo.TTripnoteScheduleTripVo;
 import com.lenovo.tripnote.service.BHotelService;
 import com.lenovo.tripnote.service.BPoiService;
@@ -37,7 +35,7 @@ import com.lenovo.tripnote.vo.ResultVo;
 @RequestMapping(value = "/tripnote/scheduletrip")
 public class TTripnoteScheduleTripController {
 	
-	private List<String> model =  (List<String>) ImmutableList.of("poi","hotel","traffic","rent");
+	//private List<String> model =  (List<String>) ImmutableList.of("poi","hotel","traffic","rent");
 	
 	@Resource
 	private TTripnoteScheduleTripService tTripnoteScheduleTripService;
@@ -48,55 +46,37 @@ public class TTripnoteScheduleTripController {
 	@Resource
 	private TTripnoteScheduleHotelService tTripnoteScheduleHotelService;
 	
-	@RequestMapping(value = "/{model}/doAdd")
-	public @ResponseBody ResultVo addScheduletrip(@PathVariable String model,TTripnoteScheduleTripAddVo addVo){
+	@RequestMapping(value = "/poi/doAdd")
+	public @ResponseBody ResultVo addScheduletrip(TTripnoteScheduleTripAddVo addVo){
 		Subject subject = SecurityUtils.getSubject();
 		BAccount account = (BAccount) subject.getPrincipal();
 		ResultVo vo = new ResultVo();
 		vo.setCode(Result.SUCESSFUL);
-		if(!this.model.contains(model)){
-			vo.setCode(Result.FAUL);
-			vo.setMessage("暂不支持该模块数据");
-		}else{
-			switch (model) {
-			case "poi":
-				BPoi bpoi = bPoiService.getByKey(addVo.getSourceId());
-				TTripnoteScheduleTrip trip = new TTripnoteScheduleTrip();
-				try {
-					BeanUtils.copyProperties(trip, bpoi);
-				} catch (IllegalAccessException | InvocationTargetException e) {
-					e.printStackTrace();
-				}
-				trip.setScheduleId(addVo.getScheduleId());
-				trip.setPoiId(bpoi.getId());
-				trip.setId(null);
-				//重新设置创建人和创建时间
-				trip.setCreateUserId(account.getId());
-				trip.setCreateTime(new Date());
-				tTripnoteScheduleTripService.insert(trip);
-				vo.setData(trip.getId());
-				break;
-			case "hotel":
-				BHotel hotel = bHotelService.getByKey(addVo.getSourceId());
-				TTripnoteScheduleHotel scheduleHotel = new TTripnoteScheduleHotel();
-				try {
-					BeanUtils.copyProperties(scheduleHotel,  hotel);
-				} catch (IllegalAccessException | InvocationTargetException e) {
-					e.printStackTrace();
-				}
-				scheduleHotel.setScheduleId(addVo.getScheduleId());
-				scheduleHotel.setHotalId(hotel.getId());
-				scheduleHotel.setId(null);
-				//重新设置创建人和创建时间
-				scheduleHotel.setCreateUserId(account.getId());
-				scheduleHotel.setCreateTime(new Date());
-				tTripnoteScheduleHotelService.insert(scheduleHotel);
-				vo.setData(scheduleHotel.getId());
-				break;
-			default:
-				break;
-			}
+		BPoi bpoi = bPoiService.getByKey(addVo.getSourceId());
+		TTripnoteScheduleTrip trip = new TTripnoteScheduleTrip();
+		try {
+			BeanUtils.copyProperties(trip, bpoi);
+		} catch (IllegalAccessException | InvocationTargetException e) {
+			e.printStackTrace();
 		}
+		trip.setScheduleId(addVo.getScheduleId());
+		trip.setPoiId(bpoi.getId());
+		trip.setId(null);
+		//重新设置创建人和创建时间
+		trip.setCreateUserId(account.getId());
+		trip.setCreateTime(new Date());
+		tTripnoteScheduleTripService.insert(trip);
+		vo.setData(trip.getId());
+		return vo;
+	}
+	
+	@RequestMapping(value = "/hotel/doAdd")
+	public @ResponseBody ResultVo addScheduletripHotel(@RequestBody TTripnoteScheduleTripHotelAddVo addVo){
+		Subject subject = SecurityUtils.getSubject();
+		BAccount account = (BAccount) subject.getPrincipal();
+		ResultVo vo = new ResultVo();
+		vo.setCode(Result.SUCESSFUL);
+		vo.setData(tTripnoteScheduleHotelService.batchInsert(addVo,account));
 		return vo;
 	}
 	@RequestMapping(value = "/doUpdate/{id}")

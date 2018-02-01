@@ -10,6 +10,7 @@
     <result column="star_level" property="starLevel" jdbcType="INTEGER" />
     <result column="brand" property="brand" jdbcType="VARCHAR" />
     <result column="check_in_time" property="checkInTime" jdbcType="VARCHAR" />
+    <result column="check_in_type" property="checkInType" jdbcType="INTEGER" />
     <result column="check_ou_time" property="checkOuTime" jdbcType="VARCHAR" />
     <result column="built_in" property="builtIn" jdbcType="VARCHAR" />
     <result column="repair_time" property="repairTime" jdbcType="VARCHAR" />
@@ -33,9 +34,10 @@
     <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name_cn, name_en, address, type_id, star_level, brand, check_in_time, check_ou_time, 
-    built_in, repair_time, floor_number, room_number, `status`, city_id, city_name, create_time, 
-    create_user_id, lon, lat, traffic, url, imageurl, phone, schedule_id, hotal_id
+    id, name_cn, name_en, address, type_id, star_level, brand, check_in_time, check_in_type, 
+    check_ou_time, built_in, repair_time, floor_number, room_number, `status`, city_id, 
+    city_name, create_time, create_user_id, lon, lat, traffic, url, imageurl, phone, 
+    schedule_id, hotal_id
   </sql>
   <sql id="Blob_Column_List" >
     introduction
@@ -197,6 +199,9 @@
       <if test="record.checkInTime != null" >
         check_in_time = #{record.checkInTime,jdbcType=VARCHAR},
       </if>
+      <if test="record.checkInType != null" >
+        check_in_type = #{record.checkInType,jdbcType=INTEGER},
+      </if>
       <if test="record.checkOuTime != null" >
         check_ou_time = #{record.checkOuTime,jdbcType=VARCHAR},
       </if>
@@ -269,6 +274,7 @@
       star_level = #{record.starLevel,jdbcType=INTEGER},
       brand = #{record.brand,jdbcType=VARCHAR},
       check_in_time = #{record.checkInTime,jdbcType=VARCHAR},
+      check_in_type = #{record.checkInType,jdbcType=INTEGER},
       check_ou_time = #{record.checkOuTime,jdbcType=VARCHAR},
       built_in = #{record.builtIn,jdbcType=VARCHAR},
       repair_time = #{record.repairTime,jdbcType=VARCHAR},
@@ -302,6 +308,7 @@
       star_level = #{record.starLevel,jdbcType=INTEGER},
       brand = #{record.brand,jdbcType=VARCHAR},
       check_in_time = #{record.checkInTime,jdbcType=VARCHAR},
+      check_in_type = #{record.checkInType,jdbcType=INTEGER},
       check_ou_time = #{record.checkOuTime,jdbcType=VARCHAR},
       built_in = #{record.builtIn,jdbcType=VARCHAR},
       repair_time = #{record.repairTime,jdbcType=VARCHAR},
@@ -337,18 +344,18 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleHotel" useGeneratedKeys="true" keyProperty="id" >
-    insert into t_tripnote_schedule_hotel (id, name_cn, name_en, 
-      address, type_id, star_level, 
-      brand, check_in_time, check_ou_time, 
+    insert into t_tripnote_schedule_hotel (name_cn, name_en, address, 
+      type_id, star_level, brand, 
+      check_in_time, check_in_type, check_ou_time, 
       built_in, repair_time, floor_number, 
       room_number, `status`, city_id, 
       city_name, create_time, create_user_id, 
       lon, lat, traffic, url, 
       imageurl, phone, schedule_id, 
       hotal_id, introduction)
-    values (#{id,jdbcType=INTEGER}, #{nameCn,jdbcType=VARCHAR}, #{nameEn,jdbcType=VARCHAR}, 
-      #{address,jdbcType=VARCHAR}, #{typeId,jdbcType=INTEGER}, #{starLevel,jdbcType=INTEGER}, 
-      #{brand,jdbcType=VARCHAR}, #{checkInTime,jdbcType=VARCHAR}, #{checkOuTime,jdbcType=VARCHAR}, 
+    values (#{nameCn,jdbcType=VARCHAR}, #{nameEn,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{typeId,jdbcType=INTEGER}, #{starLevel,jdbcType=INTEGER}, #{brand,jdbcType=VARCHAR}, 
+      #{checkInTime,jdbcType=VARCHAR}, #{checkInType,jdbcType=INTEGER}, #{checkOuTime,jdbcType=VARCHAR}, 
       #{builtIn,jdbcType=VARCHAR}, #{repairTime,jdbcType=VARCHAR}, #{floorNumber,jdbcType=INTEGER}, 
       #{roomNumber,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{cityId,jdbcType=INTEGER}, 
       #{cityName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, 
@@ -356,10 +363,9 @@
       #{imageurl,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{scheduleId,jdbcType=INTEGER}, 
       #{hotalId,jdbcType=INTEGER}, #{introduction,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleHotel" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleHotel" useGeneratedKeys="true" keyProperty="id" >
     insert into t_tripnote_schedule_hotel
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      id,
       name_cn,
       name_en,
       address,
@@ -367,6 +373,7 @@
       star_level,
       brand,
       check_in_time,
+      check_in_type,
       check_ou_time,
       built_in,
       repair_time,
@@ -388,7 +395,6 @@
       introduction,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      #{id,jdbcType=INTEGER},
       #{nameCn,jdbcType=VARCHAR},
       #{nameEn,jdbcType=VARCHAR},
       #{address,jdbcType=VARCHAR},
@@ -396,6 +402,7 @@
       #{starLevel,jdbcType=INTEGER},
       #{brand,jdbcType=VARCHAR},
       #{checkInTime,jdbcType=VARCHAR},
+      #{checkInType,jdbcType=INTEGER},
       #{checkOuTime,jdbcType=VARCHAR},
       #{builtIn,jdbcType=VARCHAR},
       #{repairTime,jdbcType=VARCHAR},
@@ -440,6 +447,9 @@
       </if>
       <if test="checkInTime != null" >
         check_in_time = #{checkInTime,jdbcType=VARCHAR},
+      </if>
+      <if test="checkInType != null" >
+        check_in_type = #{checkInType,jdbcType=INTEGER},
       </if>
       <if test="checkOuTime != null" >
         check_ou_time = #{checkOuTime,jdbcType=VARCHAR},
@@ -510,6 +520,7 @@
       star_level = #{starLevel,jdbcType=INTEGER},
       brand = #{brand,jdbcType=VARCHAR},
       check_in_time = #{checkInTime,jdbcType=VARCHAR},
+      check_in_type = #{checkInType,jdbcType=INTEGER},
       check_ou_time = #{checkOuTime,jdbcType=VARCHAR},
       built_in = #{builtIn,jdbcType=VARCHAR},
       repair_time = #{repairTime,jdbcType=VARCHAR},
@@ -540,6 +551,7 @@
       star_level = #{starLevel,jdbcType=INTEGER},
       brand = #{brand,jdbcType=VARCHAR},
       check_in_time = #{checkInTime,jdbcType=VARCHAR},
+      check_in_type = #{checkInType,jdbcType=INTEGER},
       check_ou_time = #{checkOuTime,jdbcType=VARCHAR},
       built_in = #{builtIn,jdbcType=VARCHAR},
       repair_time = #{repairTime,jdbcType=VARCHAR},

@@ -96,6 +96,7 @@
 			<result column="hotel_name_en" property="nameEn" jdbcType="VARCHAR" />
 			<result column="check_in_time" property="checkInTime" jdbcType="VARCHAR" />
 			<result column="check_ou_time" property="checkOuTime" jdbcType="VARCHAR" />
+			<result column="check_in_type" property="checkInType" jdbcType="INTEGER" />
 		</collection>
 	</resultMap>
 	<sql id="Base_Column_List">
@@ -184,7 +185,7 @@
 		ttstc.id as traffic_id,ttstc.schedule_id as
 		traffic_schedule_id,ttstc.start_schedule_trip,ttstc.end_schedule_trip,ttstc.distance,ttstc.spend_time,ttstc.traffic_type,
 		ttstc.arrival_time,ttstc.start_time,ttstc.shift,
-		ttsh.id as hotel_id,ttsh.name_cn as hotel_name_cn,ttsh.name_en as hotel_name_en,ttsh.check_in_time,ttsh.check_ou_time,
+		ttsh.id as hotel_id,ttsh.name_cn as hotel_name_cn,ttsh.name_en as hotel_name_en,ttsh.check_in_time,ttsh.check_ou_time,ttsh.check_in_type,
 		but.id as busertrip_id,but.title as
 		busertrip_title,but.cover,but.context as busertrip_context,
 		bc.id as city_id,bc.name_cn,bc.name_en,bc.lat,bc.lon,ttsrc.schedule_id as
