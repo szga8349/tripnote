@@ -107,6 +107,7 @@ public class TTripnoteScheduleOfferServiceImpl implements TTripnoteScheduleOffer
 			search.setId(oldCustomer.get(0).getId());
 		}else{
 			//如果不存在该客户 创建该客户并关联到当前登录人上
+			search.setStatus(1);
 			tCustomerService.insert(search);
 		}
 		tCustomerService.insertTripnoteRCustomer(vo.getId(),search.getId());
