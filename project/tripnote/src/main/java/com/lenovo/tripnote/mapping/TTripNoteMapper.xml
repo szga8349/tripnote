@@ -77,7 +77,7 @@
 			<result column="scheduletrip_id" property="id" jdbcType="INTEGER" />
 			<result column="scheduletrip_schedule_id" property="scheduleId"
 				jdbcType="INTEGER" />
-		    <result column="supplier" property="supplier" jdbcType="VARCHAR" />
+		    <result column="poi_supplier" property="supplier" jdbcType="VARCHAR" />
 			<result column="poi_id" property="poiId" jdbcType="INTEGER" />
 			<result column="trip_name_cn" property="nameCn" jdbcType="VARCHAR" />
 			<result column="trip_name_en" property="nameEn" jdbcType="VARCHAR" />
@@ -92,6 +92,7 @@
 			<result column="check_in_time" property="checkInTime" jdbcType="VARCHAR" />
 			<result column="check_ou_time" property="checkOuTime" jdbcType="VARCHAR" />
 			<result column="hotel_price" property="price" jdbcType="DOUBLE" />
+			<result column="hotel_supplier" property="supplier" jdbcType="VARCHAR" />
 		</collection>
      </collection> 
   </resultMap>
@@ -108,7 +109,7 @@
 			<result column="scheduletrip_id" property="id" jdbcType="INTEGER" />
 			<result column="scheduletrip_schedule_id" property="scheduleId"
 				jdbcType="INTEGER" />
-		    <result column="supplier" property="supplier" jdbcType="VARCHAR" />
+		    <result column="poi_supplier" property="supplier" jdbcType="VARCHAR" />
 			<result column="poi_id" property="poiId" jdbcType="INTEGER" />
 			<result column="trip_name_cn" property="nameCn" jdbcType="VARCHAR" />
 			<result column="trip_name_en" property="nameEn" jdbcType="VARCHAR" />
@@ -123,6 +124,7 @@
 			<result column="check_in_time" property="checkInTime" jdbcType="VARCHAR" />
 			<result column="check_ou_time" property="checkOuTime" jdbcType="VARCHAR" />
 			<result column="hotel_price" property="price" jdbcType="DOUBLE" />
+			<result column="hotel_supplier" property="supplier" jdbcType="VARCHAR" />
 		</collection>
 		<collection property="traffics" javaType="java.util.List"
 			ofType="com.lenovo.tripnote.entity.vo.TTripnoteScheduleTrafficResultVo">
@@ -273,8 +275,8 @@
     tc.name,tc.phone1,tc.id as customer_id,tc.idcard,
     tts.id as schedule_id, tts.title as schedule_title,tts.indexdate,
     ttst.id as scheduletrip_id,ttst.schedule_id as scheduletrip_schedule_id,ttst.poi_id,ttst.name_cn as trip_name_cn,
-    ttsh.id as hotel_id,ttsh.name_cn as hotel_name_cn,ttsh.name_en as hotel_name_en,ttsh.check_in_time,ttsh.check_ou_time,ttsh.price as hotel_price,
-    ttst.name_en as trip_name_en,ttst.type as trip_type,ttst.price as schedule_trip_price,ttst.supplier
+    ttsh.id as hotel_id,ttsh.name_cn as hotel_name_cn,ttsh.name_en as hotel_name_en,ttsh.check_in_time,ttsh.check_ou_time,ttsh.price as hotel_price,ttsh.supplier as hotel_supplier,
+    ttst.name_en as trip_name_en,ttst.type as trip_type,ttst.price as schedule_trip_price,ttst.supplier as poi_supplier
     from t_trip_note t 
     left join t_tripnote_r_customer ts on t.id = ts.tripnote_id 
     left join t_customer tc on tc.id = ts.customer_id 
@@ -292,11 +294,11 @@
 	ttst.poi_id, ttst.schedule_id as scheduletrip_id, ttst.name_cn as
 	trip_name_cn, ttst.name_en as trip_name_en,
 	ttst.`type` as trip_type,ttst.phone as trip_phone,ttst.price as schedule_trip_price,
-	ttst.supplier,
+	ttst.supplier as poi_supplier,
 	ttstc.id as traffic_id,ttstc.schedule_id as
 	traffic_schedule_id,ttstc.start_schedule_trip,ttstc.end_schedule_trip,ttstc.distance,ttstc.spend_time,ttstc.traffic_type,
 	ttstc.arrival_time,ttstc.start_time,ttstc.shift,
-    ttsh.id as hotel_id,ttsh.name_cn as hotel_name_cn,ttsh.name_en as hotel_name_en,ttsh.check_in_time,ttsh.check_ou_time,ttsh.price as hotel_price,
+    ttsh.id as hotel_id,ttsh.name_cn as hotel_name_cn,ttsh.name_en as hotel_name_en,ttsh.check_in_time,ttsh.check_ou_time,ttsh.price as hotel_price,ttsh.supplier as hotel_supplier,
     from t_trip_note t 
     left join t_tripnote_r_customer ts on t.id = ts.tripnote_id 
     left join t_customer tc on tc.id = ts.customer_id 

@@ -7,25 +7,25 @@ import java.util.List;
 public class TTripnoteScheduleHotelExample {
     /**
      * 主键字段
-     * @ibatorgenerated 2018-02-02 16:06:46
+     * @ibatorgenerated 2018-02-02 16:19:54
      */
     protected String pk_name = "id";
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-02-02 16:06:46
+     * @ibatorgenerated 2018-02-02 16:19:54
      */
     protected String orderByClause;
 
     /**
      * 去重复
-     * @ibatorgenerated 2018-02-02 16:06:46
+     * @ibatorgenerated 2018-02-02 16:19:54
      */
     protected boolean distinct;
 
     /**
      * 条件集
-     * @ibatorgenerated 2018-02-02 16:06:46
+     * @ibatorgenerated 2018-02-02 16:19:54
      */
     protected List<Criteria> oredCriteria;
 
@@ -43,7 +43,7 @@ public class TTripnoteScheduleHotelExample {
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-02-02 16:06:46
+     * @ibatorgenerated 2018-02-02 16:19:54
      */
     public void setOrderByClause(String orderByClause) {
         this.orderByClause = orderByClause;
@@ -55,7 +55,7 @@ public class TTripnoteScheduleHotelExample {
 
     /**
      * 设置去重复
-     * @ibatorgenerated 2018-02-02 16:06:46
+     * @ibatorgenerated 2018-02-02 16:19:54
      */
     public void setDistinct(boolean distinct) {
         this.distinct = distinct;
@@ -81,7 +81,7 @@ public class TTripnoteScheduleHotelExample {
 
     /**
      * 条件查询要先创建Criteria
-     * @ibatorgenerated 2018-02-02 16:06:46
+     * @ibatorgenerated 2018-02-02 16:19:54
      */
     public Criteria createCriteria() {
         Criteria criteria = createCriteriaInternal();
@@ -105,7 +105,7 @@ public class TTripnoteScheduleHotelExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-02-02 16:06:46
+     * @ibatorgenerated 2018-02-02 16:19:54
      */
     protected abstract static class GeneratedCriteria {
         protected List<Criterion> criteria;
@@ -1957,11 +1957,81 @@ public class TTripnoteScheduleHotelExample {
             addCriterion("price not between", value1, value2, "price");
             return (Criteria) this;
         }
+
+        public Criteria andSupplierIsNull() {
+            addCriterion("supplier is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierIsNotNull() {
+            addCriterion("supplier is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierEqualTo(String value) {
+            addCriterion("supplier =", value, "supplier");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierNotEqualTo(String value) {
+            addCriterion("supplier <>", value, "supplier");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierGreaterThan(String value) {
+            addCriterion("supplier >", value, "supplier");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierGreaterThanOrEqualTo(String value) {
+            addCriterion("supplier >=", value, "supplier");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierLessThan(String value) {
+            addCriterion("supplier <", value, "supplier");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierLessThanOrEqualTo(String value) {
+            addCriterion("supplier <=", value, "supplier");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierLike(String value) {
+            addCriterion("supplier like", value, "supplier");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierNotLike(String value) {
+            addCriterion("supplier not like", value, "supplier");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierIn(List<String> values) {
+            addCriterion("supplier in", values, "supplier");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierNotIn(List<String> values) {
+            addCriterion("supplier not in", values, "supplier");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierBetween(String value1, String value2) {
+            addCriterion("supplier between", value1, value2, "supplier");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierNotBetween(String value1, String value2) {
+            addCriterion("supplier not between", value1, value2, "supplier");
+            return (Criteria) this;
+        }
     }
 
     /**
      * t_tripnote_schedule_hotel
-     * @ibatorgenerated do_not_delete_during_merge 2018-02-02 16:06:46
+     * @ibatorgenerated do_not_delete_during_merge 2018-02-02 16:19:54
      */
     public static class Criteria extends GeneratedCriteria {
 
@@ -1973,7 +2043,7 @@ public class TTripnoteScheduleHotelExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-02-02 16:06:46
+     * @ibatorgenerated 2018-02-02 16:19:54
      */
     public static class Criterion {
         private String condition;

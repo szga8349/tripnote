@@ -43,5 +43,11 @@ public class TTripnoteScheduleHotelResultVo{
      * @ibatorgenerated 2018-02-02 16:06:46
      */
     private Double price;
+    
+    /**
+     * b_hotel.supplier (供应商)
+     * @ibatorgenerated 2018-02-02 16:19:55
+     */
+    private String supplier;
 
 }
