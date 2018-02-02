@@ -31,6 +31,7 @@
     <result column="hotal_id" property="hotalId" jdbcType="INTEGER" />
     <result column="price" property="price" jdbcType="DOUBLE" />
     <result column="supplier" property="supplier" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.lenovo.tripnote.entity.TTripnoteScheduleHotel" extends="BaseResultMap" >
     <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
@@ -39,7 +40,7 @@
     id, name_cn, name_en, address, type_id, star_level, brand, check_in_time, check_in_type, 
     check_ou_time, built_in, repair_time, floor_number, room_number, `status`, city_id, 
     city_name, create_time, create_user_id, lon, lat, traffic, url, imageurl, phone, 
-    schedule_id, hotal_id, price, supplier
+    schedule_id, hotal_id, price, supplier, `type`
   </sql>
   <sql id="Blob_Column_List" >
     introduction
@@ -264,6 +265,9 @@
       <if test="record.supplier != null" >
         supplier = #{record.supplier,jdbcType=VARCHAR},
       </if>
+      <if test="record.type != null" >
+        `type` = #{record.type,jdbcType=INTEGER},
+      </if>
       <if test="record.introduction != null" >
         introduction = #{record.introduction,jdbcType=LONGVARCHAR},
       </if>
@@ -303,6 +307,7 @@
       hotal_id = #{record.hotalId,jdbcType=INTEGER},
       price = #{record.price,jdbcType=DOUBLE},
       supplier = #{record.supplier,jdbcType=VARCHAR},
+      `type` = #{record.type,jdbcType=INTEGER},
       introduction = #{record.introduction,jdbcType=LONGVARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -338,7 +343,8 @@
       schedule_id = #{record.scheduleId,jdbcType=INTEGER},
       hotal_id = #{record.hotalId,jdbcType=INTEGER},
       price = #{record.price,jdbcType=DOUBLE},
-      supplier = #{record.supplier,jdbcType=VARCHAR}
+      supplier = #{record.supplier,jdbcType=VARCHAR},
+      `type` = #{record.type,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -365,7 +371,7 @@
       lon, lat, traffic, url, 
       imageurl, phone, schedule_id, 
       hotal_id, price, supplier, 
-      introduction)
+      `type`, introduction)
     values (#{nameCn,jdbcType=VARCHAR}, #{nameEn,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
       #{typeId,jdbcType=INTEGER}, #{starLevel,jdbcType=INTEGER}, #{brand,jdbcType=VARCHAR}, 
       #{checkInTime,jdbcType=VARCHAR}, #{checkInType,jdbcType=INTEGER}, #{checkOuTime,jdbcType=VARCHAR}, 
@@ -375,7 +381,7 @@
       #{lon,jdbcType=DOUBLE}, #{lat,jdbcType=DOUBLE}, #{traffic,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
       #{imageurl,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{scheduleId,jdbcType=INTEGER}, 
       #{hotalId,jdbcType=INTEGER}, #{price,jdbcType=DOUBLE}, #{supplier,jdbcType=VARCHAR}, 
-      #{introduction,jdbcType=LONGVARCHAR})
+      #{type,jdbcType=INTEGER}, #{introduction,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleHotel" useGeneratedKeys="true" keyProperty="id" >
     insert into t_tripnote_schedule_hotel
@@ -408,6 +414,7 @@
       hotal_id,
       price,
       supplier,
+      `type`,
       introduction,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -439,6 +446,7 @@
       #{hotalId,jdbcType=INTEGER},
       #{price,jdbcType=DOUBLE},
       #{supplier,jdbcType=VARCHAR},
+      #{type,jdbcType=INTEGER},
       #{introduction,jdbcType=LONGVARCHAR},
     </trim>
   </insert>
@@ -529,6 +537,9 @@
       <if test="supplier != null" >
         supplier = #{supplier,jdbcType=VARCHAR},
       </if>
+      <if test="type != null" >
+        `type` = #{type,jdbcType=INTEGER},
+      </if>
       <if test="introduction != null" >
         introduction = #{introduction,jdbcType=LONGVARCHAR},
       </if>
@@ -565,6 +576,7 @@
       hotal_id = #{hotalId,jdbcType=INTEGER},
       price = #{price,jdbcType=DOUBLE},
       supplier = #{supplier,jdbcType=VARCHAR},
+      `type` = #{type,jdbcType=INTEGER},
       introduction = #{introduction,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -597,7 +609,8 @@
       schedule_id = #{scheduleId,jdbcType=INTEGER},
       hotal_id = #{hotalId,jdbcType=INTEGER},
       price = #{price,jdbcType=DOUBLE},
-      supplier = #{supplier,jdbcType=VARCHAR}
+      supplier = #{supplier,jdbcType=VARCHAR},
+      `type` = #{type,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

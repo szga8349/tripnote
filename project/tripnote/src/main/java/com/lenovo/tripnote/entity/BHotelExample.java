@@ -7,25 +7,25 @@ import java.util.List;
 public class BHotelExample {
     /**
      * 主键字段
-     * @ibatorgenerated 2018-02-02 16:19:55
+     * @ibatorgenerated 2018-02-02 16:31:36
      */
     protected String pk_name = "id";
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-02-02 16:19:55
+     * @ibatorgenerated 2018-02-02 16:31:36
      */
     protected String orderByClause;
 
     /**
      * 去重复
-     * @ibatorgenerated 2018-02-02 16:19:55
+     * @ibatorgenerated 2018-02-02 16:31:36
      */
     protected boolean distinct;
 
     /**
      * 条件集
-     * @ibatorgenerated 2018-02-02 16:19:55
+     * @ibatorgenerated 2018-02-02 16:31:36
      */
     protected List<Criteria> oredCriteria;
 
@@ -43,7 +43,7 @@ public class BHotelExample {
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-02-02 16:19:55
+     * @ibatorgenerated 2018-02-02 16:31:36
      */
     public void setOrderByClause(String orderByClause) {
         this.orderByClause = orderByClause;
@@ -55,7 +55,7 @@ public class BHotelExample {
 
     /**
      * 设置去重复
-     * @ibatorgenerated 2018-02-02 16:19:55
+     * @ibatorgenerated 2018-02-02 16:31:36
      */
     public void setDistinct(boolean distinct) {
         this.distinct = distinct;
@@ -81,7 +81,7 @@ public class BHotelExample {
 
     /**
      * 条件查询要先创建Criteria
-     * @ibatorgenerated 2018-02-02 16:19:55
+     * @ibatorgenerated 2018-02-02 16:31:36
      */
     public Criteria createCriteria() {
         Criteria criteria = createCriteriaInternal();
@@ -105,7 +105,7 @@ public class BHotelExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-02-02 16:19:55
+     * @ibatorgenerated 2018-02-02 16:31:36
      */
     protected abstract static class GeneratedCriteria {
         protected List<Criterion> criteria;
@@ -1847,11 +1847,71 @@ public class BHotelExample {
             addCriterion("supplier not between", value1, value2, "supplier");
             return (Criteria) this;
         }
+
+        public Criteria andTypeIsNull() {
+            addCriterion("`type` is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeIsNotNull() {
+            addCriterion("`type` is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeEqualTo(Integer value) {
+            addCriterion("`type` =", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeNotEqualTo(Integer value) {
+            addCriterion("`type` <>", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeGreaterThan(Integer value) {
+            addCriterion("`type` >", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("`type` >=", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeLessThan(Integer value) {
+            addCriterion("`type` <", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("`type` <=", value, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeIn(List<Integer> values) {
+            addCriterion("`type` in", values, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeNotIn(List<Integer> values) {
+            addCriterion("`type` not in", values, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeBetween(Integer value1, Integer value2) {
+            addCriterion("`type` between", value1, value2, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("`type` not between", value1, value2, "type");
+            return (Criteria) this;
+        }
     }
 
     /**
      * b_hotel
-     * @ibatorgenerated do_not_delete_during_merge 2018-02-02 16:19:55
+     * @ibatorgenerated do_not_delete_during_merge 2018-02-02 16:31:36
      */
     public static class Criteria extends GeneratedCriteria {
 
@@ -1863,7 +1923,7 @@ public class BHotelExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-02-02 16:19:55
+     * @ibatorgenerated 2018-02-02 16:31:36
      */
     public static class Criterion {
         private String condition;

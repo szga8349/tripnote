@@ -49,5 +49,11 @@ public class TTripnoteScheduleHotelResultVo{
      * @ibatorgenerated 2018-02-02 16:19:55
      */
     private String supplier;
+    
+    /**
+     * b_hotel.type (与poi的type类型想对应,6标识酒店信息)
+     * @ibatorgenerated 2018-02-02 16:31:36
+     */
+    private Integer type;
 
 }
