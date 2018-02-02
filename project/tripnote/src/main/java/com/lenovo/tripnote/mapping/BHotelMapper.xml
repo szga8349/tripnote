@@ -26,6 +26,7 @@
     <result column="url" property="url" jdbcType="VARCHAR" />
     <result column="imageurl" property="imageurl" jdbcType="VARCHAR" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DOUBLE" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.lenovo.tripnote.entity.BHotel" extends="BaseResultMap" >
     <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
@@ -33,7 +34,7 @@
   <sql id="Base_Column_List" >
     id, name_cn, name_en, address, type_id, star_level, brand, check_in_time, check_ou_time, 
     built_in, repair_time, floor_number, room_number, `status`, city_id, city_name, create_time, 
-    create_user_id, lon, lat, traffic, url, imageurl, phone
+    create_user_id, lon, lat, traffic, url, imageurl, phone, price
   </sql>
   <sql id="Blob_Column_List" >
     introduction
@@ -243,6 +244,9 @@
       <if test="record.phone != null" >
         phone = #{record.phone,jdbcType=VARCHAR},
       </if>
+      <if test="record.price != null" >
+        price = #{record.price,jdbcType=DOUBLE},
+      </if>
       <if test="record.introduction != null" >
         introduction = #{record.introduction,jdbcType=LONGVARCHAR},
       </if>
@@ -277,6 +281,7 @@
       url = #{record.url,jdbcType=VARCHAR},
       imageurl = #{record.imageurl,jdbcType=VARCHAR},
       phone = #{record.phone,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=DOUBLE},
       introduction = #{record.introduction,jdbcType=LONGVARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -307,7 +312,8 @@
       traffic = #{record.traffic,jdbcType=VARCHAR},
       url = #{record.url,jdbcType=VARCHAR},
       imageurl = #{record.imageurl,jdbcType=VARCHAR},
-      phone = #{record.phone,jdbcType=VARCHAR}
+      phone = #{record.phone,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=DOUBLE}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -332,7 +338,8 @@
       `status`, city_id, city_name, 
       create_time, create_user_id, lon, 
       lat, traffic, url, imageurl, 
-      phone, introduction)
+      phone, price, introduction
+      )
     values (#{nameCn,jdbcType=VARCHAR}, #{nameEn,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
       #{typeId,jdbcType=INTEGER}, #{starLevel,jdbcType=INTEGER}, #{brand,jdbcType=VARCHAR}, 
       #{checkInTime,jdbcType=VARCHAR}, #{checkOuTime,jdbcType=VARCHAR}, #{builtIn,jdbcType=VARCHAR}, 
@@ -340,7 +347,8 @@
       #{status,jdbcType=INTEGER}, #{cityId,jdbcType=INTEGER}, #{cityName,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, #{lon,jdbcType=DOUBLE}, 
       #{lat,jdbcType=DOUBLE}, #{traffic,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{imageurl,jdbcType=VARCHAR}, 
-      #{phone,jdbcType=VARCHAR}, #{introduction,jdbcType=LONGVARCHAR})
+      #{phone,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}, #{introduction,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.BHotel" useGeneratedKeys="true" keyProperty="id" >
     insert into b_hotel
@@ -368,6 +376,7 @@
       url,
       imageurl,
       phone,
+      price,
       introduction,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -394,6 +403,7 @@
       #{url,jdbcType=VARCHAR},
       #{imageurl,jdbcType=VARCHAR},
       #{phone,jdbcType=VARCHAR},
+      #{price,jdbcType=DOUBLE},
       #{introduction,jdbcType=LONGVARCHAR},
     </trim>
   </insert>
@@ -469,6 +479,9 @@
       <if test="phone != null" >
         phone = #{phone,jdbcType=VARCHAR},
       </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DOUBLE},
+      </if>
       <if test="introduction != null" >
         introduction = #{introduction,jdbcType=LONGVARCHAR},
       </if>
@@ -500,6 +513,7 @@
       url = #{url,jdbcType=VARCHAR},
       imageurl = #{imageurl,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DOUBLE},
       introduction = #{introduction,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -527,7 +541,8 @@
       traffic = #{traffic,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
       imageurl = #{imageurl,jdbcType=VARCHAR},
-      phone = #{phone,jdbcType=VARCHAR}
+      phone = #{phone,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DOUBLE}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

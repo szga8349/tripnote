@@ -147,10 +147,17 @@ public class BHotelVo {
      * @ibatorgenerated 2018-01-30 15:54:59
      */
     private String phone;
+    /**
+     * b_hotel.price (价格)
+     * @ibatorgenerated 2018-02-02 16:06:46
+     */
+    private Double price;
 
     /**
      * b_hotel.introduction (酒店介绍)
      * @ibatorgenerated 2018-01-30 15:54:59
      */
     private String introduction;
+    
+    
 }

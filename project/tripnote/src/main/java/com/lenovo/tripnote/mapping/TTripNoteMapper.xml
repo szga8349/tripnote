@@ -84,6 +84,15 @@
 			<result column="trip_type" property="type" jdbcType="INTEGER" />
 			<result column="schedule_trip_price" property="price" jdbcType="DOUBLE" />
 		</collection>
+		<collection property="scheduleHotels" javaType="java.util.List"
+			ofType="com.lenovo.tripnote.entity.vo.TTripnoteScheduleHotelResultVo">
+			<result column="hotel_id" property="id" jdbcType="INTEGER" />
+			<result column="hotel_name_cn" property="nameCn" jdbcType="VARCHAR" />
+			<result column="hotel_name_en" property="nameEn" jdbcType="VARCHAR" />
+			<result column="check_in_time" property="checkInTime" jdbcType="VARCHAR" />
+			<result column="check_ou_time" property="checkOuTime" jdbcType="VARCHAR" />
+			<result column="hotel_price" property="price" jdbcType="DOUBLE" />
+		</collection>
      </collection> 
   </resultMap>
    <resultMap id="TravelTypeResultMap" type="com.lenovo.tripnote.entity.vo.TTripNoteTravelResultVo" >
@@ -113,6 +122,7 @@
 			<result column="hotel_name_en" property="nameEn" jdbcType="VARCHAR" />
 			<result column="check_in_time" property="checkInTime" jdbcType="VARCHAR" />
 			<result column="check_ou_time" property="checkOuTime" jdbcType="VARCHAR" />
+			<result column="hotel_price" property="price" jdbcType="DOUBLE" />
 		</collection>
 		<collection property="traffics" javaType="java.util.List"
 			ofType="com.lenovo.tripnote.entity.vo.TTripnoteScheduleTrafficResultVo">
@@ -263,12 +273,14 @@
     tc.name,tc.phone1,tc.id as customer_id,tc.idcard,
     tts.id as schedule_id, tts.title as schedule_title,tts.indexdate,
     ttst.id as scheduletrip_id,ttst.schedule_id as scheduletrip_schedule_id,ttst.poi_id,ttst.name_cn as trip_name_cn,
+    ttsh.id as hotel_id,ttsh.name_cn as hotel_name_cn,ttsh.name_en as hotel_name_en,ttsh.check_in_time,ttsh.check_ou_time,ttsh.price as hotel_price,
     ttst.name_en as trip_name_en,ttst.type as trip_type,ttst.price as schedule_trip_price,ttst.supplier
     from t_trip_note t 
     left join t_tripnote_r_customer ts on t.id = ts.tripnote_id 
     left join t_customer tc on tc.id = ts.customer_id 
     left join t_tripnote_schedule tts on tts.tripnote_id = t.id 
     left join t_tripnote_schedule_trip ttst on ttst.schedule_id = tts.id
+    left join t_tripnote_schedule_hotel ttsh on ttsh.schedule_id= tts.id
     where t.id = #{id,jdbcType=INTEGER} order by tts.indexdate asc
   </select>
   
@@ -284,7 +296,7 @@
 	ttstc.id as traffic_id,ttstc.schedule_id as
 	traffic_schedule_id,ttstc.start_schedule_trip,ttstc.end_schedule_trip,ttstc.distance,ttstc.spend_time,ttstc.traffic_type,
 	ttstc.arrival_time,ttstc.start_time,ttstc.shift,
-    ttsh.id as hotel_id,ttsh.name_cn as hotel_name_cn,ttsh.name_en as hotel_name_en,ttsh.check_in_time,ttsh.check_ou_time
+    ttsh.id as hotel_id,ttsh.name_cn as hotel_name_cn,ttsh.name_en as hotel_name_en,ttsh.check_in_time,ttsh.check_ou_time,ttsh.price as hotel_price,
     from t_trip_note t 
     left join t_tripnote_r_customer ts on t.id = ts.tripnote_id 
     left join t_customer tc on tc.id = ts.customer_id 

@@ -38,5 +38,10 @@ public class TTripnoteScheduleHotelResultVo{
      * @ibatorgenerated 2018-02-01 11:24:53
      */
     private Integer checkInType;
+    /**
+     * b_hotel.price (价格)
+     * @ibatorgenerated 2018-02-02 16:06:46
+     */
+    private Double price;
 
 }
