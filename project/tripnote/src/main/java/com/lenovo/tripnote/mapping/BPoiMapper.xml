@@ -204,7 +204,7 @@
              <when test="type==null ">and bp.`type` in (1,2,3,4)</when>  <!--不传入类型时不将产品数据查询出 -->
     </choose>
      <if test="cityId != null" >
-       and bp.city_id like #{cityId,jdbcType=INTEGER}
+       and bp.city_id = #{cityId,jdbcType=INTEGER}
     </if>
     <if test="name != null" >
        and bp.name_cn like #{name,jdbcType=VARCHAR}

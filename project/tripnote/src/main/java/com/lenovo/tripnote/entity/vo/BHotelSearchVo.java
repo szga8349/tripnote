@@ -13,4 +13,7 @@ public class BHotelSearchVo extends PageInfoVo{
      * @ibatorgenerated 2018-01-30 15:54:59
      */
     private String nameCn;
+    
+    
+    private Integer cityId;
 }

@@ -15,9 +15,10 @@ import com.lenovo.tripnote.entity.vo.BHotelSearchVo;
 import com.lenovo.tripnote.service.BHotelService;
 
 @Service
-public class BHotelServiceImpl implements BHotelService{
-    @Resource
-    private BHotelMapper bHotelMapper;
+public class BHotelServiceImpl implements BHotelService {
+	@Resource
+	private BHotelMapper bHotelMapper;
+
 	@Override
 	public int insert(BHotel t) {
 		// TODO Auto-generated method stub
@@ -54,12 +55,14 @@ public class BHotelServiceImpl implements BHotelService{
 	@Override
 	public List<BHotel> searchHotels(BHotelSearchVo vo) {
 		BHotelExample example = new BHotelExample();
-		if(vo.getNameCn()!=null){
-		   Criteria cri = example.createCriteria();
-		   cri.andNameCnLike("%"+vo.getNameCn()+"%");
-		   example.getOredCriteria().add(example.createCriteria().andNameEnLike("%"+vo.getNameCn()+"%"));
+		Criteria c = example.createCriteria();
+		if (vo.getNameCn() != null) {
+			c.andNameCnLike("%" + vo.getNameCn() + "%");
 		}
-		Integer offset = (vo.getPageNo()-1<0?0:(vo.getPageNo()-1))*vo.getPageSize();
+		if (vo.getCityId() != null) {
+			c.andCityIdEqualTo(vo.getCityId());
+		}
+		Integer offset = (vo.getPageNo() - 1 < 0 ? 0 : (vo.getPageNo() - 1)) * vo.getPageSize();
 		RowBounds rowRounds = new RowBounds(offset, vo.getPageSize());
 		return bHotelMapper.selectByExampleAndPage(example, rowRounds);
 	}
