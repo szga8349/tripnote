@@ -80,6 +80,12 @@ public class CommonController {
 		}
 
 	}
+	@RequestMapping(value = "/export/{format}", method = RequestMethod.POST)
+	public @ResponseBody void export(@PathVariable String format){
+		
+		
+	}
+	
 	public static void printNoCache(HttpServletResponse resp ,String str,Charset charset,boolean gzip){
         byte[] bb = str.getBytes(charset);
         resp.setContentType("text/html; charset=UTF-8");
