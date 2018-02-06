@@ -6,6 +6,7 @@ import org.apache.ibatis.session.RowBounds;
 
 import com.lenovo.tripnote.entity.BAccount;
 import com.lenovo.tripnote.entity.TTripNote;
+import com.lenovo.tripnote.entity.vo.BExportVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteDetailResultVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteSearchResultVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteSearchVo;
@@ -44,5 +45,8 @@ public interface TTripnoteService extends IDbService<TTripNote>{
 	 * @return
 	 */
 	public TTripNoteTravelResultVo getTravelQuotationGroupByTypeByKey(Integer id);
+	
+	
+	public void insertTemplate(Integer tripnoteId,BExportVo exportVo);
 	
 }

@@ -2,7 +2,9 @@ package com.lenovo.tripnote.service.impl;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -12,14 +14,29 @@ import org.springframework.stereotype.Service;
 
 import com.lenovo.tripnote.dao.TTripNoteMapper;
 import com.lenovo.tripnote.dao.TTripnoteRCustomerMapper;
+import com.lenovo.tripnote.dao.TTripnoteScheduleHotelMapper;
 import com.lenovo.tripnote.dao.TTripnoteScheduleMapper;
+import com.lenovo.tripnote.dao.TTripnoteScheduleRCityMapper;
+import com.lenovo.tripnote.dao.TTripnoteScheduleTrafficMapper;
+import com.lenovo.tripnote.dao.TTripnoteScheduleTripMapper;
 import com.lenovo.tripnote.entity.BAccount;
 import com.lenovo.tripnote.entity.TCustomer;
 import com.lenovo.tripnote.entity.TTripNote;
 import com.lenovo.tripnote.entity.TTripNoteExample;
 import com.lenovo.tripnote.entity.TTripNoteExample.Criteria;
+import com.lenovo.tripnote.entity.TTripnoteRCustomer;
 import com.lenovo.tripnote.entity.TTripnoteRCustomerExample;
+import com.lenovo.tripnote.entity.TTripnoteSchedule;
 import com.lenovo.tripnote.entity.TTripnoteScheduleExample;
+import com.lenovo.tripnote.entity.TTripnoteScheduleHotel;
+import com.lenovo.tripnote.entity.TTripnoteScheduleHotelExample;
+import com.lenovo.tripnote.entity.TTripnoteScheduleRCity;
+import com.lenovo.tripnote.entity.TTripnoteScheduleRCityExample;
+import com.lenovo.tripnote.entity.TTripnoteScheduleTraffic;
+import com.lenovo.tripnote.entity.TTripnoteScheduleTrafficExample;
+import com.lenovo.tripnote.entity.TTripnoteScheduleTrip;
+import com.lenovo.tripnote.entity.TTripnoteScheduleTripExample;
+import com.lenovo.tripnote.entity.vo.BExportVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteDetailResultVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteSearchResultVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteSearchVo;
@@ -27,6 +44,7 @@ import com.lenovo.tripnote.entity.vo.TTripNoteTravelResultVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteVo;
 import com.lenovo.tripnote.service.TCustomerService;
 import com.lenovo.tripnote.service.TTripnoteService;
+import com.lenovo.tripnote.util.TimeUtils;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -39,10 +57,16 @@ public class TripnoteServiceImpl implements TTripnoteService{
 	private TTripNoteMapper tTripNoteMapper;
 	@Resource
 	private TTripnoteScheduleMapper tTripnoteScheduleMapper;
-	
 	@Resource
 	private TTripnoteRCustomerMapper tTripnoteRCustomerMapper;
-
+	@Resource
+	private TTripnoteScheduleTripMapper tTripnoteScheduleTripMapper;
+	@Resource
+	private TTripnoteScheduleHotelMapper tTripnoteScheduleHotelMapper;
+	@Resource
+	private TTripnoteScheduleTrafficMapper tTripnoteScheduleTrafficMapper;
+	@Resource
+	private TTripnoteScheduleRCityMapper tTripnoteScheduleRCityMapper;
 	@Override
 	public int insert(TTripNote t) {
 		return tTripNoteMapper.insert(t);
@@ -187,18 +211,8 @@ public class TripnoteServiceImpl implements TTripnoteService{
 
 	@Override
 	public int queryCountCondition(TTripNoteSearchVo t) {
-		TTripNoteExample example = new TTripNoteExample();
-		Criteria criteria = example.createCriteria();
-		if (t.getUserId() != null) {
-			criteria.andCreateUserIdEqualTo(t.getUserId());
-		}
-		if (t.getTitle()!=null) {
-			criteria.andTitleLike(t.getTitle());
-		}
-		if (t.getType() != null) {
-			criteria.andTypeEqualTo(t.getType());
-		}
-		return this.tTripNoteMapper.countByExample(example);
+	
+		return this.tTripNoteMapper.queryCount(t);
 	}
 
 	@Override
@@ -212,6 +226,117 @@ public class TripnoteServiceImpl implements TTripnoteService{
 		// TODO 暂时未做实现
 		return this.tTripNoteMapper.getTravelQuotationGroupByTypeByKey(id);
 	}
+	@Override
+	public void insertTemplate(Integer tripnoteId,BExportVo exportVo){
+		
+		TTripNote tripNote = this.tTripNoteMapper.selectByPrimaryKey(tripnoteId);
+		//重新计算天数
+		int offset = exportVo.getTripnoteIds().size();
+		//设置成模板
+		tripNote.setType(exportVo.getType());
+		tripNote.setId(null);
+		tripNote.setDays(offset);
+		if(exportVo.getType()==1){//将模板导入到定制时 重新设置用户ID
+			tripNote.setCreateUserId(exportVo.getCreateUserId());
+		}
+		//重新设置最后时间
+		tripNote.setEndDate(TimeUtils.getAfterDay(tripNote.getStartDate(),offset));
+		tripNote.setCreateTime(new Date());
+		//新建成模板数据 
+		this.tTripNoteMapper.insertSelective(tripNote);
+		
+		TTripnoteRCustomerExample customerexample = new TTripnoteRCustomerExample();
+		customerexample.createCriteria().andTripnoteIdEqualTo(tripnoteId);
+		List<TTripnoteRCustomer> customers = tTripnoteRCustomerMapper.selectByExample(customerexample );
+		if(customers!=null)
+			for (TTripnoteRCustomer trip : customers) {
+				trip.setTripnoteId(tripNote.getId());
+				tTripnoteRCustomerMapper.insertSelective(trip);
+		}
+		for(int i=0;i<offset;i++){
+			Integer schduleId = exportVo.getTripnoteIds().get(i);
+			TTripnoteSchedule schedule = tTripnoteScheduleMapper.selectByPrimaryKey(schduleId);
+			//重新设置indexdate
+			schedule.setIndexdate(i+1);
+			schedule.setTripnoteId(tripNote.getId());
+			schedule.setId(null);
+			schedule.setCreatetime(new Date());
+			//重新生成schedule
+			tTripnoteScheduleMapper.insertSelective(schedule);
+		
+			{//重新生成关联的城市信息
+				TTripnoteScheduleRCityExample cityexample = new TTripnoteScheduleRCityExample();
+				cityexample.createCriteria().andScheduleIdEqualTo(schduleId);
+				List<TTripnoteScheduleRCity> rcitys = tTripnoteScheduleRCityMapper.selectByExample(cityexample);
+				if (rcitys != null)
+					for (TTripnoteScheduleRCity trip : rcitys) {
+						trip.setScheduleId(schedule.getId());
+						trip.setId(null);
+						tTripnoteScheduleRCityMapper.insertSelective(trip);
+					}
+			}
+			// key值 以type+ID作为唯一标识 设置原ID与新ID的对应关系 在关联交通的时候使用
+			Map<String, Integer> convert = new HashMap<String, Integer>();
+			
+			{ // 重新生成关联的scheduletrip数据 
+				TTripnoteScheduleTripExample example = new TTripnoteScheduleTripExample();
+				example.createCriteria().andScheduleIdEqualTo(schduleId);
+				List<TTripnoteScheduleTrip> scheduleTrips = tTripnoteScheduleTripMapper
+						.selectByExampleWithBLOBs(example);
+				if (scheduleTrips != null)
+					for (TTripnoteScheduleTrip trip : scheduleTrips) {
+						trip.setCreateTime(new Date());
+						Integer oldTripId = trip.getId();
+						// 设置成新建日程的主键ID
+						trip.setScheduleId(schedule.getId());
+						// 重新生成scheduletrip
+						trip.setId(null);
+						tTripnoteScheduleTripMapper.insertSelective(trip);
+						convert.put(trip.getType() + "" + oldTripId, trip.getId());
+					}
+			}
+		
+			{	//重新生成关联的酒店信息
+				TTripnoteScheduleHotelExample hotelexample = new TTripnoteScheduleHotelExample();
+				hotelexample.createCriteria().andScheduleIdEqualTo(schduleId);
+				List<TTripnoteScheduleHotel> schedulehotels = tTripnoteScheduleHotelMapper
+						.selectByExampleWithBLOBs(hotelexample);
+				if (schedulehotels != null)
+					for (TTripnoteScheduleHotel trip : schedulehotels) {
+						trip.setCreateTime(new Date());
+						Integer oldTripId = trip.getId();
+						// 设置成新建日程的主键ID
+						trip.setScheduleId(schedule.getId());
+						// 重新生成scheduletrip
+						trip.setId(null);
+						tTripnoteScheduleHotelMapper.insertSelective(trip);
+						convert.put(trip.getType() + "" + oldTripId, trip.getId());
+					}
+			}
+			{//重新生成关联的交通信息
+				TTripnoteScheduleTrafficExample trafficExample = new TTripnoteScheduleTrafficExample();
+				trafficExample.createCriteria().andScheduleIdEqualTo(schduleId);
+				List<TTripnoteScheduleTraffic> traffics = tTripnoteScheduleTrafficMapper
+						.selectByExample(trafficExample);
+				if (traffics != null)
+					for (TTripnoteScheduleTraffic trip : traffics) {
+						// 设置成新建日程的主键ID
+						trip.setScheduleId(schedule.getId());
+						// 程序设置修改后的日程安排信息主键值
+						trip.setStartScheduleTrip(
+								convert.get(trip.getStartScheduleType() + "" + trip.getStartScheduleTrip()));
+						trip.setEndScheduleTrip(
+								convert.get(trip.getEndScheduleType() + "" + trip.getEndScheduleTrip()));
+						trip.setCreatetime(new Date());
+						// 重新生成scheduletrip
+						trip.setId(null);
+						tTripnoteScheduleTrafficMapper.insertSelective(trip);
+					}
+
+			}
+		}
+	}
+	
 
 	
 }

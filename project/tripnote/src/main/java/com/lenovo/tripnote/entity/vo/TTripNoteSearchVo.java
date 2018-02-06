@@ -27,4 +27,10 @@ public class TTripNoteSearchVo extends PageInfoVo{
      * 升降序 1升序 -1降序 
      */
     private Integer ascOrDes;
+    
+    
+    /**
+     * 是否查询所有 默认为false
+     */
+    private Boolean isAll = false;
 }

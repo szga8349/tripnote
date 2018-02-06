@@ -78,4 +78,10 @@ public interface TTripNoteMapper {
 	 * @return
 	 */
 	TTripNoteTravelResultVo getTravelQuotationGroupByTypeByKey(Integer id);
+
+	/**查询总数
+	 * @param t
+	 * @return
+	 */
+	int queryCount(@Param("record")TTripNoteSearchVo t);
 }

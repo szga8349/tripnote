@@ -2,14 +2,16 @@ package com.lenovo.tripnote.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
 
 import lombok.extern.log4j.Log4j;
+
 @Log4j
 public class TimeUtils {
-	public static Date getDate(String dateString){
+	public static Date getDate(String dateString) {
 		if (StringUtils.isEmpty(dateString))
 			return null;
 		SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
@@ -25,5 +27,12 @@ public class TimeUtils {
 			}
 		}
 		return null;
+	}
+
+	public static Date getAfterDay(Date date, int day) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.add(Calendar.DATE, day);
+		return calendar.getTime();
 	}
 }

@@ -10,11 +10,13 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lenovo.tripnote.entity.BAccount;
 import com.lenovo.tripnote.entity.TTripNote;
+import com.lenovo.tripnote.entity.vo.BExportVo;
 import com.lenovo.tripnote.entity.vo.PageResultVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteSearchResultVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteSearchVo;
@@ -102,6 +104,26 @@ public class TTripNoteController {
 		ResultVo vo = new ResultVo();
 		vo.setCode(Result.SUCESSFUL);
 		vo.setData(tTripnoteService.getDetailByKey(Integer.valueOf(id)));
+		return vo;
+	}
+	
+	/**导出模板
+	 * @param id
+	 * @return
+	 * @throws IllegalAccessException
+	 * @throws InvocationTargetException
+	 */
+	@RequestMapping(value = "/doExport/{id}")
+	public @ResponseBody ResultVo exportTemplate(@PathVariable String id,@RequestBody BExportVo exportVo)
+			throws IllegalAccessException, InvocationTargetException {
+		ResultVo vo = new ResultVo();
+		Subject subject = SecurityUtils.getSubject();
+		BAccount account = (BAccount) subject.getPrincipal();
+		exportVo.setCreateUserId(account.getId());
+		//定制导出成模板
+		exportVo.setType(2);
+		tTripnoteService.insertTemplate(Integer.valueOf(id), exportVo);
+		vo.setCode(Result.SUCESSFUL);
 		return vo;
 	}
 }

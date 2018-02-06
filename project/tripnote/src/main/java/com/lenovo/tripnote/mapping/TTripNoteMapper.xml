@@ -209,6 +209,28 @@
       </foreach>
     </where>
   </sql>
+   <select id="queryCount" resultType="java.lang.Integer"  parameterType="com.lenovo.tripnote.entity.vo.TTripNoteSearchVo" >
+     select count(1) from t_trip_note t where  type = #{record.type,jdbcType=INTEGER}
+     <choose>  
+          <when test="record.isAll==false"> and create_user_id = #{record.userId,jdbcType=INTEGER} </when>  
+          <when test="record.isAll==true"> and create_user_id in (0,#{record.userId,jdbcType=INTEGER})</when>  
+     </choose>
+     <if test="record.title != null" >
+        and t.title like #{record.title,jdbcType=VARCHAR}
+     </if>
+     <choose>
+         <when test="record.sortField != null">
+         order by t.${record.sortField}  
+         <choose>  
+             <when test="record.ascOrDes==1">asc</when>  
+             <when test="record.ascOrDes!=1">desc</when>  
+          </choose>
+          </when>
+          <when test="record.sortField == null">
+              order by t.create_time desc
+          </when>
+    </choose>
+   </select>
   <select id="queryCondition" resultMap="DetailResultMap" parameterType="com.lenovo.tripnote.entity.vo.TTripNoteSearchVo" >
     select
     t.id,t.code, t.title,t.start_date, t.end_date, t.`days`, t.destination, 
@@ -219,7 +241,11 @@
     bc.id as city_id,bc.name_cn,bc.name_en,bc.lat,bc.lon,ttsrc.schedule_id as rcity_schedule_id,bc.country_id,ttsrc.id as rcity_id
     from (select 
      <include refid="Base_Column_List" />
-     from t_trip_note t where  type = #{record.type,jdbcType=INTEGER} and create_user_id = #{record.userId,jdbcType=INTEGER}
+     from t_trip_note t where  type = #{record.type,jdbcType=INTEGER}
+     <choose>  
+          <when test="record.isAll==false"> and create_user_id = #{record.userId,jdbcType=INTEGER} </when>  
+          <when test="record.isAll==true"> and create_user_id in (0,#{record.userId,jdbcType=INTEGER})</when>  
+     </choose>
      <if test="record.title != null" >
         and t.title like #{record.title,jdbcType=VARCHAR}
      </if>

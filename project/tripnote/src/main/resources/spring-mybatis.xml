@@ -72,6 +72,7 @@
             <tx:method name="add*" />
             <tx:method name="save*" />
             <tx:method name="update*" />
+            <tx:method name="insert*" />
             <tx:method name="modify*" />
             <tx:method name="edit*" />
             <tx:method name="delete*" />
