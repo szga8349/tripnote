@@ -3,6 +3,7 @@ package com.lenovo.tripnote.controller;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -23,13 +24,18 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPRow;
+import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.lenovo.tripnote.entity.BAccount;
 import com.lenovo.tripnote.entity.TTripNote;
+import com.lenovo.tripnote.entity.vo.TTripNoteDetailResultVo;
 import com.lenovo.tripnote.export.PdfHeaderFooter;
 import com.lenovo.tripnote.service.CommonService;
 import com.lenovo.tripnote.service.TTripnoteService;
@@ -96,26 +102,51 @@ public class CommonController {
 	@RequestMapping(value = "/export/{id}")
 	public  void export(@PathVariable String id,HttpServletResponse response){
 		TTripNote tripnote = tTripnoteService.getByKey(Integer.valueOf(id));
+		TTripNoteDetailResultVo detail = tTripnoteService.getDetailByKey(Integer.valueOf(id));
 			try {
 				Document document = getPdfDocument("fileName.pdf",response);
 				setHeader(document,tripnote);
+				setScheduleTrip(document,detail);
+				document.close();
 			} catch (DocumentException | IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	}
+	private void setScheduleTrip(Document document,TTripNoteDetailResultVo detail) throws DocumentException{
+		PdfPTable table = new PdfPTable(4); 
+        table.setWidthPercentage(100); // 宽度100%填充
+        table.setSpacingBefore(10f); // 前间距
+        table.setSpacingAfter(10f); // 后间距
+        List<PdfPRow> listRow = table.getRows();
+        //设置列宽
+        float[] columnWidths = { 1f, 1f,1f,1f};
+        table.setWidths(columnWidths);
+        PdfPCell cells1[]= new PdfPCell[4];
+        //单元格
+        cells1[0] = new PdfPCell(new Paragraph("11121"));//单元格内容
+        cells1[1] = new PdfPCell(new Paragraph("11121"));//单元格内容
+        cells1[2] = new PdfPCell(new Paragraph("11121"));//单元格内容
+        cells1[3] = new PdfPCell(new Paragraph("11121"));//单元格内容
+        cells1[0].setPaddingLeft(20);//左填充20
+        cells1[0].setHorizontalAlignment(Element.ALIGN_CENTER);//水平居中
+        cells1[0].setVerticalAlignment(Element.ALIGN_MIDDLE);//垂直居中
+        PdfPRow row1 = new PdfPRow(cells1);
+        listRow.add(row1);
+        document.add(table);
+	}
+	
+	
 	private void setHeader(Document document,TTripNote tripnote) throws DocumentException, IOException{
 	    //设置标题
         document.addTitle(tripnote.getTitle());
         document.open();
         //设置title
-        
-        Image image1 = Image.getInstance("http://pic.rruu.com/img/user/pic/20151221/20151221110915578.png");
+        Image image1 = Image.getInstance(/*tripnote.getImageurl()!=null?tripnote.getImageurl():*/"http://pic.rruu.com/img/user/pic/20151221/20151221110915578.png");
         //设置图片位置的x轴和y周
         //image1.setAbsolutePosition(100f, 550f);
         //设置图片的宽度和高度
         image1.scaleAbsolute(500, 300);
-       
         BaseFont bfChinese = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
         Font titFont = new Font(bfChinese, 20, Font.NORMAL);
         Paragraph header = new Paragraph(tripnote.getTitle(), titFont);
@@ -128,7 +159,17 @@ public class CommonController {
         header.setAlignment(1);
         document.add(header);
         
-        document.close();
+        Paragraph line = new Paragraph("------行程路线-----", titFont);
+        line.setAlignment(1);
+        document.add(line);
+        Subject subject = SecurityUtils.getSubject();
+		BAccount account = (BAccount) subject.getPrincipal();
+		line = new Paragraph((account!=null?account.getLoginName():"系统默认")+"为您定制行程",titFont);
+		line.setAlignment(1);
+        document.add(line);    
+        Paragraph blankRow1 = new Paragraph(18f, " ", titFont); 
+        document.add(blankRow1);
+        
 	}
 	private Document getPdfDocument (String fileName,HttpServletResponse response) throws DocumentException, IOException{
 		    Document document = new Document();

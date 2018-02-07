@@ -126,9 +126,9 @@ public class PdfHeaderFooter extends PdfPageEventHelper {
         PdfContentByte cb = writer.getDirectContent();  
          
         String title = "由Tripnote为你提供技术支持";
-        Phrase footerLeft = new Phrase("由Tripnote为你提供技术支持", fontDetail);  
-        float titleLength = bf.getWidthPoint(title, presentFontSize);  
-        ColumnText.showTextAligned(cb, Element.ALIGN_CENTER, footerLeft, (document.rightMargin() + document.right() + document.leftMargin() - document.left() - titleLength) / 2.0F + 20F, document.bottom() - 20, 0);  
+        Phrase footerLeft = new Phrase( title, fontDetail);  
+        //float titleLength = bf.getWidthPoint(title, presentFontSize);  
+        ColumnText.showTextAligned(cb, Element.ALIGN_CENTER, footerLeft, (document.rightMargin() + document.right() + document.leftMargin() - document.left()) / 2.0F + 20F, document.bottom() - 20, 0);  
         
         // 5.写入页脚1，x轴就是(右margin+左margin + right() -left()- len)/2.0F 再给偏移20F适合人类视觉感受，否则肉眼看上去就太偏左了 ,y轴就是底边界-20,否则就贴边重叠到数据体里了就不是页脚了；注意Y轴是从下往上累加的，最上方的Top值是大于Bottom好几百开外的。  
         ColumnText.showTextAligned(cb, Element.ALIGN_CENTER, footer, (document.right() - len) + 20F, document.bottom() - 20, 0);  
