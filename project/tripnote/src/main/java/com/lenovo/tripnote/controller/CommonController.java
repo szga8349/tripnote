@@ -21,8 +21,19 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfWriter;
 import com.lenovo.tripnote.entity.BAccount;
+import com.lenovo.tripnote.entity.TTripNote;
+import com.lenovo.tripnote.export.PdfHeaderFooter;
 import com.lenovo.tripnote.service.CommonService;
+import com.lenovo.tripnote.service.TTripnoteService;
+import com.lenovo.tripnote.util.TimeUtils;
 import com.lenovo.tripnote.vo.Result;
 import com.lenovo.tripnote.vo.ResultVo;
 
@@ -36,6 +47,8 @@ public class CommonController {
 
 	@Resource
 	private CommonService commonService;
+	@Resource
+	private TTripnoteService tTripnoteService;
 
 	@RequestMapping(value = "/upload/{model}/image", method = RequestMethod.POST)
 	public @ResponseBody void uploadImage(@PathVariable String model, HttpServletRequest request,HttpServletResponse response) {
@@ -80,10 +93,57 @@ public class CommonController {
 		}
 
 	}
-	@RequestMapping(value = "/export/{format}", method = RequestMethod.POST)
-	public @ResponseBody void export(@PathVariable String format){
-		
-		
+	@RequestMapping(value = "/export/{id}")
+	public  void export(@PathVariable String id,HttpServletResponse response){
+		TTripNote tripnote = tTripnoteService.getByKey(Integer.valueOf(id));
+			try {
+				Document document = getPdfDocument("fileName.pdf",response);
+				setHeader(document,tripnote);
+			} catch (DocumentException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	}
+	private void setHeader(Document document,TTripNote tripnote) throws DocumentException, IOException{
+	    //设置标题
+        document.addTitle(tripnote.getTitle());
+        document.open();
+        //设置title
+        
+        Image image1 = Image.getInstance("http://pic.rruu.com/img/user/pic/20151221/20151221110915578.png");
+        //设置图片位置的x轴和y周
+        //image1.setAbsolutePosition(100f, 550f);
+        //设置图片的宽度和高度
+        image1.scaleAbsolute(500, 300);
+       
+        BaseFont bfChinese = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
+        Font titFont = new Font(bfChinese, 20, Font.NORMAL);
+        Paragraph header = new Paragraph(tripnote.getTitle(), titFont);
+        image1.setAlignment(Image.ALIGN_CENTER);
+        header.setAlignment(1);
+        header.add(image1);
+        document.add(header);
+        
+        header = new Paragraph(TimeUtils.getDateString(tripnote.getStartDate(), "yyyy.MM.dd")+"-"+TimeUtils.getDateString(tripnote.getEndDate(), "yyyy.MM.dd"), titFont);
+        header.setAlignment(1);
+        document.add(header);
+        
+        document.close();
+	}
+	private Document getPdfDocument (String fileName,HttpServletResponse response) throws DocumentException, IOException{
+		    Document document = new Document();
+	        // 设置response参数，可以打开下载页面
+	        response.reset();
+	        response.setContentType("application/pdf;charset=utf-8");
+	        response.addHeader("Content-Disposition", "attachment;filename=" + new String(fileName.getBytes("gb2312"), "ISO8859-1"));
+	        PdfWriter writer = PdfWriter.getInstance(document, response.getOutputStream());
+	        writer.setStrictImageSequence(true); 
+	        PdfHeaderFooter footer = new PdfHeaderFooter();
+	        Subject subject = SecurityUtils.getSubject();
+			BAccount account = (BAccount) subject.getPrincipal();
+	        footer.setHeader((account!=null?account.getLoginName():"系统默认")+"为您定制行程");
+	        writer.setPageEvent(footer);
+	        return document;
 	}
 	
 	public static void printNoCache(HttpServletResponse resp ,String str,Charset charset,boolean gzip){

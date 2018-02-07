@@ -35,4 +35,9 @@ public class TimeUtils {
 		calendar.add(Calendar.DATE, day);
 		return calendar.getTime();
 	}
+
+	public static String getDateString(Date date, String string) {
+		SimpleDateFormat dateformat = new SimpleDateFormat(string);
+		return dateformat.format(date);
+	}
 }

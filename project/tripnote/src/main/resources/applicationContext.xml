@@ -50,6 +50,7 @@
 				/login/*=anon
 				/index.*=anon
 				/country/*= fauthc
+				/common/**= anon
 				/**= fauthc
 			</value>
 		</property>

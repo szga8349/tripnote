@@ -55,5 +55,16 @@ public class TTripnoteScheduleHotelResultVo{
      * @ibatorgenerated 2018-02-02 16:31:36
      */
     private Integer type;
+    /**
+     * b_hotel.lon (定位：经度)
+     * @ibatorgenerated 2018-02-02 16:31:36
+     */
+    private Double lon;
+
+    /**
+     * b_hotel.lat (纬度)
+     * @ibatorgenerated 2018-02-02 16:31:36
+     */
+    private Double lat;
 
 }
