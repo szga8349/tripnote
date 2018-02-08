@@ -46,9 +46,10 @@ import com.lenovo.tripnote.service.TCustomerService;
 import com.lenovo.tripnote.service.TTripnoteService;
 import com.lenovo.tripnote.util.TimeUtils;
 
+import lombok.extern.log4j.Log4j;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-
+@Log4j
 @Service()
 public class TripnoteServiceImpl implements TTripnoteService{
 	@Resource
@@ -252,7 +253,11 @@ public class TripnoteServiceImpl implements TTripnoteService{
 		if(customers!=null)
 			for (TTripnoteRCustomer trip : customers) {
 				trip.setTripnoteId(tripNote.getId());
+				try{
 				tTripnoteRCustomerMapper.insertSelective(trip);
+				}catch (Exception e) {
+					log.error(e, e.fillInStackTrace());
+				}
 		}
 		for(int i=0;i<size;i++){
 			Integer schduleId = exportVo.getScheduleIds().get(i);
