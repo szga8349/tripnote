@@ -227,27 +227,25 @@ public class TripnoteServiceImpl implements TTripnoteService{
 		return this.tTripNoteMapper.getTravelQuotationGroupByTypeByKey(id);
 	}
 	@Override
-	public void insertTemplate(Integer tripnoteId,BExportVo exportVo){
-		
+	public void insertToTemplate(Integer tripnoteId,BExportVo exportVo){
 		TTripNote tripNote = this.tTripNoteMapper.selectByPrimaryKey(tripnoteId);
 		//重新计算天数
 		int offset = exportVo.getScheduleIds().size();
-		//设置成模板
-		tripNote.setType(exportVo.getType());
 		tripNote.setId(null);
 		tripNote.setDays(offset);
-		if(exportVo.getType()==1){//将模板导入到定制时 重新设置用户ID 并将主键设置成选择的地址信息
-			tripNote.setCreateUserId(exportVo.getCreateUserId());
-			tripNote.setId(exportVo.getTripnoteId());
-		}
+		tripNote.setCreateUserId(exportVo.getCreateUserId());
+		tripNote.setType(2);
 		//重新设置最后时间
 		tripNote.setEndDate(TimeUtils.getAfterDay(tripNote.getStartDate(),offset));
 		tripNote.setCreateTime(new Date());
-		//新建数据 
-		if(tripNote.getId()!=null)
-		   this.tTripNoteMapper.updateByPrimaryKeySelective(tripNote);
-		else
-		   this.tTripNoteMapper.insertSelective(tripNote);
+		//新建成模板数据 
+		this.tTripNoteMapper.insertSelective(tripNote);
+		
+		copy(0,tripnoteId,tripNote,exportVo);
+	}
+	private void copy(int offset,Integer tripnoteId,TTripNote tripNote,BExportVo exportVo){
+		//重新计算天数
+		int size = exportVo.getScheduleIds().size();
 		TTripnoteRCustomerExample customerexample = new TTripnoteRCustomerExample();
 		customerexample.createCriteria().andTripnoteIdEqualTo(tripnoteId);
 		List<TTripnoteRCustomer> customers = tTripnoteRCustomerMapper.selectByExample(customerexample );
@@ -256,11 +254,11 @@ public class TripnoteServiceImpl implements TTripnoteService{
 				trip.setTripnoteId(tripNote.getId());
 				tTripnoteRCustomerMapper.insertSelective(trip);
 		}
-		for(int i=0;i<offset;i++){
+		for(int i=0;i<size;i++){
 			Integer schduleId = exportVo.getScheduleIds().get(i);
 			TTripnoteSchedule schedule = tTripnoteScheduleMapper.selectByPrimaryKey(schduleId);
 			//重新设置indexdate
-			schedule.setIndexdate(i+1);
+			schedule.setIndexdate(offset+i+1);
 			schedule.setTripnoteId(tripNote.getId());
 			schedule.setId(null);
 			schedule.setCreatetime(new Date());
@@ -338,6 +336,20 @@ public class TripnoteServiceImpl implements TTripnoteService{
 
 			}
 		}
+	}
+
+	@Override
+	public void insertToTripnote(Integer tripnoteId, BExportVo exportVo) {
+		TTripNote templet = this.tTripNoteMapper.selectByPrimaryKey(tripnoteId);
+		TTripNote tripNote = this.tTripNoteMapper.selectByPrimaryKey(exportVo.getTripnoteId());
+		int dates = tripNote.getDays()+exportVo.getScheduleIds().size();
+		tripNote.setDays(dates);
+		//重新设置最后时间
+	    tripNote.setEndDate(TimeUtils.getAfterDay(tripNote.getStartDate(),dates));
+	   //新建成模板数据 
+	    this.tTripNoteMapper.updateByPrimaryKeySelective(tripNote);
+	    
+	    copy(tripNote.getDays()-1,templet.getId(),tripNote,exportVo);
 	}
 	
 

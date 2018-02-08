@@ -47,6 +47,16 @@ public interface TTripnoteService extends IDbService<TTripNote>{
 	public TTripNoteTravelResultVo getTravelQuotationGroupByTypeByKey(Integer id);
 	
 	
-	public void insertTemplate(Integer tripnoteId,BExportVo exportVo);
+	/**导出到模板
+	 * @param tripnoteId
+	 * @param exportVo
+	 */
+	public void insertToTemplate(Integer tripnoteId,BExportVo exportVo);
+	
+	/**导入到定制
+	 * @param tripnoteId
+	 * @param exportVo
+	 */
+	public void insertToTripnote(Integer tripnoteId,BExportVo exportVo);
 	
 }

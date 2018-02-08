@@ -27,8 +27,4 @@ public class BExportVo {
 	private Integer tripnoteId;
 	
 	private Integer createUserId;
-	/**
-	 * 导类型 1导入到定制，2 导出模板
-	 */
-	private Integer type;
 }

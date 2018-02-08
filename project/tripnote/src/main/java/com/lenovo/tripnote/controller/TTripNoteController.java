@@ -120,9 +120,7 @@ public class TTripNoteController {
 		Subject subject = SecurityUtils.getSubject();
 		BAccount account = (BAccount) subject.getPrincipal();
 		exportVo.setCreateUserId(account.getId());
-		//定制导出成模板
-		exportVo.setType(2);
-		tTripnoteService.insertTemplate(Integer.valueOf(id), exportVo);
+		tTripnoteService.insertToTemplate(Integer.valueOf(id), exportVo);
 		vo.setCode(Result.SUCESSFUL);
 		return vo;
 	}
