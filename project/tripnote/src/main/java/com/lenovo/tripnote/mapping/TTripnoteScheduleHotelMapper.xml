@@ -28,7 +28,7 @@
     <result column="imageurl" property="imageurl" jdbcType="VARCHAR" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />
     <result column="schedule_id" property="scheduleId" jdbcType="INTEGER" />
-    <result column="hotal_id" property="hotalId" jdbcType="INTEGER" />
+    <result column="hotel_id" property="hotelId" jdbcType="INTEGER" />
     <result column="price" property="price" jdbcType="DOUBLE" />
     <result column="supplier" property="supplier" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="INTEGER" />
@@ -40,7 +40,7 @@
     id, name_cn, name_en, address, type_id, star_level, brand, check_in_time, check_in_type, 
     check_ou_time, built_in, repair_time, floor_number, room_number, `status`, city_id, 
     city_name, create_time, create_user_id, lon, lat, traffic, url, imageurl, phone, 
-    schedule_id, hotal_id, price, supplier, `type`
+    schedule_id, hotel_id, price, supplier, `type`
   </sql>
   <sql id="Blob_Column_List" >
     introduction
@@ -256,8 +256,8 @@
       <if test="record.scheduleId != null" >
         schedule_id = #{record.scheduleId,jdbcType=INTEGER},
       </if>
-      <if test="record.hotalId != null" >
-        hotal_id = #{record.hotalId,jdbcType=INTEGER},
+      <if test="record.hotelId != null" >
+        hotel_id = #{record.hotelId,jdbcType=INTEGER},
       </if>
       <if test="record.price != null" >
         price = #{record.price,jdbcType=DOUBLE},
@@ -304,7 +304,7 @@
       imageurl = #{record.imageurl,jdbcType=VARCHAR},
       phone = #{record.phone,jdbcType=VARCHAR},
       schedule_id = #{record.scheduleId,jdbcType=INTEGER},
-      hotal_id = #{record.hotalId,jdbcType=INTEGER},
+      hotel_id = #{record.hotelId,jdbcType=INTEGER},
       price = #{record.price,jdbcType=DOUBLE},
       supplier = #{record.supplier,jdbcType=VARCHAR},
       `type` = #{record.type,jdbcType=INTEGER},
@@ -341,7 +341,7 @@
       imageurl = #{record.imageurl,jdbcType=VARCHAR},
       phone = #{record.phone,jdbcType=VARCHAR},
       schedule_id = #{record.scheduleId,jdbcType=INTEGER},
-      hotal_id = #{record.hotalId,jdbcType=INTEGER},
+      hotel_id = #{record.hotelId,jdbcType=INTEGER},
       price = #{record.price,jdbcType=DOUBLE},
       supplier = #{record.supplier,jdbcType=VARCHAR},
       `type` = #{record.type,jdbcType=INTEGER}
@@ -370,7 +370,7 @@
       city_name, create_time, create_user_id, 
       lon, lat, traffic, url, 
       imageurl, phone, schedule_id, 
-      hotal_id, price, supplier, 
+      hotel_id, price, supplier, 
       `type`, introduction)
     values (#{nameCn,jdbcType=VARCHAR}, #{nameEn,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
       #{typeId,jdbcType=INTEGER}, #{starLevel,jdbcType=INTEGER}, #{brand,jdbcType=VARCHAR}, 
@@ -380,7 +380,7 @@
       #{cityName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, 
       #{lon,jdbcType=DOUBLE}, #{lat,jdbcType=DOUBLE}, #{traffic,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
       #{imageurl,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{scheduleId,jdbcType=INTEGER}, 
-      #{hotalId,jdbcType=INTEGER}, #{price,jdbcType=DOUBLE}, #{supplier,jdbcType=VARCHAR}, 
+      #{hotelId,jdbcType=INTEGER}, #{price,jdbcType=DOUBLE}, #{supplier,jdbcType=VARCHAR}, 
       #{type,jdbcType=INTEGER}, #{introduction,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleHotel" useGeneratedKeys="true" keyProperty="id" >
@@ -411,7 +411,7 @@
       imageurl,
       phone,
       schedule_id,
-      hotal_id,
+      hotel_id,
       price,
       supplier,
       `type`,
@@ -443,7 +443,7 @@
       #{imageurl,jdbcType=VARCHAR},
       #{phone,jdbcType=VARCHAR},
       #{scheduleId,jdbcType=INTEGER},
-      #{hotalId,jdbcType=INTEGER},
+      #{hotelId,jdbcType=INTEGER},
       #{price,jdbcType=DOUBLE},
       #{supplier,jdbcType=VARCHAR},
       #{type,jdbcType=INTEGER},
@@ -528,8 +528,8 @@
       <if test="scheduleId != null" >
         schedule_id = #{scheduleId,jdbcType=INTEGER},
       </if>
-      <if test="hotalId != null" >
-        hotal_id = #{hotalId,jdbcType=INTEGER},
+      <if test="hotelId != null" >
+        hotel_id = #{hotelId,jdbcType=INTEGER},
       </if>
       <if test="price != null" >
         price = #{price,jdbcType=DOUBLE},
@@ -573,7 +573,7 @@
       imageurl = #{imageurl,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
       schedule_id = #{scheduleId,jdbcType=INTEGER},
-      hotal_id = #{hotalId,jdbcType=INTEGER},
+      hotel_id = #{hotelId,jdbcType=INTEGER},
       price = #{price,jdbcType=DOUBLE},
       supplier = #{supplier,jdbcType=VARCHAR},
       `type` = #{type,jdbcType=INTEGER},
@@ -607,7 +607,7 @@
       imageurl = #{imageurl,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
       schedule_id = #{scheduleId,jdbcType=INTEGER},
-      hotal_id = #{hotalId,jdbcType=INTEGER},
+      hotel_id = #{hotelId,jdbcType=INTEGER},
       price = #{price,jdbcType=DOUBLE},
       supplier = #{supplier,jdbcType=VARCHAR},
       `type` = #{type,jdbcType=INTEGER}

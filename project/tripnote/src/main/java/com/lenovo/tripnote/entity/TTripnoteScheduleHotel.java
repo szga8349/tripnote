@@ -171,7 +171,7 @@ public class TTripnoteScheduleHotel implements Serializable {
      * t_tripnote_schedule_hotel.hotal_id
      * @ibatorgenerated 2018-02-02 16:31:35
      */
-    private Integer hotalId;
+    private Integer hotelId;
 
     /**
      * t_tripnote_schedule_hotel.price (价格)
