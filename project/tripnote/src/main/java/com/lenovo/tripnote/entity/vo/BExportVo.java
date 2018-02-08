@@ -6,7 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**定制导出模板时所需参数对象
+/**
+ * 定制导出模板时所需参数对象
+ * 
  * @author shijy2
  *
  */
@@ -14,7 +16,19 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class BExportVo {
-     private List<Integer> tripnoteIds;
-     private Integer createUserId;
-     private Integer type;
+	/**
+	 * 选的日程主键ID
+	 */
+	private List<Integer> tripnoteIds;
+
+	/**
+	 * 导入到定制时 需要传入目标定制ID
+	 */
+	private Integer tripnoteId;
+	
+	private Integer createUserId;
+	/**
+	 * 导类型 1导入到定制，2 导出模板
+	 */
+	private Integer type;
 }

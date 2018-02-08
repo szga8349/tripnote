@@ -236,15 +236,18 @@ public class TripnoteServiceImpl implements TTripnoteService{
 		tripNote.setType(exportVo.getType());
 		tripNote.setId(null);
 		tripNote.setDays(offset);
-		if(exportVo.getType()==1){//将模板导入到定制时 重新设置用户ID
+		if(exportVo.getType()==1){//将模板导入到定制时 重新设置用户ID 并将主键设置成选择的地址信息
 			tripNote.setCreateUserId(exportVo.getCreateUserId());
+			tripNote.setId(exportVo.getTripnoteId());
 		}
 		//重新设置最后时间
 		tripNote.setEndDate(TimeUtils.getAfterDay(tripNote.getStartDate(),offset));
 		tripNote.setCreateTime(new Date());
 		//新建成模板数据 
-		this.tTripNoteMapper.insertSelective(tripNote);
-		
+		if(tripNote.getId()!=null)
+		   this.tTripNoteMapper.insertSelective(tripNote);
+		else
+		   this.tTripNoteMapper.updateByPrimaryKeySelective(tripNote);
 		TTripnoteRCustomerExample customerexample = new TTripnoteRCustomerExample();
 		customerexample.createCriteria().andTripnoteIdEqualTo(tripnoteId);
 		List<TTripnoteRCustomer> customers = tTripnoteRCustomerMapper.selectByExample(customerexample );

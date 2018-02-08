@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,11 +36,15 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.lenovo.tripnote.entity.BAccount;
 import com.lenovo.tripnote.entity.TTripNote;
+import com.lenovo.tripnote.entity.TTripnoteScheduleHotel;
 import com.lenovo.tripnote.entity.vo.TTripNoteDetailResultVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteScheduleResultVo;
+import com.lenovo.tripnote.entity.vo.TTripnoteScheduleHotelResultVo;
 import com.lenovo.tripnote.entity.vo.TTripnoteScheduleRCityVo;
+import com.lenovo.tripnote.entity.vo.TTripnoteScheduleTrafficResultVo;
 import com.lenovo.tripnote.export.PdfHeaderFooter;
 import com.lenovo.tripnote.service.CommonService;
+import com.lenovo.tripnote.service.TTripnoteScheduleHotelService;
 import com.lenovo.tripnote.service.TTripnoteService;
 import com.lenovo.tripnote.util.TimeUtils;
 import com.lenovo.tripnote.vo.Result;
@@ -57,6 +62,8 @@ public class CommonController {
 	private CommonService commonService;
 	@Resource
 	private TTripnoteService tTripnoteService;
+	@Resource
+	private TTripnoteScheduleHotelService tTripnoteScheduleHotelService;
 	
 	private String[] num = new String[]{"一","二","三","四","五","六","日"};
 
@@ -124,7 +131,7 @@ public class CommonController {
         PdfPTable table = new PdfPTable(2);
         Font titFont = new Font(bfChinese, 20, Font.NORMAL);
         //设置每列宽度比例   
-        int width[] = {4,96};
+        int[] width= {4,96};
         table.setWidths(width); 
         table.getDefaultCell().setBorder(0);
         com.itextpdf.text.Font FontChinese16 = new com.itextpdf.text.Font(bfChinese, 16, com.itextpdf.text.Font.NORMAL);
@@ -138,10 +145,145 @@ public class CommonController {
         //空行间距
         Paragraph blankRow1 = new Paragraph(18f, " ", titFont); 
         document.add(blankRow1);
-		
-		
-		
-		
+        Date start = detail.getStartDate();
+        int j = detail.getTTripNoteSchedules().size();
+       
+        for(int m=0;m<j;m++){
+     	   TTripNoteScheduleResultVo vo = detail.getTTripNoteSchedules().get(m);
+     	   //交通连线
+     	   Map<String,TTripnoteScheduleTrafficResultVo> trafficline = new HashMap<String,TTripnoteScheduleTrafficResultVo>();
+     	   if(vo.getTraffics()!=null)
+     	   for(TTripnoteScheduleTrafficResultVo traffic:vo.getTraffics()){
+     		  trafficline.put(traffic.getStartScheduleType()+""+traffic.getStartScheduleTrip(),traffic);
+     	   }
+     	   
+     	   Date current = TimeUtils.getAfterDay(start, vo.getIndexdate()-1);
+     	   PdfPTable table1 = new PdfPTable(4);
+     	   width = new int[]{10,15,15,60};
+     	   table1.setWidths(width); 
+     	   table1.getDefaultCell().setBorder(0);
+     	   List<PdfPRow> listRow = table1.getRows();
+     	   //单元格
+    	   PdfPCell c0 = new PdfPCell(new Paragraph("D"+vo.getIndexdate(),titFont));//单元格内容
+    	   c0.setBorder(0);
+    	   PdfPCell c1 = new PdfPCell(new Paragraph(TimeUtils.getDateString(current, "MM/dd"),titFont));//单元格内容
+    	   c1.setBorder(0);
+    	   PdfPCell c2 = new PdfPCell(new Paragraph("周"+num[TimeUtils.getDayofweek(current)-1],titFont));//单元格内容
+    	   c2.setBorder(0);
+    	   PdfPCell c3 = new PdfPCell(new Paragraph(" ",titFont));//单元格内容
+    	   c3.setBorder(0);
+    	   PdfPCell cells1[]= new PdfPCell[]{c0,c1,c2,c3};
+           PdfPRow row1 = new PdfPRow(cells1);
+           listRow.add(row1);
+           document.add(table1);
+           blankRow1 = new Paragraph(18f, " ", titFont); 
+           document.add(blankRow1);
+           List<TTripnoteScheduleHotelResultVo> scheduleHotels = vo.getScheduleHotels();
+           //打印入住酒店
+           if(scheduleHotels!=null)
+           for(TTripnoteScheduleHotelResultVo hotel:scheduleHotels){//设置入住酒店
+        	   if(hotel.getCheckInType()==1){
+        		   table1 = new PdfPTable(2);
+             	   width = new int[]{5,95};
+             	   table1.setWidths(width); 
+             	   table1.getDefaultCell().setBorder(0);
+             	   listRow = table1.getRows();
+             	   c0 = new PdfPCell(new Paragraph(hotel.getNameCn(),titFont));//单元格内容
+           	       c0.setBorder(0);
+         	       imagePath2 = "http://pic.rruu.com/img/user/pic/20151221/20151221110915578.png";
+         	       image21 = Image.getInstance(imagePath2); 
+         	       table1.addCell(image21);
+         	       table1.addCell(c0);
+                   document.add(table1);
+                   
+                   blankRow1 = new Paragraph(18f, " ", titFont); 
+                   document.add(blankRow1);
+                   
+                   table1 = new PdfPTable(2);
+             	   width = new int[]{50,50};
+             	   table1.setWidths(width); 
+             	   table1.getDefaultCell().setBorder(0);
+             	   listRow = table1.getRows();
+             	   c0 = new PdfPCell(new Paragraph("入住:"+"退房:",titFont));//单元格内容
+           	       c0.setBorder(0);
+           	       c1 = new PdfPCell(new Paragraph(" ",titFont));//单元格内容
+        	       c1.setBorder(0);
+         	       table1.addCell(c0);
+         	       table1.addCell(c1);
+                   document.add(table1);
+                   
+                   blankRow1 = new Paragraph(18f, " ", titFont); 
+                   document.add(blankRow1);
+                   
+                   table1 = new PdfPTable(2);
+             	   width = new int[]{50,50};
+             	   table1.setWidths(width); 
+             	   table1.getDefaultCell().setBorder(0);
+             	   listRow = table1.getRows();
+             	   c0 = new PdfPCell(new Paragraph(hotel.getIntroduction(),titFont));//单元格内容
+           	       c0.setBorder(0);
+           	       imagePath2 = hotel.getImageurl();
+      	           image21 = Image.getInstance(imagePath2); 
+         	       table1.addCell(c0);
+         	       table1.addCell(image21);
+                   document.add(table1);
+                   
+        	   }
+           }
+           
+           //打印退房酒店
+           if(scheduleHotels!=null)
+           for(TTripnoteScheduleHotelResultVo hotel:scheduleHotels){
+        	   if(hotel.getCheckInType()==2){//设置退房酒店
+        		   table1 = new PdfPTable(2);
+             	   width = new int[]{5,95};
+             	   table1.setWidths(width); 
+             	   table1.getDefaultCell().setBorder(0);
+             	   listRow = table1.getRows();
+             	   c0 = new PdfPCell(new Paragraph(hotel.getNameCn(),titFont));//单元格内容
+           	       c0.setBorder(0);
+         	       imagePath2 = "http://pic.rruu.com/img/user/pic/20151221/20151221110915578.png";
+         	       image21 = Image.getInstance(imagePath2); 
+         	       table1.addCell(image21);
+         	       table1.addCell(c0);
+                   document.add(table1);
+                   
+                   blankRow1 = new Paragraph(18f, " ", titFont); 
+                   document.add(blankRow1);
+                   
+                   table1 = new PdfPTable(2);
+             	   width = new int[]{50,50};
+             	   table1.setWidths(width); 
+             	   table1.getDefaultCell().setBorder(0);
+             	   listRow = table1.getRows();
+             	   c0 = new PdfPCell(new Paragraph("入住:"+"退房:",titFont));//单元格内容
+           	       c0.setBorder(0);
+           	       c1 = new PdfPCell(new Paragraph(" ",titFont));//单元格内容
+        	       c1.setBorder(0);
+         	       table1.addCell(c0);
+         	       table1.addCell(c1);
+                   document.add(table1);
+                   
+                   blankRow1 = new Paragraph(18f, " ", titFont); 
+                   document.add(blankRow1);
+                   
+                   TTripnoteScheduleHotel hoteldetail = tTripnoteScheduleHotelService.getByKey(hotel.getId());
+                   table1 = new PdfPTable(2);
+             	   width = new int[]{50,50};
+             	   table1.setWidths(width); 
+             	   table1.getDefaultCell().setBorder(0);
+             	   listRow = table1.getRows();
+             	   c0 = new PdfPCell(new Paragraph(hoteldetail.getIntroduction(),titFont));//单元格内容
+           	       c0.setBorder(0);
+           	       imagePath2 = hoteldetail.getImageurl();
+      	           image21 = Image.getInstance(imagePath2); 
+         	       table1.addCell(c0);
+         	       table1.addCell(image21);
+                   document.add(table1);
+        	   }
+           }
+           
+        }
 	}
 	/**设置行程
 	 * @param document

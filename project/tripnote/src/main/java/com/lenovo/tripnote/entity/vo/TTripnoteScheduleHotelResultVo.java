@@ -66,5 +66,18 @@ public class TTripnoteScheduleHotelResultVo{
      * @ibatorgenerated 2018-02-02 16:31:36
      */
     private Double lat;
+    
+    
+    /**
+     * b_hotel.introduction (酒店介绍)
+     * @ibatorgenerated 2018-02-02 16:31:36
+     */
+    private String introduction;
+    
+    /**
+     * b_hotel.imageurl
+     * @ibatorgenerated 2018-02-02 16:31:36
+     */
+    private String imageurl;
 
 }
