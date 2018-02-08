@@ -66,6 +66,8 @@ public class TTripnoteScheduleHotelServiceImpl implements TTripnoteScheduleHotel
 					e.printStackTrace();
 				}
 				scheduleHotel.setId(null);
+				scheduleHotel.setCheckInTime(t.getCheckIn());
+				scheduleHotel.setCheckOuTime(t.getCheckOut());
 				scheduleHotel.setScheduleId(addVo.getScheduleId());
 				scheduleHotel.setCreateUserId(account.getId());
 				scheduleHotel.setCheckInType(addVo.getCheckInType());

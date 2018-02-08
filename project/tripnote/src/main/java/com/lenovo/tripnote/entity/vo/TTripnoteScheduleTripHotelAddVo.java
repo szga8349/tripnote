@@ -11,4 +11,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class TTripnoteScheduleTripHotelAddVo {
 	private List<TTripnoteScheduleHotelAddVo> scheduleHotels;
+	private String checkIn;
+	private String checkOut;
 }

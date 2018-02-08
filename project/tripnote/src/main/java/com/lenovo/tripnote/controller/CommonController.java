@@ -42,6 +42,7 @@ import com.lenovo.tripnote.entity.vo.TTripNoteScheduleResultVo;
 import com.lenovo.tripnote.entity.vo.TTripnoteScheduleHotelResultVo;
 import com.lenovo.tripnote.entity.vo.TTripnoteScheduleRCityVo;
 import com.lenovo.tripnote.entity.vo.TTripnoteScheduleTrafficResultVo;
+import com.lenovo.tripnote.entity.vo.TTripnoteScheduleTripResultVo;
 import com.lenovo.tripnote.export.PdfHeaderFooter;
 import com.lenovo.tripnote.service.CommonService;
 import com.lenovo.tripnote.service.TTripNoteScheduleService;
@@ -132,7 +133,8 @@ public class CommonController {
 	    BaseFont bfChinese = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
 		 //table2
         PdfPTable table = new PdfPTable(2);
-        Font titFont = new Font(bfChinese, 20, Font.NORMAL);
+        Font titFont = new Font(bfChinese, 16, Font.NORMAL);
+        Font contentFont =  new Font(bfChinese, 12, Font.NORMAL);
         //设置每列宽度比例   
         int[] width= {4,96};
         table.setWidths(width); 
@@ -184,6 +186,7 @@ public class CommonController {
            blankRow1 = new Paragraph(18f, " ", titFont); 
            document.add(blankRow1);
            List<TTripnoteScheduleHotelResultVo> scheduleHotels = vo.getScheduleHotels();
+           String key = "";
            //打印入住酒店
            if(scheduleHotels!=null)
            for(TTripnoteScheduleHotelResultVo hotel:scheduleHotels){//设置入住酒店
@@ -225,21 +228,74 @@ public class CommonController {
              	   table1.setWidths(width); 
              	   table1.getDefaultCell().setBorder(0);
              	   listRow = table1.getRows();
-             	   c0 = new PdfPCell(new Paragraph(hotel.getIntroduction(),titFont));//单元格内容
+             	   c0 = new PdfPCell(new Paragraph(hotel.getIntroduction(),contentFont));//单元格内容
            	       c0.setBorder(0);
            	       imagePath2 = hotel.getImageurl()!=null?hotel.getImageurl():"http://pic.rruu.com/img/user/pic/20151221/20151221110915578.png";
       	           image21 = Image.getInstance(imagePath2); 
          	       table1.addCell(c0);
          	       table1.addCell(image21);
                    document.add(table1);
-                   
+                   key = hotel.getType()+""+hotel.getId();
         	   }
            }
+           blankRow1 = new Paragraph(18f, " ", titFont); 
+           document.add(blankRow1);
+           
+           TTripnoteScheduleTrafficResultVo traffic = trafficline.get(key);
+           if(traffic!=null){
+        	   
+           }
+           List<TTripnoteScheduleTripResultVo> trips = vo.getScheduletrips();
+           if(trips!=null)
+        	 for(TTripnoteScheduleTripResultVo trip:trips){
+        	   table1 = new PdfPTable(3);
+           	   width = new int[]{5,90,5};
+           	   table1.setWidths(width); 
+           	   table1.getDefaultCell().setBorder(0);
+           	   listRow = table1.getRows();
+           	   c0 = new PdfPCell(new Paragraph(trip.getNameCn(),titFont));//单元格内容
+         	   c0.setBorder(0);
+       	       imagePath2 = "http://pic.rruu.com/img/user/pic/20151221/20151221110915578.png";
+       	       image21 = Image.getInstance(imagePath2); 
+       	       c1 = new PdfPCell(new Paragraph(" ",titFont));//单元格内容
+ 	           c1.setBorder(0);
+       	       table1.addCell(image21);
+       	       table1.addCell(c0);
+       	       table1.addCell(c1);
+               document.add(table1);
+               
+               
+               blankRow1 = new Paragraph(18f, " ", titFont); 
+               document.add(blankRow1);
+               
+               table1 = new PdfPTable(2);
+         	   width = new int[]{50,50};
+         	   table1.setWidths(width); 
+         	   table1.getDefaultCell().setBorder(0);
+         	   listRow = table1.getRows();
+         	   c0 = new PdfPCell(new Paragraph(trip.getAddressInstrations(),contentFont));//单元格内容
+       	       c0.setBorder(0);
+     	       imagePath2 = trip.getImageurl()!=null?trip.getImageurl():"http://pic.rruu.com/img/user/pic/20151221/20151221110915578.png";
+     	       image21 = Image.getInstance(imagePath2); 
+     	       
+     	       table1.addCell(c0);
+     	       table1.addCell(image21);
+               document.add(table1);
+               
+               blankRow1 = new Paragraph(18f, " ", titFont); 
+               document.add(blankRow1);
+               
+               key = trip.getType()+""+trip.getId();
+               traffic = trafficline.get(key);
+               if(traffic!=null){
+            	   System.out.println(traffic);
+               }
+        	 }
            
            //打印退房酒店
            if(scheduleHotels!=null)
            for(TTripnoteScheduleHotelResultVo hotel:scheduleHotels){
-        	   if(hotel.getCheckInType()==2){//设置退房酒店
+        	   if(hotel.getCheckInType()==0){//设置退房酒店
         		   table1 = new PdfPTable(2);
              	   width = new int[]{5,95};
              	   table1.setWidths(width); 
@@ -278,7 +334,7 @@ public class CommonController {
              	   table1.setWidths(width); 
              	   table1.getDefaultCell().setBorder(0);
              	   listRow = table1.getRows();
-             	   c0 = new PdfPCell(new Paragraph(hoteldetail.getIntroduction(),titFont));//单元格内容
+             	   c0 = new PdfPCell(new Paragraph(hoteldetail.getIntroduction(),contentFont));//单元格内容
            	       c0.setBorder(0);
            	       imagePath2 = hoteldetail.getImageurl();
       	           image21 = Image.getInstance(imagePath2); 
@@ -320,14 +376,20 @@ public class CommonController {
     	   int citys = vo.getCitys().size();
     	   for(int i=0;i<citys;i++){
     		   TTripnoteScheduleRCityVo ci = vo.getCitys().get(i);
-    		   if(m==0)
+    		   if(m==0 && i==0){
     		      title.append("!!"+ci.getNameCn());
-    		   else if(i!=citys-1){
+    		   }
+    		   else if(m!=0 && i!=citys-1){
     			   title.append(ci.getNameCn()+"-->"); 
-    		   }else if(m==j-1){
+    		   }
+    		   else if(m==j-1 && i==citys-1){
     			   title.append("!!"+ci.getNameCn()); 
-    		   }else{
+    		   }
+    		   else if(m!=0 && i==citys-1){
     			   title.append(ci.getNameCn()); 
+    		   }
+    		   else {
+    			   title.append("-->"+ci.getNameCn()); 
     		   }
     	   }
     	   PdfPCell c1 = new PdfPCell(new Paragraph(title.toString(),titFont));//单元格内容
