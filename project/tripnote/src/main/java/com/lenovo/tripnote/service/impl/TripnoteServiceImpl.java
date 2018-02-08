@@ -243,11 +243,11 @@ public class TripnoteServiceImpl implements TTripnoteService{
 		//重新设置最后时间
 		tripNote.setEndDate(TimeUtils.getAfterDay(tripNote.getStartDate(),offset));
 		tripNote.setCreateTime(new Date());
-		//新建成模板数据 
+		//新建数据 
 		if(tripNote.getId()!=null)
-		   this.tTripNoteMapper.insertSelective(tripNote);
-		else
 		   this.tTripNoteMapper.updateByPrimaryKeySelective(tripNote);
+		else
+		   this.tTripNoteMapper.insertSelective(tripNote);
 		TTripnoteRCustomerExample customerexample = new TTripnoteRCustomerExample();
 		customerexample.createCriteria().andTripnoteIdEqualTo(tripnoteId);
 		List<TTripnoteRCustomer> customers = tTripnoteRCustomerMapper.selectByExample(customerexample );

@@ -44,6 +44,7 @@ import com.lenovo.tripnote.entity.vo.TTripnoteScheduleRCityVo;
 import com.lenovo.tripnote.entity.vo.TTripnoteScheduleTrafficResultVo;
 import com.lenovo.tripnote.export.PdfHeaderFooter;
 import com.lenovo.tripnote.service.CommonService;
+import com.lenovo.tripnote.service.TTripNoteScheduleService;
 import com.lenovo.tripnote.service.TTripnoteScheduleHotelService;
 import com.lenovo.tripnote.service.TTripnoteService;
 import com.lenovo.tripnote.util.TimeUtils;
@@ -64,6 +65,8 @@ public class CommonController {
 	private TTripnoteService tTripnoteService;
 	@Resource
 	private TTripnoteScheduleHotelService tTripnoteScheduleHotelService;
+	@Resource
+	private TTripNoteScheduleService tTripNoteScheduleService;
 	
 	private String[] num = new String[]{"一","二","三","四","五","六","日"};
 
@@ -150,6 +153,8 @@ public class CommonController {
        
         for(int m=0;m<j;m++){
      	   TTripNoteScheduleResultVo vo = detail.getTTripNoteSchedules().get(m);
+     	   //获取日程明细信息
+     	   vo = tTripNoteScheduleService.getDetailByKey(vo.getId());
      	   //交通连线
      	   Map<String,TTripnoteScheduleTrafficResultVo> trafficline = new HashMap<String,TTripnoteScheduleTrafficResultVo>();
      	   if(vo.getTraffics()!=null)
@@ -222,7 +227,7 @@ public class CommonController {
              	   listRow = table1.getRows();
              	   c0 = new PdfPCell(new Paragraph(hotel.getIntroduction(),titFont));//单元格内容
            	       c0.setBorder(0);
-           	       imagePath2 = hotel.getImageurl();
+           	       imagePath2 = hotel.getImageurl()!=null?hotel.getImageurl():"http://pic.rruu.com/img/user/pic/20151221/20151221110915578.png";
       	           image21 = Image.getInstance(imagePath2); 
          	       table1.addCell(c0);
          	       table1.addCell(image21);
