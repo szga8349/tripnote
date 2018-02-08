@@ -40,4 +40,21 @@ public class TimeUtils {
 		SimpleDateFormat dateformat = new SimpleDateFormat(string);
 		return dateformat.format(date);
 	}
+
+	public static int getDayofweek(String date) {
+		Calendar cal = Calendar.getInstance();
+		// cal.setTime(new Date(System.currentTimeMillis()));
+		if (date.equals("")) {
+			cal.setTime(new Date(System.currentTimeMillis()));
+		} else {
+			cal.setTime(new Date(getDate(date).getTime()));
+		}
+		return cal.get(Calendar.DAY_OF_WEEK);
+	}
+	public static int getDayofweek(Date date) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		return cal.get(Calendar.DAY_OF_WEEK);
+	}
+
 }

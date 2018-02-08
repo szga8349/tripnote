@@ -3,6 +3,7 @@ package com.lenovo.tripnote.controller;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +25,6 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
@@ -36,6 +36,8 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.lenovo.tripnote.entity.BAccount;
 import com.lenovo.tripnote.entity.TTripNote;
 import com.lenovo.tripnote.entity.vo.TTripNoteDetailResultVo;
+import com.lenovo.tripnote.entity.vo.TTripNoteScheduleResultVo;
+import com.lenovo.tripnote.entity.vo.TTripnoteScheduleRCityVo;
 import com.lenovo.tripnote.export.PdfHeaderFooter;
 import com.lenovo.tripnote.service.CommonService;
 import com.lenovo.tripnote.service.TTripnoteService;
@@ -55,6 +57,8 @@ public class CommonController {
 	private CommonService commonService;
 	@Resource
 	private TTripnoteService tTripnoteService;
+	
+	private String[] num = new String[]{"一","二","三","四","五","六","日"};
 
 	@RequestMapping(value = "/upload/{model}/image", method = RequestMethod.POST)
 	public @ResponseBody void uploadImage(@PathVariable String model, HttpServletRequest request,HttpServletResponse response) {
@@ -107,36 +111,134 @@ public class CommonController {
 				Document document = getPdfDocument("fileName.pdf",response);
 				setHeader(document,tripnote);
 				setScheduleTrip(document,detail);
+				setScheduleTripDetail(document,detail);
 				document.close();
 			} catch (DocumentException | IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	}
-	private void setScheduleTrip(Document document,TTripNoteDetailResultVo detail) throws DocumentException{
+	private void setScheduleTripDetail(Document document,TTripNoteDetailResultVo detail) throws DocumentException, IOException{
+	    BaseFont bfChinese = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
+		 //table2
+        PdfPTable table = new PdfPTable(2);
+        Font titFont = new Font(bfChinese, 20, Font.NORMAL);
+        //设置每列宽度比例   
+        int width[] = {4,96};
+        table.setWidths(width); 
+        table.getDefaultCell().setBorder(0);
+        com.itextpdf.text.Font FontChinese16 = new com.itextpdf.text.Font(bfChinese, 16, com.itextpdf.text.Font.NORMAL);
+        PdfPCell cell21 = new PdfPCell(new Paragraph("日程安排",FontChinese16));
+        String imagePath2 = "http://pic.rruu.com/img/user/pic/20151221/20151221110915578.png";
+        Image image21 = Image.getInstance(imagePath2); 
+        cell21.setBorder(0);
+        table.addCell(image21);
+        table.addCell(cell21); 
+        document.add(table);
+        //空行间距
+        Paragraph blankRow1 = new Paragraph(18f, " ", titFont); 
+        document.add(blankRow1);
+		
+		
+		
+		
+	}
+	/**设置行程
+	 * @param document
+	 * @param detail
+	 * @throws DocumentException
+	 * @throws IOException
+	 */
+	private void setScheduleTrip(Document document,TTripNoteDetailResultVo detail) throws DocumentException, IOException{
 		PdfPTable table = new PdfPTable(4); 
         table.setWidthPercentage(100); // 宽度100%填充
         table.setSpacingBefore(10f); // 前间距
         table.setSpacingAfter(10f); // 后间距
         List<PdfPRow> listRow = table.getRows();
+        table.getDefaultCell().setBorder(0);
         //设置列宽
-        float[] columnWidths = { 1f, 1f,1f,1f};
+        float[] columnWidths = { 25f, 40f,10f,25f};
         table.setWidths(columnWidths);
-        PdfPCell cells1[]= new PdfPCell[4];
-        //单元格
-        cells1[0] = new PdfPCell(new Paragraph("11121"));//单元格内容
-        cells1[1] = new PdfPCell(new Paragraph("11121"));//单元格内容
-        cells1[2] = new PdfPCell(new Paragraph("11121"));//单元格内容
-        cells1[3] = new PdfPCell(new Paragraph("11121"));//单元格内容
-        cells1[0].setPaddingLeft(20);//左填充20
-        cells1[0].setHorizontalAlignment(Element.ALIGN_CENTER);//水平居中
-        cells1[0].setVerticalAlignment(Element.ALIGN_MIDDLE);//垂直居中
-        PdfPRow row1 = new PdfPRow(cells1);
-        listRow.add(row1);
+        Date start = detail.getStartDate();
+        BaseFont bfChinese = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
+        Font titFont = new Font(bfChinese, 20, Font.NORMAL);
+        int j = detail.getTTripNoteSchedules().size();
+       for(int m=0;m<j;m++){
+    	   TTripNoteScheduleResultVo vo = detail.getTTripNoteSchedules().get(m);
+    	   Date current = TimeUtils.getAfterDay(start, vo.getIndexdate()-1);
+           //单元格
+    	   PdfPCell c0 = new PdfPCell(new Paragraph("D"+vo.getIndexdate()));//单元格内容
+    	   c0.setBorder(0);
+    	   StringBuffer title = new StringBuffer();
+    	   int citys = vo.getCitys().size();
+    	   for(int i=0;i<citys;i++){
+    		   TTripnoteScheduleRCityVo ci = vo.getCitys().get(i);
+    		   if(m==0)
+    		      title.append("!!"+ci.getNameCn());
+    		   else if(i!=citys-1){
+    			   title.append(ci.getNameCn()+"-->"); 
+    		   }else if(m==j-1){
+    			   title.append("!!"+ci.getNameCn()); 
+    		   }else{
+    			   title.append(ci.getNameCn()); 
+    		   }
+    	   }
+    	   PdfPCell c1 = new PdfPCell(new Paragraph(title.toString(),titFont));//单元格内容
+    	   c1.setBorder(0);
+    	   PdfPCell c2 = new PdfPCell(new Paragraph(TimeUtils.getDateString(current, "MM/dd")));//单元格内容
+    	   c2.setBorder(0);
+    	   PdfPCell c3 = new PdfPCell(new Paragraph("周"+num[TimeUtils.getDayofweek(current)-1],titFont));//单元格内容
+    	   c3.setBorder(0);
+           PdfPCell cells1[]= new PdfPCell[]{c0,c1,c2,c3};
+           PdfPRow row1 = new PdfPRow(cells1);
+           listRow.add(row1);
+        }
         document.add(table);
+        //空行间距
+        Paragraph blankRow1 = new Paragraph(40f, " ", titFont); 
+        document.add(blankRow1);
+       
+        //table2
+        PdfPTable table2 = new PdfPTable(2);
+        //设置每列宽度比例   
+        int width21[] = {4,96};
+        table2.setWidths(width21); 
+        table2.getDefaultCell().setBorder(0);
+        com.itextpdf.text.Font FontChinese16 = new com.itextpdf.text.Font(bfChinese, 16, com.itextpdf.text.Font.NORMAL);
+        PdfPCell cell21 = new PdfPCell(new Paragraph("关于这次旅行",FontChinese16));
+        String imagePath2 = "http://pic.rruu.com/img/user/pic/20151221/20151221110915578.png";
+        Image image21 = Image.getInstance(imagePath2); 
+        cell21.setBorder(0);
+        table2.addCell(image21);
+        table2.addCell(cell21); 
+        document.add(table2);
+         //空行间距
+        blankRow1 = new Paragraph(18f, " ", titFont); 
+        document.add(blankRow1);
+        com.itextpdf.text.Font FontChinese11 = new com.itextpdf.text.Font(bfChinese, 11, com.itextpdf.text.Font.ITALIC);
+        //table5
+        PdfPTable table5 = new PdfPTable(1);
+        PdfPCell cell51 = new PdfPCell(new Paragraph(detail.getIntroduction()+"XXX",FontChinese11));
+        cell51.setBorder(0);
+        
+        String imagePath = /*tripnote.getImageurl()!=null?tripnote.getImageurl():*/"http://pic.rruu.com/img/user/pic/20151221/20151221110915578.png";
+        Image image = Image.getInstance(imagePath); 
+        cell21.setBorder(0);
+        table5.addCell(image);
+        table5.addCell(cell51);
+        document.add(table5);
+        blankRow1 = new Paragraph(18f, " ", titFont); 
+        document.add(blankRow1);
+        
 	}
 	
 	
+	/**设置表头
+	 * @param document
+	 * @param tripnote
+	 * @throws DocumentException
+	 * @throws IOException
+	 */
 	private void setHeader(Document document,TTripNote tripnote) throws DocumentException, IOException{
 	    //设置标题
         document.addTitle(tripnote.getTitle());
@@ -167,7 +269,8 @@ public class CommonController {
 		line = new Paragraph((account!=null?account.getLoginName():"系统默认")+"为您定制行程",titFont);
 		line.setAlignment(1);
         document.add(line);    
-        Paragraph blankRow1 = new Paragraph(18f, " ", titFont); 
+        //空行间距
+        Paragraph blankRow1 = new Paragraph(40f, " ", titFont); 
         document.add(blankRow1);
         
 	}

@@ -46,6 +46,7 @@
             <result column="schedule_id" property="id" jdbcType="INTEGER" />
             <result column="schedule_title" property="title" jdbcType="VARCHAR" />  
             <result column="indexdate" property="indexdate" jdbcType="INTEGER" />
+            <result column="schedule_introduction" property="introduction" jdbcType="LONGVARCHAR" />
             <collection property="citys" javaType="java.util.List" ofType="com.lenovo.tripnote.entity.vo.TTripnoteScheduleRCityVo">
                    <result column="rcity_id" property="id" jdbcType="INTEGER" />
                    <result column="city_id" property="cityId" jdbcType="INTEGER" />
@@ -286,7 +287,7 @@
     select
     t.id,t.code, t.title,t.start_date, t.end_date, t.`days`, t.destination, 
     t.`status`, t.start_city, t.remarks,tc.name,tc.phone1,t.introduction,
-    tts.id as schedule_id, tts.title as schedule_title,tts.indexdate,t.imageurl,t.price,
+    tts.id as schedule_id, tts.title as schedule_title,tts.indexdate,tts.introduction as schedule_introduction,t.imageurl,t.price,
     bc.id as city_id,bc.name_cn,bc.name_en,bc.lat,bc.lon,ttsrc.schedule_id as rcity_schedule_id,bc.country_id,ttsrc.id as rcity_id
     from t_trip_note t 
     left join t_tripnote_r_customer ts on t.id = ts.tripnote_id 
