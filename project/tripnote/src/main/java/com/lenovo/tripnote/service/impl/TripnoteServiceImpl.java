@@ -231,7 +231,7 @@ public class TripnoteServiceImpl implements TTripnoteService{
 		
 		TTripNote tripNote = this.tTripNoteMapper.selectByPrimaryKey(tripnoteId);
 		//重新计算天数
-		int offset = exportVo.getTripnoteIds().size();
+		int offset = exportVo.getScheduleIds().size();
 		//设置成模板
 		tripNote.setType(exportVo.getType());
 		tripNote.setId(null);
@@ -257,7 +257,7 @@ public class TripnoteServiceImpl implements TTripnoteService{
 				tTripnoteRCustomerMapper.insertSelective(trip);
 		}
 		for(int i=0;i<offset;i++){
-			Integer schduleId = exportVo.getTripnoteIds().get(i);
+			Integer schduleId = exportVo.getScheduleIds().get(i);
 			TTripnoteSchedule schedule = tTripnoteScheduleMapper.selectByPrimaryKey(schduleId);
 			//重新设置indexdate
 			schedule.setIndexdate(i+1);

@@ -19,7 +19,7 @@ public class BExportVo {
 	/**
 	 * 选的日程主键ID
 	 */
-	private List<Integer> tripnoteIds;
+	private List<Integer> scheduleIds;
 
 	/**
 	 * 导入到定制时 需要传入目标定制ID
