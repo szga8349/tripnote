@@ -347,14 +347,16 @@ public class TripnoteServiceImpl implements TTripnoteService{
 	public void insertToTripnote(Integer tripnoteId, BExportVo exportVo) {
 		TTripNote templet = this.tTripNoteMapper.selectByPrimaryKey(tripnoteId);
 		TTripNote tripNote = this.tTripNoteMapper.selectByPrimaryKey(exportVo.getTripnoteId());
-		int dates = tripNote.getDays()+exportVo.getScheduleIds().size();
+		int oldDate = tripNote.getDays();
+		int dates =  oldDate+exportVo.getScheduleIds().size();
+
 		tripNote.setDays(dates);
 		//重新设置最后时间
 	    tripNote.setEndDate(TimeUtils.getAfterDay(tripNote.getStartDate(),dates));
 	   //新建成模板数据 
 	    this.tTripNoteMapper.updateByPrimaryKeySelective(tripNote);
 	    
-	    copy(tripNote.getDays()-1,templet.getId(),tripNote,exportVo);
+	    copy(oldDate,templet.getId(),tripNote,exportVo);
 	}
 	
 
