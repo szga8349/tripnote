@@ -1,5 +1,6 @@
 package com.lenovo.tripnote.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
@@ -24,8 +25,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
@@ -70,6 +73,8 @@ public class CommonController {
 	private TTripNoteScheduleService tTripNoteScheduleService;
 	
 	private String[] num = new String[]{"一","二","三","四","五","六","日"};
+	
+	private String imagePrefix = null;
 
 	@RequestMapping(value = "/upload/{model}/image", method = RequestMethod.POST)
 	public @ResponseBody void uploadImage(@PathVariable String model, HttpServletRequest request,HttpServletResponse response) {
@@ -114,20 +119,74 @@ public class CommonController {
 		}
 
 	}
+	@SuppressWarnings("deprecation")
 	@RequestMapping(value = "/export/{id}")
-	public  void export(@PathVariable String id,HttpServletResponse response){
+	public  void export(@PathVariable String id,HttpServletRequest request,HttpServletResponse response){
 		TTripNote tripnote = tTripnoteService.getByKey(Integer.valueOf(id));
 		TTripNoteDetailResultVo detail = tTripnoteService.getDetailByKey(Integer.valueOf(id));
 			try {
+			   if(imagePrefix==null)
+				 imagePrefix = request.getRealPath("/")+File.separator+"static"+File.separator;
 				Document document = getPdfDocument(tripnote.getTitle()+".pdf",response);
 				setHeader(document,tripnote);
 				setScheduleTrip(document,detail);
 				setScheduleTripDetail(document,detail);
+				setRemark(document,tripnote);
+				setEndImage(document);
 				document.close();
 			} catch (DocumentException | IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+	}
+	private void setEndImage(Document document) throws DocumentException, IOException{
+		
+		//table2
+	     PdfPTable table5 = new PdfPTable(1);
+	   //设置每列宽度比例   
+	     int width[] = {100};
+	     table5.setWidths(width);
+	     //table5.setWidthPercentage(100); // 宽度100%填充
+	     table5.getDefaultCell().setBorder(0);
+	     String imagePath2 = imagePrefix+"END_结束语.PNG";
+	     PdfPCell cell51 = new PdfPCell();
+	     cell51.setBorder(0);
+	     Image image21 = Image.getInstance(imagePath2); 
+	     cell51.setHorizontalAlignment(Element.ALIGN_CENTER);
+	     cell51.setVerticalAlignment(Element.ALIGN_MIDDLE);
+	     cell51.addElement(image21);
+	     table5.addCell(cell51);
+	     document.add(table5);
+	}
+	private void setRemark(Document document,TTripNote tripnote) throws DocumentException, IOException{
+		BaseFont bfChinese = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
+	    Font titFont = new Font(bfChinese, 16, Font.NORMAL);
+		//table2
+        PdfPTable table2 = new PdfPTable(2);
+        //设置每列宽度比例   
+        int width21[] = {4,96};
+        table2.setWidths(width21); 
+        table2.getDefaultCell().setBorder(0);
+        com.itextpdf.text.Font FontChinese16 = new com.itextpdf.text.Font(bfChinese, 16, com.itextpdf.text.Font.NORMAL);
+        PdfPCell cell21 = new PdfPCell(new Paragraph("行程备注",FontChinese16));
+        String imagePath2 = imagePrefix+"icon_行程安排.PNG";
+        Image image21 = Image.getInstance(imagePath2); 
+        cell21.setBorder(0);
+        table2.addCell(image21);
+        table2.addCell(cell21); 
+        document.add(table2);
+         //空行间距
+        Paragraph blankRow1 = new Paragraph(18f, " ", titFont); 
+        document.add(blankRow1);
+        com.itextpdf.text.Font FontChinese11 = new com.itextpdf.text.Font(bfChinese, 11, com.itextpdf.text.Font.ITALIC);
+        //table5
+        PdfPTable table5 = new PdfPTable(1);
+        PdfPCell cell51 = new PdfPCell(new Paragraph(tripnote.getRemarks(),FontChinese11));
+        cell51.setBorder(0);
+        table5.addCell(cell51);
+        document.add(table5);
+        blankRow1 = new Paragraph(18f, " ", titFont); 
+        document.add(blankRow1);
 	}
 	private void setScheduleTripDetail(Document document,TTripNoteDetailResultVo detail) throws DocumentException, IOException{
 	    BaseFont bfChinese = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
@@ -141,7 +200,7 @@ public class CommonController {
         table.getDefaultCell().setBorder(0);
         com.itextpdf.text.Font FontChinese16 = new com.itextpdf.text.Font(bfChinese, 16, com.itextpdf.text.Font.NORMAL);
         PdfPCell cell21 = new PdfPCell(new Paragraph("日程安排",FontChinese16));
-        String imagePath2 = "http://pic.rruu.com/img/user/pic/20151221/20151221110915578.png";
+        String imagePath2 = imagePrefix+"icon_标题.PNG";
         Image image21 = Image.getInstance(imagePath2); 
         cell21.setBorder(0);
         table.addCell(image21);
@@ -204,7 +263,7 @@ public class CommonController {
            	   listRow = table1.getRows();
            	   c0 = new PdfPCell(new Paragraph(trip.getNameCn(),titFont));//单元格内容
          	   c0.setBorder(0);
-       	       imagePath2 = "http://pic.rruu.com/img/user/pic/20151221/20151221110915578.png";
+       	       imagePath2 = imagePrefix+getPoiImage(trip.getType());//"http://pic.rruu.com/img/user/pic/20151221/20151221110915578.png";
        	       image21 = Image.getInstance(imagePath2); 
        	       c1 = new PdfPCell(new Paragraph(" ",titFont));//单元格内容
  	           c1.setBorder(0);
@@ -253,7 +312,7 @@ public class CommonController {
     	   table1.getDefaultCell().setBorder(0);
     	   PdfPCell c0 = new PdfPCell(new Paragraph(getTrafficName(traffic.getTrafficType()),titFont));//单元格内容
   	       c0.setBorder(0);
-	       String imagePath2 = "http://pic.rruu.com/img/user/pic/20151221/20151221110915578.png";
+	       String imagePath2 = imagePrefix+getTrafficImage(traffic.getTrafficType());//"http://pic.rruu.com/img/user/pic/20151221/20151221110915578.png";
 	       Image image21 = Image.getInstance(imagePath2); 
 	       table1.addCell(image21);
 	       table1.addCell(c0);
@@ -276,6 +335,7 @@ public class CommonController {
 	       table1.addCell(c2);
           document.add(table1);
 	}
+
 	private String getTrafficName(Integer type){
 		switch (type) {
 		case 1:
@@ -299,6 +359,48 @@ public class CommonController {
 			return null;
 		}
 	}
+	private String getTrafficImage(Integer type){
+		switch (type) {
+		case 1:
+			return "icon_公交.png";
+		case 2:
+			return "icon_汽车.png";
+		case 3:
+			return "icon_步行.png";
+		case 4:
+			return "icon_飞机.png";
+		case 5:
+			return "火车";
+		case 6:
+			return "轮渡";
+		case 7:
+			return "巴士";
+		case 8:
+			return "地铁";
+			
+		default:
+			return null;
+		}
+	}
+	
+	private String getPoiImage(Integer type){
+		switch (type) {
+		case 1:
+			return "icon_餐饮.png";
+		case 2:
+			return "icon_游览.png";
+		case 3:
+			return "icon_购物.png";
+		case 4:
+			return "icon_娱乐.png";
+		case 5:
+			return "icon_产品.png";
+		case 6:
+			return "icon_酒店.png";
+		default:
+			return null;
+		}
+	}
 	
 	private String setPrintHotel(TTripNoteScheduleResultVo vo,Document document,int type) throws DocumentException, IOException{
 	   BaseFont bfChinese = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
@@ -315,7 +417,7 @@ public class CommonController {
           	   table1.getDefaultCell().setBorder(0);
           	   PdfPCell c0 = new PdfPCell(new Paragraph(hotel.getNameCn(),titFont));//单元格内容
         	       c0.setBorder(0);
-      	       String imagePath2 = "http://pic.rruu.com/img/user/pic/20151221/20151221110915578.png";
+      	       String imagePath2 = imagePrefix+getPoiImage(hotel.getType());//"http://pic.rruu.com/img/user/pic/20151221/20151221110915578.png";
       	       Image image21 = Image.getInstance(imagePath2); 
       	       table1.addCell(image21);
       	       table1.addCell(c0);
@@ -363,36 +465,39 @@ public class CommonController {
 	 */
 	private void setScheduleTrip(Document document,TTripNoteDetailResultVo detail) throws DocumentException, IOException{
 		PdfPTable table = new PdfPTable(4); 
-        table.setWidthPercentage(100); // 宽度100%填充
+        //table.setWidthPercentage(100); // 宽度100%填充
         table.setSpacingBefore(10f); // 前间距
         table.setSpacingAfter(10f); // 后间距
         List<PdfPRow> listRow = table.getRows();
         table.getDefaultCell().setBorder(0);
         //设置列宽
-        float[] columnWidths = { 25f, 40f,10f,25f};
+        float[] columnWidths = { 10f, 60f,10f,20f};
         table.setWidths(columnWidths);
         Date start = detail.getStartDate();
         BaseFont bfChinese = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
-        Font titFont = new Font(bfChinese, 20, Font.NORMAL);
+        Font titFont = new Font(bfChinese, 22, Font.NORMAL);
         int j = detail.getTTripNoteSchedules().size();
-       for(int m=0;m<j;m++){
+        
+        for(int m=0;m<j;m++){
     	   TTripNoteScheduleResultVo vo = detail.getTTripNoteSchedules().get(m);
     	   Date current = TimeUtils.getAfterDay(start, vo.getIndexdate()-1);
            //单元格
-    	   PdfPCell c0 = new PdfPCell(new Paragraph("D"+vo.getIndexdate()));//单元格内容
-    	   c0.setBorder(0);
+    	   titFont.setColor(0x22,0xa9,0x8e);
+    	   PdfPCell c0 = new PdfPCell(new Paragraph("D"+vo.getIndexdate(),titFont));//单元格内容
+    	   //c0.setBorder(0);
+    	   c0.setHorizontalAlignment(Element.ALIGN_CENTER);
     	   StringBuffer title = new StringBuffer();
     	   int citys = vo.getCitys().size();
     	   for(int i=0;i<citys;i++){
     		   TTripnoteScheduleRCityVo ci = vo.getCitys().get(i);
     		   if(m==0 && i==0){
-    		      title.append("!!"+ci.getNameCn());
+    		      title.append(ci.getNameCn());
     		   }
     		   else if(m!=0 && i!=citys-1){
     			   title.append(ci.getNameCn()+"-->"); 
     		   }
     		   else if(m==j-1 && i==citys-1){
-    			   title.append("!!"+ci.getNameCn()); 
+    			   title.append(ci.getNameCn()); 
     		   }
     		   else if(m!=0 && i==citys-1){
     			   title.append(ci.getNameCn()); 
@@ -401,12 +506,52 @@ public class CommonController {
     			   title.append("-->"+ci.getNameCn()); 
     		   }
     	   }
-    	   PdfPCell c1 = new PdfPCell(new Paragraph(title.toString(),titFont));//单元格内容
-    	   c1.setBorder(0);
-    	   PdfPCell c2 = new PdfPCell(new Paragraph(TimeUtils.getDateString(current, "MM/dd")));//单元格内容
-    	   c2.setBorder(0);
-    	   PdfPCell c3 = new PdfPCell(new Paragraph("周"+num[TimeUtils.getDayofweek(current)-1],titFont));//单元格内容
-    	   c3.setBorder(0);
+    	   Font titFont2 = new Font(bfChinese, 16, Font.NORMAL);
+    	   PdfPCell c1 = new PdfPCell(new Paragraph(title.toString(),titFont2));//单元格内容
+    	   //c1.setBorder(0);
+    	   c1.setHorizontalAlignment(Element.ALIGN_LEFT);
+    	   
+    	   Font titFont1 = new Font(bfChinese, 13, Font.NORMAL);
+    	   titFont1.setColor(0x27, 0x7f, 0x90);
+    	   PdfPCell c2 = new PdfPCell(new Paragraph(TimeUtils.getDateString(current, "MM/dd"),titFont1));//单元格内容
+    	  // c2.setBorder(0);
+    	   c2.setHorizontalAlignment(Element.ALIGN_RIGHT);
+    	   titFont1 = new Font(bfChinese, 13, Font.NORMAL);
+    	   titFont1.setColor(0x27, 0x7f, 0x90);
+    	   PdfPCell c3 = new PdfPCell(new Paragraph("周"+num[TimeUtils.getDayofweek(current)-1],titFont1));//单元格内容
+    	  // c3.setBorder(0);
+    	   c3.setHorizontalAlignment(Element.ALIGN_LEFT);
+    	   
+    	   c0.setFixedHeight(40);
+    	   c1.setFixedHeight(40);
+    	   c2.setFixedHeight(40);
+    	   c3.setFixedHeight(40);
+    	   
+    	   c0.disableBorderSide(4);
+    	   c0.disableBorderSide(8);
+    	   c1.disableBorderSide(4);
+    	   c1.disableBorderSide(8);
+    	   c2.disableBorderSide(4);
+    	   c2.disableBorderSide(8);
+    	   c3.disableBorderSide(4);
+    	   c3.disableBorderSide(8);
+    	   BaseColor lightGrey = new BaseColor(0xeb,0xec,0xee);
+    	   c0.setBorderColor(lightGrey);
+    	   c2.setBorderColor(lightGrey);
+    	   c3.setBorderColor(lightGrey);
+    	   c1.setBorderColor(lightGrey);
+    	   
+    	   c0.setBorderWidth((float) 0.01);
+    	   c1.setBorderWidth((float) 0.01);
+    	   c2.setBorderWidth((float) 0.1);
+    	   c3.setBorderWidth((float) 0.1);
+    	   
+    	   //c0.setHorizontalAlignment(Element.ALIGN_RIGHT);
+    	   c0.setVerticalAlignment(Element.ALIGN_MIDDLE);
+    	   c1.setVerticalAlignment(Element.ALIGN_MIDDLE);
+    	   c2.setVerticalAlignment(Element.ALIGN_MIDDLE);
+    	   c3.setVerticalAlignment(Element.ALIGN_MIDDLE);
+           
            PdfPCell cells1[]= new PdfPCell[]{c0,c1,c2,c3};
            PdfPRow row1 = new PdfPRow(cells1);
            listRow.add(row1);
@@ -419,16 +564,27 @@ public class CommonController {
         //table2
         PdfPTable table2 = new PdfPTable(2);
         //设置每列宽度比例   
+        //table2.setWidthPercentage(100); // 宽度100%填充
         int width21[] = {4,96};
         table2.setWidths(width21); 
         table2.getDefaultCell().setBorder(0);
+       
         com.itextpdf.text.Font FontChinese16 = new com.itextpdf.text.Font(bfChinese, 16, com.itextpdf.text.Font.NORMAL);
         PdfPCell cell21 = new PdfPCell(new Paragraph("关于这次旅行",FontChinese16));
-        String imagePath2 = "http://pic.rruu.com/img/user/pic/20151221/20151221110915578.png";
+        String imagePath2 = imagePrefix+"icon_标题.PNG";
         Image image21 = Image.getInstance(imagePath2); 
-        cell21.setBorder(0);
-        table2.addCell(image21);
-        table2.addCell(cell21); 
+        //image21.setAlignment(Element.ALIGN_LEFT);
+        PdfPCell cell22 = new PdfPCell();
+        cell22.addElement(image21);
+        cell22.setBorder(0);
+        cell22.setHorizontalAlignment(Element.ALIGN_LEFT);
+        
+        cell21.setHorizontalAlignment(Element.ALIGN_LEFT);
+        cell21.setBorder(0); 
+        PdfPCell cells1[]= new PdfPCell[]{cell22,cell21};
+        PdfPRow row1 = new PdfPRow(cells1);
+        table2.getRows().add(row1);
+        //table2.addCell(cell21); 
         document.add(table2);
          //空行间距
         blankRow1 = new Paragraph(18f, " ", titFont); 
@@ -462,33 +618,63 @@ public class CommonController {
         document.addTitle(tripnote.getTitle());
         document.open();
         //设置title
-        Image image1 = Image.getInstance(/*tripnote.getImageurl()!=null?tripnote.getImageurl():*/"http://pic.rruu.com/img/user/pic/20151221/20151221110915578.png");
+        Image image1 = Image.getInstance(imagePrefix+"起始页_BG.PNG");
         //设置图片位置的x轴和y周
-        //image1.setAbsolutePosition(100f, 550f);
+       /*float left = document.left();
+        float top = document.top();*/
+        image1.setAbsolutePosition(document.leftMargin(), document.top()-document.topMargin()-200);
         //设置图片的宽度和高度
-        image1.scaleAbsolute(500, 300);
+        image1.scaleAbsolute(document.right()-document.left(), 250);
         BaseFont bfChinese = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
-        Font titFont = new Font(bfChinese, 20, Font.NORMAL);
+        Font titFont = new Font(bfChinese, 24, Font.NORMAL);
+        titFont.setColor(0xff, 0xff, 0xff);
         Paragraph header = new Paragraph(tripnote.getTitle(), titFont);
         image1.setAlignment(Image.ALIGN_CENTER);
         header.setAlignment(1);
-        header.add(image1);
-        document.add(header);
+        document.add(image1);
+        //空行间距
+        Paragraph blankRow1 = new Paragraph(60f, " ", titFont); 
+        document.add(blankRow1);
         
+        document.add(header);
+        blankRow1 = new Paragraph(10f, " ", titFont); 
+        document.add(blankRow1);
+        
+        titFont = new Font(bfChinese, 13, Font.NORMAL);
+        titFont.setColor(0x9d, 0xb4, 0xeb);
         header = new Paragraph(TimeUtils.getDateString(tripnote.getStartDate(), "yyyy.MM.dd")+"-"+TimeUtils.getDateString(tripnote.getEndDate(), "yyyy.MM.dd"), titFont);
         header.setAlignment(1);
         document.add(header);
         
+        
+        image1 = Image.getInstance(imagePrefix+"起始页_图片.PNG");
+        //设置图片位置的x轴和y周
+        /*float left = document.left();
+        float top = document.top();*/
+        image1.setAbsolutePosition((document.right()-document.rightMargin())/2, document.top()-document.topMargin()-240);
+        //设置图片的宽度和高度
+        image1.scaleAbsolute(80, 80);
+        document.add(image1);
+        
+        blankRow1 = new Paragraph(140f, " ", titFont); 
+        document.add(blankRow1);
+        
+        
+        titFont = new Font(bfChinese, 16, Font.NORMAL);
+        titFont.setColor(0x00, 0x15, 0x2f);
         Paragraph line = new Paragraph("------行程路线-----", titFont);
         line.setAlignment(1);
         document.add(line);
         Subject subject = SecurityUtils.getSubject();
 		BAccount account = (BAccount) subject.getPrincipal();
+		
+		titFont = new Font(bfChinese, 13, Font.NORMAL);
+	    titFont.setColor(0xa5, 0xae, 0xbf);
 		line = new Paragraph((account!=null?account.getLoginName():"系统默认")+"为您定制行程",titFont);
 		line.setAlignment(1);
         document.add(line);    
         //空行间距
-        Paragraph blankRow1 = new Paragraph(40f, " ", titFont); 
+        blankRow1 = new Paragraph(20f, " ", titFont); 
         document.add(blankRow1);
         
 	}

@@ -216,12 +216,18 @@
           <when test="record.isAll==false"> and create_user_id = #{record.userId,jdbcType=INTEGER} </when>  
           <when test="record.isAll==true"> and create_user_id in (0,#{record.userId,jdbcType=INTEGER})</when>  
      </choose>
+      <if test="record.dateStart != null" >
+        and `days` >= #{record.dateStart,jdbcType=INTEGER} 
+     </if>
+      <if test="record.dateEnd != null" >
+        and `days` <![CDATA[ < ]]> #{record.dateEnd,jdbcType=INTEGER} 
+     </if>
      <if test="record.title != null" >
-        and t.title like #{record.title,jdbcType=VARCHAR}
+        and  title like #{record.title,jdbcType=VARCHAR}
      </if>
      <choose>
          <when test="record.sortField != null">
-         order by t.${record.sortField}  
+         order by ${record.sortField}  
          <choose>  
              <when test="record.ascOrDes==1">asc</when>  
              <when test="record.ascOrDes!=1">desc</when>  
@@ -247,6 +253,12 @@
           <when test="record.isAll==false"> and create_user_id = #{record.userId,jdbcType=INTEGER} </when>  
           <when test="record.isAll==true"> and create_user_id in (0,#{record.userId,jdbcType=INTEGER})</when>  
      </choose>
+     <if test="record.dateStart != null" >
+        and `days` >= #{record.dateStart,jdbcType=INTEGER} 
+     </if>
+      <if test="record.dateEnd != null" >
+        and `days` <![CDATA[ < ]]> #{record.dateEnd,jdbcType=INTEGER} 
+     </if>
      <if test="record.title != null" >
         and t.title like #{record.title,jdbcType=VARCHAR}
      </if>

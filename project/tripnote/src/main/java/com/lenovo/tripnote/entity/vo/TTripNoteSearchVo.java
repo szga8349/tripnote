@@ -33,4 +33,13 @@ public class TTripNoteSearchVo extends PageInfoVo{
      * 是否查询所有 默认为false
      */
     private Boolean isAll = false;
+    
+    
+    /**
+     * 按照天数搜索 前台传入开始和结束 dateEnd有可能为空
+     */
+    private Integer dateStart;
+    
+    
+    private Integer dateEnd;
 }
