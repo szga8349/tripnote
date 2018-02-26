@@ -30,7 +30,7 @@ public class PdfHeaderFooter extends PdfPageEventHelper {
     /** 
      * 文档字体大小，页脚页眉最好和文本大小一致 
      */  
-    public int presentFontSize = 12;  
+    public int presentFontSize = 13;  
     
     /** 
      * 文档页面大小，最好前面传入，否则默认为A4纸张 
@@ -104,6 +104,7 @@ public class PdfHeaderFooter extends PdfPageEventHelper {
             }  
             if (fontDetail == null) {  
                 fontDetail = new Font(bf, presentFontSize, Font.NORMAL);// 数据体字体  
+                fontDetail.setColor(0xae,0xa5,0xbf);
             }  
         } catch (DocumentException e) {  
             e.printStackTrace();  

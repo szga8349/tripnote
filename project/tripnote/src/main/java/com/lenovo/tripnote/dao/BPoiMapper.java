@@ -141,4 +141,6 @@ public interface BPoiMapper {
     int updateByPrimaryKey(BPoi record);
 
 	List<BPoiResultVo> selectAndPage(BPoiSearchVo bpoiSearch, RowBounds rowBounds);
+	
+    int searchCount(BPoiSearchVo vo);
 }

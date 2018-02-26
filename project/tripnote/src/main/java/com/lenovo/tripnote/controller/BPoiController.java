@@ -17,6 +17,7 @@ import com.lenovo.tripnote.entity.BAccount;
 import com.lenovo.tripnote.entity.BPoi;
 import com.lenovo.tripnote.entity.vo.BPoiSearchVo;
 import com.lenovo.tripnote.entity.vo.BPoiVo;
+import com.lenovo.tripnote.entity.vo.PageResultVo;
 import com.lenovo.tripnote.service.BPoiService;
 import com.lenovo.tripnote.vo.Result;
 import com.lenovo.tripnote.vo.ResultVo;
@@ -51,8 +52,8 @@ public class BPoiController {
 		bPoiService.deleteBykey(Integer.valueOf(id));
 		return vo;
 	}
-	/**根据区域ID 国家ID搜索城市  如果查询条件为空 返回所有国家信息
-	 * @param id
+	/**
+	 * @param 
 	 * @return
 	 */
 	@RequestMapping(value = "/doSearch")
@@ -68,7 +69,16 @@ public class BPoiController {
 		bpoiSearch.setUserId(account.getId());
 		Integer offset = (bpoiSearch.getPageNo()-1<0?0:(bpoiSearch.getPageNo()-1))*bpoiSearch.getPageSize();
 		RowBounds rowBounds = new RowBounds(offset,bpoiSearch.getPageSize());
-		vo.setData(this.bPoiService.selectAndPage(bpoiSearch,rowBounds));
+		
+		PageResultVo result = new PageResultVo();
+		try {
+			BeanUtils.copyProperties(result, bpoiSearch);
+		} catch (IllegalAccessException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		result.setTotal(this.bPoiService.searchCount(bpoiSearch));
+		result.setData(this.bPoiService.selectAndPage(bpoiSearch,rowBounds));
+		vo.setData(result);
 		return vo;
 	}
 	@RequestMapping(value = "/doUpdate/{id}")

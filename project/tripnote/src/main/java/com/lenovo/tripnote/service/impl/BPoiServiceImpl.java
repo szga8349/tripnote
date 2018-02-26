@@ -54,4 +54,10 @@ public class BPoiServiceImpl implements BPoiService{
 		return this.bPoiMapper.selectAndPage(bpoiSearch,rowBounds);
 	}
 
+	@Override
+	public Integer searchCount(BPoiSearchVo bpoiSearch) {
+		// TODO Auto-generated method stub
+		return this.bPoiMapper.searchCount(bpoiSearch);
+	}
+
 }

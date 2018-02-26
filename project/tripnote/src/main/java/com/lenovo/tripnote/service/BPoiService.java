@@ -11,5 +11,7 @@ import com.lenovo.tripnote.entity.vo.BPoiSearchVo;
 public interface BPoiService extends IDbService<BPoi>{
 
 	List<BPoiResultVo> selectAndPage(BPoiSearchVo bpoiSearch, RowBounds rowBounds);
+	
+	Integer searchCount(BPoiSearchVo bpoiSearch);
 
 }

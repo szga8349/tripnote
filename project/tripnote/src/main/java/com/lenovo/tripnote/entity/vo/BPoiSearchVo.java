@@ -16,4 +16,5 @@ public class BPoiSearchVo extends PageInfoVo{
      private Integer cityId;
      private Integer type;
      private Integer userId;
+     private Boolean isMy = false;
 }

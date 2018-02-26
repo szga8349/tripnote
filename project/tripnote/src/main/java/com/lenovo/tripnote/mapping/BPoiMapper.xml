@@ -196,9 +196,10 @@
     bc.id as cityid,bc.name_cn as city_name_cn,bc.name_en as city_name_en,bc.lat as city_lat,bc.lon as city_lon
     from b_poi bp left join b_city bc on bc.id = bp.city_id 
     where 1 = 1
-    <if test="userId != null" >
-        and bp.create_user_id in(0,#{userId,jdbcType=INTEGER})
-    </if>
+    <choose>  
+          <when test="isMy==true"> and bp.create_user_id = #{userId,jdbcType=INTEGER}</when>  
+          <when test="isMy==false"> and bp.create_user_id in(0,#{userId,jdbcType=INTEGER})</when>  <!--不传入类型时不将产品数据查询出 -->
+    </choose>
     <choose>  
              <when test="type != null">and bp.`type` = #{type,jdbcType=INTEGER}</when>  
              <when test="type==null ">and bp.`type` in (1,2,3,4)</when>  <!--不传入类型时不将产品数据查询出 -->
@@ -213,6 +214,24 @@
   </select>
   
   
+  <select id="searchCount" resultType="java.lang.Integer" parameterType="com.lenovo.tripnote.entity.vo.BPoiSearchVo" >
+    select count(1) from b_poi bp
+    where 1 = 1
+    <choose>  
+          <when test="isMy==true"> and bp.create_user_id = #{userId,jdbcType=INTEGER}</when>  
+          <when test="isMy==false"> and bp.create_user_id in(0,#{userId,jdbcType=INTEGER})</when>  <!--不传入类型时不将产品数据查询出 -->
+    </choose>
+    <choose>  
+          <when test="type!= null"> and bp.`type` = #{type,jdbcType=INTEGER}</when>  
+          <when test="type==null "> and bp.`type` in (1,2,3,4)</when>  <!--不传入类型时不将产品数据查询出 -->
+    </choose>
+    <if test="cityId != null" >
+        and bp.city_id = #{cityId,jdbcType=INTEGER}
+    </if>
+    <if test="name != null" >
+       and bp.name_cn like #{name,jdbcType=VARCHAR}
+    </if>
+  </select>
   
   <delete id="deleteByExample" parameterType="com.lenovo.tripnote.entity.BPoiExample" >
     delete from b_poi
