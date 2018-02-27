@@ -19,6 +19,14 @@ const actions = {
         commit(types.SET_DAY_SCHEDULE_ACTIVE, playload)
     },
 
+    setDayInfo({commit}, playload){
+        commit(types.SET_DAY_INFO, playload)
+    },
+
+    setDayPoiEditActive({commit}, playload){
+        commit(types.SET_DAY_POI_EDIT_ACTIVE, playload)
+    },
+
 
 
 

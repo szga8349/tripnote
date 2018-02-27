@@ -33,7 +33,7 @@ import com.lenovo.tripnote.vo.SmsCodeVo;
 import com.lenovo.tripnote.vo.UserToken;
 
 @Controller
-@RequestMapping(value = "/login")
+@RequestMapping(value = "/userLogin")
 public class LoginController {
 	/**
 	 * 实际的登录代码 如果登录成功，跳转至首页；登录失败，则将失败信息反馈对用户

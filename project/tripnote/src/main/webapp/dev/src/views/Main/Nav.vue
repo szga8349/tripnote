@@ -43,7 +43,7 @@ export default{
                     count: 2
                 },
                 {
-                    name: '资源库',
+                    name: '素材库',
                     icon: 'icon4',
                     route: {name: 'res'},
                     count: 16

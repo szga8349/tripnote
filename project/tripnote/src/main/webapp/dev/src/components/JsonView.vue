@@ -68,8 +68,8 @@ position: absolute;
 left: -1em;
 cursor: pointer; }
 .jsonview .collapsible {
-transition: height 1.2s;
-transition: width 1.2s; }
+trafficion: height 1.2s;
+trafficion: width 1.2s; }
 .jsonview .collapsible.collapsed {
 height: .8em;
 width: 1em;

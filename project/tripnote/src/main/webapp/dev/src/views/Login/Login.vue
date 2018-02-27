@@ -150,8 +150,8 @@ export default {
                     $.supersized({
                         // 功能
                         slide_interval     : 4000,    // 转换之间的长度
-                        transition         : 1,    // 0 - 无，1 - 淡入淡出，2 - 滑动顶，3 - 滑动向右，4 - 滑底，5 - 滑块向左，6 - 旋转木马右键，7 - 左旋转木马
-                        transition_speed   : 1500,    // 转型速度
+                        trafficion         : 1,    // 0 - 无，1 - 淡入淡出，2 - 滑动顶，3 - 滑动向右，4 - 滑底，5 - 滑块向左，6 - 旋转木马右键，7 - 左旋转木马
+                        trafficion_speed   : 1500,    // 转型速度
                         performance        : 1,    // 0 - 正常，1 - 混合速度/质量，2 - 更优的图像质量，三优的转换速度//（仅适用于火狐/ IE浏览器，而不是Webkit的）
 
                         // 大小和位置
@@ -204,7 +204,7 @@ export default {
             if(this.type == 'reg'){
                 const res = await this.$http({
                     method: 'POST',
-                    url: '/tripnote/login/register/check',
+                    url: '/userLogin/register/check',
                     data: {
                         loginName: this.regPhone
                     }
@@ -301,7 +301,7 @@ export default {
             if(this.type == 'reg'){
                 this.$http({
                     method: 'POST',
-                    url: '/tripnote/login/register/check',
+                    url: '/userLogin/register/check',
                     data: {
                         loginName: this.regPhone
                     }
@@ -314,7 +314,7 @@ export default {
                     }else{
                          this.$http({
                             method: 'POST',
-                            url: '/tripnote/login/sendSmsCode',
+                            url: '/userLogin/sendSmsCode',
                             data: {
                                 loginName: this.regPhone,
                             }
@@ -331,7 +331,7 @@ export default {
             }else{
                 this.$http({
                     method: 'POST',
-                    url: '/tripnote/login/sendSmsCode',
+                    url: '/userLogin/sendSmsCode',
                     data: {
                         loginName: this.regPhone,
                     }
@@ -404,7 +404,7 @@ export default {
             this.submitAble = false
             this.$http({
                 method: 'POST',
-                url: '/tripnote/login/register',
+                url: '/userLogin/register',
                 data: {
                     loginName: this.regPhone,
                     loginPasswd: this.regPwd,
@@ -446,7 +446,7 @@ export default {
             this.submitAble = false
             this.$http({
                 method: 'POST',
-                url: '/tripnote/login/resetPasswd',
+                url: '/userLogin/resetPasswd',
                 data: {
                     loginName: this.regPhone,
                     loginPasswd: this.regPwd,
@@ -487,7 +487,7 @@ export default {
 
            /* $.ajax({
                 method: 'POST',
-                url: '/tripnote/login/doLogin',
+                url: '/userLogin/doLogin',
                 data: {
                     loginName: this.loginPhone,
                     loginPasswd: this.loginPwd
@@ -498,7 +498,7 @@ export default {
 
             this.$http({
                 method: 'POST',
-                url: '/tripnote/login/doLogin',
+                url: '/userLogin/doLogin',
                 data: {
                     loginName: this.loginPhone,
                     loginPasswd: this.loginPwd
@@ -507,7 +507,7 @@ export default {
             .then((res)=>{
                 vm.submitAble = true
                 
-                if(res.data.code == 2){
+                if(res.data.code == 1 || res.data.code == 2){
                     vm.$message({
                         message: '恭喜你，登录成功！',
                         type: 'success',

@@ -61,7 +61,7 @@ import lombok.extern.log4j.Log4j;
 import net.sf.json.JSONObject;
 
 @Controller
-@RequestMapping(value = "/common")
+@RequestMapping(value = "/tripnote/common")
 @Log4j
 public class CommonController {
 

@@ -1,23 +1,31 @@
 <template>
     <div class="routeTemplate">
         <div class="header">
-            <a href="javascript:;" class="backBtn" @click="sendToParentCancel"></a>
             <div class="typeSel">
                 <label>选择模板：</label>
-                <el-select v-model="templateTypeSel" placeholder="请选择" class="templateType">
+                <!-- <el-select v-model="templateTypeSel" placeholder="请选择" class="templateType">
                     <el-option
                         v-for="item in tempateTypeOpts"
                         :key="item.value"
                         :label="item.label"
                         :value="item.value">
                     </el-option>
-                </el-select>
+                </el-select> -->
+
+                <Select 
+                    :opts="tempateTypeOpts" 
+                    :sel="templateTypeSel" 
+                    @changeOpt="changeTemplateType" 
+                    nameAlias="name" 
+                    idAlias="id">
+                </Select>
+
                 <div class="templateName">{{templateName}}</div>
             </div>
 
             <div class="btns">
-                <el-button @click="sendToParentCancel">取 消</el-button>
-                <el-button type="primary" @click="sendToParentSure">确 定</el-button>
+                <el-button @click="cancelTemplate">取 消</el-button>
+                <el-button type="primary" @click="submitTemplate">确 定</el-button>
             </div>
         </div>
 
@@ -30,14 +38,13 @@
                     <ul>
                         <li>
                             <label>行程天数：</label>
-                            <el-select v-model="filterDayType" placeholder="请选择" class="selType">
-                                <el-option
-                                    v-for="item in filterDayTypeOpts"
-                                    :key="item.value"
-                                    :label="item.label"
-                                    :value="item.value">
-                                </el-option>
-                            </el-select>
+                            <Select 
+                                :opts="filterDayTypeOpts" 
+                                :sel="filterDayType" 
+                                @changeOpt="changeFilterType" 
+                                nameAlias="label" 
+                                idAlias="value">
+                            </Select>
                         </li>
 
                         <li>
@@ -53,56 +60,9 @@
             <div class="detailCon">
                 <div class="routeNav">
                     <ul>
-                        <li>
-                            <div class="tit">新疆自驾古城之旅（一）</div>
-                            <div class="checkboxC"></div>
-                        </li>
-                        <li>
-                            <div class="tit">新疆自驾古城之旅（二）</div>
-                            <div class="checkboxC"></div>
-                        </li>
-                        <li>
-                            <div class="tit">浪漫大道之海德堡及城堡、宫殿</div>
-                            <div class="checkboxC"></div>
-                        </li>
-                        <li>
-                            <div class="tit">英国伦敦4天3夜行程安排博物馆、购物必去目的地攻略</div>
-                            <div class="checkboxC"></div>
-                        </li>
-                        <li>
-                            <div class="tit">阿布扎比（Abu Dhabi）一日游：令人激动的中途停留日记</div>
-                            <div class="checkboxC"></div>
-                        </li>
-                        <li>
-                            <div class="tit">新疆自驾古城之旅（二）</div>
-                            <div class="checkboxC"></div>
-                        </li>
-                        <li>
-                            <div class="tit">浪漫大道之海德堡及城堡、宫殿</div>
-                            <div class="checkboxC"></div>
-                        </li>
-                        <li>
-                            <div class="tit">英国伦敦4天3夜行程安排博物馆、购物必去目的地攻略</div>
-                            <div class="checkboxC"></div>
-                        </li>
-                        <li>
-                            <div class="tit">阿布扎比（Abu Dhabi）一日游：令人激动的中途停留日记</div>
-                            <div class="checkboxC"></div>
-                        </li><li>
-                            <div class="tit">新疆自驾古城之旅（二）</div>
-                            <div class="checkboxC"></div>
-                        </li>
-                        <li>
-                            <div class="tit">浪漫大道之海德堡及城堡、宫殿</div>
-                            <div class="checkboxC"></div>
-                        </li>
-                        <li>
-                            <div class="tit">英国伦敦4天3夜行程安排博物馆、购物必去目的地攻略</div>
-                            <div class="checkboxC"></div>
-                        </li>
-                        <li>
-                            <div class="tit">阿布扎比（Abu Dhabi）一日游：令人激动的中途停留日记</div>
-                            <div class="checkboxC"></div>
+                        <li v-for="(item, index) in templateList" :class="{'active': templateSelId == item.id}" @click="getTemplateDayList(item.id)">
+                            <div class="tit">{{item.title}}</div>
+                            <!-- <div class="checkboxC" @click.stop="templateSelId = item.id" :class="{'active': templateSelId == item.id}"></div> -->
                         </li>
                     </ul>
                 </div>
@@ -111,62 +71,23 @@
                         <div class="tit">选择导出内容</div>
                         <div class="checkbox">
                             <label>全选</label>
-                            <div class="checkboxC"></div>
+                            <div class="checkboxC" :class="{active: selectAllDay}" v-model="selectAllDay" @click="changeSelectAllDay"></div>
                         </div>
                     </div>
 
                     <div class="dayList">
-                        <ul>
-                            <li>
-                                <div class="checkboxC"></div>
-                                <div class="tit">行程总览</div>
-                                <div class="txt">
-                                    浪漫大道上有许多很值得参观的宫殿和城堡，本次行程就以,[object bject],以及宫殿为主，带领游客充分体验西方具有历史气息的景点，例如,[object Object],，也会参观,[object Object],和,[object Object],。
-                                </div>
-                            </li>
-                            <li>
-                                <div class="checkboxC"></div>
-                                <div class="tit">D1 古城之旅</div>
-                                <div class="txt">
-                                    行程第一天，清早从法兰克福出发，穿过施佩萨尔特山脉沿着浪漫大道向维尔茨堡前行，直至抵达陶伯河上的罗腾堡，这一被誉为“中世纪宝藏”的德国城市。您可领略老城区小街巷的风貌，或是参雅各布教堂里的圣血祭坛，那是提尔曼·里门施奈德的大作。夜间您也可以在守夜者或是当地导游的带领下夜游小
-                                </div>
-                            </li>
-                            <li>
-                                <div class="checkboxC"></div>
-                                <div class="tit">D2 古城之旅</div>
-                                <div class="txt">
-                                    行程第一天，清早从法兰克福出发，穿过施佩萨尔特山脉沿着浪漫大道向维尔茨堡前行，直至抵达陶伯河上的罗腾堡，这一被誉为“中世纪宝藏”的德国城市。您可领略老城区小街巷的风貌，或是参雅各布教堂里的圣血祭坛，那是提尔曼·里门施奈德的大作。夜间您也可以在守夜者或是当地导游的带领下夜游小
-                                </div>
-                            </li>
-                            <li>
-                                <div class="checkboxC"></div>
-                                <div class="tit">D3 古城之旅</div>
-                                <div class="txt">
-                                    浪漫大道上有许多很值得参观的宫殿和城堡，本次行程就以,[object bject],以及宫殿为主，带领游客充分体验西方具有历史气息的景点，例如,[object Object],，也会参观,[object Object],和,[object Object],。
-                                </div>
-                            </li>
-                            <li>
-                                <div class="checkboxC"></div>
-                                <div class="tit">D4 古城之旅</div>
-                                <div class="txt">
-                                    行程第一天，清早从法兰克福出发，穿过施佩萨尔特山脉沿着浪漫大道向维尔茨堡前行，直至抵达陶伯河上的罗腾堡，这一被誉为“中世纪宝藏”的德国城市。您可领略老城区小街巷的风貌，或是参雅各布教堂里的圣血祭坛，那是提尔曼·里门施奈德的大作。夜间您也可以在守夜者或是当地导游的带领下夜游小
-                                </div>
-                            </li>
-                            <li>
-                                <div class="checkboxC"></div>
-                                <div class="tit">D5 古城之旅</div>
-                                <div class="txt">
-                                    行程第一天，清早从法兰克福出发，穿过施佩萨尔特山脉沿着浪漫大道向维尔茨堡前行，直至抵达陶伯河上的罗腾堡，这一被誉为“中世纪宝藏”的德国城市。您可领略老城区小街巷的风貌，或是参雅各布教堂里的圣血祭坛，那是提尔曼·里门施奈德的大作。夜间您也可以在守夜者或是当地导游的带领下夜游小
-                                </div>
-                            </li>
-                            <li>
-                                <div class="checkboxC"></div>
-                                <div class="tit">D6 古城之旅</div>
-                                <div class="txt">
-                                    浪漫大道上有许多很值得参观的宫殿和城堡，本次行程就以,[object bject],以及宫殿为主，带领游客充分体验西方具有历史气息的景点，例如,[object Object],，也会参观,[object Object],和,[object Object],。
+                        <ul v-if="templateDayList.length > 0">
+                            <li v-for="(item, index) in templateDayList">
+                                <div class="checkboxC" :class="{active: templateSelDay.indexOf(item.id) > -1}" @click="addToSel(item)"></div>
+                                <div class="tit">D{{item.indexdate}}</div>
+                                <div class="txt" v-html="item.introduction">
                                 </div>
                             </li>
                         </ul>
+
+                        <div class="noDataTip" v-if="templateDayList.length == 0">
+                            <i class="iconfont icon-point-out"></i>请从左侧选择要导入的模板。
+                        </div>
                     </div>
                 </div>
             </div>
@@ -175,23 +96,14 @@
 </template>
 <script>
 export default {
-    props: {
-        templateType: {
-            type: Number,
-            required: true
-        }
-    },
     data() {
         return {
             tempateTypeOpts: [{
-                value: 1,
-                label: '我的模板'
+                id: 1,
+                name: '我的模板'
             },{
-                value: 2,
-                label: '我定制过的行程'
-            },{
-                value: 3,
-                label: '系统模板'
+                id: 2,
+                name: '系统模板'
             }],
 
             filterDayTypeOpts: [{
@@ -213,38 +125,178 @@ export default {
                 value: 6,
                 label: '20天及以上'
             }],
-            filterDayType: 1,
+            filterDayType: '全部',
 
             checked: false,
             
             dialogAddVisible: false,
-            templateName: '请点击下面选择模板',
-            templateTypeSel: ''
+            templateName: '',
+
+            templateList: [],
+            templateDayList: [],
+            templateSelId: '',
+            templateSelDay: [],
+            selectAllDay: false
         }
     },
     created(){
         this.templateTypeSel = this.templateType
     },
-    // computed: {
-    //     templateTypeSel(){
-    //         return this.templateType
-    //     }
-    // },
+    computed: {
+        routeId(){
+            return this.$route.params.routeId
+        },
+
+        templateTypeSel(){
+            if(this.$route.params.typeId == 1){
+                return '我的模板'
+            }else{
+                return '系统模板'
+            }
+        }
+    },
+    watch: {
+        selectAllDay(val){
+            if(val){
+                var _sel = []
+                for (var i = 0; i < this.templateDayList.length; i++) {
+                    _sel.push(this.templateDayList[i].id)
+                }
+                this.templateSelDay = _sel
+            }else{
+                this.templateSelDay = []
+            }
+        },
+    },
+
+    created(){
+        this.getTemplateList()
+    },
     methods: {
-        sendToParentSure(){
-            this.$emit('callbackSure', {
-                templateType: this.templateTypeSel,
-                templateName: this.templateName
+        changeSelectAllDay(){
+            this.selectAllDay = !this.selectAllDay
+        },
+
+        addToSel(item){
+            if(this.templateSelDay.indexOf(item.id) == -1){
+                this.templateSelDay.push(item.id)
+            }else{
+                this.templateSelDay.splice(this.templateSelDay.indexOf(item.id), 1);
+            }
+        },
+
+        cancelTemplate(){
+            this.$router.push({path: '/route/' + this.routeId})
+        },
+
+        submitTemplate(){
+            var vm = this
+
+            var _data = {
+                tripnoteId: this.routeId,
+                scheduleIds: this.templateSelDay
+            }
+            $.ajax({
+                url: '/tripnote/template/doImport/' + vm.templateSelId,
+                type: 'post',
+                data: JSON.stringify(_data),
+                contentType: 'application/json',
+                success: function(res){
+                    if(res.code == -1){
+                        vm.$message({
+                            message: res.message,
+                            type: 'error',
+                            duration: 2000
+                        });
+                    }else{
+                        vm.$router.push({path: '/route/' + vm.routeId})
+                    }
+                }
+            })
+
+            // this.$http({
+            //     method: 'post',
+            //     url: '/tripnote/template/doImport/' + this.routeId,
+            //     data: {
+            //         tripnoteIds: JSON.stringify(this.templateSelDay)
+            //     }
+            // })
+            // .then((res)=>{
+            //     if(res.data.code == -1){
+            //         this.$message({
+            //             message: res.data.message,
+            //             type: 'error',
+            //             duration: 2000
+            //         })
+            //     }else{
+            //         this.$router.push({path: '/route/' + this.routeId})
+            //     }
+            // })
+        },
+
+        changeTemplateType(item){
+            this.templateTypeSel = item.name
+        },
+
+        changeFilterType(item){
+            this.templateTypeSel = item.name
+        },
+
+        getTemplateList(){
+            this.$http({
+                method: 'post',
+                url: '/tripnote/template/doSearch',
+                data: {
+                    isAll: true
+                }
+            })
+            .then((res)=>{
+                if(res.data.code == -1){
+                    this.$message({
+                        message: res.data.message,
+                        type: 'error',
+                        duration: 2000
+                    })
+                }else{
+                    this.templateList = res.data.data.data
+                }
             })
         },
-        sendToParentCancel(){
-            this.$emit('callbackCancel')
-        }
+
+        getTemplateDayList(id){
+            this.templateSelId = id
+            this.$http({
+                method: 'post',
+                url: '/tripnote/doDetail/' + id,
+            })
+            .then((res)=>{
+                if(res.data.code == -1){
+                    this.$message({
+                        message: res.data.message,
+                        type: 'error',
+                        duration: 2000
+                    })
+                }else{
+                    this.templateDayList = res.data.data.ttripNoteSchedules
+                    console.log(res.data.data.ttripNoteSchedules)
+                }
+            })
+        },
+
+        // sendToParentSure(){
+        //     this.$emit('callbackSure', {
+        //         templateType: this.templateTypeSel,
+        //         templateName: this.templateName
+        //     })
+        // },
+        // sendToParentCancel(){
+        //     this.$emit('callbackCancel')
+        // }
     },
 }
 </script>
 <style lang="less" scope>
-.routeTemplate{
+.routeTemplate2{
     z-index: 2001;
     position: fixed;
     width: 100%;
@@ -274,21 +326,10 @@ export default {
                 float: left;
                 font-size: 16px;
             }
-            .templateType{
+            .selectBox{
                 float: left;
-                border: 0;
-                .el-input{
-                    width: 155px;
-                }
-                .el-input__inner{
-                    border: 0;
-                    font-size: 16px;
-                }
-                .el-icon-arrow-up:before{
-                    content: "\E60B"
-                }
-                .el-input .el-select__caret{
-                    transform: none;
+                span{
+                    font-size: 14px;
                 }
             }
             .templateName{
@@ -333,20 +374,14 @@ export default {
                 border-left: 1px solid #EBEEF2;
                 font-size: 14px;
 
-                .selType{
-                    border: 0;
-                    .el-input{
-                        width: 100px;
-                    }
-                    .el-input__inner{
-                        border: 0;
-                        font-size: 14px;
-                    }
-                    .el-icon-arrow-up:before{
-                        content: "\E60B"
-                    }
-                    .el-input .el-select__caret{
-                        transform: none;
+                .selectBox{
+                    display: inline-block;
+                    vertical-align: middle;
+                    .list{
+                        li{
+                            padding: 5px 10px;
+                            line-height: 22px;
+                        }
                     }
                 }
                 .filterKeywords{
@@ -395,13 +430,23 @@ export default {
                 font-size: 16px;
             }
             .checkboxC{
+                cursor: pointer;
                 display: none;
                 position: absolute;
                 right: 16px;
                 top: 16px;
+                &.active{
+                    display: block;
+                }
             }
             &.active{
                 background: #F7F8F9;
+            }
+            &:hover{
+                background: #F7F8F9;
+                .checkboxC{
+                    display: block;
+                }
             }
         }
     }

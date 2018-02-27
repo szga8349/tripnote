@@ -25,9 +25,7 @@
                         >
                         <template slot-scope="scope">
                             <div class="routeTit">
-                                <div class="avatar">
-                                    <img src="../../assets/images/route_pic_blank.png">
-                                </div>
+                                <div class="avatar" :style="{backgroundImage: `url(${imgFormat(scope.row.imageurl)})`}"></div>
                                 <h3>{{ scope.row.title }}</h3>
                                 <div class="cityList">
                                     <div :title="formatCityList(scope.row.ttripNoteSchedules)">
@@ -179,7 +177,7 @@
                         </el-input>
                     </el-form-item>
 
-                    <el-form-item label="选择模板:">
+                   <!--  <el-form-item label="选择模板:">
                         <el-select v-model="form.templateType" placeholder="请选择" class="templateType">
                             <el-option
                                 v-for="item in tempateTypeOpts"
@@ -188,7 +186,7 @@
                                 :value="item.value">
                             </el-option>
                         </el-select>
-                    </el-form-item>
+                    </el-form-item> -->
                 </el-form>
 
                 <div slot="footer" class="dialog-footer">
@@ -257,19 +255,24 @@ export default {
                 dateRange: '',
                 remark: '',
                 personList: [],
-                templateType: '',
+                templateType: 0,
                 startCity: ''
             },
             tempateTypeOpts: [{
+                value: 0,
+                label: '不使用模板'
+            }, {
                 value: 1,
                 label: '我的模板'
-            },{
+            }, {
                 value: 2,
-                label: '我定制过的行程'
-            },{
-                value: 3,
                 label: '系统模板'
-            }],
+            }
+            // , {
+            //     value: 3,
+            //     label: '系统模板'
+            // }
+            ],
             dialogAddVisible: false,
             templateVisible: false,
             routeId: '',
@@ -291,7 +294,7 @@ export default {
                 dateRange: '',
                 remark: '',
                 personList: [],
-                templateType: '',
+                templateType: 0,
                 startCity: ''
             }
         },
@@ -320,6 +323,14 @@ export default {
             return _cityList.join(' / ')
         },
 
+        imgFormat(imgurl){
+            if(imgurl){
+                return imgurl
+            }else{
+                return require('../../assets/images/route_pic_blank.png')
+            }
+        },
+
         formatCustomer(customers){
             var _personList = [];
             for (var i = 0; i < customers.length; i++) {
@@ -334,7 +345,7 @@ export default {
             this.tableDataLoading = true
             this.$http({
                 method: 'POST',
-                url: '/tripnote/tripnote/doSearch',
+                url: '/tripnote/doSearch',
                 data: {
                     pageNo: this.pageNo,
                     pageSize: this.pageSize,
@@ -392,7 +403,7 @@ export default {
 
             this.$http({
                 method: 'POST',
-                url: '/tripnote/tripnote/doAdd',
+                url: '/tripnote/doAdd',
                 data: {
                     title: this.form.title,
                     days: this.form.days,
@@ -423,7 +434,7 @@ export default {
         addSchedule(){
             this.$http({
                 method: 'POST',
-                url: '/tripnote/tripnote/schedule/doAdd/' + this.routeId,
+                url: '/tripnote/schedule/doAdd/' + this.routeId,
                 data: {
                     indexdate: this.form.days,
                 }
@@ -438,7 +449,11 @@ export default {
                 }else{
                     // this.addDayCity(res.data.data)
 
-                    this.$router.push({path: '/route/' + this.routeId})
+                    if(this.form.templateType == 0){
+                        this.$router.push({path: '/route/' + this.routeId})
+                    }else{
+                        this.$router.push({path: '/routeTemplate/' + this.routeId + '/' + this.form.templateType})
+                    }
                 }
             })
         },
@@ -446,7 +461,7 @@ export default {
         // async addDayCity(cityList){
         //     const res1 = await this.$http({
         //         method: 'POST',
-        //         url: '/tripnote/tripnote/schedulecity/doAdd',
+        //         url: '/tripnote/schedulecity/doAdd',
         //         data:{
         //             cityId: item.id,
         //             scheduleId: this.dayId
@@ -468,7 +483,7 @@ export default {
         delRoute(){
             this.$http({
                 method: 'POST',
-                url: '/tripnote/tripnote/doDelete/' + this.delRouteId,
+                url: '/tripnote/doDelete/' + this.delRouteId,
             })
             .then((res)=>{
                 if(res.data.code == -1){
@@ -518,18 +533,19 @@ export default {
         float: left;
         width: 90px;
         height: 70px;
-        margin-left: -10px;
+        background-size: cover;
+        background-position: center;
     }
     h3{
         padding-top: 5px;
-        margin-left: 95px;
+        margin-left: 105px;
         font-size: 16px;
         font-weight: normal;
         color: #444;
     }
     .cityList{
         margin-top: 20px;
-        margin-left: 95px;
+        margin-left: 105px;
         div{
             width: 100%;
             overflow: hidden;
@@ -612,7 +628,7 @@ export default {
     }
     .personList{
         li{
-            margin-bottom: 10px;
+            margin-top: 4px;
             .done{
                 line-height: 24px;
             }

@@ -172,6 +172,7 @@
         font-size: 14px;
         .name{
             position: relative;
+            z-index: 100000000;
             float: left;
             .menu{
                 display: none;

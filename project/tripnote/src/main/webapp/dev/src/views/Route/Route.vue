@@ -7,13 +7,34 @@
                 <div class="templateName">{{routeName}}</div>
             </div>
 
-            <div class="btns">
-                <el-button>取 消</el-button>
-                <el-button type="primary" >发 布</el-button>
+            <div class="optBtns">
+                <ul>
+                    <li>
+                        <i class="icon0"></i>
+                        <p>线路模板</p>
+                        <div class="list">
+                            <div class="item" @click="goImport">导入线路模板</div>
+                            <div class="item" @click="goExport">导出线路模板</div>
+                        </div>
+                    </li>
+
+                    <li @click="showBaseInfo">
+                        <i class="icon1"></i>
+                        <p>定制信息</p>
+                    </li>
+                    <router-link :to="{path: '/order/' + routeId}" tag="li">
+                        <i class="icon2"></i>
+                        <p>行程报价</p>
+                    </router-link>
+                    <router-link :to="{path: '/publish/' + routeId}" tag="li">
+                        <i class="icon3"></i>
+                        <p>发布</p>
+                    </router-link>
+                </ul>
             </div>
         </div>
 
-        <div class="columnBox dayList" :class="{setDayScheduleActive: setDayScheduleActive}">
+        <div class="columnBox dayList" :class="{setDayScheduleActive: setDayScheduleActive, setDayPoiEditActive: setDayPoiEditActive}">
             <div class="header">
                 <div class="tit"><i class="iconfont icon-luxian"></i>行程路线</div>
                 <div class="opts">
@@ -27,11 +48,11 @@
             
             <div class="content">
                 <ul>
-                    <router-link :to="{path: '/route/' + routeId + '/intro'}" tag="li" class="summary" v-if="!setRouteLineActive">
+                    <router-link :to="{path: '/route/' + routeId + '/intro'}" tag="li" class="summary" v-if="!setRouteLineActive && !setDayScheduleActive">
                         线路总览
                     </router-link>
 
-                    <router-link tag="li" v-for="(value, index) in scheduleInfo" :to="{path: '/route/' + routeId + '/day/' + value.id}">
+                    <li v-for="(value, index) in scheduleInfo" @click="toDayDetail(value)" :class="{active: daySel==value.id}">
                         <div class="day" :class="{noCity: value.citys.length==0}">D{{value.indexdate}}</div>
                         <div class="date" v-if="!setRouteLineActive">{{formatDateWeek(startDate, index)}}</div>
                         <div class="cityList">
@@ -53,14 +74,14 @@
                         <div class="insertDay" v-if="setRouteLineActive">
                             <el-button size="mini" round icon="el-icon-plus" @click.stop="insertRouteDay(value.id,value.indexdate)">插入一天</el-button>
                         </div>
-                    </router-link>
+                    </li>
 
                     <li class="addDay" v-if="setRouteLineActive" @click="addRouteDay">
                         <i class="el-icon-circle-plus-outline"></i>
                         添加一天
                     </li>
 
-                    <router-link :to="{path: '/route/' + routeId + '/remarks'}" tag="li" class="summary" v-if="!setRouteLineActive">
+                    <router-link :to="{path: '/route/' + routeId + '/remarks'}" tag="li" class="summary" v-if="!setRouteLineActive && !setDayScheduleActive">
                         行程备注
                     </router-link>
                 </ul>
@@ -85,12 +106,107 @@
                 <el-button type="primary" @click.native="delRouteDay">确定</el-button>
             </div>
         </el-dialog>
+
+        <el-dialog title="完善定制信息" :visible.sync="dialogBaseInfoVisible" width="600px">
+            <el-form ref="form" :model="form" label-width="70px" class="formAdd">
+                <el-form-item label="名称:">
+                    <el-input v-model="form.title"></el-input>
+                </el-form-item>
+                <el-form-item label="行程封面:">
+                    <div class="routePic" :style="{backgroundImage: `url(${routeImgFormat(form.imageurl)})`}"></div>
+                    <el-upload
+                        class="uploadRoutePic"
+                        action="/tripnote/common/upload/route/image"
+                        :on-preview="handlePreview"
+                        :on-remove="handleRemove"
+                        :show-file-list="false"
+                        :on-success="handleAvatarSuccess"
+                        >
+                        <el-button size="small" type="primary">点击上传</el-button>
+                        <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                    </el-upload>
+
+                </el-form-item>
+
+              <el-form-item label="行程时段:">
+                <el-col :span="10">
+                    <el-date-picker
+                        :picker-options="pickerOptions"
+                        class="dateRange"
+                        v-model="form.dateRange"
+                        type="daterange"
+                        range-separator="至"
+                        :clearable="false"
+                        start-placeholder="开始日期"
+                        end-placeholder="结束日期">
+                    </el-date-picker>
+                </el-col>
+                <el-col class="line" :span="4">
+                    <span class="label">行程天数:</span>
+                </el-col>
+                <el-col :span="10">
+                  <el-input v-model="form.days" :disabled="true"></el-input>
+                </el-col>
+              </el-form-item>
+
+                  <el-form-item label="出发城市:">
+                    <el-col :span="10">
+                      <el-input v-model="form.startCity"></el-input>
+                    </el-col>
+                    <el-col class="line" :span="4">
+                        <span class="label">返回城市:</span>
+                    </el-col>
+                    <el-col :span="10">
+                      <el-input v-model="form.destination"></el-input>
+                    </el-col>
+                  </el-form-item>
+
+                <el-form-item label="客人信息:">
+                    <div class="personList">
+                        <ul>
+                            <li v-for="(item, index) in form.personList">
+                                <div class="done" v-if="item.type == 'done'">
+                                    {{item.name}}&nbsp;&nbsp;{{item.phone}} 
+                                    <a href="javascript:;" class="iconEdit" @click="item.type = 'edit'"></a>
+                                </div>
+                                <div v-if="item.type == 'edit'">
+                                    <el-input placeholder="客人姓名" v-model="item.name" class="inputText"></el-input>
+                                    <el-input placeholder="联系方式" v-model="item.phone" class="inputText"></el-input>
+                                    <el-button icon="el-icon-check" class="btn btnAdd" @click="addPersonItem(item)"></el-button>
+                                    <el-button icon="el-icon-close" class="btn btnDel" @click="delPersonItem(index)"></el-button>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="addPerson" @click="newPersonItem">
+                        <i class="el-icon-circle-plus-outline"></i>
+                        添加客户信息
+                    </div>
+                </el-form-item>
+
+                <el-form-item label="备注:">
+                    <el-input
+                        type="textarea"
+                        :rows="3"
+                        placeholder="添加备注信息（限200个中文字符）"
+                        v-model="form.remarks">
+                    </el-input>
+                </el-form-item>
+            </el-form>
+
+            <div slot="footer" class="dialog-footer">
+                <el-button @click.native="dialogBaseInfoVisible = false">取 消</el-button>
+                <el-button :disabled="isDisable" type="primary" @click.native="saveRouteInfo()">保 存</el-button>
+            </div>
+        </el-dialog>
     </div>
 </template>
 <script>
 import {mapState} from 'vuex'
 import { FormatDateWeek } from 'mixins/common'
 import Bus from 'utils/bus'
+import moment from 'moment'
 
 import SetCity from './RouteSetCity'
 
@@ -116,6 +232,22 @@ export default {
             addDayInsertDay: '',
             addDayUpdateIndexList: [],
 
+            dialogBaseInfoVisible: false,
+            dialogImportVisible: false,
+            dialogExportVisible: false,
+
+            form: {
+                title: '',
+                days: '',
+                imageurl: '',
+                destination: '',
+                dateRange: '',
+                remark: '',
+                personList: [],
+                startCity: ''
+            },
+
+            // daySel: ''
         }
     },
 
@@ -123,10 +255,12 @@ export default {
         ...mapState({
             routeInfo: 'routeInfo',
             setDayScheduleActive: 'setDayScheduleActive',
+            setDayPoiEditActive: 'setDayPoiEditActive',
             setRouteLineActive: 'setRouteLineActive'
         }),
+        
         routeId(){
-            return this.$route.params.id
+            return this.$route.params.routeId
         },
         dayId(){
             // if(this.routeInfo.daySel){
@@ -136,12 +270,22 @@ export default {
 
             //     return _path.split('/')[4] ? parseInt(_path.split('/')[4]) : -1
             // }
-            console.log(this.$route.params.dayId)
             return this.$route.params.dayId ? parseInt(this.$route.params.dayId) : -1
+        },
+
+        daySel(){
+            return this.$route.params.dayId
         }
     },
     created(){
         this.getRouteInfo()
+
+        if(this.$route.params.dayId){
+            console.log('dayId', this.$route.params.dayId)
+            // this.daySel = this.$route.params.dayId
+        }
+
+            
         var vm = this
         Bus.$on('refreshDay', function(){
             vm.getRouteInfo()
@@ -152,7 +296,6 @@ export default {
         })
 
         Bus.$on('addToDaySubmit', function(item){
-            console.log(123)
             vm.addToDaySubmit(item)
         })
 
@@ -165,15 +308,105 @@ export default {
         })
     },
 
-    // watch: {
-    //     setRouteLineActive(value){
-    //         if(value){
-    //             this.initMap()
-    //         }
-    //     }
-    // },
+    watch: {
+        'form.dateRange'(val){
+            if(val != ''){
+                this.form.days = (new Date(val[1]).getTime() - new Date(val[0]).getTime())/(24*60*60*1000) + 1
+            }
+        }
+    },
 
     methods: {
+        goImport(){
+            this.$router.push({path: '/route/' + this.routeId + '/importTemplate'})
+        },
+
+        goExport(){
+            this.$router.push({path: '/route/' + this.routeId + '/exportTemplate'})
+        },
+
+        routeImgFormat(imgurl){
+            if(imgurl){
+                return imgurl
+            }else{
+                return require('../../assets/images/route_pic_blank.png')
+            }
+        },
+
+        saveRouteInfo(){
+            var _custom = []
+            for (var i = 0; i < this.form.personList.length; i++) {
+                if(this.form.personList[i].type == 'done'){
+                    _custom.push({
+                        name: this.form.personList[i].name,
+                        phone: this.form.personList[i].phone,
+                    })
+                }
+            }
+
+            this.$http({
+                method: 'POST',
+                url: '/tripnote/doUpdate/' + this.routeId,
+                data: {
+                    title: this.form.title,
+                    imageurl: this.form.imageurl,
+                    days: this.form.days,
+                    startDate: moment(this.form.dateRange[0]).format('YYYY-MM-DD'),
+                    endDate: moment(this.form.dateRange[1]).format('YYYY-MM-DD'),
+                    remarks: this.form.remarks,
+                    startCity: this.form.startCity,
+                    destination: this.form.destination,
+                    customers: JSON.stringify({"customer":_custom}),
+                }
+            })
+            .then((res)=>{
+                if(res.data.code == -1){
+                    this.$message({
+                        message: res.data.message,
+                        type: 'error',
+                        duration: 2000
+                    });
+                }else{
+                    this.$message({
+                        message: '修改成功！',
+                        type: 'success',
+                        duration: 2000
+                    });
+                    this.dialogBaseInfoVisible = false
+                }
+            })
+        },
+
+        showBaseInfo(){
+            this.dialogBaseInfoVisible = true
+        },
+
+        newPersonItem(){
+            this.form.personList.push({
+                name: '',
+                phone: '',
+                type: 'edit'
+            })
+        },
+        addPersonItem(item){
+            item.type = 'done'
+        },
+        delPersonItem(index){
+            this.form.personList.splice(index, 1)
+        },
+
+
+        toDayDetail(item){
+            // this.daySel = item.id
+
+            if(this.$route.name == 'schedule'){
+                this.$router.push({path: '/route/' + this.routeId + '/day/' + item.id + '/schedule'})
+            }else{
+                this.$router.push({path: '/route/' + this.routeId + '/day/' + item.id})
+            }
+            
+        },
+
         addCityToDayInit(item){
             this.addDayPrevCity = ''
             this.addDayIndexdate = ''
@@ -296,18 +529,18 @@ export default {
 
         // 添加当天的城市
         async addToDaySubmit(item){
-            console.log(item)
+            // console.log(item)
 
-            console.log('addDayPrevCity', this.addDayPrevCity)
-            console.log(this.addDayInsertDay)
-            console.log(this.addDayUpdateIndexList)
+            // console.log('addDayPrevCity', this.addDayPrevCity)
+            // console.log(this.addDayInsertDay)
+            // console.log(this.addDayUpdateIndexList)
 
             var res0 = {data:{code:1}}
             var res1
             if(this.addDayPrevCity != ''){
                 res0 = await this.$http({
                     method: 'post',
-                    url: '/tripnote/tripnote/schedulecity/doAdd',
+                    url: '/tripnote/schedulecity/doAdd',
                     data:{
                         cityId: this.addDayPrevCity,
                         scheduleId: this.dayId
@@ -323,7 +556,7 @@ export default {
                     // 添加当天的城市
                     res1 = await this.$http({
                         method: 'post',
-                        url: '/tripnote/tripnote/schedulecity/doAdd',
+                        url: '/tripnote/schedulecity/doAdd',
                         data:{
                             cityId: item.id,
                             scheduleId: this.dayId
@@ -341,7 +574,7 @@ export default {
                 // 添加当天的城市
                 res1 = await this.$http({
                     method: 'post',
-                    url: '/tripnote/tripnote/schedulecity/doAdd',
+                    url: '/tripnote/schedulecity/doAdd',
                     data:{
                         cityId: item.id,
                         scheduleId: this.dayId
@@ -367,7 +600,7 @@ export default {
 
             const res2 = await this.$http({
                 method: 'post',
-                url: '/tripnote/tripnote/schedule/doAddIndexdate/' + this.routeId,
+                url: '/tripnote/schedule/doAddIndexdate/' + this.routeId,
                 data:{
                     indexdates: JSON.stringify({"indexdates":_data}),
                 }
@@ -385,7 +618,7 @@ export default {
                 // 添加下一天的城市
                 res3 = await this.$http({
                     method: 'post',
-                    url: '/tripnote/tripnote/schedulecity/doAddFrist',
+                    url: '/tripnote/schedulecity/doAddFrist',
                     data:{
                         cityId: item.id,
                         scheduleId: this.addDayNextDayId
@@ -408,7 +641,7 @@ export default {
             }
             const res4 = await this.$http({
                 method: 'post',
-                url: '/tripnote/tripnote/schedule/doUpdateIndexDate',
+                url: '/tripnote/schedule/doUpdateIndexDate',
                 data: {
                     indexdates: JSON.stringify({"indexdates": this.addDayUpdateIndexList}),
                 }
@@ -437,7 +670,7 @@ export default {
             var _routeId = this.routeId
             this.$http({
                 method: 'get',
-                url: '/tripnote/tripnote/doDetail/' + _routeId,
+                url: '/tripnote/doDetail/' + _routeId,
             }).then((res)=>{
                 if(res.data.code == -1){
                     this.$message({
@@ -456,6 +689,10 @@ export default {
                         remarks: res.data.data.remarks,
                         dayInfo: this.scheduleInfo
                     })
+
+                    Object.assign(this.$data.form, res.data.data)
+
+                    this.form.dateRange = [new Date(this.form.startDate), new Date(this.form.endDate)]
 
                     this.$store.dispatch('setRouteInfo', _routeInfo)
 
@@ -484,7 +721,7 @@ export default {
             var vm = this
             this.$http({
                 method: 'get',
-                url: '/tripnote/tripnote/schedule/doDelete/' + this.delRouteDayId,
+                url: '/tripnote/schedule/doDelete/' + this.delRouteDayId,
             })
             .then((res)=>{
                 if(res.data.code == -1){
@@ -513,7 +750,7 @@ export default {
                     }
                     vm.$http({
                         method: 'post',
-                        url: '/tripnote/tripnote/schedule/doUpdateIndexDate',
+                        url: '/tripnote/schedule/doUpdateIndexDate',
                         data: {
                             indexdates: JSON.stringify({"indexdates":_data}),
                         }
@@ -536,7 +773,7 @@ export default {
         addRouteDay(){
             this.$http({
                 method: 'post',
-                url: '/tripnote/tripnote/schedule/doAdd',
+                url: '/tripnote/schedule/doAdd',
                 data: {
                     indexdate: this.scheduleInfo.length + 1,
                     tripnoteId: this.routeId
@@ -569,7 +806,7 @@ export default {
             }
             this.$http({
                 method: 'post',
-                url: '/tripnote/tripnote/schedule/doUpdateIndexDate',
+                url: '/tripnote/schedule/doUpdateIndexDate',
                 data: {
                     indexdates: JSON.stringify({"indexdates":_data}),
                 }
@@ -584,7 +821,7 @@ export default {
                 }else{
                     this.$http({
                         method: 'post',
-                        url: '/tripnote/tripnote/schedule/doAdd',
+                        url: '/tripnote/schedule/doAdd',
                         data: {
                             indexdate: indexdate,
                             tripnoteId: this.routeId
@@ -608,7 +845,7 @@ export default {
         delDayCity(id){
             this.$http({
                 method: 'post',
-                url: '/tripnote/tripnote/schedulecity/doDelete/' + id,
+                url: '/tripnote/schedulecity/doDelete/' + id,
             })
             .then((res)=>{
                 if(res.data.code == -1){
@@ -621,7 +858,11 @@ export default {
                     this.getRouteInfo()
                 }
             })
-        }
+        },
+
+        handleAvatarSuccess(res, file) {
+            this.form.imageurl = res.link
+        },
     },
 
     destroyed(){
@@ -637,6 +878,8 @@ export default {
 
 
         this.$store.dispatch('setRouteLineActive', false)
+        this.$store.dispatch('setDayScheduleActive', false)
+        this.$store.dispatch('setDayPoiEditActive', false)
     }
 }
 </script>
@@ -686,12 +929,100 @@ export default {
                 font-size: 16px;
             }
         }
-        .btns{
+        .optBtns{
             float: right;
-            margin: 12px 20px;
-            .el-button{
-                height: 36px;
-                padding: 5px 35px;
+            li{
+                position: relative;
+                z-index: 2;
+                float: left;
+                width: 90px;
+                height: 60px;
+                border-left: 1px solid #E6E9EF;
+                cursor: pointer;
+                &:hover{
+                    .list{
+                        display: block;
+                    }
+                    background: #F7F8F9;
+                    p{
+                        color: #23a16d;
+                    }
+                    i{
+                        &.icon0{
+                            background-position: -30px -90px;
+                        }
+                        &.icon1{
+                            background-position: -30px 0;
+                        }
+                        &.icon2{
+                            background-position: -30px -30px;
+                        }
+                        &.icon3{
+                            background-position: -30px -60px;
+                        }
+                    }
+                }
+                .list{
+                    display: none;
+                    position: absolute;
+                    top: 60px;
+                    left: 0;
+                    width: 112px;
+                    padding: 12px 0;
+                    background: #fff;
+                    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+                    .item{
+                        overflow: hidden;
+                        line-height: 36px;
+                        padding-left: 18px;
+                        cursor: pointer;
+                        i{
+                            display: inline-block;
+                            vertical-align: middle;
+                            margin-top: -3px;
+                            margin-right: 12px;
+                        }
+                        &:hover{
+                            background: #E9F1F1;
+                        }
+                    }
+                }
+                i{
+                    display: block;
+                    margin: 5px auto 0;
+                    width: 30px;
+                    height: 30px;
+                    background: url(../../assets/images/icon_route_opts.png);
+                    &.icon0{
+                        background-position: 0 -90px;
+                        &:hover{
+                            background-position: -30px -90px;
+                        }
+                    }
+                    &.icon1{
+                        background-position: 0 0;
+                        &:hover{
+                            background-position: -30px 0;
+                        }
+                    }
+                    &.icon2{
+                        background-position: 0 -30px;
+                        &:hover{
+                            background-position: -30px -30px;
+                        }
+                    }
+                    &.icon3{
+                        background-position: 0 -60px;
+                        &:hover{
+                            background-position: -30px -60px;
+                        }
+                    }
+                }
+
+                p{
+                    color: #AAB1BB;
+                    text-align: center;
+                }
             }
         }
     }
@@ -787,6 +1118,9 @@ export default {
                     }
                 }
             }
+        }
+        &.setDayPoiEditActive{
+            left: -280px;
         }
         .header{
             .tit{
@@ -899,9 +1233,9 @@ export default {
                     }
                 }
                 &.summary{
-                    min-height: 55px;
-                    height: 55px;
-                    line-height: 32px;
+                    min-height: 50px;
+                    height: 50px;
+                    line-height: 26px;
                     font-size: 16px;
                 }
                 &.active{
@@ -968,5 +1302,16 @@ export default {
         
     }
 
+}
+.routePic{
+    float: left;
+    width: 100px;
+    height: 100px;
+    background-size: cover;
+    background-position: center;
+    border: 1px solid #e2e2e2;
+}
+.uploadRoutePic{
+    margin-left: 110px;
 }
 </style>

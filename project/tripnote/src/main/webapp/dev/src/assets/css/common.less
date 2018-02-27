@@ -13,7 +13,7 @@ html{color:#222;font-size:1em;line-height:1.4}::-moz-selection{background:#b3d4f
 html{
     line-height: 1.5;
     font-size: 12px;
-    color: #333;
+    color: #555;
 }
 body{
     background: #F2F4F8;
@@ -119,16 +119,16 @@ textarea{resize: none;}
 .checkboxC{
     width: 23px;
     height: 23px;
+    cursor: pointer;
     background: url(../images/icon_checkbox.png) center -23px no-repeat;
-}
-.checkboxC.active{
-    background-position: 0 0;
-}
-
-
-.columnWrap{
-    
-
+    opacity: 0.75;
+    &:hover,
+    &.active{
+        opacity: 1;
+    }
+    &.active{
+        background-position: 0 0;
+    }
 }
 
 .columnBox{
@@ -273,15 +273,15 @@ textarea{resize: none;}
 // 笔记
 .notes{
     position: absolute;
-    left: 295px;
+    left: 300px;
     right: 15px;
-    top: 75px;
+    top: 80px;
     bottom: 20px;
     
     .content{
-        position: relative;
-        top: auto;
-        max-height: 400px;
+        // position: relative;
+        // top: auto;
+        // max-height: 400px;
         padding: 10px 15px;
         line-height: 24px;
         font-size: 14px;
@@ -290,12 +290,44 @@ textarea{resize: none;}
 
 .fr-wrapper{
     font-size: 14px;
+    // div{
+    //     display: none;
+    // }
+    // .fr-element{
+    //     display: block;
+    // }
 }
 .fr-toolbar.fr-top{
-    margin: 0 15px 0 15px;
-    padding: 5px 0;
+    padding-bottom: 5px !important;
     border-bottom: 1px solid #EAEDF1 !important;
 }
 .fr-box.fr-basic .fr-element{
-    padding: 10px 15px !important;
+    padding: 10px 0 !important;
 }
+
+a[href="https://www.froala.com/wysiwyg-editor?k=u"] {
+  display: none !important;
+  position: absolute;
+  top: -99999999px;
+}
+
+
+.btnBorder{
+    border-color: #23a16d;
+    color: #23a16d;
+}
+
+.noDataTip{
+    margin: 100px 0;
+    text-align: center;
+    font-size: 14px;
+    color: #a0abb3;
+    i{
+        margin-right: 5px;
+        vertical-align: middle;
+        font-size: 16px;
+    }
+}
+
+
+
