@@ -197,8 +197,9 @@
     from b_poi bp left join b_city bc on bc.id = bp.city_id 
     where 1 = 1
     <choose>  
+          <when test="isMy==null"> and bp.create_user_id in (0,#{userId,jdbcType=INTEGER})</when>  
           <when test="isMy==true"> and bp.create_user_id = #{userId,jdbcType=INTEGER}</when>  
-          <when test="isMy==false"> and bp.create_user_id in(0,#{userId,jdbcType=INTEGER})</when>  <!--不传入类型时不将产品数据查询出 -->
+          <when test="isMy==false"> and bp.create_user_id = 0</when>  <!--不传入类型时不将产品数据查询出 -->
     </choose>
     <choose>  
              <when test="type != null">and bp.`type` = #{type,jdbcType=INTEGER}</when>  
@@ -218,8 +219,9 @@
     select count(1) from b_poi bp
     where 1 = 1
     <choose>  
+          <when test="isMy==null"> and bp.create_user_id in (0,#{userId,jdbcType=INTEGER})</when>  
           <when test="isMy==true"> and bp.create_user_id = #{userId,jdbcType=INTEGER}</when>  
-          <when test="isMy==false"> and bp.create_user_id in(0,#{userId,jdbcType=INTEGER})</when>  <!--不传入类型时不将产品数据查询出 -->
+          <when test="isMy==false"> and bp.create_user_id = 0</when>  <!--不传入类型时不将产品数据查询出 -->
     </choose>
     <choose>  
           <when test="type!= null"> and bp.`type` = #{type,jdbcType=INTEGER}</when>  
