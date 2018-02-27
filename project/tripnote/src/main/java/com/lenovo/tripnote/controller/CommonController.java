@@ -163,7 +163,7 @@ public class CommonController {
 		       secondTitleFont.setColor(new BaseColor(0x22,0xa9,0x8e));
 		       cutLength = 200;
 			   if(imagePrefix==null)
-				 imagePrefix = request.getRealPath("/")+File.separator+"static"+File.separator;
+				 imagePrefix = request.getRealPath("/")+File.separator+"pdf"+File.separator;
 				Document document = getPdfDocument(tripnote.getTitle()+".pdf",response);
 				setHeader(document,tripnote);
 				setScheduleTrip(document,detail);
