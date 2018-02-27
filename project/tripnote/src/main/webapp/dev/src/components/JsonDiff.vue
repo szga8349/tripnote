@@ -101,8 +101,8 @@ color: gray;
 }
 .jsondiffpatch-unchanged,
 .jsondiffpatch-movedestination > .jsondiffpatch-value {
-transition: all 0.5s;
--webkit-transition: all 0.5s;
+trafficion: all 0.5s;
+-webkit-trafficion: all 0.5s;
 overflow-y: hidden;
 }
 .jsondiffpatch-unchanged-showing .jsondiffpatch-unchanged,

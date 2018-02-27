@@ -403,8 +403,12 @@ export default {
             if(['XK', 'BQ', 'BL', 'JE', 'GG'].indexOf(val) > -1){
                 val = 'CN'
             }
-
-            return require('../../assets/images/flag/' + val.toLowerCase() + '.png')
+            if(val){
+                return require('../../assets/images/flag/' + val.toLowerCase() + '.png')
+            }else{
+                return require('../../assets/images/flag/cn.png')
+                // return require('../../assets/images/flag/zh.png')
+            }
         },
         backCountryList(){
             this.countryName = ''
@@ -417,7 +421,7 @@ export default {
             this.listLoading = true
             this.$http({
                 method: 'get',
-                url: '/tripnote/country/doSearch',
+                url: '/country/doSearch',
             })
             .then((res)=>{
                 if(res.data.code == -1){
@@ -465,7 +469,7 @@ export default {
             }
             this.$http({
                 method: 'post',
-                url: '/tripnote/city/doSearch',
+                url: '/city/doSearch',
                 data: _data
             })
             .then((res)=>{
@@ -797,9 +801,9 @@ export default {
 .mapMarker{
     width: 10px;
     height: 10px;
-    background: #777;
+    background: #FA574B;
     border-radius: 100%;
-    opacity: 0.75;
+    opacity: 0.8;
     &:hover{
         width: 12px;
         height: 12px;

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Places Searchbox</title>
+    <style>
+    *{
+      padding: 0;
+      margin: 0;
+    }
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        width: 800px;
+        height: 550px;
+      }
+      .controls {
+        margin-top: 10px;
+        border: 1px solid transparent;
+        border-radius: 2px 0 0 2px;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        height: 32px;
+        outline: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      }
+
+      #pac-input {
+        background-color: #fff;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        margin-left: 12px;
+        padding: 0 11px 0 13px;
+        text-overflow: ellipsis;
+        width: 300px;
+      }
+
+      #pac-input:focus {
+        border-color: #4d90fe;
+      }
+
+      .pac-container {
+        font-family: Roboto;
+      }
+
+      #type-selector {
+        color: #fff;
+        background-color: #4d90fe;
+        padding: 5px 11px 0px 11px;
+      }
+
+      #type-selector label {
+        font-family: Roboto;
+        font-size: 13px;
+        font-weight: 300;
+      }
+      #target {
+        width: 345px;
+      }
+    </style>
+  </head>
+  <body>
+    <input id="pac-input" class="controls" type="text" placeholder="搜索地点">
+    <div id="map"></div>
+    <input type="text" id="Address" style="width: 1000px;">
+    <script>
+      // This example adds a search box to a map, using the Google Place Autocomplete
+      // feature. People can enter geographical searches. The search box will return a
+      // pick list containing a mix of places and predicted search terms.
+
+      // This example requires the Places library. Include the libraries=places
+      // parameter when you first load the API. For example:
+      // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+
+      var marker;
+      function placeMarkerAndPanTo(latLng, map) {
+        console.log(marker)
+        marker && marker.setMap(null); 
+        marker = new google.maps.Marker({
+          position: latLng,
+          map: map
+        });
+        // map.panTo(latLng);
+      }
+
+
+      
+
+
+
+      function initAutocomplete() {
+        var geocoder = new google.maps.Geocoder();   
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 37.741612, lng: 103.535156},
+          zoom: 4,
+          disableDefaultUI: true
+        });
+
+        map.addListener('click', function(e) {
+          console.log(e.latLng.lat().toFixed(6)+','+e.latLng.lng().toFixed(6))
+          // placeMarkerAndPanTo(e.latLng, map);
+        });
+
+        // Create the search box and link it to the UI element.
+        var input = document.getElementById('pac-input');
+        var searchBox = new google.maps.places.SearchBox(input);
+
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+        // Bias the SearchBox results towards current map's viewport.
+        map.addListener('bounds_changed', function() {
+          searchBox.setBounds(map.getBounds());
+        });
+
+        var markers = [];
+        // Listen for the event fired when the user selects a prediction and retrieve
+        // more details for that place.
+        searchBox.addListener('places_changed', function() {
+          var places = searchBox.getPlaces();
+
+          console.log(places)
+
+          if (places.length == 0) {
+            return;
+          }
+
+          // Clear out the old markers.
+          markers.forEach(function(marker) {
+            marker.setMap(null);
+          });
+          markers = [];
+
+          // For each place, get the icon, name and location.
+          var bounds = new google.maps.LatLngBounds();
+          places.forEach(function(place) {
+            if (!place.geometry) {
+              console.log("Returned place contains no geometry");
+              return;
+            }
+            var icon = {
+              url: place.icon,
+              size: new google.maps.Size(71, 71),
+              origin: new google.maps.Point(0, 0),
+              anchor: new google.maps.Point(17, 34),
+              scaledSize: new google.maps.Size(25, 25)
+            };
+
+            var _marker = new google.maps.Marker({
+              map: map,
+              // icon: icon,
+              title: place.name,
+              position: place.geometry.location,
+              draggable: true,
+            })
+
+            // Create a marker for each place.
+            markers.push(_marker);
+
+
+            google.maps.event.addListener(_marker,'dragend',function(event) {
+                console.log(this.position.lat())
+                console.log(this.position.lng())
+            });
+
+            google.maps.event.addListener(_marker,'click',function(event) {
+                this.setIcon('https://www.gstatic.com/images/branding/product/1x/maps_64dp.png'); 
+                console.log(this)
+
+
+                geocoder.geocode({'location': event.latLng}, function(results, status) {  
+                    if (status == google.maps.GeocoderStatus.OK) {  
+                      if (results[0]) {  
+                        console.log(" 地址为：" + results[0].formatted_address)
+
+                        document.getElementById('Address').value = results[0].formatted_address
+                      }   
+                    } else {  
+                        alert("Geocoder failed due to: " + status);  
+                    }  
+                });
+            });
+
+            if (place.geometry.viewport) {
+              // Only geocodes have viewport.
+              bounds.union(place.geometry.viewport);
+            } else {
+              bounds.extend(place.geometry.location);
+            }
+          });
+          map.fitBounds(bounds);
+        });
+      }
+
+    </script>
+    <script src="http://maps.google.cn/maps/api/js?region=cn&language=zh-CN&key=AIzaSyAmhTSJ4VTpmTf-wX4AE4TXMrZmKzjJ36o&libraries=places&callback=initAutocomplete"
+         async defer></script>
+  </body>
+</html>

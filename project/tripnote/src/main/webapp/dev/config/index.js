@@ -7,9 +7,9 @@ var target = 'http://127.0.0.1:8110'
 module.exports = {
     build: {
         env: require('./prod.env'),
-        index: path.resolve(__dirname, '../../index.html'),
+        index: path.resolve(__dirname, '../dist/index.html'),
         // assetsRoot: path.resolve(__dirname, '../dist'),
-        assetsRoot: path.resolve(__dirname, '../..'),
+        assetsRoot: path.resolve(__dirname, '../dist'),
         assetsSubDirectory: 'static',
         assetsPublicPath: '/',
         productionSourceMap: true,
@@ -22,11 +22,35 @@ module.exports = {
     },
     dev: {
         env: require('./dev.env'),
-        port: 8080,
+        port: 8081,
         assetsSubDirectory: 'static',
         assetsPublicPath: '/',
         proxyTable: {
             '/tripnote': {
+                target
+            },
+            '/city': {
+                target
+            },
+            '/country': {
+                target
+            },
+            '/poi': {
+                target
+            },
+            '/travel': {
+                target
+            },
+            '/customer': {
+                target
+            },
+            '/hotel': {
+                target
+            },
+            '/user': {
+                target
+            },
+            '/userLogin': {
                 target
             },
         },

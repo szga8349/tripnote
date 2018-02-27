@@ -46,12 +46,21 @@
 		<!-- Shiro连接约束配置,即过滤链的定义 -->
 		<property name="filterChainDefinitions">
 			<value>
+                /city/**=fauthc
+                /country/**=fauthc
+                /hotel/**=fauthc
+                /poi/**=fauthc
+                /user/**=fauthc
+                /customer/**=fauthc
+                /travel/**=fauthc
 				/login/logut=fauthc
-				/login/*=anon
-				/index.*=anon
-				/country/*= fauthc
-				/common/**= anon
-				/**= fauthc
+				/tripnote/**=fauthc
+				<!--/login/*=anon-->
+				<!--/index.*=anon-->
+				<!--/common/**= anon-->
+				<!--/static/**= anon-->
+				<!--/tripnotes/**= anon-->
+				<!--/**= fauthc-->
 			</value>
 		</property>
 	</bean>

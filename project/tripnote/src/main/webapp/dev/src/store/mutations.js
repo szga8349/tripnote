@@ -21,6 +21,14 @@ const mutations = {
         state.setDayScheduleActive = playload;
     },
 
+    [types.SET_DAY_INFO](state, playload) {
+        state.dayInfo = playload;
+    },
+
+    [types.SET_DAY_POI_EDIT_ACTIVE](state, playload) {
+        state.setDayPoiEditActive = playload;
+    },
+
 
 
 

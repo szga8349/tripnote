@@ -1,7 +1,7 @@
 <template>
     <div>
-        <div class="columnWrap notes" v-if="!setRouteLineActive">
-            <div class="columnBox">
+        <!-- <div class="columnWrap notes" v-if="!setRouteLineActive"> -->
+            <div class="columnBox notes" v-if="!setRouteLineActive">
                 <div class="header">
                     <div class="tit"><i class="iconfont icon-wenjian"></i>行程介绍</div>
                     <div class="opts">
@@ -18,7 +18,7 @@
                 </div>
 
                 <div class="content" v-if="!isEdit" v-html="routeInfo.intro"></div>
-                <div class="" v-if="isEdit">
+                <div class="content" v-if="isEdit">
                     <froala :tag="'textarea'" :config="config" v-model="routeInfo.intro"></froala>
                 </div>
             </div>
@@ -36,7 +36,7 @@
                 <div class="content">
                 </div>
             </div> -->
-        </div>
+        <!-- </div> -->
     </div>
 </template>
 
@@ -55,15 +55,23 @@ export default {
             config: {
                 events: {
                     'froalaEditor.initialized': function() {
-                        
+                        // var temp = document.getElementsByTagName("a");
+                        // var i = 0;
+                        // for (i = 0; i < temp.length; i++) {
+                        //     if (temp[i].href == "https://www.froala.com/wysiwyg-editor?k=u") {
+                        //         temp[i].parentNode.removeChild(temp[i].parentNode.childNodes[0]);
+                        //     }
+                        // }
                     },
                     'froalaEditor.image.error': function (e, editor, error, response){
                         console.log(error)
                         // response = JSON.parse(response);
                     },
                 },
-                heightMin: 300,
-                heightMax: 500,
+                // heightMin: 300,
+                // heightMax: 500,
+                charCounterCount: false,
+                quickInsertTags: [],
                 placeholderText: '请输入内容',
                 toolbarButtons: ['bold', 'italic', 'underline', 'fontSize', 'color', '|', 'paragraphFormat', 'align', 'formatOL', 'outdent', 'indent', '|', 'quote', 'insertLink', 'insertImage', 'insertHR'],
                 imageUploadURL: '/tripnote/common/upload/schedule/image'
@@ -106,7 +114,7 @@ export default {
         saveOverview(){
             this.$http({
                 method: 'post',
-                url: '/tripnote/tripnote/doUpdate/' + this.routeId,
+                url: '/tripnote/doUpdate/' + this.routeId,
                 data: {
                     introduction: this.routeInfo.intro
                 }

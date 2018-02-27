@@ -5,229 +5,189 @@
             <div class="commonTit">
                 <h2>我的POI库</h2>
                 <div class="rightOpts">
-                    <el-button type="primary" icon="el-icon-plus" @click="newRoute">新建定制</el-button>
+                    <Select class="poiTypeFilter" :opts="filterOptsList" :sel="filterOptsSel" nameAlias="name" idAlias="id" align="right"></Select>
+                    <el-button type="primary" icon="el-icon-plus" @click="newPoi">新建POI</el-button>
                 </div>
             </div>
 
             <div class="commonCon">
-                <el-table
-                    v-loading="tableDataLoading"
-                    :data="tableData"
-                    style="width: 100%"
-                    class="routeListTable"
-                    :default-sort = "{prop: 'date', order: 'descending'}"
-                    @sort-change="sortChange"
-                    @row-click="rowClick"
-                >
-                    <el-table-column
-                        prop="title"
-                        label="标题"
-                        sortable
-                        >
-                        <template slot-scope="scope">
-                            <div class="routeTit">
-                                <div class="avatar">
-                                    <img src="../../assets/images/route_pic_blank.png">
+                <div class="mainPoiList">
+                    <ul class="tableList">
+                        <li v-for="(item, index) in poiList">
+                            <div class="inside">
+                                <div class="pic">
+                                    <div class="img" :style="{backgroundImage: `url(${imgFormat(item.imageurl)})`}"></div>
                                 </div>
-                                <h3>{{ scope.row.title }}</h3>
-                                <div class="cityList">
-                                    <div :title="formatCityList(scope.row.ttripNoteSchedules)">
-                                        {{formatCityList(scope.row.ttripNoteSchedules)}}
+                                <div class="info">
+                                    <div class="tit">
+                                        <span v-html="poiTypeFormat(item.type)"></span>
+                                        {{item.nameCn}}
                                     </div>
+                                    <div class="subTit">{{item.nameEn}}</div>
+                                    <el-tooltip placement="bottom">
+                                        <div slot="content">删除</div>
+                                        <a href="javascript:;" @click.stop="delConfirm(item)" class="del"><i class="el-icon-delete"></i></a>
+                                    </el-tooltip>
                                 </div>
                             </div>
-                        </template>
-                    </el-table-column>
-                    <el-table-column
-                        prop="code"
-                        label="编号"
-                        sortable
-                        width="100">
-                    </el-table-column>
-                    <el-table-column
-                        prop="custems"
-                        label="客人名"
-                        width="110">
-                        <template slot-scope="scope">
-                            <div v-html="formatCustomer(scope.row.custems)"></div>
-                        </template>
-                    </el-table-column>
-                    <el-table-column
-                        prop="start_date"
-                        label="出发时间"
-                        sortable
-                        width="100">
-                        <template slot-scope="scope">
-                            {{ formatTime(scope.row.startDate) }}
-                        </template>
-                    </el-table-column>
-                    <el-table-column
-                        prop="days"
-                        label="行程天数"
-                        sortable
-                        width="100">
-                    </el-table-column>
-                    <el-table-column
-                        prop="createTime"
-                        label="发布时间"
-                        sortable
-                        width="100">
-                        <template slot-scope="scope">
-                            {{ formatTime(scope.row.createTime) }}
-                        </template>
-                    </el-table-column>
-                    <el-table-column
-                        prop="opts"
-                        label="操作"
-                        width="80">
-                            <template slot-scope="scope">
-                                <el-tooltip placement="top">
-                                    <div slot="content">删除</div>
-                                    <a href="javascript:;" @click.stop="delRouteConfirm(scope.row.id)" class="tableDataDel"><i class="el-icon-delete"></i></a>
-                                </el-tooltip>
-                                
-                            </template>
-                    </el-table-column>
-                </el-table>
+                        </li>
+                    </ul>
 
-                <el-pagination
-                    background
-                    @current-change="handleCurrentChange"
-                    :current-page.sync="pageNo"
-                    :page-size="5"
-                    layout="total, prev, pager, next"
-                    :total="total">
-                </el-pagination>
+                    <el-pagination
+                        background
+                        @current-change="handleCurrentChange"
+                        :current-page.sync="pageNo"
+                        :page-size="8"
+                        layout="total, prev, pager, next"
+                        :total="total">
+                    </el-pagination>
+                </div>
 
-
-                <div v-if="!tableDataLoading && tableData.length == 0" class="addNewRouteTip">
+                <div v-if="!tableDataLoading && poiList.length == 0" class="addNewRouteTip">
                     <div class="pic" @click="dialogAddVisible = true">
                         <div class="icon"></div>
                         <div class="txt">新建定制</div>
                     </div>
-                    <p>您还没有行程，请新建行程</p>
+                    <p>您还没有POI，请新建POI</p>
                 </div>
             </div>
 
-            <el-dialog title="新建定制" :visible.sync="dialogAddVisible" width="600px">
+            <el-dialog title="新建POI" :visible.sync="dialogAddVisible" width="600px">
                 <el-form ref="form" :model="form" label-width="70px" class="formAdd">
-                      <el-form-item label="名称:">
-                        <el-input v-model="form.title"></el-input>
-                      </el-form-item>
-                      <el-form-item label="行程时段:">
-                        <el-col :span="10">
-                            <el-date-picker
-                                :picker-options="pickerOptions"
-                                class="dateRange"
-                                v-model="form.dateRange"
-                                type="daterange"
-                                range-separator="至"
-                                :clearable="false"
-                                start-placeholder="开始日期"
-                                end-placeholder="结束日期">
-                            </el-date-picker>
-                        </el-col>
-                        <el-col class="line" :span="4">
-                            <span class="label">行程天数:</span>
-                        </el-col>
-                        <el-col :span="10">
-                          <el-input v-model="form.days" :disabled="true"></el-input>
-                        </el-col>
-                      </el-form-item>
-
-                      <el-form-item label="出发城市:">
-                        <el-col :span="10">
-                          <el-input v-model="form.startCity"></el-input>
-                        </el-col>
-                        <el-col class="line" :span="4">
-                            <span class="label">返回城市:</span>
-                        </el-col>
-                        <el-col :span="10">
-                          <el-input v-model="form.destination"></el-input>
-                        </el-col>
-                      </el-form-item>
-
-                    <el-form-item label="客人信息:">
-                        <div class="personList">
-                            <ul>
-                                <li v-for="(item, index) in form.personList">
-                                    <div class="done" v-if="item.type == 'done'">
-                                        {{item.name}}&nbsp;&nbsp;{{item.phone}} 
-                                        <a href="javascript:;" class="iconEdit" @click="item.type = 'edit'"></a>
-                                    </div>
-                                    <div v-if="item.type == 'edit'">
-                                        <el-input placeholder="客人姓名" v-model="item.name" class="inputText"></el-input>
-                                        <el-input placeholder="联系方式" v-model="item.phone" class="inputText"></el-input>
-                                        <el-button icon="el-icon-check" class="btn btnAdd" @click="addPersonItem(item)"></el-button>
-                                        <el-button icon="el-icon-close" class="btn btnDel" @click="delPersonItem(index)"></el-button>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="addPerson" @click="newPersonItem">
-                            <i class="el-icon-circle-plus-outline"></i>
-                            添加客户信息
-                        </div>
+                    <el-form-item label="中文名称:">
+                        <el-input v-model="form.nameCn"></el-input>
                     </el-form-item>
 
-                    <el-form-item label="备注:">
-                        <el-input
-                            type="textarea"
-                            :rows="3"
-                            placeholder="添加备注信息（限200个中文字符）"
-                            v-model="form.remarks">
-                        </el-input>
+                    <el-form-item label="英文名称:">
+                        <el-input v-model="form.nameEn"></el-input>
                     </el-form-item>
 
-                    <el-form-item label="选择模板:">
-                        <el-select v-model="form.templateType" placeholder="请选择" class="templateType">
+                    <el-form-item label="图片:">
+                        <div class="routePic" :style="{backgroundImage: `url(${routeImgFormat(form.imageurl)})`}"></div>
+                        <el-upload
+                            class="uploadRoutePic"
+                            action="/tripnote/common/upload/poi/image"
+                            :on-preview="handlePreview"
+                            :on-remove="handleRemove"
+                            :show-file-list="false"
+                            :on-success="handleAvatarSuccess"
+                            >
+                            <el-button size="small" type="primary">点击上传</el-button>
+                            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                        </el-upload>
+                    </el-form-item>
+
+                    <el-form-item label="类型:">
+                        <el-select v-model="form.type" placeholder="请选择">
                             <el-option
-                                v-for="item in tempateTypeOpts"
+                                v-for="item in poiType"
                                 :key="item.value"
                                 :label="item.label"
                                 :value="item.value">
                             </el-option>
                         </el-select>
                     </el-form-item>
+
+
+                    <el-form-item label="其他语言:">
+                        <el-input v-model="form.lang"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="地理位置:">
+                        <div class="geoInfo">
+                           <!--  <el-input
+                                placeholder="请输入地点名称"
+                                prefix-icon="el-icon-search"
+                                v-model="geoKeyword">
+                            </el-input> -->
+
+                            <el-autocomplete
+                                class="geoKeyword"
+                                prefix-icon="el-icon-search"
+                                v-model="geoKeyword"
+                                :fetch-suggestions="queryGeoSearch"
+                                placeholder="请输入地点名称"
+                                :trigger-on-focus="false"
+                                @select="geoSelect"
+                            ></el-autocomplete>
+                            <div class="geoMap" id="GeoMap"></div>
+                        </div>
+                    </el-form-item>
+
+                    <el-form-item label="地址:">
+                        <el-input v-model="form.address"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="所在城市:">
+                        <el-autocomplete
+                            style="width: 100%"
+                            v-model="form.cityName"
+                            prefix-icon="el-icon-search"
+                            :fetch-suggestions="queryCitySearch"
+                            placeholder="请输入所在城市"
+                            :trigger-on-focus="false"
+                            @select="geoCitySelect"
+                        ></el-autocomplete>
+                    </el-form-item>
+
+                    <el-form-item label="电话:">
+                        <el-input v-model="form.phone"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="网址:">
+                        <el-input v-model="form.url"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="开放时间:">
+                        <el-input v-model="form.openTime"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="用时参考:">
+                        <el-input v-model="form.timeReference"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="交通指引:">
+                        <el-input
+                            type="textarea"
+                            :rows="3"
+                            v-model="form.trafficInstructions">
+                        </el-input>
+                    </el-form-item>
+
+                    <el-form-item label="地点简介:">
+                        <el-input
+                            type="textarea"
+                            :rows="3"
+                            v-model="form.guide">
+                        </el-input>
+                    </el-form-item>
+
                 </el-form>
 
                 <div slot="footer" class="dialog-footer">
                     <el-button @click.native="dialogAddVisible = false">取 消</el-button>
-                    <el-button :disabled="isDisable" type="primary" @click.native="addRouteSubmit()">新 建</el-button>
+                    <el-button :disabled="isDisable" type="primary" @click.native="addPoiSubmit">新 建</el-button>
                 </div>
             </el-dialog>
         </div>
 
         <el-dialog title="提示" :visible.sync="dialogDelTip" width="450px">
             <div class="delTipCon">
-                <p>您确定要删除这一天吗？</p>
-                <p class="colorRed">安排这天所有的行程都会删除！</p>
+                <p>您确定要删除该POI吗？</p>
             </div>
             <div slot="footer" class="dialog-footer">
                 <el-button @click.native="dialogDelTip = false">取消</el-button>
-                <el-button type="primary" @click.native="delRoute">确定</el-button>
+                <el-button type="primary" @click.native="delSubmit">确定</el-button>
             </div>
         </el-dialog>
-
-        <route-template 
-            v-if="templateVisible" 
-            :templateType="form.templateType" 
-            @callbackCancel="templateVisible = false"
-            @callbackSure="templateCallback"
-        ></route-template>
     </div>
 </template>
 <script>
-import RouteTemplate from './RouteTemplate'
 import moment from 'moment'
 import { FormatTime } from 'mixins/common'
 
 export default {
     mixins: [ FormatTime ],
-    components: {
-        RouteTemplate
-    },
     watch: {
         'form.dateRange'(val){
             if(val != ''){
@@ -238,6 +198,7 @@ export default {
 
     data() {
         return {
+            map: '',
             dialogDelTip: false,
 
             pickerOptions:{
@@ -246,55 +207,242 @@ export default {
                 },
             },
 
+            filterOptsList: [{
+                id: -1,
+                name: '全部'
+            },{
+                id: 1,
+                name: '餐饮'
+            },{
+                id: 2,
+                name: '游览'
+            },{
+                id: 3,
+                name: '购物'
+            },{
+                id: 4,
+                name: '娱乐'
+            }],
+
+            filterOptsSel: '全部',
+
             tableData: [],
             tableDataLoading: true,
             pageNo: 1,
-            pageSize: 5,
+            pageSize: 8,
             total: 0,
-            form: {
-                title: '',
-                days: '',
-                destination: '',
-                dateRange: '',
-                remark: '',
-                personList: [],
-                templateType: '',
-                startCity: ''
-            },
-            tempateTypeOpts: [{
-                value: 1,
-                label: '我的模板'
+
+            cityName: '',
+
+            poiType: [{
+                label: '餐饮',
+                value: 1
             },{
-                value: 2,
-                label: '我定制过的行程'
+                label: '游览',
+                value: 2
             },{
-                value: 3,
-                label: '系统模板'
+                label: '购物',
+                value: 3
+            },{
+                label: '娱乐',
+                value: 4
             }],
+
+            form: {
+                nameCn: '',
+                nameEn: '',
+                type: '',
+                lat: '',
+                lon: '',
+                address: '',
+                cityId: [],
+                cityName: '',
+                price: '',
+                phone: '',
+                url: '',
+                imageurl: '',
+                openTime: '',
+                phone: '',
+                timeReference: '',
+                trafficInstructions: '',
+                guide: '',
+            },
             dialogAddVisible: false,
             templateVisible: false,
             routeId: '',
-            delRouteId: '',
+            delPOIId: '',
             sortField: 'create_time',
-            sortType: -1
+            sortType: -1,
+
+            poiList: []
         }
     },
     created(){
-        this.getRouteList()
+        this.getPoiList()
     },
     methods: {
-        newRoute(){
+        mapInit(){
+            var vm = this
+            if(this.map == ''){
+                setTimeout(function(){
+                    vm.map = new google.maps.Map(document.getElementById('GeoMap'), {
+                        center: {lat: 39.920000, lng: 116.460000},
+                        zoom: 3,
+                        disableDefaultUI: true
+                    })
+                }, 300)
+                
+            }            
+        },
+
+        queryGeoSearch(queryString, cb) {
+            var vm = this
+            var geocoder = new google.maps.Geocoder()
+
+            geocoder.geocode({'address': this.geoKeyword}, function(results, status) {  
+                if (status == google.maps.GeocoderStatus.OK) {
+                    if (results.length == 1) {
+                        console.log(" 地址为：" + results[0].formatted_address)
+                        console.log(" id为：" + results[0].place_id)
+                        console.log(" id为：" + results[0].geometry.location)
+                        console.log(results[0].geometry.location)
+
+                        vm.map.setCenter(results[0].geometry.location)
+                        vm.map.setZoom(15)
+
+                        vm.form.address = results[0].formatted_address
+
+                        var _marker = new google.maps.Marker({
+                            map: vm.map,
+                            // icon: icon,
+                            // title: place.name,
+                            position: results[0].geometry.location,
+                            draggable: true,
+                        })
+
+                        google.maps.event.addListener(_marker, 'dragend', function(event) {
+                            geocoder.geocode({'location': event.latLng}, function(results, status) {  
+                                if (status == google.maps.GeocoderStatus.OK) {
+                                    if (results[0]) {
+                                        console.log(" 地址为：" + results[0].formatted_address)
+
+                                        vm.form.address = results[0].formatted_address
+                                    }
+                                }
+                            })
+                            vm.map.panTo(event.latLng)
+                        })
+
+                        cb([])
+                    } else {
+                        for (var i = 0; i < results.length; i++) {
+                            results[i].value = results[i].formatted_address
+                        }
+
+                        console.log(results)
+                        cb(results)
+                    }
+                } else {
+                    
+                }
+            });
+            
+        },
+
+        queryCitySearch(queryString, cb) {
+            var vm = this
+            this.tableDataLoading = true
+            this.$http({
+                method: 'POST',
+                url: '/city/doSearch',
+                data: {
+                    pageNo: 1,
+                    pageSize: 100,
+                    nameCn: queryString
+                }
+            })
+            .then((res)=>{
+                vm.tableDataLoading = false
+                if(res.data.code == -1){
+                    this.$message({
+                        message: res.data.message,
+                        type: 'error',
+                        duration: 2000
+                    });
+                }else{
+                    var _data = []
+
+                    for (var i = 0; i < res.data.data.length; i++) {
+                        var _item = res.data.data[i]
+                        _item.value = res.data.data[i].nameCn
+                        _data.push(_item)
+                    }
+
+                    cb(_data)
+                }
+            })
+        },
+
+        geoCitySelect(item){
+            this.form.cityId = item.id
+            this.form.cityName = item.nameCn
+            this.form.lat = item.lat
+            this.form.lon = item.lon
+
+            console.log(item)
+        },
+
+
+        geoSelect(item) {
+            console.log(item);
+        },
+
+        poiTypeFormat(type){
+            if(type == 1){
+                return '<i class="iconfont icon-canyin"></i>'
+            }else if(type == 2){
+                return '<i class="iconfont icon-travel"></i>'
+            }else if(type == 3){
+                return '<i class="iconfont icon-gouwu"></i>'
+            }else if(type == 4){
+                return '<i class="iconfont icon-kuaiyule"></i>'
+            }else if(type == 5){
+                return '<i class="iconfont icon-flag"></i>'
+            }else if(type == 6){
+                return '<i class="iconfont icon-chuangwei"></i>'
+            }
+        },
+
+        imgFormat(imgurl){
+            if(imgurl){
+                return imgurl
+            }else{
+                return require('../../assets/images/route_pic_blank.png')
+            }
+        },
+
+        newPoi(){
             this.dialogAddVisible = true
             this.form = {
-                title: '',
-                days: '',
-                destination: '',
-                dateRange: '',
-                remark: '',
-                personList: [],
-                templateType: '',
-                startCity: ''
+                nameCn: '',
+                nameEn: '',
+                type: '',
+                lat: '',
+                lon: '',
+                address: '',
+                cityId: [],
+                cityName: '',
+                price: '',
+                phone: '',
+                url: '',
+                imageurl: '',
+                openTime: '',
+                phone: '',
+                timeReference: '',
+                trafficInstructions: '',
+                guide: '',
             }
+            this.mapInit()
         },
 
 
@@ -302,7 +450,6 @@ export default {
             if(column.prop){
                 this.sortField = column.prop
                 this.sortType = column.order == 'ascending' ? 1 : -1
-
                 this.getRouteList()
             }
         },
@@ -329,18 +476,16 @@ export default {
             return _personList.join('<br/>')
         },
 
-        // 获取行程列表
-        getRouteList(){
+        // 获取POI列表
+        getPoiList(){
             var vm = this
             this.tableDataLoading = true
             this.$http({
                 method: 'POST',
-                url: '/tripnote/tripnote/doSearch',
+                url: '/poi/doSearch',
                 data: {
                     pageNo: this.pageNo,
-                    pageSize: this.pageSize,
-                    sortField: this.sortField,
-                    ascOrDes: this.sortType,
+                    pageSize: this.pageSize
                 }
             })
             .then((res)=>{
@@ -352,7 +497,7 @@ export default {
                         duration: 2000
                     });
                 }else{
-                    this.tableData = res.data.data.data
+                    this.poiList = res.data.data.data
                     this.total = res.data.data.total
                 }
             })
@@ -360,7 +505,7 @@ export default {
 
         handleCurrentChange(val){
             this.pageNo = val
-            this.getRouteList()
+            this.getPoiList()
         },
 
         formatter(row, column) {
@@ -380,30 +525,11 @@ export default {
             this.form.personList.splice(index, 1)
         },
 
-        addRouteSubmit(){
-            var _custom = []
-            for (var i = 0; i < this.form.personList.length; i++) {
-                if(this.form.personList[i].type == 'done'){
-                    _custom.push({
-                        name: this.form.personList[i].name,
-                        phone: this.form.personList[i].phone,
-                    })
-                }
-            }
-
+        addPoiSubmit(){
             this.$http({
                 method: 'POST',
-                url: '/tripnote/tripnote/doAdd',
-                data: {
-                    title: this.form.title,
-                    days: this.form.days,
-                    startDate: moment(this.form.dateRange[0]).format('YYYY-MM-DD'),
-                    endDate: moment(this.form.dateRange[1]).format('YYYY-MM-DD'),
-                    remarks: this.form.remarks,
-                    startCity: this.form.startCity,
-                    destination: this.form.destination,
-                    customers: JSON.stringify({"customer":_custom}),
-                }
+                url: '/poi/doAdd',
+                data: this.form
             })
             .then((res)=>{
                 if(res.data.code == -1){
@@ -413,63 +539,21 @@ export default {
                         duration: 2000
                     });
                 }else{
-                    this.routeId = res.data.data
-                    this.form['id'] = this.routeId
-                    this.$store.dispatch('setRouteInfo', this.form)
-                    this.addSchedule()
+                    this.dialogAddVisible = false
+                    this.getPoiList()
                 }
             })
         },
 
-        addSchedule(){
-            this.$http({
-                method: 'POST',
-                url: '/tripnote/tripnote/schedule/doAdd/' + this.routeId,
-                data: {
-                    indexdate: this.form.days,
-                }
-            })
-            .then((res)=>{
-                if(res.data.code == -1){
-                    this.$message({
-                        message: res.data.message,
-                        type: 'error',
-                        duration: 2000
-                    });
-                }else{
-                    // this.addDayCity(res.data.data)
-
-                    this.$router.push({path: '/route/' + this.routeId})
-                }
-            })
-        },
-
-        // async addDayCity(cityList){
-        //     const res1 = await this.$http({
-        //         method: 'POST',
-        //         url: '/tripnote/tripnote/schedulecity/doAdd',
-        //         data:{
-        //             cityId: item.id,
-        //             scheduleId: this.dayId
-        //         }
-        //     })
-            
-        // },
-
-        templateCallback(data){
-            this.templateVisible = false
-            this.templateType = data.templateType
-        },
-
-        delRouteConfirm(id){
+        delConfirm(id){
             this.dialogDelTip = true
-            this.delRouteId = id
+            this.delPOIId = id
         },
 
-        delRoute(){
+        delSubmit(){
             this.$http({
                 method: 'POST',
-                url: '/tripnote/tripnote/doDelete/' + this.delRouteId,
+                url: '/poi/doDelete/' + this.delPOIId,
             })
             .then((res)=>{
                 if(res.data.code == -1){
@@ -488,170 +572,111 @@ export default {
                     this.getRouteList()
                 }
             })
-        }
+        },
+
+        handleAvatarSuccess(res, file) {
+            this.form.imageurl = res.link
+        },
+
+        routeImgFormat(imgurl){
+            if(imgurl){
+                return imgurl
+            }else{
+                return require('../../assets/images/route_pic_blank.png')
+            }
+        },
     },
 }
 </script>
 <style lang="less" scope>
-.delTipCon{
-    padding: 25px 0;
-    text-align: center;
-    p{
-        line-height: 24px;
-    }
-    .colorRed{
-        color: #F56C6C;
-    }
+.poiTypeFilter{
+    float: left;
+    margin-right: 30px;
 }
-.routeListTable{
-    td{
-        padding: 20px 0;
-        color: #9FA5B0;
-        cursor: pointer;
-    }
-}
-.tableDataDel{
-    font-size: 18px;
-    color: #9FA5B0;
-}
-.routeTit{
-    .avatar{
-        float: left;
-        width: 90px;
-        height: 70px;
-        margin-left: -10px;
-    }
-    h3{
-        padding-top: 5px;
-        margin-left: 95px;
-        font-size: 16px;
-        font-weight: normal;
-        color: #444;
-    }
-    .cityList{
-        margin-top: 20px;
-        margin-left: 95px;
-        div{
-            width: 100%;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-        }
-    }
-}
-.addNewRouteTip{
-    width: 170px;
-    margin: 55px auto;
-    text-align: center;
-    font-size: 14px;
-    .pic{
-        width: 170px;
-        height: 215px;
-        border: 1px dashed #e3e3e3;
-        cursor: pointer;
-        &:hover{
-            background: #F9FAFA;
-        }
-        .icon{
-            width: 68px;
-            height: 91px;
-            margin: 47px auto 0;
-            background: url(../../assets/images/icon_add.png);
-        }
-        .txt{
-            line-height: 40px;
-        }
-    }
-    p{
-        margin-top: 15px;
-        color: #C7CBD1;
-    }
-}
-.formAdd{
-    margin-bottom: 15px;
-    .label{
-        display: block;
-        padding-right: 12px;
-        font-size: 13px;
-        text-align: right;
-        color: #474747;
-    }
-    .dateRange{
-        width: 195px;
-        padding: 0 5px;
-    }
-    .el-range__icon{
-        line-height: 24px;
-    }
-    .el-range-separator{
-        width: 10%;
-        padding: 0 2px;
-        line-height: 30px;
-        vertical-align: top;
-        font-size: 12px;
-    }
-    .el-range__close-icon{
-        display: none;
-    }
-    .el-range-input{
-        width: 38%;
-        vertical-align: middle;
-    }
-    .addPerson{
-        height: 34px;
-        padding-left: 12px;
-        background: #fafafa;
-        line-height: 34px;
-        color: #999;
-        cursor: pointer;
-        i{
-            font-size: 14px;
-        }
-        &:hover{
-            background: #fff; 
-        }
-    }
-    .personList{
+
+.mainPoiList{
+
+    .tableList{
+        overflow: hidden;
+        margin-right: -30px;
         li{
-            margin-bottom: 10px;
-            .done{
-                line-height: 24px;
-            }
-            .iconEdit{
-                display: inline-block;
-                vertical-align: middle;
-                width: 24px;
-                height: 24px;
-                margin-top: -6px;
-                background: url(../../assets/images/icon_edit.png) center center no-repeat;
-            }
-            .inputText{
-                width: 185px;
-                margin-right: 10px;
-            }
-            .btn{
-                float: right;
-                width: 32px;
-                height: 32px;
-                margin-left: 5px;
-                padding: 5px;
-                background: #e2e2e2;
-                border: 0;
-                font-size: 20px;
-                &:hover{
-                    background: #ddd;
+            float: left;
+            width: 25%;
+            margin-bottom: 30px;
+            .inside{
+                margin-right: 30px;
+                .pic{
+                    overflow: hidden;
+                    .img{
+                        width: 100%;
+                        height: 100px;
+                        background-size: cover;
+                        background-position: center;
+                        transition: all 0.3s;
+                        &:hover{
+                            transform: scale(1.2);
+                        }
+                    }
                 }
-            }
-            .btnDel:hover{
-                color: #F56C6C;
-            }
-            .btnAdd{
-                color: #23a16d;
+                .info{
+                    position: relative;
+                    padding: 10px;
+                    border: 1px solid #e2e2e2;
+                    border-top: 0;
+                    .tit{
+                        width: 100%;
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        font-size: 16px;
+                        span{
+                            color: #23a16d;
+                        }
+                    }
+                    .subTit{
+                        // margin-left: 22px;
+                        width: 100%;
+                        padding-right: 20px;
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        color: #a0abb3;
+                    }
+                    .del{
+                        position: absolute;
+                        bottom: 10px;
+                        right: 10px;
+                        color: #a0abb3;
+                        i{
+                            font-size: 16px;
+                        }
+                        &:hover{
+                            color: #555;
+                        }
+                    }
+                }
+                
             }
         }
     }
-    .templateType{
+    
+    .el-pagination{
+        padding-top: 0;
+    }
+}
+.geoInfo{
+    height: 300px;
+    border: 1px solid #e2e2e2;
+    .geoKeyword{
+        position: absolute;
+        z-index: 100;
+        top: 12px;
+        left: 12px;
+        width: 300px;
+    }
+    .geoMap{
         width: 100%;
+        height: 300px;
     }
 }
 </style>
