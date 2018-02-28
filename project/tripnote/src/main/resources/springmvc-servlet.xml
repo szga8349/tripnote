@@ -50,11 +50,20 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="converters">
             <set>
                 <ref bean="dateConvert"/>
+                <ref bean="doubleConvert"/>
+                <ref bean="longConvert"/>
+                <ref bean="integerConvert"/>
             </set>
         </property>
     </bean>
     <!-- 第一步:  创建自定义日期转换规则 -->   
     <bean id="dateConvert" class="com.lenovo.tripnote.converter.DateConvert"/>
+    
+    <bean id="doubleConvert" class="com.lenovo.tripnote.converter.DoubleConvert"/>
+        
+    <bean id="longConvert" class="com.lenovo.tripnote.converter.LongConvert"/>
+        
+    <bean id="integerConvert" class="com.lenovo.tripnote.converter.IntegerConvert"/>
 
     <!-- 静态资源访问，方案1 -->
     <!--<mvc:resources mapping="/static/**" location="/static/" /> 

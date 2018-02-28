@@ -29,6 +29,7 @@ import com.lenovo.tripnote.vo.ResultVo;
 @Controller
 @RequestMapping(value = "/poi")
 public class BPoiController {
+	
 	@Resource
 	private BPoiService bPoiService;
 	@RequestMapping(value = "/doAdd")
