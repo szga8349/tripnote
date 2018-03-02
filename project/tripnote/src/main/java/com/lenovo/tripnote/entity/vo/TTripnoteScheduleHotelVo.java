@@ -168,5 +168,11 @@ public class TTripnoteScheduleHotelVo implements Serializable {
      * @ibatorgenerated 2018-01-30 16:34:45
      */
     private String introduction;
+    
+    
+    /**
+     * 备注
+     */
+    private String remark;
 
 }

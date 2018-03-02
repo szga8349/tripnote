@@ -7,25 +7,25 @@ import java.util.List;
 public class TTripnoteScheduleHotelExample {
     /**
      * 主键字段
-     * @ibatorgenerated 2018-02-02 16:31:35
+     * @ibatorgenerated 2018-03-02 15:01:18
      */
     protected String pk_name = "id";
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-02-02 16:31:35
+     * @ibatorgenerated 2018-03-02 15:01:18
      */
     protected String orderByClause;
 
     /**
      * 去重复
-     * @ibatorgenerated 2018-02-02 16:31:35
+     * @ibatorgenerated 2018-03-02 15:01:18
      */
     protected boolean distinct;
 
     /**
      * 条件集
-     * @ibatorgenerated 2018-02-02 16:31:35
+     * @ibatorgenerated 2018-03-02 15:01:18
      */
     protected List<Criteria> oredCriteria;
 
@@ -43,7 +43,7 @@ public class TTripnoteScheduleHotelExample {
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-02-02 16:31:35
+     * @ibatorgenerated 2018-03-02 15:01:18
      */
     public void setOrderByClause(String orderByClause) {
         this.orderByClause = orderByClause;
@@ -55,7 +55,7 @@ public class TTripnoteScheduleHotelExample {
 
     /**
      * 设置去重复
-     * @ibatorgenerated 2018-02-02 16:31:35
+     * @ibatorgenerated 2018-03-02 15:01:18
      */
     public void setDistinct(boolean distinct) {
         this.distinct = distinct;
@@ -81,7 +81,7 @@ public class TTripnoteScheduleHotelExample {
 
     /**
      * 条件查询要先创建Criteria
-     * @ibatorgenerated 2018-02-02 16:31:35
+     * @ibatorgenerated 2018-03-02 15:01:18
      */
     public Criteria createCriteria() {
         Criteria criteria = createCriteriaInternal();
@@ -105,7 +105,7 @@ public class TTripnoteScheduleHotelExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-02-02 16:31:35
+     * @ibatorgenerated 2018-03-02 15:01:18
      */
     protected abstract static class GeneratedCriteria {
         protected List<Criterion> criteria;
@@ -1838,63 +1838,63 @@ public class TTripnoteScheduleHotelExample {
             return (Criteria) this;
         }
 
-        public Criteria andHotalIdIsNull() {
-            addCriterion("hotal_id is null");
+        public Criteria andHotelIdIsNull() {
+            addCriterion("hotel_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andHotalIdIsNotNull() {
-            addCriterion("hotal_id is not null");
+        public Criteria andHotelIdIsNotNull() {
+            addCriterion("hotel_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andHotalIdEqualTo(Integer value) {
-            addCriterion("hotal_id =", value, "hotalId");
+        public Criteria andHotelIdEqualTo(Integer value) {
+            addCriterion("hotel_id =", value, "hotelId");
             return (Criteria) this;
         }
 
-        public Criteria andHotalIdNotEqualTo(Integer value) {
-            addCriterion("hotal_id <>", value, "hotalId");
+        public Criteria andHotelIdNotEqualTo(Integer value) {
+            addCriterion("hotel_id <>", value, "hotelId");
             return (Criteria) this;
         }
 
-        public Criteria andHotalIdGreaterThan(Integer value) {
-            addCriterion("hotal_id >", value, "hotalId");
+        public Criteria andHotelIdGreaterThan(Integer value) {
+            addCriterion("hotel_id >", value, "hotelId");
             return (Criteria) this;
         }
 
-        public Criteria andHotalIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("hotal_id >=", value, "hotalId");
+        public Criteria andHotelIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("hotel_id >=", value, "hotelId");
             return (Criteria) this;
         }
 
-        public Criteria andHotalIdLessThan(Integer value) {
-            addCriterion("hotal_id <", value, "hotalId");
+        public Criteria andHotelIdLessThan(Integer value) {
+            addCriterion("hotel_id <", value, "hotelId");
             return (Criteria) this;
         }
 
-        public Criteria andHotalIdLessThanOrEqualTo(Integer value) {
-            addCriterion("hotal_id <=", value, "hotalId");
+        public Criteria andHotelIdLessThanOrEqualTo(Integer value) {
+            addCriterion("hotel_id <=", value, "hotelId");
             return (Criteria) this;
         }
 
-        public Criteria andHotalIdIn(List<Integer> values) {
-            addCriterion("hotal_id in", values, "hotalId");
+        public Criteria andHotelIdIn(List<Integer> values) {
+            addCriterion("hotel_id in", values, "hotelId");
             return (Criteria) this;
         }
 
-        public Criteria andHotalIdNotIn(List<Integer> values) {
-            addCriterion("hotal_id not in", values, "hotalId");
+        public Criteria andHotelIdNotIn(List<Integer> values) {
+            addCriterion("hotel_id not in", values, "hotelId");
             return (Criteria) this;
         }
 
-        public Criteria andHotalIdBetween(Integer value1, Integer value2) {
-            addCriterion("hotal_id between", value1, value2, "hotalId");
+        public Criteria andHotelIdBetween(Integer value1, Integer value2) {
+            addCriterion("hotel_id between", value1, value2, "hotelId");
             return (Criteria) this;
         }
 
-        public Criteria andHotalIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("hotal_id not between", value1, value2, "hotalId");
+        public Criteria andHotelIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("hotel_id not between", value1, value2, "hotelId");
             return (Criteria) this;
         }
 
@@ -2087,11 +2087,81 @@ public class TTripnoteScheduleHotelExample {
             addCriterion("`type` not between", value1, value2, "type");
             return (Criteria) this;
         }
+
+        public Criteria andRemarkIsNull() {
+            addCriterion("remark is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkIsNotNull() {
+            addCriterion("remark is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkEqualTo(String value) {
+            addCriterion("remark =", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotEqualTo(String value) {
+            addCriterion("remark <>", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkGreaterThan(String value) {
+            addCriterion("remark >", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkGreaterThanOrEqualTo(String value) {
+            addCriterion("remark >=", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLessThan(String value) {
+            addCriterion("remark <", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLessThanOrEqualTo(String value) {
+            addCriterion("remark <=", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLike(String value) {
+            addCriterion("remark like", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotLike(String value) {
+            addCriterion("remark not like", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkIn(List<String> values) {
+            addCriterion("remark in", values, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotIn(List<String> values) {
+            addCriterion("remark not in", values, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkBetween(String value1, String value2) {
+            addCriterion("remark between", value1, value2, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotBetween(String value1, String value2) {
+            addCriterion("remark not between", value1, value2, "remark");
+            return (Criteria) this;
+        }
     }
 
     /**
      * t_tripnote_schedule_hotel
-     * @ibatorgenerated do_not_delete_during_merge 2018-02-02 16:31:35
+     * @ibatorgenerated do_not_delete_during_merge 2018-03-02 15:01:18
      */
     public static class Criteria extends GeneratedCriteria {
 
@@ -2103,7 +2173,7 @@ public class TTripnoteScheduleHotelExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-02-02 16:31:35
+     * @ibatorgenerated 2018-03-02 15:01:18
      */
     public static class Criterion {
         private String condition;
