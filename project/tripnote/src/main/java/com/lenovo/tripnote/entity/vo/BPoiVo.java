@@ -121,4 +121,10 @@ public class BPoiVo {
      * @ibatorgenerated 2018-01-23 13:46:12
      */
     private String url;
+
+    /**
+     * b_poi.imageurl (缩列图地址url)
+     * @ibatorgenerated 2018-01-23 14:45:28
+     */
+    private String imageurl;
 }
