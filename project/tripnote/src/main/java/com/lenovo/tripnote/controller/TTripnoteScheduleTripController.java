@@ -16,12 +16,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lenovo.tripnote.entity.BAccount;
 import com.lenovo.tripnote.entity.BPoi;
+import com.lenovo.tripnote.entity.BTraffic;
 import com.lenovo.tripnote.entity.TTripnoteScheduleTrip;
 import com.lenovo.tripnote.entity.vo.TTripnoteScheduleTripAddVo;
 import com.lenovo.tripnote.entity.vo.TTripnoteScheduleTripHotelAddVo;
 import com.lenovo.tripnote.entity.vo.TTripnoteScheduleTripVo;
 import com.lenovo.tripnote.service.BHotelService;
 import com.lenovo.tripnote.service.BPoiService;
+import com.lenovo.tripnote.service.BRentService;
+import com.lenovo.tripnote.service.BTrafficService;
 import com.lenovo.tripnote.service.TTripnoteScheduleHotelService;
 import com.lenovo.tripnote.service.TTripnoteScheduleTripService;
 import com.lenovo.tripnote.vo.Result;
@@ -45,6 +48,10 @@ public class TTripnoteScheduleTripController {
 	private BHotelService bHotelService;
 	@Resource
 	private TTripnoteScheduleHotelService tTripnoteScheduleHotelService;
+	@Resource
+	private BRentService  bRentService;
+	@Resource
+	private BTrafficService  bTrafficService;
 	
 	@RequestMapping(value = "/poi/doAdd")
 	public @ResponseBody ResultVo addScheduletrip(TTripnoteScheduleTripAddVo addVo){
@@ -69,7 +76,6 @@ public class TTripnoteScheduleTripController {
 		vo.setData(trip.getId());
 		return vo;
 	}
-	
 	@RequestMapping(value = "/hotel/doAdd")
 	public @ResponseBody ResultVo addScheduletripHotel(@RequestBody TTripnoteScheduleTripHotelAddVo addVo){
 		Subject subject = SecurityUtils.getSubject();
@@ -111,4 +117,46 @@ public class TTripnoteScheduleTripController {
 		vo.setData(tTripnoteScheduleTripService.getByKey(Integer.valueOf(id)));
 		return vo;
 	}
+	
+	/**增加租车关联关系
+	 * @param addVo
+	 * @return
+	 */
+	@RequestMapping(value = "/rent/doAdd")
+	public @ResponseBody ResultVo addRentScheduletrip(TTripnoteScheduleTripAddVo addVo){
+		ResultVo vo = new ResultVo();
+		vo.setCode(Result.SUCESSFUL);
+		bRentService.insertRentToSchedule(addVo.getSourceId(),addVo.getScheduleId());
+		return vo;
+	}
+	/**增加城际交通关联关系
+	 * @param addVo
+	 * @return
+	 */
+	@RequestMapping(value = "/traffic/doAdd")
+	public @ResponseBody ResultVo addTrafficScheduletrip(TTripnoteScheduleTripAddVo addVo){
+		Subject subject = SecurityUtils.getSubject();
+		BAccount account = (BAccount) subject.getPrincipal();
+		ResultVo vo = new ResultVo();
+		vo.setCode(Result.SUCESSFUL);
+		BTraffic bpoi = bTrafficService.getByKey(addVo.getSourceId());
+		TTripnoteScheduleTrip trip = new TTripnoteScheduleTrip();
+		try {
+			BeanUtils.copyProperties(trip, bpoi);
+		} catch (IllegalAccessException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		//设置成城际交通类型
+		trip.setType(7);
+		trip.setScheduleId(addVo.getScheduleId());
+		trip.setPoiId(bpoi.getId());
+		trip.setId(null);
+		//重新设置创建人和创建时间
+		trip.setCreateUserId(account.getId());
+		trip.setCreateTime(new Date());
+		tTripnoteScheduleTripService.insert(trip);
+		vo.setData(trip.getId());
+		return vo;
+	}
+	
 }

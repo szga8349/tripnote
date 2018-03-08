@@ -1,5 +1,7 @@
 package com.lenovo.tripnote.entity.vo;
 
+import java.util.Date;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -140,4 +142,43 @@ public class TTripnoteScheduleTripVo {
      * @ibatorgenerated 2018-01-23 14:54:44
      */
     private String guide;
+    
+    
+    
+    //城际交通增加的属性
+    /**
+     * b_traffic.type (1-飞机2-火车3-轮船4-巴士)
+     * @ibatorgenerated 2018-03-08 16:28:36
+     */
+    private Integer traffictype;
+
+    /**
+     * b_traffic.start_name
+     * @ibatorgenerated 2018-03-08 16:28:36
+     */
+    private String startName;
+
+    /**
+     * b_traffic.end_name
+     * @ibatorgenerated 2018-03-08 16:28:36
+     */
+    private String endName;
+
+    /**
+     * b_traffic.start_time
+     * @ibatorgenerated 2018-03-08 16:28:36
+     */
+    private Date startTime;
+
+    /**
+     * b_traffic.end_time
+     * @ibatorgenerated 2018-03-08 16:28:36
+     */
+    private Date endTime;
+
+    /**
+     * b_traffic.model (飞机:机型 火车:车型)
+     * @ibatorgenerated 2018-03-08 16:28:36
+     */
+    private String model;
 }

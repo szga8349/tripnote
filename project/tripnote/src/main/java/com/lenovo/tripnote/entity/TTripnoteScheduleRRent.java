@@ -12,13 +12,14 @@ import lombok.Setter;
 public class TTripnoteScheduleRRent implements Serializable {
     /**
      * t_tripnote_schedule_r_rent.rentid
-     * @ibatorgenerated 2018-03-08 16:28:38
+     * @ibatorgenerated 2018-03-08 18:03:02
      */
     private Integer rentid;
 
     /**
      * t_tripnote_schedule_r_rent.schedule_id
-     * @ibatorgenerated 2018-03-08 16:28:38
+     * @ibatorgenerated 2018-03-08 18:03:02
      */
     private Integer scheduleId;
+
 }

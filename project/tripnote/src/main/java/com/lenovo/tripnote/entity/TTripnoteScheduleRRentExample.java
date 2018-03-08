@@ -6,25 +6,25 @@ import java.util.List;
 public class TTripnoteScheduleRRentExample {
     /**
      * 主键字段
-     * @ibatorgenerated 2018-03-08 16:28:38
+     * @ibatorgenerated 2018-03-08 18:03:02
      */
-    protected String pk_name = "rentid";
+    protected String pk_name;
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-03-08 16:28:38
+     * @ibatorgenerated 2018-03-08 18:03:02
      */
     protected String orderByClause;
 
     /**
      * 去重复
-     * @ibatorgenerated 2018-03-08 16:28:38
+     * @ibatorgenerated 2018-03-08 18:03:02
      */
     protected boolean distinct;
 
     /**
      * 条件集
-     * @ibatorgenerated 2018-03-08 16:28:38
+     * @ibatorgenerated 2018-03-08 18:03:02
      */
     protected List<Criteria> oredCriteria;
 
@@ -42,7 +42,7 @@ public class TTripnoteScheduleRRentExample {
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-03-08 16:28:38
+     * @ibatorgenerated 2018-03-08 18:03:02
      */
     public void setOrderByClause(String orderByClause) {
         this.orderByClause = orderByClause;
@@ -54,7 +54,7 @@ public class TTripnoteScheduleRRentExample {
 
     /**
      * 设置去重复
-     * @ibatorgenerated 2018-03-08 16:28:38
+     * @ibatorgenerated 2018-03-08 18:03:02
      */
     public void setDistinct(boolean distinct) {
         this.distinct = distinct;
@@ -80,7 +80,7 @@ public class TTripnoteScheduleRRentExample {
 
     /**
      * 条件查询要先创建Criteria
-     * @ibatorgenerated 2018-03-08 16:28:38
+     * @ibatorgenerated 2018-03-08 18:03:02
      */
     public Criteria createCriteria() {
         Criteria criteria = createCriteriaInternal();
@@ -104,7 +104,7 @@ public class TTripnoteScheduleRRentExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-03-08 16:28:38
+     * @ibatorgenerated 2018-03-08 18:03:02
      */
     protected abstract static class GeneratedCriteria {
         protected List<Criterion> criteria;
@@ -270,7 +270,7 @@ public class TTripnoteScheduleRRentExample {
 
     /**
      * t_tripnote_schedule_r_rent
-     * @ibatorgenerated do_not_delete_during_merge 2018-03-08 16:28:38
+     * @ibatorgenerated do_not_delete_during_merge 2018-03-08 18:03:02
      */
     public static class Criteria extends GeneratedCriteria {
 
@@ -282,7 +282,7 @@ public class TTripnoteScheduleRRentExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-03-08 16:28:38
+     * @ibatorgenerated 2018-03-08 18:03:02
      */
     public static class Criterion {
         private String condition;
