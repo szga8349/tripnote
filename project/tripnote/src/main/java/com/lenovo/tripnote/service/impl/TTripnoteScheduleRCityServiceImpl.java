@@ -53,7 +53,7 @@ public class TTripnoteScheduleRCityServiceImpl implements TTripnoteScheduleRCity
 	public int insertFrist(TTripnoteScheduleRCity t) {
 		TTripnoteScheduleRCityExample example = new TTripnoteScheduleRCityExample();
 		Criteria c = example.createCriteria();
-		c.andCityIdEqualTo(t.getCityId());
+//		c.andCityIdEqualTo(t.getCityId());
 		c.andScheduleIdEqualTo(t.getScheduleId());
 		example.setOrderByClause("create_time asc");
 		List<TTripnoteScheduleRCity>  citys = this.tTripnoteScheduleRCityMapper.selectByExample(example);
