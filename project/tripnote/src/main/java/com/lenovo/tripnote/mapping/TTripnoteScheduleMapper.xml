@@ -73,6 +73,14 @@
 			<result column="imageurl" property="imageurl" jdbcType="VARCHAR" />
 			<result column="url" property="url" jdbcType="VARCHAR" />
 			<result column="guide" property="guide" jdbcType="LONGVARCHAR" />
+			
+			<result column="traffictype" property="traffictype" jdbcType="INTEGER" />
+			<result column="start_name" property="startName" jdbcType="VARCHAR" />
+            <result column="end_name" property="endName" jdbcType="VARCHAR" />
+            <result column="traffic_start_time" property="startTime" jdbcType="TIMESTAMP" />
+            <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+            <result column="model" property="model" jdbcType="VARCHAR" />
+            
 		</collection>
 		<collection property="usertripnotes" javaType="java.util.List"
 			ofType="com.lenovo.tripnote.entity.vo.BUserTripnoteResultVo">
@@ -202,9 +210,11 @@
 		but.id as busertrip_id,but.title as
 		busertrip_title,but.cover,but.context as busertrip_context,
 		bc.id as city_id,bc.name_cn,bc.name_en,bc.lat,bc.lon,ttsrc.schedule_id as
-		schedule_id,bc.country_id,ttsrc.id as rcity_id
+		schedule_id,bc.country_id,ttsrc.id as rcity_id,
+		bt.type as traffictype,bt.start_name,bt.end_name,bt.start_time as traffic_start_time,bt.end_time,bt.model
 		from t_tripnote_schedule t
 		left join t_tripnote_schedule_trip ttst on ttst.schedule_id = t.id
+		left join b_traffic bt on bt.id = ttst.poi_id and ttst.type = 7 
 		left join t_tripnote_schedule_traffic ttstc on ttstc.schedule_id = t.id
 		left join t_tripnote_schedule_r_usenote ttsru on ttsru.tripnote_schedule_id=t.id
 		left join t_tripnote_schedule_hotel ttsh on ttsh.schedule_id=t.id
