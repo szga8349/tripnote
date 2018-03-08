@@ -72,7 +72,7 @@ public class TTripnoteScheduleTrip implements Serializable {
     private String cityname;
 
     /**
-     * t_tripnote_schedule_trip.type (1-餐饮2-游览3-购物4-娱乐)
+     * t_tripnote_schedule_trip.type (1-餐饮2-游览3-购物4-娱乐,5-产品,6-酒店,7-城际交通,8-租车)
      * @ibatorgenerated 2018-01-23 14:54:44
      */
     private Integer type;
