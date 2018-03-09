@@ -88,4 +88,34 @@ public class BTrafficVo {
      * @ibatorgenerated 2018-03-08 16:28:36
      */
     private String model;
+
+    /**
+     * b_traffic.start_lon (开始地经度)
+     * @ibatorgenerated 2018-03-09 16:53:11
+     */
+    private Double startLon;
+
+    /**
+     * b_traffic.start_lat (开始地纬度)
+     * @ibatorgenerated 2018-03-09 16:53:11
+     */
+    private Double startLat;
+
+    /**
+     * b_traffic.end_lon (终点地经度)
+     * @ibatorgenerated 2018-03-09 16:53:11
+     */
+    private Double endLon;
+
+    /**
+     * b_traffic.end_lat (终点地纬度)
+     * @ibatorgenerated 2018-03-09 16:53:11
+     */
+    private Double endLat;
+
+    /**
+     * b_traffic.time_consume (耗时)
+     * @ibatorgenerated 2018-03-09 16:53:11
+     */
+    private String timeConsume;
 }
