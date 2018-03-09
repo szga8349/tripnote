@@ -33,8 +33,8 @@ import com.lenovo.tripnote.entity.TTripnoteScheduleRCity;
 import com.lenovo.tripnote.entity.TTripnoteScheduleRCityExample;
 import com.lenovo.tripnote.entity.TTripnoteScheduleTraffic;
 import com.lenovo.tripnote.entity.TTripnoteScheduleTrafficExample;
-import com.lenovo.tripnote.entity.TTripnoteScheduleTrip;
 import com.lenovo.tripnote.entity.TTripnoteScheduleTripExample;
+import com.lenovo.tripnote.entity.TTripnoteScheduleTripWithBLOBs;
 import com.lenovo.tripnote.entity.vo.BExportVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteDetailResultVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteSearchResultVo;
@@ -290,10 +290,10 @@ public class TripnoteServiceImpl implements TTripnoteService{
 			{ // 重新生成关联的scheduletrip数据 
 				TTripnoteScheduleTripExample example = new TTripnoteScheduleTripExample();
 				example.createCriteria().andScheduleIdEqualTo(schduleId);
-				List<TTripnoteScheduleTrip> scheduleTrips = tTripnoteScheduleTripMapper
+				List<TTripnoteScheduleTripWithBLOBs> scheduleTrips = tTripnoteScheduleTripMapper
 						.selectByExampleWithBLOBs(example);
 				if (scheduleTrips != null)
-					for (TTripnoteScheduleTrip trip : scheduleTrips) {
+					for (TTripnoteScheduleTripWithBLOBs trip : scheduleTrips) {
 						trip.setCreateTime(new Date());
 						Integer oldTripId = trip.getId();
 						// 设置成新建日程的主键ID

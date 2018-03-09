@@ -7,25 +7,25 @@ import java.util.List;
 public class BTrafficExample {
     /**
      * 主键字段
-     * @ibatorgenerated 2018-03-09 14:13:21
+     * @ibatorgenerated 2018-03-09 16:53:11
      */
     protected String pk_name = "id";
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-03-09 14:13:21
+     * @ibatorgenerated 2018-03-09 16:53:11
      */
     protected String orderByClause;
 
     /**
      * 去重复
-     * @ibatorgenerated 2018-03-09 14:13:21
+     * @ibatorgenerated 2018-03-09 16:53:11
      */
     protected boolean distinct;
 
     /**
      * 条件集
-     * @ibatorgenerated 2018-03-09 14:13:21
+     * @ibatorgenerated 2018-03-09 16:53:11
      */
     protected List<Criteria> oredCriteria;
 
@@ -43,7 +43,7 @@ public class BTrafficExample {
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-03-09 14:13:21
+     * @ibatorgenerated 2018-03-09 16:53:11
      */
     public void setOrderByClause(String orderByClause) {
         this.orderByClause = orderByClause;
@@ -55,7 +55,7 @@ public class BTrafficExample {
 
     /**
      * 设置去重复
-     * @ibatorgenerated 2018-03-09 14:13:21
+     * @ibatorgenerated 2018-03-09 16:53:11
      */
     public void setDistinct(boolean distinct) {
         this.distinct = distinct;
@@ -81,7 +81,7 @@ public class BTrafficExample {
 
     /**
      * 条件查询要先创建Criteria
-     * @ibatorgenerated 2018-03-09 14:13:21
+     * @ibatorgenerated 2018-03-09 16:53:11
      */
     public Criteria createCriteria() {
         Criteria criteria = createCriteriaInternal();
@@ -105,7 +105,7 @@ public class BTrafficExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-03-09 14:13:21
+     * @ibatorgenerated 2018-03-09 16:53:11
      */
     protected abstract static class GeneratedCriteria {
         protected List<Criterion> criteria;
@@ -1347,11 +1347,81 @@ public class BTrafficExample {
             addCriterion("end_lat not between", value1, value2, "endLat");
             return (Criteria) this;
         }
+
+        public Criteria andTimeConsumeIsNull() {
+            addCriterion("time_consume is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeConsumeIsNotNull() {
+            addCriterion("time_consume is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeConsumeEqualTo(String value) {
+            addCriterion("time_consume =", value, "timeConsume");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeConsumeNotEqualTo(String value) {
+            addCriterion("time_consume <>", value, "timeConsume");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeConsumeGreaterThan(String value) {
+            addCriterion("time_consume >", value, "timeConsume");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeConsumeGreaterThanOrEqualTo(String value) {
+            addCriterion("time_consume >=", value, "timeConsume");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeConsumeLessThan(String value) {
+            addCriterion("time_consume <", value, "timeConsume");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeConsumeLessThanOrEqualTo(String value) {
+            addCriterion("time_consume <=", value, "timeConsume");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeConsumeLike(String value) {
+            addCriterion("time_consume like", value, "timeConsume");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeConsumeNotLike(String value) {
+            addCriterion("time_consume not like", value, "timeConsume");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeConsumeIn(List<String> values) {
+            addCriterion("time_consume in", values, "timeConsume");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeConsumeNotIn(List<String> values) {
+            addCriterion("time_consume not in", values, "timeConsume");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeConsumeBetween(String value1, String value2) {
+            addCriterion("time_consume between", value1, value2, "timeConsume");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeConsumeNotBetween(String value1, String value2) {
+            addCriterion("time_consume not between", value1, value2, "timeConsume");
+            return (Criteria) this;
+        }
     }
 
     /**
      * b_traffic
-     * @ibatorgenerated do_not_delete_during_merge 2018-03-09 14:13:21
+     * @ibatorgenerated do_not_delete_during_merge 2018-03-09 16:53:11
      */
     public static class Criteria extends GeneratedCriteria {
 
@@ -1363,7 +1433,7 @@ public class BTrafficExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-03-09 14:13:21
+     * @ibatorgenerated 2018-03-09 16:53:11
      */
     public static class Criterion {
         private String condition;

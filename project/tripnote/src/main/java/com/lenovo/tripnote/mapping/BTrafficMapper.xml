@@ -21,11 +21,12 @@
     <result column="start_lat" property="startLat" jdbcType="DOUBLE" />
     <result column="end_lon" property="endLon" jdbcType="DOUBLE" />
     <result column="end_lat" property="endLat" jdbcType="DOUBLE" />
+    <result column="time_consume" property="timeConsume" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, name_cn, name_en, price, supplier, create_time, create_user_id, `type`, end_cityid, 
     start_cityid, start_name, end_name, start_time, end_time, model, start_lon, start_lat, 
-    end_lon, end_lat
+    end_lon, end_lat, time_consume
   </sql>
   <sql id="Example_Where_Clause" >
     <where >
@@ -185,6 +186,9 @@
       <if test="record.endLat != null" >
         end_lat = #{record.endLat,jdbcType=DOUBLE},
       </if>
+      <if test="record.timeConsume != null" >
+        time_consume = #{record.timeConsume,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -210,7 +214,8 @@
       start_lon = #{record.startLon,jdbcType=DOUBLE},
       start_lat = #{record.startLat,jdbcType=DOUBLE},
       end_lon = #{record.endLon,jdbcType=DOUBLE},
-      end_lat = #{record.endLat,jdbcType=DOUBLE}
+      end_lat = #{record.endLat,jdbcType=DOUBLE},
+      time_consume = #{record.timeConsume,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -231,15 +236,15 @@
       `type`, end_cityid, start_cityid, 
       start_name, end_name, start_time, 
       end_time, model, start_lon, 
-      start_lat, end_lon, end_lat
-      )
+      start_lat, end_lon, end_lat, 
+      time_consume)
     values (#{nameCn,jdbcType=VARCHAR}, #{nameEn,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}, 
       #{supplier,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, 
       #{type,jdbcType=INTEGER}, #{endCityid,jdbcType=INTEGER}, #{startCityid,jdbcType=INTEGER}, 
       #{startName,jdbcType=VARCHAR}, #{endName,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, 
       #{endTime,jdbcType=TIMESTAMP}, #{model,jdbcType=VARCHAR}, #{startLon,jdbcType=DOUBLE}, 
-      #{startLat,jdbcType=DOUBLE}, #{endLon,jdbcType=DOUBLE}, #{endLat,jdbcType=DOUBLE}
-      )
+      #{startLat,jdbcType=DOUBLE}, #{endLon,jdbcType=DOUBLE}, #{endLat,jdbcType=DOUBLE}, 
+      #{timeConsume,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.BTraffic" useGeneratedKeys="true" keyProperty="id" >
     insert into b_traffic
@@ -262,6 +267,7 @@
       start_lat,
       end_lon,
       end_lat,
+      time_consume,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       #{nameCn,jdbcType=VARCHAR},
@@ -282,6 +288,7 @@
       #{startLat,jdbcType=DOUBLE},
       #{endLon,jdbcType=DOUBLE},
       #{endLat,jdbcType=DOUBLE},
+      #{timeConsume,jdbcType=VARCHAR},
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.lenovo.tripnote.entity.BTraffic" >
@@ -341,6 +348,9 @@
       <if test="endLat != null" >
         end_lat = #{endLat,jdbcType=DOUBLE},
       </if>
+      <if test="timeConsume != null" >
+        time_consume = #{timeConsume,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -363,7 +373,8 @@
       start_lon = #{startLon,jdbcType=DOUBLE},
       start_lat = #{startLat,jdbcType=DOUBLE},
       end_lon = #{endLon,jdbcType=DOUBLE},
-      end_lat = #{endLat,jdbcType=DOUBLE}
+      end_lat = #{endLat,jdbcType=DOUBLE},
+      time_consume = #{timeConsume,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

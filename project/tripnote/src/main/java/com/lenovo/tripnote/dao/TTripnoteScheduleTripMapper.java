@@ -2,6 +2,8 @@ package com.lenovo.tripnote.dao;
 
 import com.lenovo.tripnote.entity.TTripnoteScheduleTrip;
 import com.lenovo.tripnote.entity.TTripnoteScheduleTripExample;
+import com.lenovo.tripnote.entity.TTripnoteScheduleTripWithBLOBs;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
@@ -29,7 +31,7 @@ public interface TTripnoteScheduleTripMapper {
      * 返回:对象集合
      * @ibatorgenerated 2018-01-23 14:54:45
      */
-    List<TTripnoteScheduleTrip> selectByExampleWithBLOBs(TTripnoteScheduleTripExample example);
+    List<TTripnoteScheduleTripWithBLOBs> selectByExampleWithBLOBs(TTripnoteScheduleTripExample example);
 
     /**
      * 批量条件查询
@@ -70,7 +72,7 @@ public interface TTripnoteScheduleTripMapper {
      * 返回:成功修改个数
      * @ibatorgenerated 2018-01-23 14:54:45
      */
-    List<TTripnoteScheduleTrip> selectByExampleWithBLOBsAndPage(TTripnoteScheduleTripExample example, RowBounds rowBound);
+    List<TTripnoteScheduleTripWithBLOBs> selectByExampleWithBLOBsAndPage(TTripnoteScheduleTripExample example, RowBounds rowBound);
 
     /**
      * 物理分页条件查询
@@ -111,7 +113,7 @@ public interface TTripnoteScheduleTripMapper {
      * 返回:对象
      * @ibatorgenerated 2018-01-23 14:54:45
      */
-    TTripnoteScheduleTrip selectByPrimaryKey(Integer id);
+    TTripnoteScheduleTripWithBLOBs selectByPrimaryKey(Integer id);
 
     /**
      * 根据主键修改，空值条件不会修改成null
@@ -127,7 +129,7 @@ public interface TTripnoteScheduleTripMapper {
      * 返回:成功修改个数
      * @ibatorgenerated 2018-01-23 14:54:45
      */
-    int updateByPrimaryKeyWithBLOBs(TTripnoteScheduleTrip record);
+    int updateByPrimaryKeyWithBLOBs(TTripnoteScheduleTripWithBLOBs record);
 
     /**
      * 根据主键修改，空值条件会修改成null

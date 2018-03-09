@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.lenovo.tripnote.entity.BAccount;
 import com.lenovo.tripnote.entity.BPoi;
 import com.lenovo.tripnote.entity.BTraffic;
-import com.lenovo.tripnote.entity.TTripnoteScheduleTrip;
+import com.lenovo.tripnote.entity.TTripnoteScheduleTripWithBLOBs;
 import com.lenovo.tripnote.entity.vo.TTripnoteScheduleTripAddVo;
 import com.lenovo.tripnote.entity.vo.TTripnoteScheduleTripHotelAddVo;
 import com.lenovo.tripnote.entity.vo.TTripnoteScheduleTripSortVo;
@@ -62,7 +62,7 @@ public class TTripnoteScheduleTripController {
 		ResultVo vo = new ResultVo();
 		vo.setCode(Result.SUCESSFUL);
 		BPoi bpoi = bPoiService.getByKey(addVo.getSourceId());
-		TTripnoteScheduleTrip trip = new TTripnoteScheduleTrip();
+		TTripnoteScheduleTripWithBLOBs trip = new TTripnoteScheduleTripWithBLOBs();
 		try {
 			BeanUtils.copyProperties(trip, bpoi);
 		} catch (IllegalAccessException | InvocationTargetException e) {
@@ -94,7 +94,7 @@ public class TTripnoteScheduleTripController {
 		Subject subject = SecurityUtils.getSubject();
 		ResultVo vo = new ResultVo();
 		vo.setCode(Result.SUCESSFUL);
-		TTripnoteScheduleTrip schedule = new TTripnoteScheduleTrip();
+		TTripnoteScheduleTripWithBLOBs schedule = new TTripnoteScheduleTripWithBLOBs();
 		try {
 			BeanUtils.copyProperties(schedule, tripnoteScheduleVo);
 		} catch (IllegalAccessException | InvocationTargetException e) {
@@ -144,7 +144,7 @@ public class TTripnoteScheduleTripController {
 		ResultVo vo = new ResultVo();
 		vo.setCode(Result.SUCESSFUL);
 		BTraffic bpoi = bTrafficService.getByKey(addVo.getSourceId());
-		TTripnoteScheduleTrip trip = new TTripnoteScheduleTrip();
+		TTripnoteScheduleTripWithBLOBs trip = new TTripnoteScheduleTripWithBLOBs();
 		try {
 			BeanUtils.copyProperties(trip, bpoi);
 		} catch (IllegalAccessException | InvocationTargetException e) {

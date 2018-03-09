@@ -210,5 +210,10 @@ public class TTripnoteScheduleTripVo {
      * @ibatorgenerated 2018-03-09 14:13:21
      */
     private Double endLat;
+    /**
+     * b_traffic.time_consume (耗时)
+     * @ibatorgenerated 2018-03-09 16:53:11
+     */
+    private String timeConsume;
 
 }
