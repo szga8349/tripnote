@@ -64,6 +64,19 @@ public interface TTripNoteMapper {
      */
     int deleteScheduleRCity(@Param("record") TTripNote record);
     
+    /**删除定制下所有日程关联的城际交通信息
+     * @param record
+     * @return
+     */
+    int deleteScheduleTraffic(@Param("record") TTripNote record);
+    
+    
+    /**删除定制下所有日程关联的酒店信息
+     * @param record
+     * @return
+     */
+    int deleteScheduleHotel(@Param("record") TTripNote record);
+    
 
 	
 	/**查询路书所有关联POI和交通的价格信息

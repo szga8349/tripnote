@@ -7,25 +7,25 @@ import java.util.List;
 public class BTrafficExample {
     /**
      * 主键字段
-     * @ibatorgenerated 2018-03-08 16:28:36
+     * @ibatorgenerated 2018-03-09 14:13:21
      */
     protected String pk_name = "id";
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-03-08 16:28:36
+     * @ibatorgenerated 2018-03-09 14:13:21
      */
     protected String orderByClause;
 
     /**
      * 去重复
-     * @ibatorgenerated 2018-03-08 16:28:36
+     * @ibatorgenerated 2018-03-09 14:13:21
      */
     protected boolean distinct;
 
     /**
      * 条件集
-     * @ibatorgenerated 2018-03-08 16:28:36
+     * @ibatorgenerated 2018-03-09 14:13:21
      */
     protected List<Criteria> oredCriteria;
 
@@ -43,7 +43,7 @@ public class BTrafficExample {
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-03-08 16:28:36
+     * @ibatorgenerated 2018-03-09 14:13:21
      */
     public void setOrderByClause(String orderByClause) {
         this.orderByClause = orderByClause;
@@ -55,7 +55,7 @@ public class BTrafficExample {
 
     /**
      * 设置去重复
-     * @ibatorgenerated 2018-03-08 16:28:36
+     * @ibatorgenerated 2018-03-09 14:13:21
      */
     public void setDistinct(boolean distinct) {
         this.distinct = distinct;
@@ -81,7 +81,7 @@ public class BTrafficExample {
 
     /**
      * 条件查询要先创建Criteria
-     * @ibatorgenerated 2018-03-08 16:28:36
+     * @ibatorgenerated 2018-03-09 14:13:21
      */
     public Criteria createCriteria() {
         Criteria criteria = createCriteriaInternal();
@@ -105,7 +105,7 @@ public class BTrafficExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-03-08 16:28:36
+     * @ibatorgenerated 2018-03-09 14:13:21
      */
     protected abstract static class GeneratedCriteria {
         protected List<Criterion> criteria;
@@ -1107,11 +1107,251 @@ public class BTrafficExample {
             addCriterion("model not between", value1, value2, "model");
             return (Criteria) this;
         }
+
+        public Criteria andStartLonIsNull() {
+            addCriterion("start_lon is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartLonIsNotNull() {
+            addCriterion("start_lon is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartLonEqualTo(Double value) {
+            addCriterion("start_lon =", value, "startLon");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartLonNotEqualTo(Double value) {
+            addCriterion("start_lon <>", value, "startLon");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartLonGreaterThan(Double value) {
+            addCriterion("start_lon >", value, "startLon");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartLonGreaterThanOrEqualTo(Double value) {
+            addCriterion("start_lon >=", value, "startLon");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartLonLessThan(Double value) {
+            addCriterion("start_lon <", value, "startLon");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartLonLessThanOrEqualTo(Double value) {
+            addCriterion("start_lon <=", value, "startLon");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartLonIn(List<Double> values) {
+            addCriterion("start_lon in", values, "startLon");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartLonNotIn(List<Double> values) {
+            addCriterion("start_lon not in", values, "startLon");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartLonBetween(Double value1, Double value2) {
+            addCriterion("start_lon between", value1, value2, "startLon");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartLonNotBetween(Double value1, Double value2) {
+            addCriterion("start_lon not between", value1, value2, "startLon");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartLatIsNull() {
+            addCriterion("start_lat is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartLatIsNotNull() {
+            addCriterion("start_lat is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartLatEqualTo(Double value) {
+            addCriterion("start_lat =", value, "startLat");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartLatNotEqualTo(Double value) {
+            addCriterion("start_lat <>", value, "startLat");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartLatGreaterThan(Double value) {
+            addCriterion("start_lat >", value, "startLat");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartLatGreaterThanOrEqualTo(Double value) {
+            addCriterion("start_lat >=", value, "startLat");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartLatLessThan(Double value) {
+            addCriterion("start_lat <", value, "startLat");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartLatLessThanOrEqualTo(Double value) {
+            addCriterion("start_lat <=", value, "startLat");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartLatIn(List<Double> values) {
+            addCriterion("start_lat in", values, "startLat");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartLatNotIn(List<Double> values) {
+            addCriterion("start_lat not in", values, "startLat");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartLatBetween(Double value1, Double value2) {
+            addCriterion("start_lat between", value1, value2, "startLat");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartLatNotBetween(Double value1, Double value2) {
+            addCriterion("start_lat not between", value1, value2, "startLat");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndLonIsNull() {
+            addCriterion("end_lon is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndLonIsNotNull() {
+            addCriterion("end_lon is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndLonEqualTo(Double value) {
+            addCriterion("end_lon =", value, "endLon");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndLonNotEqualTo(Double value) {
+            addCriterion("end_lon <>", value, "endLon");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndLonGreaterThan(Double value) {
+            addCriterion("end_lon >", value, "endLon");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndLonGreaterThanOrEqualTo(Double value) {
+            addCriterion("end_lon >=", value, "endLon");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndLonLessThan(Double value) {
+            addCriterion("end_lon <", value, "endLon");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndLonLessThanOrEqualTo(Double value) {
+            addCriterion("end_lon <=", value, "endLon");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndLonIn(List<Double> values) {
+            addCriterion("end_lon in", values, "endLon");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndLonNotIn(List<Double> values) {
+            addCriterion("end_lon not in", values, "endLon");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndLonBetween(Double value1, Double value2) {
+            addCriterion("end_lon between", value1, value2, "endLon");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndLonNotBetween(Double value1, Double value2) {
+            addCriterion("end_lon not between", value1, value2, "endLon");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndLatIsNull() {
+            addCriterion("end_lat is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndLatIsNotNull() {
+            addCriterion("end_lat is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndLatEqualTo(Double value) {
+            addCriterion("end_lat =", value, "endLat");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndLatNotEqualTo(Double value) {
+            addCriterion("end_lat <>", value, "endLat");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndLatGreaterThan(Double value) {
+            addCriterion("end_lat >", value, "endLat");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndLatGreaterThanOrEqualTo(Double value) {
+            addCriterion("end_lat >=", value, "endLat");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndLatLessThan(Double value) {
+            addCriterion("end_lat <", value, "endLat");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndLatLessThanOrEqualTo(Double value) {
+            addCriterion("end_lat <=", value, "endLat");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndLatIn(List<Double> values) {
+            addCriterion("end_lat in", values, "endLat");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndLatNotIn(List<Double> values) {
+            addCriterion("end_lat not in", values, "endLat");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndLatBetween(Double value1, Double value2) {
+            addCriterion("end_lat between", value1, value2, "endLat");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndLatNotBetween(Double value1, Double value2) {
+            addCriterion("end_lat not between", value1, value2, "endLat");
+            return (Criteria) this;
+        }
     }
 
     /**
      * b_traffic
-     * @ibatorgenerated do_not_delete_during_merge 2018-03-08 16:28:36
+     * @ibatorgenerated do_not_delete_during_merge 2018-03-09 14:13:21
      */
     public static class Criteria extends GeneratedCriteria {
 
@@ -1123,7 +1363,7 @@ public class BTrafficExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-03-08 16:28:36
+     * @ibatorgenerated 2018-03-09 14:13:21
      */
     public static class Criterion {
         private String condition;

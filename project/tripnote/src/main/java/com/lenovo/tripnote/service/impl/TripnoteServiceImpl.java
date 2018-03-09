@@ -24,7 +24,6 @@ import com.lenovo.tripnote.entity.TCustomer;
 import com.lenovo.tripnote.entity.TTripNote;
 import com.lenovo.tripnote.entity.TTripNoteExample;
 import com.lenovo.tripnote.entity.TTripNoteExample.Criteria;
-import com.lenovo.tripnote.entity.TTripnoteRCustomer;
 import com.lenovo.tripnote.entity.TTripnoteRCustomerExample;
 import com.lenovo.tripnote.entity.TTripnoteSchedule;
 import com.lenovo.tripnote.entity.TTripnoteScheduleExample;
@@ -46,10 +45,9 @@ import com.lenovo.tripnote.service.TCustomerService;
 import com.lenovo.tripnote.service.TTripnoteService;
 import com.lenovo.tripnote.util.TimeUtils;
 
-import lombok.extern.log4j.Log4j;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-@Log4j
+
 @Service()
 public class TripnoteServiceImpl implements TTripnoteService{
 	@Resource
@@ -101,10 +99,14 @@ public class TripnoteServiceImpl implements TTripnoteService{
 		tTripNoteMapper.deleteTraffic(t);
 		//删除定制下关联所有日程对应的定制师笔记关联信息
 	    tTripNoteMapper.deleteScheduleRUsenote(t);
+		//删除定制下关联所有日程对应的目的城际交通
+	    tTripNoteMapper.deleteScheduleTraffic(t);
 		//删除定制下关联所有日程对应的日程行程信息
 		tTripNoteMapper.deleteScheduleTrip(t);
 		//删除定制下关联所有日程对应的目的地关联信息
 		tTripNoteMapper.deleteScheduleRCity(t);
+		//删除定制下关联所有日程对应的关联的酒店信息
+		tTripNoteMapper.deleteScheduleHotel(t);
 		//删除关联的日程信息
 		TTripnoteScheduleExample sexample = new TTripnoteScheduleExample();
 		com.lenovo.tripnote.entity.TTripnoteScheduleExample.Criteria criteria1 = sexample.createCriteria();
@@ -247,7 +249,8 @@ public class TripnoteServiceImpl implements TTripnoteService{
 	private void copy(int offset,Integer tripnoteId,TTripNote tripNote,BExportVo exportVo){
 		//重新计算天数
 		int size = exportVo.getScheduleIds().size();
-		TTripnoteRCustomerExample customerexample = new TTripnoteRCustomerExample();
+		// 模板导出定制或定制导入模板时 不做客户端的拷贝
+		/*TTripnoteRCustomerExample customerexample = new TTripnoteRCustomerExample();
 		customerexample.createCriteria().andTripnoteIdEqualTo(tripnoteId);
 		List<TTripnoteRCustomer> customers = tTripnoteRCustomerMapper.selectByExample(customerexample );
 		if(customers!=null)
@@ -258,7 +261,7 @@ public class TripnoteServiceImpl implements TTripnoteService{
 				}catch (Exception e) {
 					log.error(e, e.fillInStackTrace());
 				}
-		}
+		}*/
 		for(int i=0;i<size;i++){
 			Integer schduleId = exportVo.getScheduleIds().get(i);
 			TTripnoteSchedule schedule = tTripnoteScheduleMapper.selectByPrimaryKey(schduleId);

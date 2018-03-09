@@ -415,6 +415,13 @@
     delete ttst from t_tripnote_schedule_r_city ttst left join t_tripnote_schedule  tts on tts.id = ttst.schedule_id where tts.tripnote_id=#{record.id,jdbcType=INTEGER} and tts.create_userid = #{record.createUserId,jdbcType=INTEGER}
   </delete>
   
+  <delete id="deleteScheduleHotel" parameterType="com.lenovo.tripnote.entity.TTripNote" >
+    delete ttst from t_tripnote_schedule_hotel ttst left join t_tripnote_schedule  tts on tts.id = ttst.schedule_id where tts.tripnote_id=#{record.id,jdbcType=INTEGER} and tts.create_userid = #{record.createUserId,jdbcType=INTEGER}
+  </delete>
+   <delete id="deleteScheduleTraffic" parameterType="com.lenovo.tripnote.entity.TTripNote" >
+    delete ttst from t_tripnote_schedule_r_rent ttst left join t_tripnote_schedule  tts on tts.id = ttst.schedule_id where tts.tripnote_id=#{record.id,jdbcType=INTEGER} and tts.create_userid = #{record.createUserId,jdbcType=INTEGER}
+  </delete>
+  
   <select id="countByExample" parameterType="com.lenovo.tripnote.entity.TTripNoteExample" resultType="java.lang.Integer" >
     select count(*) from t_trip_note
     <if test="_parameter != null" >

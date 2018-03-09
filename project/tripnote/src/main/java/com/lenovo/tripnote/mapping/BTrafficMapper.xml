@@ -17,10 +17,15 @@
     <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
     <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
     <result column="model" property="model" jdbcType="VARCHAR" />
+    <result column="start_lon" property="startLon" jdbcType="DOUBLE" />
+    <result column="start_lat" property="startLat" jdbcType="DOUBLE" />
+    <result column="end_lon" property="endLon" jdbcType="DOUBLE" />
+    <result column="end_lat" property="endLat" jdbcType="DOUBLE" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, name_cn, name_en, price, supplier, create_time, create_user_id, `type`, end_cityid, 
-    start_cityid, start_name, end_name, start_time, end_time, model
+    start_cityid, start_name, end_name, start_time, end_time, model, start_lon, start_lat, 
+    end_lon, end_lat
   </sql>
   <sql id="Example_Where_Clause" >
     <where >
@@ -168,6 +173,18 @@
       <if test="record.model != null" >
         model = #{record.model,jdbcType=VARCHAR},
       </if>
+      <if test="record.startLon != null" >
+        start_lon = #{record.startLon,jdbcType=DOUBLE},
+      </if>
+      <if test="record.startLat != null" >
+        start_lat = #{record.startLat,jdbcType=DOUBLE},
+      </if>
+      <if test="record.endLon != null" >
+        end_lon = #{record.endLon,jdbcType=DOUBLE},
+      </if>
+      <if test="record.endLat != null" >
+        end_lat = #{record.endLat,jdbcType=DOUBLE},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -189,7 +206,11 @@
       end_name = #{record.endName,jdbcType=VARCHAR},
       start_time = #{record.startTime,jdbcType=TIMESTAMP},
       end_time = #{record.endTime,jdbcType=TIMESTAMP},
-      model = #{record.model,jdbcType=VARCHAR}
+      model = #{record.model,jdbcType=VARCHAR},
+      start_lon = #{record.startLon,jdbcType=DOUBLE},
+      start_lat = #{record.startLat,jdbcType=DOUBLE},
+      end_lon = #{record.endLon,jdbcType=DOUBLE},
+      end_lat = #{record.endLat,jdbcType=DOUBLE}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -209,12 +230,16 @@
       supplier, create_time, create_user_id, 
       `type`, end_cityid, start_cityid, 
       start_name, end_name, start_time, 
-      end_time, model)
+      end_time, model, start_lon, 
+      start_lat, end_lon, end_lat
+      )
     values (#{nameCn,jdbcType=VARCHAR}, #{nameEn,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}, 
       #{supplier,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, 
       #{type,jdbcType=INTEGER}, #{endCityid,jdbcType=INTEGER}, #{startCityid,jdbcType=INTEGER}, 
       #{startName,jdbcType=VARCHAR}, #{endName,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, 
-      #{endTime,jdbcType=TIMESTAMP}, #{model,jdbcType=VARCHAR})
+      #{endTime,jdbcType=TIMESTAMP}, #{model,jdbcType=VARCHAR}, #{startLon,jdbcType=DOUBLE}, 
+      #{startLat,jdbcType=DOUBLE}, #{endLon,jdbcType=DOUBLE}, #{endLat,jdbcType=DOUBLE}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.BTraffic" useGeneratedKeys="true" keyProperty="id" >
     insert into b_traffic
@@ -233,6 +258,10 @@
       start_time,
       end_time,
       model,
+      start_lon,
+      start_lat,
+      end_lon,
+      end_lat,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       #{nameCn,jdbcType=VARCHAR},
@@ -249,6 +278,10 @@
       #{startTime,jdbcType=TIMESTAMP},
       #{endTime,jdbcType=TIMESTAMP},
       #{model,jdbcType=VARCHAR},
+      #{startLon,jdbcType=DOUBLE},
+      #{startLat,jdbcType=DOUBLE},
+      #{endLon,jdbcType=DOUBLE},
+      #{endLat,jdbcType=DOUBLE},
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.lenovo.tripnote.entity.BTraffic" >
@@ -296,6 +329,18 @@
       <if test="model != null" >
         model = #{model,jdbcType=VARCHAR},
       </if>
+      <if test="startLon != null" >
+        start_lon = #{startLon,jdbcType=DOUBLE},
+      </if>
+      <if test="startLat != null" >
+        start_lat = #{startLat,jdbcType=DOUBLE},
+      </if>
+      <if test="endLon != null" >
+        end_lon = #{endLon,jdbcType=DOUBLE},
+      </if>
+      <if test="endLat != null" >
+        end_lat = #{endLat,jdbcType=DOUBLE},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -314,7 +359,11 @@
       end_name = #{endName,jdbcType=VARCHAR},
       start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
-      model = #{model,jdbcType=VARCHAR}
+      model = #{model,jdbcType=VARCHAR},
+      start_lon = #{startLon,jdbcType=DOUBLE},
+      start_lat = #{startLat,jdbcType=DOUBLE},
+      end_lon = #{endLon,jdbcType=DOUBLE},
+      end_lat = #{endLat,jdbcType=DOUBLE}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

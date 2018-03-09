@@ -80,7 +80,10 @@
             <result column="traffic_start_time" property="startTime" jdbcType="TIMESTAMP" />
             <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
             <result column="model" property="model" jdbcType="VARCHAR" />
-            
+            <result column="start_lon" property="startLon" jdbcType="DOUBLE" />
+            <result column="start_lat" property="startLat" jdbcType="DOUBLE" />
+            <result column="end_lon" property="endLon" jdbcType="DOUBLE" />
+            <result column="end_lat" property="endLat" jdbcType="DOUBLE" />
 		</collection>
 		<collection property="usertripnotes" javaType="java.util.List"
 			ofType="com.lenovo.tripnote.entity.vo.BUserTripnoteResultVo">
@@ -211,7 +214,7 @@
 		busertrip_title,but.cover,but.context as busertrip_context,
 		bc.id as city_id,bc.name_cn,bc.name_en,bc.lat,bc.lon,ttsrc.schedule_id as
 		schedule_id,bc.country_id,ttsrc.id as rcity_id,
-		bt.type as traffictype,bt.start_name,bt.end_name,bt.start_time as traffic_start_time,bt.end_time,bt.model
+		bt.type as traffictype,bt.start_name,bt.end_name,bt.start_time as traffic_start_time,bt.end_time,bt.model,bt.start_lon,bt.start_lat,bt.end_lon,bt.end_lat
 		from t_tripnote_schedule t
 		left join t_tripnote_schedule_trip ttst on ttst.schedule_id = t.id
 		left join b_traffic bt on bt.id = ttst.poi_id and ttst.type = 7 
