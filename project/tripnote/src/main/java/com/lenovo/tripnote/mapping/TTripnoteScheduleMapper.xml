@@ -119,7 +119,19 @@
 			<result column="hotel_introduction" property="introduction" jdbcType="LONGVARCHAR" />
 			<result column="hotel_imageurl" property="imageurl" jdbcType="VARCHAR" />
 			<result column="source_hotel_id" property="hotelId" jdbcType="INTEGER" />
-
+		</collection>
+		<collection property="rents" javaType="java.util.List"
+			ofType="com.lenovo.tripnote.entity.vo.TTripnoteScheduleRentResultVo">
+			 <id column="rent_id" property="id" jdbcType="INTEGER" />
+             <result column="rent_name_cn" property="nameCn" jdbcType="VARCHAR" />
+             <result column="rent_name_en" property="nameEn" jdbcType="VARCHAR" />
+             <result column="rent_imageurl" property="imageurl" jdbcType="VARCHAR" />
+             <result column="rent_price" property="price" jdbcType="DOUBLE" />
+             <result column="rent_supplier" property="supplier" jdbcType="VARCHAR" />
+             <result column="rent_model" property="model" jdbcType="VARCHAR" />
+             <result column="rent_pedestal" property="pedestal" jdbcType="INTEGER" />
+             <result column="rent_doors" property="doors" jdbcType="INTEGER" />
+             <result column="rent_suitcases" property="suitcases" jdbcType="INTEGER" />
 		</collection>
 	</resultMap>
 	<sql id="Base_Column_List">
@@ -214,9 +226,13 @@
 		busertrip_title,but.cover,but.context as busertrip_context,
 		bc.id as city_id,bc.name_cn,bc.name_en,bc.lat,bc.lon,ttsrc.schedule_id as
 		schedule_id,bc.country_id,ttsrc.id as rcity_id,
-		bt.type as traffictype,bt.start_name,bt.end_name,bt.start_time as traffic_start_time,bt.end_time,bt.model,bt.start_lon,bt.start_lat,bt.end_lon,bt.end_lat
+		bt.type as traffictype,bt.start_name,bt.end_name,bt.start_time as traffic_start_time,bt.end_time,bt.model,bt.start_lon,bt.start_lat,bt.end_lon,bt.end_lat,
+		br.id as rent_id,br.name_en as rent_name_en,br.name_cn as rent_name_cn,br.imageurl as rent_imageurl,br.price as rent_price,br.supplier as rent_supplier,
+		br.model as rent_model,br.pedestal as rent_pedestal,br.doors as rent_doors,br.suitcases as rent_suitcases
 		from t_tripnote_schedule t
 		left join t_tripnote_schedule_trip ttst on ttst.schedule_id = t.id
+		left join t_tripnote_schedule_r_rent ttsrr on ttsrr.schedule_id = t.id
+		left join b_rent br on br.id = ttsrr.rentid
 		left join b_traffic bt on bt.id = ttst.poi_id and ttst.type = 7 
 		left join t_tripnote_schedule_traffic ttstc on ttstc.schedule_id = t.id
 		left join t_tripnote_schedule_r_usenote ttsru on ttsru.tripnote_schedule_id=t.id

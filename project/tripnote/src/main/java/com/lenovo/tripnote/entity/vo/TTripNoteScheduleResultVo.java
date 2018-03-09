@@ -37,5 +37,11 @@ public class TTripNoteScheduleResultVo extends TTripNoteScheduleVo{
      * 日程关联的酒店信息
      */
     private List<TTripnoteScheduleHotelResultVo> scheduleHotels;
+    
+    
+    /**
+     * 日程关联的租车信息
+     */
+    private List<TTripnoteScheduleRentResultVo> rents;
   
 }
