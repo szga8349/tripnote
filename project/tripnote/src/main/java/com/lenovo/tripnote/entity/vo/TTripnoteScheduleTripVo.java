@@ -142,7 +142,12 @@ public class TTripnoteScheduleTripVo {
      * @ibatorgenerated 2018-01-23 14:54:44
      */
     private String guide;
-    
+
+    /**
+     * t_tripnote_schedule_trip.sort (用于前端排序字段)
+     * @ibatorgenerated 2018-03-09 15:43:37
+     */
+    private Integer sort;
     
     
     //城际交通增加的属性

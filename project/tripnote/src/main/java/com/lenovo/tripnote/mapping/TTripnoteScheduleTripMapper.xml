@@ -20,24 +20,24 @@
     <result column="traffic_instructions" property="trafficInstructions" jdbcType="VARCHAR" />
     <result column="time_reference" property="timeReference" jdbcType="VARCHAR" />
     <result column="price" property="price" jdbcType="DOUBLE" />
-    <result column="address_instrations" property="addressInstrations" jdbcType="VARCHAR" />
     <result column="supplier" property="supplier" jdbcType="VARCHAR" />
     <result column="imageurl" property="imageurl" jdbcType="VARCHAR" />
     <result column="url" property="url" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
   </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.lenovo.tripnote.entity.TTripnoteScheduleTrip" extends="BaseResultMap" >
+  <resultMap id="ResultMapWithBLOBs" type="com.lenovo.tripnote.entity.TTripnoteScheduleTripWithBLOBs" extends="BaseResultMap" >
+    <result column="address_instrations" property="addressInstrations" jdbcType="LONGVARCHAR" />
     <result column="guide" property="guide" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, poi_id, schedule_id, name_cn, name_en, address, lon, lat, city_id, cityname, 
     `type`, permissions_type, phone, open_time, consum_description, traffic_instructions, 
-    time_reference, price, address_instrations, supplier, imageurl, url, create_time, 
-    create_user_id
+    time_reference, price, supplier, imageurl, url, create_time, create_user_id, sort
   </sql>
   <sql id="Blob_Column_List" >
-    guide
+    address_instrations, guide
   </sql>
   <sql id="Example_Where_Clause" >
     <where >
@@ -226,9 +226,6 @@
       <if test="record.price != null" >
         price = #{record.price,jdbcType=DOUBLE},
       </if>
-      <if test="record.addressInstrations != null" >
-        address_instrations = #{record.addressInstrations,jdbcType=VARCHAR},
-      </if>
       <if test="record.supplier != null" >
         supplier = #{record.supplier,jdbcType=VARCHAR},
       </if>
@@ -243,6 +240,12 @@
       </if>
       <if test="record.createUserId != null" >
         create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.sort != null" >
+        sort = #{record.sort,jdbcType=INTEGER},
+      </if>
+      <if test="record.addressInstrations != null" >
+        address_instrations = #{record.addressInstrations,jdbcType=LONGVARCHAR},
       </if>
       <if test="record.guide != null" >
         guide = #{record.guide,jdbcType=LONGVARCHAR},
@@ -272,12 +275,13 @@
       traffic_instructions = #{record.trafficInstructions,jdbcType=VARCHAR},
       time_reference = #{record.timeReference,jdbcType=VARCHAR},
       price = #{record.price,jdbcType=DOUBLE},
-      address_instrations = #{record.addressInstrations,jdbcType=VARCHAR},
       supplier = #{record.supplier,jdbcType=VARCHAR},
       imageurl = #{record.imageurl,jdbcType=VARCHAR},
       url = #{record.url,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      sort = #{record.sort,jdbcType=INTEGER},
+      address_instrations = #{record.addressInstrations,jdbcType=LONGVARCHAR},
       guide = #{record.guide,jdbcType=LONGVARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -303,12 +307,12 @@
       traffic_instructions = #{record.trafficInstructions,jdbcType=VARCHAR},
       time_reference = #{record.timeReference,jdbcType=VARCHAR},
       price = #{record.price,jdbcType=DOUBLE},
-      address_instrations = #{record.addressInstrations,jdbcType=VARCHAR},
       supplier = #{record.supplier,jdbcType=VARCHAR},
       imageurl = #{record.imageurl,jdbcType=VARCHAR},
       url = #{record.url,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      create_user_id = #{record.createUserId,jdbcType=INTEGER}
+      create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      sort = #{record.sort,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -325,30 +329,29 @@
     delete from t_tripnote_schedule_trip
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleTrip" useGeneratedKeys="true" keyProperty="id">
-    insert into t_tripnote_schedule_trip (id, poi_id, schedule_id, 
-      name_cn, name_en, address, 
-      lon, lat, city_id, cityname, 
+  <insert id="insert" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleTripWithBLOBs" useGeneratedKeys="true" keyProperty="id" >
+    insert into t_tripnote_schedule_trip (poi_id, schedule_id, name_cn, 
+      name_en, address, lon, 
+      lat, city_id, cityname, 
       `type`, permissions_type, phone, 
       open_time, consum_description, traffic_instructions, 
-      time_reference, price, address_instrations, 
-      supplier, imageurl, url, 
-      create_time, create_user_id, guide
-      )
-    values (#{id,jdbcType=INTEGER}, #{poiId,jdbcType=INTEGER}, #{scheduleId,jdbcType=INTEGER}, 
-      #{nameCn,jdbcType=VARCHAR}, #{nameEn,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
-      #{lon,jdbcType=DOUBLE}, #{lat,jdbcType=DOUBLE}, #{cityId,jdbcType=INTEGER}, #{cityname,jdbcType=VARCHAR}, 
+      time_reference, price, supplier, 
+      imageurl, url, create_time, 
+      create_user_id, sort, address_instrations, 
+      guide)
+    values (#{poiId,jdbcType=INTEGER}, #{scheduleId,jdbcType=INTEGER}, #{nameCn,jdbcType=VARCHAR}, 
+      #{nameEn,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{lon,jdbcType=DOUBLE}, 
+      #{lat,jdbcType=DOUBLE}, #{cityId,jdbcType=INTEGER}, #{cityname,jdbcType=VARCHAR}, 
       #{type,jdbcType=INTEGER}, #{permissionsType,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, 
       #{openTime,jdbcType=VARCHAR}, #{consumDescription,jdbcType=VARCHAR}, #{trafficInstructions,jdbcType=VARCHAR}, 
-      #{timeReference,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}, #{addressInstrations,jdbcType=VARCHAR}, 
-      #{supplier,jdbcType=VARCHAR}, #{imageurl,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, #{guide,jdbcType=LONGVARCHAR}
-      )
+      #{timeReference,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}, #{supplier,jdbcType=VARCHAR}, 
+      #{imageurl,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createUserId,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER}, #{addressInstrations,jdbcType=LONGVARCHAR}, 
+      #{guide,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleTrip" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleTripWithBLOBs" useGeneratedKeys="true" keyProperty="id" >
     insert into t_tripnote_schedule_trip
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      id,
       poi_id,
       schedule_id,
       name_cn,
@@ -366,16 +369,16 @@
       traffic_instructions,
       time_reference,
       price,
-      address_instrations,
       supplier,
       imageurl,
       url,
       create_time,
       create_user_id,
+      sort,
+      address_instrations,
       guide,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      #{id,jdbcType=INTEGER},
       #{poiId,jdbcType=INTEGER},
       #{scheduleId,jdbcType=INTEGER},
       #{nameCn,jdbcType=VARCHAR},
@@ -393,16 +396,17 @@
       #{trafficInstructions,jdbcType=VARCHAR},
       #{timeReference,jdbcType=VARCHAR},
       #{price,jdbcType=DOUBLE},
-      #{addressInstrations,jdbcType=VARCHAR},
       #{supplier,jdbcType=VARCHAR},
       #{imageurl,jdbcType=VARCHAR},
       #{url,jdbcType=VARCHAR},
       #{createTime,jdbcType=TIMESTAMP},
       #{createUserId,jdbcType=INTEGER},
+      #{sort,jdbcType=INTEGER},
+      #{addressInstrations,jdbcType=LONGVARCHAR},
       #{guide,jdbcType=LONGVARCHAR},
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleTrip" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleTripWithBLOBs" >
     update t_tripnote_schedule_trip
     <set >
       <if test="poiId != null" >
@@ -456,9 +460,6 @@
       <if test="price != null" >
         price = #{price,jdbcType=DOUBLE},
       </if>
-      <if test="addressInstrations != null" >
-        address_instrations = #{addressInstrations,jdbcType=VARCHAR},
-      </if>
       <if test="supplier != null" >
         supplier = #{supplier,jdbcType=VARCHAR},
       </if>
@@ -474,13 +475,19 @@
       <if test="createUserId != null" >
         create_user_id = #{createUserId,jdbcType=INTEGER},
       </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="addressInstrations != null" >
+        address_instrations = #{addressInstrations,jdbcType=LONGVARCHAR},
+      </if>
       <if test="guide != null" >
         guide = #{guide,jdbcType=LONGVARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleTrip" >
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleTripWithBLOBs" >
     update t_tripnote_schedule_trip
     set poi_id = #{poiId,jdbcType=INTEGER},
       schedule_id = #{scheduleId,jdbcType=INTEGER},
@@ -499,12 +506,13 @@
       traffic_instructions = #{trafficInstructions,jdbcType=VARCHAR},
       time_reference = #{timeReference,jdbcType=VARCHAR},
       price = #{price,jdbcType=DOUBLE},
-      address_instrations = #{addressInstrations,jdbcType=VARCHAR},
       supplier = #{supplier,jdbcType=VARCHAR},
       imageurl = #{imageurl,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user_id = #{createUserId,jdbcType=INTEGER},
+      sort = #{sort,jdbcType=INTEGER},
+      address_instrations = #{addressInstrations,jdbcType=LONGVARCHAR},
       guide = #{guide,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -527,12 +535,12 @@
       traffic_instructions = #{trafficInstructions,jdbcType=VARCHAR},
       time_reference = #{timeReference,jdbcType=VARCHAR},
       price = #{price,jdbcType=DOUBLE},
-      address_instrations = #{addressInstrations,jdbcType=VARCHAR},
       supplier = #{supplier,jdbcType=VARCHAR},
       imageurl = #{imageurl,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      create_user_id = #{createUserId,jdbcType=INTEGER}
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      sort = #{sort,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -7,25 +7,25 @@ import java.util.List;
 public class TTripnoteScheduleTripExample {
     /**
      * 主键字段
-     * @ibatorgenerated 2018-01-23 14:54:44
+     * @ibatorgenerated 2018-03-09 15:43:37
      */
     protected String pk_name = "id";
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-01-23 14:54:44
+     * @ibatorgenerated 2018-03-09 15:43:37
      */
     protected String orderByClause;
 
     /**
      * 去重复
-     * @ibatorgenerated 2018-01-23 14:54:44
+     * @ibatorgenerated 2018-03-09 15:43:37
      */
     protected boolean distinct;
 
     /**
      * 条件集
-     * @ibatorgenerated 2018-01-23 14:54:44
+     * @ibatorgenerated 2018-03-09 15:43:37
      */
     protected List<Criteria> oredCriteria;
 
@@ -43,7 +43,7 @@ public class TTripnoteScheduleTripExample {
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-01-23 14:54:44
+     * @ibatorgenerated 2018-03-09 15:43:37
      */
     public void setOrderByClause(String orderByClause) {
         this.orderByClause = orderByClause;
@@ -55,7 +55,7 @@ public class TTripnoteScheduleTripExample {
 
     /**
      * 设置去重复
-     * @ibatorgenerated 2018-01-23 14:54:44
+     * @ibatorgenerated 2018-03-09 15:43:37
      */
     public void setDistinct(boolean distinct) {
         this.distinct = distinct;
@@ -81,7 +81,7 @@ public class TTripnoteScheduleTripExample {
 
     /**
      * 条件查询要先创建Criteria
-     * @ibatorgenerated 2018-01-23 14:54:44
+     * @ibatorgenerated 2018-03-09 15:43:37
      */
     public Criteria createCriteria() {
         Criteria criteria = createCriteriaInternal();
@@ -105,7 +105,7 @@ public class TTripnoteScheduleTripExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-01-23 14:54:44
+     * @ibatorgenerated 2018-03-09 15:43:37
      */
     protected abstract static class GeneratedCriteria {
         protected List<Criterion> criteria;
@@ -1318,76 +1318,6 @@ public class TTripnoteScheduleTripExample {
             return (Criteria) this;
         }
 
-        public Criteria andAddressInstrationsIsNull() {
-            addCriterion("address_instrations is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andAddressInstrationsIsNotNull() {
-            addCriterion("address_instrations is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andAddressInstrationsEqualTo(String value) {
-            addCriterion("address_instrations =", value, "addressInstrations");
-            return (Criteria) this;
-        }
-
-        public Criteria andAddressInstrationsNotEqualTo(String value) {
-            addCriterion("address_instrations <>", value, "addressInstrations");
-            return (Criteria) this;
-        }
-
-        public Criteria andAddressInstrationsGreaterThan(String value) {
-            addCriterion("address_instrations >", value, "addressInstrations");
-            return (Criteria) this;
-        }
-
-        public Criteria andAddressInstrationsGreaterThanOrEqualTo(String value) {
-            addCriterion("address_instrations >=", value, "addressInstrations");
-            return (Criteria) this;
-        }
-
-        public Criteria andAddressInstrationsLessThan(String value) {
-            addCriterion("address_instrations <", value, "addressInstrations");
-            return (Criteria) this;
-        }
-
-        public Criteria andAddressInstrationsLessThanOrEqualTo(String value) {
-            addCriterion("address_instrations <=", value, "addressInstrations");
-            return (Criteria) this;
-        }
-
-        public Criteria andAddressInstrationsLike(String value) {
-            addCriterion("address_instrations like", value, "addressInstrations");
-            return (Criteria) this;
-        }
-
-        public Criteria andAddressInstrationsNotLike(String value) {
-            addCriterion("address_instrations not like", value, "addressInstrations");
-            return (Criteria) this;
-        }
-
-        public Criteria andAddressInstrationsIn(List<String> values) {
-            addCriterion("address_instrations in", values, "addressInstrations");
-            return (Criteria) this;
-        }
-
-        public Criteria andAddressInstrationsNotIn(List<String> values) {
-            addCriterion("address_instrations not in", values, "addressInstrations");
-            return (Criteria) this;
-        }
-
-        public Criteria andAddressInstrationsBetween(String value1, String value2) {
-            addCriterion("address_instrations between", value1, value2, "addressInstrations");
-            return (Criteria) this;
-        }
-
-        public Criteria andAddressInstrationsNotBetween(String value1, String value2) {
-            addCriterion("address_instrations not between", value1, value2, "addressInstrations");
-            return (Criteria) this;
-        }
-
         public Criteria andSupplierIsNull() {
             addCriterion("supplier is null");
             return (Criteria) this;
@@ -1717,11 +1647,71 @@ public class TTripnoteScheduleTripExample {
             addCriterion("create_user_id not between", value1, value2, "createUserId");
             return (Criteria) this;
         }
+
+        public Criteria andSortIsNull() {
+            addCriterion("sort is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortIsNotNull() {
+            addCriterion("sort is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortEqualTo(Integer value) {
+            addCriterion("sort =", value, "sort");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortNotEqualTo(Integer value) {
+            addCriterion("sort <>", value, "sort");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortGreaterThan(Integer value) {
+            addCriterion("sort >", value, "sort");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortGreaterThanOrEqualTo(Integer value) {
+            addCriterion("sort >=", value, "sort");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortLessThan(Integer value) {
+            addCriterion("sort <", value, "sort");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortLessThanOrEqualTo(Integer value) {
+            addCriterion("sort <=", value, "sort");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortIn(List<Integer> values) {
+            addCriterion("sort in", values, "sort");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortNotIn(List<Integer> values) {
+            addCriterion("sort not in", values, "sort");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortBetween(Integer value1, Integer value2) {
+            addCriterion("sort between", value1, value2, "sort");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortNotBetween(Integer value1, Integer value2) {
+            addCriterion("sort not between", value1, value2, "sort");
+            return (Criteria) this;
+        }
     }
 
     /**
      * t_tripnote_schedule_trip
-     * @ibatorgenerated do_not_delete_during_merge 2018-01-23 14:54:44
+     * @ibatorgenerated do_not_delete_during_merge 2018-03-09 15:43:37
      */
     public static class Criteria extends GeneratedCriteria {
 
@@ -1733,7 +1723,7 @@ public class TTripnoteScheduleTripExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-01-23 14:54:44
+     * @ibatorgenerated 2018-03-09 15:43:37
      */
     public static class Criterion {
         private String condition;

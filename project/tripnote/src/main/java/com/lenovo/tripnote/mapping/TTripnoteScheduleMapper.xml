@@ -73,6 +73,7 @@
 			<result column="imageurl" property="imageurl" jdbcType="VARCHAR" />
 			<result column="url" property="url" jdbcType="VARCHAR" />
 			<result column="guide" property="guide" jdbcType="LONGVARCHAR" />
+			<result column="sort" property="sort" jdbcType="INTEGER" />
 			
 			<result column="traffictype" property="traffictype" jdbcType="INTEGER" />
 			<result column="start_name" property="startName" jdbcType="VARCHAR" />
@@ -216,7 +217,7 @@
 		ttst.`type` as trip_type,ttst.phone as trip_phone, ttst.open_time,
 		ttst.consum_description, ttst.traffic_instructions,
 		ttst.time_reference, ttst.price,ttst.address_instrations,
-		ttst.supplier, ttst.imageurl,ttst.url,ttst.guide,
+		ttst.supplier, ttst.imageurl,ttst.url,ttst.guide,ttst.sort,
 		ttstc.id as traffic_id,ttstc.schedule_id as
 		traffic_schedule_id,ttstc.start_schedule_trip,ttstc.end_schedule_trip,ttstc.distance,ttstc.spend_time,ttstc.traffic_type,ttstc.start_schedule_type,ttstc.end_schedule_type,
 		ttstc.arrival_time,ttstc.start_time,ttstc.shift,
@@ -240,7 +241,7 @@
 		left join b_user_tripnote but on but.id = ttsru.user_tripnote_id
 		left join t_tripnote_schedule_r_city ttsrc on ttsrc.schedule_id = t.id
 		left join b_city bc on ttsrc.city_id = bc.id
-		where t.id = #{id,jdbcType=INTEGER} order by ttsrc.create_time asc,ttsrc.id
+		where t.id = #{id,jdbcType=INTEGER} order by ttst.sort asc, ttsrc.create_time asc,ttsrc.id
 		asc
 	</select>
 	<select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs"

@@ -68,6 +68,8 @@ public class TTripnoteScheduleTripController {
 		}
 		trip.setScheduleId(addVo.getScheduleId());
 		trip.setPoiId(bpoi.getId());
+		//设置排序字段值
+		trip.setSort(addVo.getSort());
 		trip.setId(null);
 		//重新设置创建人和创建时间
 		trip.setCreateUserId(account.getId());
@@ -146,6 +148,8 @@ public class TTripnoteScheduleTripController {
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			e.printStackTrace();
 		}
+		//设置排序字段值
+		trip.setSort(addVo.getSort());
 		//设置成城际交通类型
 		trip.setType(7);
 		trip.setScheduleId(addVo.getScheduleId());

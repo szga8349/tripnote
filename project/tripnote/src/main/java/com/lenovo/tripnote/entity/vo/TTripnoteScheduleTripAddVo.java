@@ -20,5 +20,7 @@ public class TTripnoteScheduleTripAddVo {
      * 数据来源主键ID
      */
     private Integer sourceId;
+    
+    private Integer sort;
 
 }
