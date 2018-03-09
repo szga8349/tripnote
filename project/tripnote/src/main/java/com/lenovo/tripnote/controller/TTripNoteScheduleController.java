@@ -16,6 +16,7 @@ import com.lenovo.tripnote.entity.BAccount;
 import com.lenovo.tripnote.entity.TTripnoteSchedule;
 import com.lenovo.tripnote.entity.vo.TTripNoteScheduleResultVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteScheduleVo;
+import com.lenovo.tripnote.service.BRentService;
 import com.lenovo.tripnote.service.TTripNoteScheduleService;
 import com.lenovo.tripnote.vo.Result;
 import com.lenovo.tripnote.vo.ResultVo;
@@ -30,6 +31,9 @@ public class TTripNoteScheduleController {
 	
 	@Resource
 	private TTripNoteScheduleService tTripNoteScheduleService;
+	
+	@Resource
+	private BRentService bRentService;
 	
 	@RequestMapping(value = "/doAdd")
 	public @ResponseBody ResultVo addSchedule(TTripNoteScheduleVo tripnoteScheduleVo){
@@ -114,6 +118,13 @@ public class TTripNoteScheduleController {
 		TTripNoteScheduleResultVo result = tTripNoteScheduleService.getDetailByKey(Integer.valueOf(scheduleId));
 		vo.setCode(Result.SUCESSFUL);
 		vo.setData(result);
+		return vo;
+	}
+	@RequestMapping(value = "/rent/doDelete/{scheduleId}")
+	public @ResponseBody ResultVo deleteRelation(@PathVariable String scheduleId,Integer rentId) {
+		ResultVo vo = new ResultVo();
+		vo.setCode(Result.SUCESSFUL);
+		bRentService.deleteRentToSchedule(rentId,Integer.valueOf(scheduleId));
 		return vo;
 	}
 }

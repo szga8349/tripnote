@@ -52,6 +52,7 @@ public class BRentController {
 		bRentService.deleteBykey(Integer.valueOf(id));
 		return vo;
 	}
+
 	/**
 	 * @param 
 	 * @return

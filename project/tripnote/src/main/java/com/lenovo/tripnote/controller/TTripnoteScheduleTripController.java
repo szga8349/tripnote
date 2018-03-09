@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lenovo.tripnote.entity.BAccount;
@@ -20,6 +21,7 @@ import com.lenovo.tripnote.entity.BTraffic;
 import com.lenovo.tripnote.entity.TTripnoteScheduleTrip;
 import com.lenovo.tripnote.entity.vo.TTripnoteScheduleTripAddVo;
 import com.lenovo.tripnote.entity.vo.TTripnoteScheduleTripHotelAddVo;
+import com.lenovo.tripnote.entity.vo.TTripnoteScheduleTripSortVo;
 import com.lenovo.tripnote.entity.vo.TTripnoteScheduleTripVo;
 import com.lenovo.tripnote.service.BHotelService;
 import com.lenovo.tripnote.service.BPoiService;
@@ -160,6 +162,13 @@ public class TTripnoteScheduleTripController {
 		trip.setCreateTime(new Date());
 		tTripnoteScheduleTripService.insert(trip);
 		vo.setData(trip.getId());
+		return vo;
+	}
+	@RequestMapping(value = "/sort/doUpdate",method=RequestMethod.POST)
+	public @ResponseBody ResultVo addUpdateSorts(@RequestBody TTripnoteScheduleTripSortVo addVo){
+		ResultVo vo = new ResultVo();
+		vo.setCode(Result.SUCESSFUL);
+		tTripnoteScheduleTripService.bachUpdateSort(addVo);
 		return vo;
 	}
 	

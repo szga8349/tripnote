@@ -12,6 +12,8 @@ import com.lenovo.tripnote.dao.TTripnoteScheduleRRentMapper;
 import com.lenovo.tripnote.entity.BRent;
 import com.lenovo.tripnote.entity.BRentExample;
 import com.lenovo.tripnote.entity.TTripnoteScheduleRRent;
+import com.lenovo.tripnote.entity.TTripnoteScheduleRRentExample;
+import com.lenovo.tripnote.entity.TTripnoteScheduleRRentExample.Criteria;
 import com.lenovo.tripnote.entity.vo.BRentSearchVo;
 import com.lenovo.tripnote.service.BRentService;
 @Service
@@ -70,6 +72,15 @@ public class BRentServiceImpl implements BRentService {
 		record.setRentid(rentid);
 		record.setScheduleId(scheduleId);
 		return tTripnoteScheduleRRentMapper.insertSelective(record);
+	}
+
+	@Override
+	public Integer deleteRentToSchedule(Integer rentId, Integer scheduleId) {
+		TTripnoteScheduleRRentExample example = new TTripnoteScheduleRRentExample();
+		Criteria cri = example.createCriteria();
+		cri.andRentidEqualTo(rentId);
+		cri.andScheduleIdEqualTo(scheduleId);
+		return tTripnoteScheduleRRentMapper.deleteByExample(example);
 	}
 
 }
