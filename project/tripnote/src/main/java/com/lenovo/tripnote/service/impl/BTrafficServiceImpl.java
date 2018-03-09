@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.lenovo.tripnote.dao.BTrafficMapper;
 import com.lenovo.tripnote.entity.BTraffic;
 import com.lenovo.tripnote.entity.BTrafficExample;
+import com.lenovo.tripnote.entity.BTrafficExample.Criteria;
 import com.lenovo.tripnote.entity.vo.BTrafficSearchVo;
 import com.lenovo.tripnote.service.BTrafficService;
 @Service
@@ -50,13 +51,18 @@ public class BTrafficServiceImpl implements BTrafficService {
 	public Integer searchCount(BTrafficSearchVo vo) {
 		//暂时不加条件进行全搜索
 		BTrafficExample example = new BTrafficExample();
+		Criteria createCriteria = example.createCriteria();
+		if(vo.getTrafficType()!=null)
+			createCriteria.andTypeEqualTo(vo.getTrafficType());
 		return this.bTrafficMapper.countByExample(example);
 	}
 
 	@Override
 	public List<BTraffic> selectAndPage(BTrafficSearchVo vo, RowBounds row) {
 		BTrafficExample example = new BTrafficExample();
-		// TODO Auto-generated method stubBTrafficExample
+		Criteria createCriteria = example.createCriteria();
+		if(vo.getTrafficType()!=null)
+			createCriteria.andTypeEqualTo(vo.getTrafficType());
 		return this.bTrafficMapper.selectByExampleAndPage(example, row);
 	}
 

@@ -9,4 +9,5 @@ import lombok.Setter;
 @NoArgsConstructor
 public class BTrafficSearchVo extends PageInfoVo {
 	private Integer createUserId;
+	private Integer trafficType;
 }
