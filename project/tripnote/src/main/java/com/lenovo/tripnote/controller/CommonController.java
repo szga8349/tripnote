@@ -361,8 +361,9 @@ public class CommonController {
 						c2.setIndent(26);
 						
 						PdfPCell image2 = new PdfPCell();//单元格内容
+
 						 
-						imagePath2 =  trip.getImageurl()!=null?trip.getImageurl():"http://pic.rruu.com/img/user/pic/20151221/20151221110915578.png";
+						imagePath2 =  (trip.getImageurl()!=null && !"".equals(trip.getImageurl())) ?trip.getImageurl():"http://pic.rruu.com/img/user/pic/20151221/20151221110915578.png";
 						
 						Image image212 = Image.getInstance(imagePath2);
 						//image2.setFixedHeight(3f);
@@ -566,6 +567,8 @@ public class CommonController {
 			return "icon_产品.png";
 		case 6:
 			return "icon_酒店.png";
+		case 7:
+            return "icon_酒店.png";
 		default:
 			return null;
 		}
