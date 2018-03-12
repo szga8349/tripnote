@@ -1,0 +1,47 @@
+{
+    "nodes": [{
+        "id": 1,
+        "labels": ["Company"],
+        "or_id": 101378716,
+        "name": "阜南县平安福大药房",
+        "short_name": "阜南县平安福大药房",
+        "channel": "单体药店"
+    }, {
+        "id": 2,
+        "labels": ["Company"],
+        "or_id": 105784187,
+        "name": "阜阳市延生大药房零售连锁有限公司电力明园",
+        "short_name": "阜阳市延生大药房零售连锁有限公司电力明园",
+        "channel": "连锁药店分店"
+    }, {
+        "id": 3,
+        "labels": ["Company"],
+        "or_id": 101338487,
+        "name": "阜阳市第一大药房零售连锁有限公司",
+        "short_name": "阜阳市第一大药房零售连锁有限公司",
+        "channel": "连锁公司"
+    }, {
+        "id": 4,
+        "labels": ["Company"],
+        "or_id": 105136830,
+        "name": "阜阳延生大药房零售连锁有限公司颍泉区周棚集长青街店",
+        "short_name": "阜阳延生大药房零售连锁有限公司颍泉区周棚集长青街店",
+        "channel": "连锁药店分店"
+    }],
+    "relationships": [{
+        "id": 5,
+        "startNode": 1,
+        "endNode": 2,
+        "type": "INVEST"
+    }, {
+        "id": 6,
+        "startNode": 1,
+        "endNode": 3,
+        "type": "INVEST"
+    }, {
+        "id": 7,
+        "startNode": 1,
+        "endNode": 4,
+        "type": "INVEST"
+    }]
+}
