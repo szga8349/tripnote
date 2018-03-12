@@ -502,7 +502,7 @@ public class CommonController {
 		case 9:
 			return "I.PNG";
 		default:
-			return null;
+			return "A.PNG";
 		}
 	}
 
