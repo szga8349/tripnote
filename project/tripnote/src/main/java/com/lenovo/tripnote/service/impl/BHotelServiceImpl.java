@@ -22,7 +22,7 @@ public class BHotelServiceImpl implements BHotelService {
 	@Override
 	public int insert(BHotel t) {
 		// TODO Auto-generated method stub
-		return bHotelMapper.insert(t);
+		return bHotelMapper.insertSelective(t);
 	}
 
 	@Override

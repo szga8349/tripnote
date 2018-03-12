@@ -22,7 +22,7 @@ public class TCustomerCatogryServiceImpl implements TCustomerCatogryService{
 	@Override
 	public int insert(TCustomerCatogry t) {
 		// TODO Auto-generated method stub
-		return tCustomerCatogryMapper.insert(t);
+		return tCustomerCatogryMapper.insertSelective(t);
 	}
 
 	@Override

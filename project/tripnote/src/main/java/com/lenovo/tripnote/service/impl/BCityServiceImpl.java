@@ -20,7 +20,7 @@ public class BCityServiceImpl implements BCityService{
 	@Override
 	public int insert(BCity t) {
 		// TODO Auto-generated method stub
-		return bCityMapper.insert(t);
+		return bCityMapper.insertSelective(t);
 	}
 
 	@Override

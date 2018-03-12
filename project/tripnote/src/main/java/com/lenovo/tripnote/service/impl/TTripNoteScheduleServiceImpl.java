@@ -29,7 +29,7 @@ public class TTripNoteScheduleServiceImpl implements TTripNoteScheduleService {
 	@Override
 	public int insert(TTripnoteSchedule t) {
 		// TODO Auto-generated method stub
-		return tTripnoteScheduleMapper.insert(t);
+		return tTripnoteScheduleMapper.insertSelective(t);
 	}
 
 	@Override

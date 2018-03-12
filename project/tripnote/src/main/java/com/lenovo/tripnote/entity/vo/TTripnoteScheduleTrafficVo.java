@@ -62,5 +62,11 @@ public class TTripnoteScheduleTrafficVo {
      * @ibatorgenerated 2018-01-29 11:35:30
      */
     private Integer trafficType;
+    
 
+    /**
+     * t_tripnote_schedule_traffic.traffic_guide (交通指引,传入json数据)
+     * @ibatorgenerated 2018-03-12 16:18:41
+     */
+    private String trafficGuide;
 }

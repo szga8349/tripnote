@@ -16,7 +16,7 @@ public class TTripnoteScheduleTrafficServiceImpl implements TTripnoteScheduleTra
 
 	@Override
 	public int insert(TTripnoteScheduleTraffic t) {
-		return tTripnoteScheduleTrafficMapper.insert(t);
+		return tTripnoteScheduleTrafficMapper.insertSelective(t);
 	}
 
 	@Override

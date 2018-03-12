@@ -22,7 +22,7 @@ public class BCountryServiceImpl implements BCountryService {
 	@Override
 	public int insert(BCountry t) {
 
-		return bCountryMapper.insert(t);
+		return bCountryMapper.insertSelective(t);
 	}
 
 	@Override

@@ -68,7 +68,7 @@ public class TripnoteServiceImpl implements TTripnoteService{
 	private TTripnoteScheduleRCityMapper tTripnoteScheduleRCityMapper;
 	@Override
 	public int insert(TTripNote t) {
-		return tTripNoteMapper.insert(t);
+		return tTripNoteMapper.insertSelective(t);
 	}
 
 	@Override

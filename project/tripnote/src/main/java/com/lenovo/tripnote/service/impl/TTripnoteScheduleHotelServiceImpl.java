@@ -27,7 +27,7 @@ public class TTripnoteScheduleHotelServiceImpl implements TTripnoteScheduleHotel
 	@Override
 	public int insert(TTripnoteScheduleHotel t) {
 		// TODO Auto-generated method stub
-		return tTripnoteScheduleHotelMapper.insert(t);
+		return tTripnoteScheduleHotelMapper.insertSelective(t);
 	}
 
 	@Override

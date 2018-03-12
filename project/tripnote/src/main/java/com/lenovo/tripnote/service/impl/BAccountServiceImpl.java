@@ -25,7 +25,7 @@ public class BAccountServiceImpl implements BAccountService {
 	
 	@Override
 	public int insert(BAccount account) {
-		return bAccountMapper.insert(account);
+		return bAccountMapper.insertSelective(account);
 	}
 
 	@Override

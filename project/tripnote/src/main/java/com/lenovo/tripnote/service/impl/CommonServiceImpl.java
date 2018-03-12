@@ -19,8 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.lenovo.tripnote.entity.BAccount;
 import com.lenovo.tripnote.entity.vo.UploadFileVo;
 import com.lenovo.tripnote.service.CommonService;
-import com.lenovo.tripnote.vo.Result;
-import com.lenovo.tripnote.vo.ResultVo;
 
 import lombok.extern.log4j.Log4j;
 

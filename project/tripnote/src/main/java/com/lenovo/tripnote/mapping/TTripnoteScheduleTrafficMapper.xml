@@ -18,10 +18,16 @@
     <result column="createuser_name" property="createuserName" jdbcType="VARCHAR" />
     <result column="start_time" property="startTime" jdbcType="TIME" />
   </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.lenovo.tripnote.entity.TTripnoteScheduleTraffic" extends="BaseResultMap" >
+    <result column="traffic_guide" property="trafficGuide" jdbcType="LONGVARCHAR" />
+  </resultMap>
   <sql id="Base_Column_List" >
     id, schedule_id, start_schedule_type, start_schedule_trip, end_schedule_type, end_schedule_trip, 
     distance, spend_time, traffic_type, arrival_time, createtime, create_userid, shift, 
     createuser_name, start_time
+  </sql>
+  <sql id="Blob_Column_List" >
+    traffic_guide
   </sql>
   <sql id="Example_Where_Clause" >
     <where >
@@ -81,12 +87,44 @@
       </foreach>
     </where>
   </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleTrafficExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_tripnote_schedule_traffic
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleTrafficExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
+    from t_tripnote_schedule_traffic
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleWithBLOBsAndPage" resultMap="ResultMapWithBLOBs" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleTrafficExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from t_tripnote_schedule_traffic
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -169,7 +207,32 @@
       <if test="record.startTime != null" >
         start_time = #{record.startTime,jdbcType=TIME},
       </if>
+      <if test="record.trafficGuide != null" >
+        traffic_guide = #{record.trafficGuide,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update t_tripnote_schedule_traffic
+    set id = #{record.id,jdbcType=INTEGER},
+      schedule_id = #{record.scheduleId,jdbcType=INTEGER},
+      start_schedule_type = #{record.startScheduleType,jdbcType=INTEGER},
+      start_schedule_trip = #{record.startScheduleTrip,jdbcType=INTEGER},
+      end_schedule_type = #{record.endScheduleType,jdbcType=INTEGER},
+      end_schedule_trip = #{record.endScheduleTrip,jdbcType=INTEGER},
+      distance = #{record.distance,jdbcType=REAL},
+      spend_time = #{record.spendTime,jdbcType=BIGINT},
+      traffic_type = #{record.trafficType,jdbcType=INTEGER},
+      arrival_time = #{record.arrivalTime,jdbcType=TIME},
+      createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      create_userid = #{record.createUserid,jdbcType=INTEGER},
+      shift = #{record.shift,jdbcType=VARCHAR},
+      createuser_name = #{record.createuserName,jdbcType=VARCHAR},
+      start_time = #{record.startTime,jdbcType=TIME},
+      traffic_guide = #{record.trafficGuide,jdbcType=LONGVARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -195,9 +258,11 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from t_tripnote_schedule_traffic
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -210,12 +275,14 @@
       end_schedule_type, end_schedule_trip, distance, 
       spend_time, traffic_type, arrival_time, 
       createtime, create_userid, shift, 
-      createuser_name, start_time)
+      createuser_name, start_time, traffic_guide
+      )
     values (#{scheduleId,jdbcType=INTEGER}, #{startScheduleType,jdbcType=INTEGER}, #{startScheduleTrip,jdbcType=INTEGER}, 
       #{endScheduleType,jdbcType=INTEGER}, #{endScheduleTrip,jdbcType=INTEGER}, #{distance,jdbcType=REAL}, 
       #{spendTime,jdbcType=BIGINT}, #{trafficType,jdbcType=INTEGER}, #{arrivalTime,jdbcType=TIME}, 
       #{createtime,jdbcType=TIMESTAMP}, #{createUserid,jdbcType=INTEGER}, #{shift,jdbcType=VARCHAR}, 
-      #{createuserName,jdbcType=VARCHAR}, #{startTime,jdbcType=TIME})
+      #{createuserName,jdbcType=VARCHAR}, #{startTime,jdbcType=TIME}, #{trafficGuide,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleTraffic" useGeneratedKeys="true" keyProperty="id" >
     insert into t_tripnote_schedule_traffic
@@ -234,6 +301,7 @@
       shift,
       createuser_name,
       start_time,
+      traffic_guide,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       #{scheduleId,jdbcType=INTEGER},
@@ -250,6 +318,7 @@
       #{shift,jdbcType=VARCHAR},
       #{createuserName,jdbcType=VARCHAR},
       #{startTime,jdbcType=TIME},
+      #{trafficGuide,jdbcType=LONGVARCHAR},
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleTraffic" >
@@ -297,7 +366,29 @@
       <if test="startTime != null" >
         start_time = #{startTime,jdbcType=TIME},
       </if>
+      <if test="trafficGuide != null" >
+        traffic_guide = #{trafficGuide,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleTraffic" >
+    update t_tripnote_schedule_traffic
+    set schedule_id = #{scheduleId,jdbcType=INTEGER},
+      start_schedule_type = #{startScheduleType,jdbcType=INTEGER},
+      start_schedule_trip = #{startScheduleTrip,jdbcType=INTEGER},
+      end_schedule_type = #{endScheduleType,jdbcType=INTEGER},
+      end_schedule_trip = #{endScheduleTrip,jdbcType=INTEGER},
+      distance = #{distance,jdbcType=REAL},
+      spend_time = #{spendTime,jdbcType=BIGINT},
+      traffic_type = #{trafficType,jdbcType=INTEGER},
+      arrival_time = #{arrivalTime,jdbcType=TIME},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      create_userid = #{createUserid,jdbcType=INTEGER},
+      shift = #{shift,jdbcType=VARCHAR},
+      createuser_name = #{createuserName,jdbcType=VARCHAR},
+      start_time = #{startTime,jdbcType=TIME},
+      traffic_guide = #{trafficGuide,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleTraffic" >

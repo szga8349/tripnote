@@ -21,7 +21,7 @@ public class BPoiServiceImpl implements BPoiService{
 	@Override
 	public int insert(BPoi t) {
 		// TODO Auto-generated method stub
-		return bPoiMapper.insert(t);
+		return bPoiMapper.insertSelective(t);
 	}
 
 	@Override

@@ -19,7 +19,7 @@ public class TTripnoteScheduleRCityServiceImpl implements TTripnoteScheduleRCity
 	@Override
 	public int insert(TTripnoteScheduleRCity t) {
 		
-		return tTripnoteScheduleRCityMapper.insert(t);
+		return tTripnoteScheduleRCityMapper.insertSelective(t);
 	}
 
 	@Override
@@ -49,6 +49,7 @@ public class TTripnoteScheduleRCityServiceImpl implements TTripnoteScheduleRCity
 		c.andScheduleIdEqualTo(t.getScheduleId());
 		return this.tTripnoteScheduleRCityMapper.deleteByExample(example );
 	}
+	@SuppressWarnings("deprecation")
 	@Override
 	public int insertFrist(TTripnoteScheduleRCity t) {
 		TTripnoteScheduleRCityExample example = new TTripnoteScheduleRCityExample();

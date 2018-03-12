@@ -15,7 +15,7 @@ public class BUserTripnoteServiceImpl implements BUserTripnoteService {
 	@Override
 	public int insert(BUserTripnote t) {
 		// TODO Auto-generated method stub
-		return bUserTripnoteMapper.insert(t);
+		return bUserTripnoteMapper.insertSelective(t);
 	}
 
 	@Override

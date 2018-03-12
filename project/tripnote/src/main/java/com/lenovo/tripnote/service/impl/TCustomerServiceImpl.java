@@ -25,7 +25,7 @@ public class TCustomerServiceImpl implements TCustomerService {
 
 	@Override
 	public int insert(TCustomer t) {
-		return tCustomerMapper.insert(t);
+		return tCustomerMapper.insertSelective(t);
 	}
 
 	@Override
