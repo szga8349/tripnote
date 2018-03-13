@@ -49,6 +49,8 @@ import com.lenovo.tripnote.entity.vo.TTripnoteScheduleRCityVo;
 import com.lenovo.tripnote.entity.vo.TTripnoteScheduleTrafficResultVo;
 import com.lenovo.tripnote.entity.vo.TTripnoteScheduleTripResultVo;
 import com.lenovo.tripnote.export.PdfHeaderFooter;
+import com.lenovo.tripnote.pdf.DottedLine;
+import com.lenovo.tripnote.pdf.SolidLine;
 import com.lenovo.tripnote.service.CommonService;
 import com.lenovo.tripnote.service.TTripNoteScheduleService;
 import com.lenovo.tripnote.service.TTripnoteScheduleHotelService;
@@ -375,8 +377,8 @@ public class CommonController {
 						table1.addCell(c2);
 
 						PdfPCell emty = new PdfPCell();
+						emty.setCellEvent(new SolidLine());
 						emty.setBorder(0);
-						
 						table.addCell(emty);
 						table.addCell(table1);
                }
@@ -404,6 +406,7 @@ public class CommonController {
 						table1.addCell(c1);
 
 						PdfPCell emty = new PdfPCell();
+						emty.setCellEvent(new SolidLine());
 						emty.setBorder(0);
 						table.addCell(emty);
 						table.addCell(table1);
