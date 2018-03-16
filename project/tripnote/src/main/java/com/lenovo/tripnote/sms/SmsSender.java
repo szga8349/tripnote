@@ -108,7 +108,7 @@ public class SmsSender implements ISmsSender {
 
 	public static void main(String[] args) throws ClientException, IOException {
 		SmsSender smsSender = new SmsSender();
-		//smsSender.sendLoginCode("13730696614", "12321321");
+		smsSender.sendLoginCode("13730696614", "12321321");
 		smsSender.sendResetCode("18109060227", "12wewq");
 		smsSender.sendRegisterCode("13730696614", "123232");
 	}

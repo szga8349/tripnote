@@ -21,6 +21,7 @@
 				<value>classpath:conf/common.properties</value>
 			</list>
 		</property>
+		 <property name="fileEncoding" value="UTF-8"></property>
 	</bean>
 	<!-- 自动扫描dao和service包(自动注入) -->
 	<context:component-scan
