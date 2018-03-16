@@ -52,6 +52,7 @@ import com.lenovo.tripnote.entity.vo.TTripnoteScheduleTripResultVo;
 import com.lenovo.tripnote.export.PdfHeaderFooter;
 import com.lenovo.tripnote.pdf.DottedVerticalLine;
 import com.lenovo.tripnote.pdf.LenovoXMLWorkerHelper;
+import com.lenovo.tripnote.pdf.SolidHorizontalLine;
 import com.lenovo.tripnote.pdf.SolidVerticalLine;
 import com.lenovo.tripnote.service.CommonService;
 import com.lenovo.tripnote.service.TTripNoteScheduleService;
@@ -622,7 +623,8 @@ public class CommonController {
        	       PdfPCell image1 = new PdfPCell();
 	           image1.addElement(Image.getInstance(imagePrefix+getImage(count)));
 	           image1.setBorder(0);
-	           
+	           if(i!=0 && i!=size-1)//第一个和最后一个不画竖线
+	              image1.setCellEvent(new SolidVerticalLine());
 	           table.addCell(image1);
        	       table.addCell(tablename);
        	       
@@ -746,9 +748,18 @@ public class CommonController {
 		   BaseFont bfChinese = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
 	       Font titFont = new Font(bfChinese, 16, Font.NORMAL);
 	        //Font contentFont =  new Font(bfChinese, 12, Font.NORMAL);
+	       
 	       PdfPCell emtp = new PdfPCell( new Paragraph(18f, " ", titFont));//单元格内容
 	       emtp.setBorder(0);
-           document.addCell(emtp);
+	       emtp.setFixedHeight(40);
+	       emtp.setCellEvent(new SolidVerticalLine());
+	       //emtp.setCellEvent(new SolidHorizontalLine());
+	       
+	       document.addCell(emtp);
+	       emtp = new PdfPCell( new Paragraph(18f, " ", titFont));//单元格内容
+	       emtp.setBorder(0);
+	       emtp.setFixedHeight(40);
+	       emtp.setCellEvent(new SolidHorizontalLine(new BaseColor(0x22,0xa9,0x8e)));
            document.addCell(emtp);
            
            
@@ -785,13 +796,18 @@ public class CommonController {
 	       //image1.setHorizontalAlignment(Element.ALIGN_MIDDLE);
 	       image1.setVerticalAlignment(Element.ALIGN_TOP);
 	       table1.setHorizontalAlignment(Element.ALIGN_MIDDLE);
+	       image1.setCellEvent(new SolidVerticalLine());
 	       document.addCell(image1);
            document.addCell(table1);
            
            emtp = new PdfPCell( new Paragraph(18f, " ", titFont));//单元格内容
            emtp.setBorder(0);
+           emtp.setCellEvent(new SolidVerticalLine());
            document.addCell(emtp);
+           emtp = new PdfPCell( new Paragraph(18f, " ", titFont));//单元格内容
+           emtp.setBorder(0);
            document.addCell(emtp);
+           
            if(traffic.getTrafficGuide()!=null){
 			JSONArray jsonArray = JSONArray.fromObject(traffic.getTrafficGuide());
 			int size = jsonArray.size();
@@ -990,7 +1006,10 @@ public class CommonController {
        
        PdfPCell emtp = new PdfPCell( new Paragraph(18f, " ", titFont));//单元格内容
        emtp.setBorder(0);
+       emtp.setCellEvent(new SolidVerticalLine());
        document.addCell(emtp);
+       emtp = new PdfPCell( new Paragraph(18f, " ", titFont));//单元格内容
+       emtp.setBorder(0);
        document.addCell(emtp);
     
        List<TTripnoteScheduleHotelResultVo> scheduleHotels = vo.getScheduleHotels();
@@ -1017,6 +1036,8 @@ public class CommonController {
       	       PdfPCell image1 = new PdfPCell();
  	           image1.addElement(Image.getInstance(imagePrefix+getImageHotel(type)));
  	           image1.setBorder(0);
+ 	           //image1.setCellEvent(new SolidVerticalLine());
+ 	           
       	       document.addCell(image1);
                document.addCell(table1);
                 
