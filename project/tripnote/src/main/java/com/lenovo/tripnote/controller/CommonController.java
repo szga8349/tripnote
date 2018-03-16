@@ -623,8 +623,6 @@ public class CommonController {
        	       PdfPCell image1 = new PdfPCell();
 	           image1.addElement(Image.getInstance(imagePrefix+getImage(count)));
 	           image1.setBorder(0);
-	           if(i!=0 && i!=size-1)//第一个和最后一个不画竖线
-	              image1.setCellEvent(new SolidVerticalLine());
 	           table.addCell(image1);
        	       table.addCell(tablename);
        	       
@@ -752,9 +750,9 @@ public class CommonController {
 	       PdfPCell emtp = new PdfPCell( new Paragraph(18f, " ", titFont));//单元格内容
 	       emtp.setBorder(0);
 	       emtp.setFixedHeight(40);
-	       emtp.setCellEvent(new SolidVerticalLine());
+	       if(count!=0)
+	         emtp.setCellEvent(new SolidVerticalLine());
 	       //emtp.setCellEvent(new SolidHorizontalLine());
-	       
 	       document.addCell(emtp);
 	       emtp = new PdfPCell( new Paragraph(18f, " ", titFont));//单元格内容
 	       emtp.setBorder(0);
@@ -1006,7 +1004,8 @@ public class CommonController {
        
        PdfPCell emtp = new PdfPCell( new Paragraph(18f, " ", titFont));//单元格内容
        emtp.setBorder(0);
-       emtp.setCellEvent(new SolidVerticalLine());
+       if(count!=0)//第一个是酒店 不需要画实线
+        emtp.setCellEvent(new SolidVerticalLine());
        document.addCell(emtp);
        emtp = new PdfPCell( new Paragraph(18f, " ", titFont));//单元格内容
        emtp.setBorder(0);
@@ -1055,6 +1054,8 @@ public class CommonController {
       	       table1.addCell(c1);
       	       PdfPCell emty=  new PdfPCell();
     	       emty.setBorder(0);
+    	       if(type==0)//早上的酒店下 需要画连线
+    	         emty.setCellEvent(new SolidVerticalLine());
     	       document.addCell(emty);
                document.addCell(table1);
                //TTripnoteScheduleHotel hoteldetail = tTripnoteScheduleHotelService.getByKey(hotel.getId());
