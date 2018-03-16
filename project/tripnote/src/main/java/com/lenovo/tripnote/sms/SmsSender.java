@@ -1,4 +1,4 @@
-package com.lenovo.tripnote.smsutil;
+package com.lenovo.tripnote.sms;
 
 import java.io.IOException;
 
