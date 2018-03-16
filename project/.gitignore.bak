@@ -1,7 +1,6 @@
 build/
 target/
 repos/
-src/main/java/com/lenovo/tripnote/sms/SmsSender.java
 tmp/
 .settings
 .settings/*
