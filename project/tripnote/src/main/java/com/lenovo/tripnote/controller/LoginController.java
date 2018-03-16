@@ -26,7 +26,7 @@ import com.aliyuncs.exceptions.ClientException;
 import com.lenovo.tripnote.entity.BAccount;
 import com.lenovo.tripnote.entity.BLogin;
 import com.lenovo.tripnote.service.BAccountService;
-import com.lenovo.tripnote.sms.SmsSender;
+import com.lenovo.tripnote.smsutil.ISmsSender;
 import com.lenovo.tripnote.util.RandomUtils;
 import com.lenovo.tripnote.vo.LoginInfoVo;
 import com.lenovo.tripnote.vo.RegisterVo;
@@ -49,7 +49,7 @@ public class LoginController {
 	private BAccountService bAccountService;
 
 	@Resource
-	private SmsSender smsSender;
+	private ISmsSender smsSender;
 
 	@RequestMapping(value = "/doLogin")
 	public @ResponseBody ResultVo doLogin(HttpServletRequest request, Model model, LoginInfoVo info) {
