@@ -1,5 +1,6 @@
 package com.lenovo.tripnote.controller;
 
+import java.io.IOException;
 import java.util.Date;
 
 import javax.annotation.Resource;
@@ -21,9 +22,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aliyuncs.exceptions.ClientException;
 import com.lenovo.tripnote.entity.BAccount;
 import com.lenovo.tripnote.entity.BLogin;
 import com.lenovo.tripnote.service.BAccountService;
+import com.lenovo.tripnote.sms.SmsSender;
 import com.lenovo.tripnote.util.RandomUtils;
 import com.lenovo.tripnote.vo.LoginInfoVo;
 import com.lenovo.tripnote.vo.RegisterVo;
@@ -44,6 +47,9 @@ public class LoginController {
 	 */
 	@Resource
 	private BAccountService bAccountService;
+	
+	@Resource
+	private SmsSender smsSender;
 
 	@RequestMapping(value = "/doLogin")
 	public @ResponseBody ResultVo doLogin(HttpServletRequest request, Model model, LoginInfoVo info) {
@@ -126,18 +132,61 @@ public class LoginController {
 		return vo;
 	}
 
-	@RequestMapping(value = "/sendSmsCode")
-	public @ResponseBody ResultVo doSendSMS(HttpServletRequest request, String phoneNo) {
+	@RequestMapping(value = "/sendRegisterCode")
+	public @ResponseBody ResultVo doSendRegisterSMS(HttpServletRequest request, String phoneNo) {
 		SmsCodeVo smsCodeVO = new SmsCodeVo();
 		String code = RandomUtils.createRandomVcode();
 		smsCodeVO.setSendTime(new Date().getTime());
 		smsCodeVO.setSmsCode(code);
-		request.getSession().setAttribute("smscode", smsCodeVO);
 		ResultVo vo = new ResultVo();
 		vo.setCode(Result.SUCESSFUL);
 		vo.setData(code);
+		try {
+			if(smsSender.sendRegisterCode(phoneNo, code))//发送验证码成功
+			   request.getSession().setAttribute("smscode", smsCodeVO);
+		} catch (ClientException | IOException e) {
+			vo.setCode(Result.FAUL);
+			vo.setData(e.getMessage());
+		}
 		return vo;
 	}
+	@RequestMapping(value = "/sendResetCode")
+	public @ResponseBody ResultVo doSendResetSMS(HttpServletRequest request, String phoneNo) {
+		SmsCodeVo smsCodeVO = new SmsCodeVo();
+		String code = RandomUtils.createRandomVcode();
+		smsCodeVO.setSendTime(new Date().getTime());
+		smsCodeVO.setSmsCode(code);
+		ResultVo vo = new ResultVo();
+		vo.setCode(Result.SUCESSFUL);
+		vo.setData(code);
+		try {
+			if(smsSender.sendResetCode(phoneNo, code))//发送验证码成功
+			   request.getSession().setAttribute("smscode", smsCodeVO);
+		} catch (ClientException | IOException e) {
+			vo.setCode(Result.FAUL);
+			vo.setData(e.getMessage());
+		}
+		return vo;
+	}
+	@RequestMapping(value = "/sendLoginCode")
+	public @ResponseBody ResultVo doSendLoginSMS(HttpServletRequest request, String phoneNo) {
+		SmsCodeVo smsCodeVO = new SmsCodeVo();
+		String code = RandomUtils.createRandomVcode();
+		smsCodeVO.setSendTime(new Date().getTime());
+		smsCodeVO.setSmsCode(code);
+		ResultVo vo = new ResultVo();
+		vo.setCode(Result.SUCESSFUL);
+		vo.setData(code);
+		try {
+			if(smsSender.sendLoginCode(phoneNo, code))//发送验证码成功
+			   request.getSession().setAttribute("smscode", smsCodeVO);
+		} catch (ClientException | IOException e) {
+			vo.setCode(Result.FAUL);
+			vo.setData(e.getMessage());
+		}
+		return vo;
+	}
+
 
 	@RequestMapping(value = "/logout")
 	public  @ResponseBody ResultVo doLogut(HttpServletRequest request, Model model) {
