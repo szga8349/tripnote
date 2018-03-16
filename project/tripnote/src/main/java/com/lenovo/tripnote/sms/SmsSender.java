@@ -21,7 +21,7 @@ public class SmsSender implements ISmsSender {
 	final String product = "Dysmsapi";// 短信API产品名称（短信产品名固定，无需修改）
 	final String domain = "dysmsapi.aliyuncs.com";// 短信API产品域名（接口地址固定，无需修改）
 	@Value("${sms.accessKeyId}")
-	private String accessKeyId = "LTAIHvqxNsXipIp2";
+	private String accessKeyId;
 	@Value("${sms.accessKeySecret}")
 	private String accessKeySecret ;
 	// 登录验证码模板code
