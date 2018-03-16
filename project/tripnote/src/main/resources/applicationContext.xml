@@ -19,6 +19,7 @@
 			<list>
 				<value>classpath:conf/jdbc.properties</value>
 				<value>classpath:conf/common.properties</value>
+				<value>classpath:conf/sms.properties</value>
 			</list>
 		</property>
 		 <property name="fileEncoding" value="UTF-8"></property>

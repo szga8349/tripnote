@@ -1,7 +1,7 @@
 build/
 target/
 repos/
-src/main/java/com/lenovo/tripnote/sms/
+src/main/resources/conf/sms.properties
 tmp/
 .settings
 .settings/*

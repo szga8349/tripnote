@@ -23,18 +23,18 @@ public class SmsSender implements ISmsSender {
 	@Value("${sms.accessKeyId}")
 	private String accessKeyId = "LTAIHvqxNsXipIp2";
 	@Value("${sms.accessKeySecret}")
-	private String accessKeySecret = "V6z5ZdooJ9HYsPRuTJEq3RiMOJ29LA";
+	private String accessKeySecret ;
 	// 登录验证码模板code
 	@Value("${sms.loginTemplateCode}")
-	private String loginTemplateCode = "SMS_127830086";
+	private String loginTemplateCode;
 	// 注册验证码模板code
 	@Value("${sms.registerTemplateCode}")
-	private String registerTemplateCode = "SS_127795052";
+	private String registerTemplateCode;
 	// 重置验证码模板code
 	@Value("${sms.resetTemplateCode}")
-	private String resetTemplateCode = "SMS_127830085";
+	private String resetTemplateCode;
 	@Value("${sms.signName}")
-	private String signName = "tripnote旅游";
+	private String signName;
 
 	private IClientProfile profile;
 
