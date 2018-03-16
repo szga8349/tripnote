@@ -60,6 +60,146 @@
      </collection> 
   </resultMap>
   
+  <resultMap id="PdfDetailResultMap" type="com.lenovo.tripnote.entity.vo.TTripNoteDetailResultVo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="start_date" property="startDate" jdbcType="DATE" />
+    <result column="end_date" property="endDate" jdbcType="DATE" />
+    <result column="days" property="days" jdbcType="INTEGER" />
+    <result column="destination" property="destination" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="start_city" property="startCity" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="trip_instrodution" property="introduction" jdbcType="LONGVARCHAR" />
+    <result column="trip_imageurl" property="imageurl" jdbcType="VARCHAR" />
+    <result column="trip_price" property="price" jdbcType="INTEGER" />
+    <collection property="custems" javaType="java.util.List" ofType="com.lenovo.tripnote.entity.vo.TCustemVo">  
+            <result column="customer_id" property="id" jdbcType="INTEGER" />
+            <result column="phone1" property="phone" jdbcType="VARCHAR" />
+            <result column="name" property="name" jdbcType="VARCHAR" />  
+     </collection>  
+     <collection property="tTripNoteSchedules" javaType="java.util.List" ofType="com.lenovo.tripnote.entity.vo.TTripNoteScheduleResultVo">
+         <id column="trip_schedule_id" property="id" jdbcType="INTEGER" />
+		<result column="tripnote_id" property="tripnoteId" jdbcType="INTEGER" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="indexdate" property="indexdate" jdbcType="INTEGER" />
+		<result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
+		<collection property="traffics" javaType="java.util.List"
+			ofType="com.lenovo.tripnote.entity.vo.TTripnoteScheduleTrafficResultVo">
+			<result column="traffic_id" property="id" jdbcType="INTEGER" />
+			<result column="traffic_schedule_id" property="scheduleId"
+				jdbcType="INTEGER" />
+		    <result column="start_schedule_type" property="startScheduleType" jdbcType="INTEGER" />
+			<result column="start_schedule_trip" property="startScheduleTrip"
+				jdbcType="INTEGER" />
+			<result column="end_schedule_type" property="endScheduleType" jdbcType="INTEGER" />
+			
+			<result column="end_schedule_trip" property="endScheduleTrip"
+				jdbcType="INTEGER" />
+		    <result column="traffic_type" property="trafficType" jdbcType="INTEGER" />
+			<result column="distance" property="distance" jdbcType="REAL" />
+			<result column="spend_time" property="spendTime" jdbcType="BIGINT" />
+			<result column="arrival_time" property="arrivalTime" jdbcType="TIME" />
+			<result column="shift" property="shift" jdbcType="VARCHAR" />
+			<result column="start_time" property="startTime" jdbcType="TIME" />
+			<result column="traffic_guide" property="trafficGuide" jdbcType="LONGVARCHAR" />
+		</collection>
+		<collection property="scheduletrips" javaType="java.util.List"
+			ofType="com.lenovo.tripnote.entity.vo.TTripnoteScheduleTripResultVo">
+			<result column="scheduletrip_id" property="id" jdbcType="INTEGER" />
+			<result column="scheduletrip_schedule_id" property="scheduleId"
+				jdbcType="INTEGER" />
+			<result column="poi_id" property="poiId" jdbcType="INTEGER" />
+			<result column="trip_name_cn" property="nameCn" jdbcType="VARCHAR" />
+			<result column="trip_name_en" property="nameEn" jdbcType="VARCHAR" />
+			<result column="address" property="address" jdbcType="VARCHAR" />
+			<result column="trip_lon" property="lon" jdbcType="DOUBLE" />
+			<result column="trip_lat" property="lat" jdbcType="DOUBLE" />
+			<result column="trip_city_id" property="cityId" jdbcType="INTEGER" />
+			<result column="trip_cityname" property="cityname" jdbcType="VARCHAR" />
+			<result column="trip_type" property="type" jdbcType="INTEGER" />
+			<result column="phone" property="phone" jdbcType="VARCHAR" />
+			<result column="open_time" property="openTime" jdbcType="VARCHAR" />
+			<result column="consum_description" property="consumDescription"
+				jdbcType="VARCHAR" />
+			<result column="traffic_instructions" property="trafficInstructions"
+				jdbcType="VARCHAR" />
+			<result column="time_reference" property="timeReference"
+				jdbcType="VARCHAR" />
+			<result column="price" property="price" jdbcType="DOUBLE" />
+			<result column="address_instrations" property="addressInstrations"
+				jdbcType="VARCHAR" />
+			<result column="supplier" property="supplier" jdbcType="VARCHAR" />
+			<result column="imageurl" property="imageurl" jdbcType="VARCHAR" />
+			<result column="url" property="url" jdbcType="VARCHAR" />
+			<result column="guide" property="guide" jdbcType="LONGVARCHAR" />
+			<result column="sort" property="sort" jdbcType="INTEGER" />
+			
+			<result column="traffictype" property="traffictype" jdbcType="INTEGER" />
+			<result column="start_name" property="startName" jdbcType="VARCHAR" />
+            <result column="end_name" property="endName" jdbcType="VARCHAR" />
+            <result column="traffic_start_time" property="startTime" jdbcType="TIMESTAMP" />
+            <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+            <result column="model" property="model" jdbcType="VARCHAR" />
+            <result column="start_lon" property="startLon" jdbcType="DOUBLE" />
+            <result column="start_lat" property="startLat" jdbcType="DOUBLE" />
+            <result column="end_lon" property="endLon" jdbcType="DOUBLE" />
+            <result column="end_lat" property="endLat" jdbcType="DOUBLE" />
+            <result column="time_consume" property="timeConsume" jdbcType="VARCHAR" />
+		</collection>
+		<collection property="usertripnotes" javaType="java.util.List"
+			ofType="com.lenovo.tripnote.entity.vo.BUserTripnoteResultVo">
+			<result column="busertrip_id" property="id" jdbcType="INTEGER" />
+			<result column="busertrip_title" property="title" jdbcType="VARCHAR" />
+			<result column="cover" property="cover" jdbcType="VARCHAR" />
+			<result column="busertrip_context" property="context"
+				jdbcType="LONGVARCHAR" />
+		</collection>
+		<collection property="citys" javaType="java.util.List"
+			ofType="com.lenovo.tripnote.entity.vo.TTripnoteScheduleRCityVo">
+			<result column="rcity_id" property="id" jdbcType="INTEGER" />
+			<result column="city_id" property="cityId" jdbcType="INTEGER" />
+			<result column="country_id" property="countryId" jdbcType="INTEGER" />
+			<result column="schedule_id" property="scheduleId" jdbcType="INTEGER" />
+			<result column="name_cn" property="nameCn" jdbcType="VARCHAR" />
+			<result column="name_en" property="nameEn" jdbcType="VARCHAR" />
+			<result column="lat" property="lat" jdbcType="DOUBLE" />
+			<result column="lon" property="lon" jdbcType="DOUBLE" />
+		</collection>
+		<collection property="scheduleHotels" javaType="java.util.List"
+			ofType="com.lenovo.tripnote.entity.vo.TTripnoteScheduleHotelResultVo">
+			<result column="hotel_id" property="id" jdbcType="INTEGER" />
+			<result column="hotel_name_cn" property="nameCn" jdbcType="VARCHAR" />
+			<result column="hotel_name_en" property="nameEn" jdbcType="VARCHAR" />
+			<result column="check_in_time" property="checkInTime" jdbcType="VARCHAR" />
+			<result column="check_ou_time" property="checkOuTime" jdbcType="VARCHAR" />
+			<result column="check_in_type" property="checkInType" jdbcType="INTEGER" />
+			<result column="hotel_type" property="type" jdbcType="INTEGER" />
+			<result column="hotel_price" property="price" jdbcType="DOUBLE" />
+			<result column="hotel_lat" property="lat" jdbcType="DOUBLE" />
+			<result column="hotel_lon" property="lon" jdbcType="DOUBLE" />
+			<result column="hotel_introduction" property="introduction" jdbcType="LONGVARCHAR" />
+			<result column="hotel_imageurl" property="imageurl" jdbcType="VARCHAR" />
+			<result column="source_hotel_id" property="hotelId" jdbcType="INTEGER" />
+			<result column="hotel_city_name" property="cityName" jdbcType="VARCHAR" />
+		</collection>
+		<collection property="rents" javaType="java.util.List"
+			ofType="com.lenovo.tripnote.entity.vo.TTripnoteScheduleRentResultVo">
+			 <id column="rent_id" property="id" jdbcType="INTEGER" />
+             <result column="rent_name_cn" property="nameCn" jdbcType="VARCHAR" />
+             <result column="rent_name_en" property="nameEn" jdbcType="VARCHAR" />
+             <result column="rent_imageurl" property="imageurl" jdbcType="VARCHAR" />
+             <result column="rent_price" property="price" jdbcType="DOUBLE" />
+             <result column="rent_supplier" property="supplier" jdbcType="VARCHAR" />
+             <result column="rent_model" property="model" jdbcType="VARCHAR" />
+             <result column="rent_pedestal" property="pedestal" jdbcType="INTEGER" />
+             <result column="rent_doors" property="doors" jdbcType="INTEGER" />
+             <result column="rent_suitcases" property="suitcases" jdbcType="INTEGER" />
+		</collection>
+     </collection> 
+  </resultMap>
+  
    <resultMap id="TravelResultMap" type="com.lenovo.tripnote.entity.vo.TTripNoteDetailResultVo" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="tripnote_price" property="price" jdbcType="DOUBLE" />
@@ -308,6 +448,49 @@
     left join t_tripnote_schedule_r_city ttsrc on ttsrc.schedule_id = tts.id
     left join b_city bc on ttsrc.city_id = bc.id
     where t.id = #{id,jdbcType=INTEGER} order by tts.indexdate asc,ttsrc.create_time asc
+  </select>
+  <!-- pdf -->
+   <select id="getPdfDetailByKey" resultMap="PdfDetailResultMap" parameterType="java.lang.Integer" >
+        select
+        ttn.id,ttn.code, ttn.title,ttn.start_date, ttn.end_date, ttn.`days`, ttn.destination,
+        ttn.`status`, ttn.start_city, ttn.remarks,ttn.introduction as trip_instrodution,ttn.imageurl as trip_imageurl,ttn.price as trip_price,
+		t.id as trip_schedule_id, t.tripnote_id, t.title, t.indexdate,t.introduction,
+		ttst.id as scheduletrip_id,ttst.schedule_id as scheduletrip_schedule_id,
+		ttst.poi_id, ttst.schedule_id as scheduletrip_id, ttst.name_cn as
+		trip_name_cn, ttst.name_en as trip_name_en, ttst.address, ttst.lon as
+		trip_lon, ttst.lat as trip_lat, ttst.city_id as trip_city_id,
+		ttst.cityname as trip_cityname,
+		ttst.`type` as trip_type,ttst.phone as trip_phone, ttst.open_time,
+		ttst.consum_description, ttst.traffic_instructions,
+		ttst.time_reference, ttst.price,ttst.address_instrations,
+		ttst.supplier, ttst.imageurl,ttst.url,ttst.guide,ttst.sort,
+		ttstc.id as traffic_id,ttstc.schedule_id as
+		traffic_schedule_id,ttstc.start_schedule_trip,ttstc.end_schedule_trip,ttstc.distance,ttstc.spend_time,ttstc.traffic_type,ttstc.start_schedule_type,ttstc.end_schedule_type,
+		ttstc.arrival_time,ttstc.start_time,ttstc.shift,ttstc.traffic_guide,
+		ttsh.id as hotel_id,ttsh.name_cn as hotel_name_cn,ttsh.name_en as hotel_name_en,ttsh.check_in_time,ttsh.check_ou_time,ttsh.check_in_type,ttsh.city_name as hotel_city_name,
+		ttsh.type as hotel_type,ttsh.price as hotel_price,ttsh.lon as hotel_lon,ttsh.lat as hotel_lat,ttsh.imageurl as hotel_imageurl,ttsh.introduction as hotel_introduction,ttsh.hotel_id as source_hotel_id,
+		but.id as busertrip_id,but.title as
+		busertrip_title,but.cover,but.context as busertrip_context,
+		bc.id as city_id,bc.name_cn,bc.name_en,bc.lat,bc.lon,ttsrc.schedule_id as
+		schedule_id,bc.country_id,ttsrc.id as rcity_id,
+		bt.type as traffictype,bt.start_name,bt.end_name,bt.start_time as traffic_start_time,bt.end_time,
+		bt.model,bt.start_lon,bt.start_lat,bt.end_lon,bt.end_lat,bt.time_consume,
+		br.id as rent_id,br.name_en as rent_name_en,br.name_cn as rent_name_cn,br.imageurl as rent_imageurl,br.price as rent_price,br.supplier as rent_supplier,
+		br.model as rent_model,br.pedestal as rent_pedestal,br.doors as rent_doors,br.suitcases as rent_suitcases
+		from t_trip_note ttn
+		left join t_tripnote_schedule t on t.tripnote_id = ttn.id 
+		left join t_tripnote_schedule_trip ttst on ttst.schedule_id = t.id
+		left join t_tripnote_schedule_r_rent ttsrr on ttsrr.schedule_id = t.id
+		left join b_rent br on br.id = ttsrr.rentid
+		left join b_traffic bt on bt.id = ttst.poi_id and ttst.type = 7 
+		left join t_tripnote_schedule_traffic ttstc on ttstc.schedule_id = t.id
+		left join t_tripnote_schedule_r_usenote ttsru on ttsru.tripnote_schedule_id=t.id
+		left join t_tripnote_schedule_hotel ttsh on ttsh.schedule_id=t.id
+		left join b_user_tripnote but on but.id = ttsru.user_tripnote_id
+		left join t_tripnote_schedule_r_city ttsrc on ttsrc.schedule_id = t.id
+		left join b_city bc on ttsrc.city_id = bc.id
+		where ttn.id = #{id,jdbcType=INTEGER} order by t.indexdate asc,ttst.sort asc, ttsrc.create_time asc,ttsrc.id
+		
   </select>
   
   <select id="getTravelQuotationByKey" resultMap="TravelResultMap" parameterType="java.lang.Integer" >

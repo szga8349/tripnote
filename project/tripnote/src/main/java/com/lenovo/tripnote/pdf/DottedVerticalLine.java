@@ -4,21 +4,20 @@ import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPCellEvent;
-import com.itextpdf.text.pdf.PdfPTable;
 
-/**pdf画虚线
+/**pdf画竖虚线
  * @author shijy2
  *
  */
-public class DottedLine implements PdfPCellEvent{
+public class DottedVerticalLine implements PdfPCellEvent{
 
 	@Override
 	public void cellLayout(PdfPCell cell, Rectangle position,
             PdfContentByte[] canvases) {
-            PdfContentByte canvas = canvases[PdfPTable.LINECANVAS];
+            PdfContentByte canvas = canvases[1];
             //取cell宽度一半
             float midle = (position.getWidth())/2;
-            canvas.setLineDash(5f, 5f);
+            canvas.setLineDash(3f, 3f);
             canvas.rectangle(position.getLeft()+midle, position.getBottom(),
                 0,position.getHeight());
             canvas.setRGBColorStroke(0x22,0xa9,0x8e);

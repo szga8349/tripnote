@@ -59,4 +59,7 @@ public interface TTripnoteService extends IDbService<TTripNote>{
 	 */
 	public void insertToTripnote(Integer tripnoteId,BExportVo exportVo);
 	
+
+	TTripNoteDetailResultVo getPdfDetailByKey(Integer id);
+	
 }

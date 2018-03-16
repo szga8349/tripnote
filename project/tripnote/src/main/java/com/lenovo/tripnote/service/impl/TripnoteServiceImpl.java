@@ -211,6 +211,12 @@ public class TripnoteServiceImpl implements TTripnoteService{
 		
 		return tTripNoteMapper.getDetailByKey(id);
 	}
+	
+	@Override
+	public TTripNoteDetailResultVo getPdfDetailByKey(Integer id) {
+		
+		return tTripNoteMapper.getPdfDetailByKey(id);
+	}
 
 	@Override
 	public int queryCountCondition(TTripNoteSearchVo t) {

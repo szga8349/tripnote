@@ -6,11 +6,11 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPCellEvent;
 import com.itextpdf.text.pdf.PdfPTable;
 
-/**pdf画实线
+/**pdf画竖实线
  * @author shijy2
  *
  */
-public class SolidLine implements PdfPCellEvent{
+public class SolidVerticalLine implements PdfPCellEvent{
 
 	@Override
 	public void cellLayout(PdfPCell cell, Rectangle position,
@@ -20,8 +20,8 @@ public class SolidLine implements PdfPCellEvent{
             //取cell宽度一半
             float midle = (position.getWidth())/2;
             canvas.rectangle(position.getLeft()+midle, position.getBottom(),
-                    0,position.getHeight());
-            //canvas.setGrayStroke(2);
+                    1,position.getHeight());
+            canvas.setRGBColorStroke(0xd9, 0xe4, 0xe2);
             canvas.stroke();
         }
 }
