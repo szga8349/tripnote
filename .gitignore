@@ -13,7 +13,3 @@ tmp/
 *.class
 **/test/resources/*.properties
 /.gradle/
-
-b/
-c/
-d/
