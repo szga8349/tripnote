@@ -168,11 +168,11 @@ public class CommonController {
 		
 		TTripNoteDetailResultVo detail = tTripnoteService.getPdfDetailByKey(Integer.valueOf(id));
 			try {
-			   contentFont = new Font(bfChinese, 14, Font.NORMAL);
+			   contentFont = new Font(bfChinese, 12f, Font.NORMAL);
 			   lineSpacing = 1.5f;
-			   firstTitleFont = new Font(bfChinese, 24, Font.NORMAL);
+			   firstTitleFont = new Font(bfChinese, 22.5f, Font.BOLD);
 			   //firstTitleFont.setColor(new BaseColor(0x22,0xa9,0x8e));
-			   secondTitleFont = new Font(bfChinese, 22, Font.NORMAL);
+			   secondTitleFont = new Font(bfChinese, 20, Font.NORMAL);
 		       secondTitleFont.setColor(new BaseColor(0x22,0xa9,0x8e));
 		       cutLength = 200;
 			   if(imagePrefix==null)
@@ -202,7 +202,7 @@ public class CommonController {
 	       
 	        //Font contentFont =  new Font(bfChinese, 12, Font.NORMAL);
 	        //设置每列宽度比例   
-	        int[] width= {8,92};
+	        int[] width= {6,94};
 	        tableTitle.setWidths(width); 
 	        tableTitle.setWidthPercentage(100); // 宽度100%填充
 	        tableTitle.getDefaultCell().setBorder(0);
@@ -230,9 +230,9 @@ public class CommonController {
 	       //table.setTableEvent(new DottedHeader());
 	       //table.getDefaultCell().setBorder(PdfPCell.);
 		   //table.setWidthPercentage(92); // 宽度100%填充
-	       
-	       int height = 40;
-	       PdfPCell cc2 = new PdfPCell(new Paragraph("出发/到达时间",contentFont));//单元格内容
+		   Font titleFont = new Font(bfChinese, 12f, Font.NORMAL);
+	       int height = 30;
+	       PdfPCell cc2 = new PdfPCell(new Paragraph("出发/到达时间",titleFont));//单元格内容
 	       cc2.setBackgroundColor(grayBorder);
 	       cc2.setHorizontalAlignment(Element.ALIGN_CENTER);
 	       cc2.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -242,7 +242,7 @@ public class CommonController {
 	       cc2.disableBorderSide(8);
 	       table.addCell(cc2);
 	       
-	       cc2 = new PdfPCell(new Paragraph("班次号",contentFont));//单元格内容
+	       cc2 = new PdfPCell(new Paragraph("班次号",titleFont));//单元格内容
 	       cc2.setBackgroundColor(grayBorder);
 	       cc2.setHorizontalAlignment(Element.ALIGN_CENTER);
 	       cc2.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -253,7 +253,7 @@ public class CommonController {
 	       cc2.disableBorderSide(8);
 	       table.addCell(cc2);
 	       
-	       cc2 = new PdfPCell(new Paragraph("出发地",contentFont));//单元格内容
+	       cc2 = new PdfPCell(new Paragraph("出发地",titleFont));//单元格内容
 	       cc2.setBackgroundColor(grayBorder);
 	       cc2.setHorizontalAlignment(Element.ALIGN_CENTER);
 	       cc2.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -264,7 +264,7 @@ public class CommonController {
 	       cc2.setFixedHeight(height);
 	       table.addCell(cc2);
 	       
-	       cc2 = new PdfPCell(new Paragraph("到达地",contentFont));//单元格内容
+	       cc2 = new PdfPCell(new Paragraph("到达地",titleFont));//单元格内容
 	       cc2.setBackgroundColor(grayBorder);
 	       cc2.setHorizontalAlignment(Element.ALIGN_CENTER);
 	       cc2.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -274,9 +274,11 @@ public class CommonController {
 	       cc2.setFixedHeight(height);
 	       table.addCell(cc2);
 	       //单元格
-		   Font titFont = new Font(bfChinese, 22, Font.NORMAL);
+		   Font titFont = new Font(bfChinese, 12f, Font.NORMAL);
 		   titFont.setColor(0x22,0xa9,0x8e);
 		   Date start = detail.getStartDate();
+		   height = 50;
+		   Font contentFont = new Font(bfChinese, 10.5f, Font.NORMAL);
 	       for(TTripNoteScheduleResultVo vo:detail.getTTripNoteSchedules()){
 	    	   for(TTripnoteScheduleTripResultVo tripvo:vo.getScheduletrips()){
 	    		   if(tripvo.getType()==7){//城际交通
@@ -288,6 +290,7 @@ public class CommonController {
 	    			   cc2.setHorizontalAlignment(Element.ALIGN_CENTER);
 	    		       cc2.setVerticalAlignment(Element.ALIGN_MIDDLE);
 	    		       cc2.setBorderWidth(2);
+	    		       cc2.setFixedHeight(height);
 	    		       cc2.setBorderColor(grayBorder);
 	    		       table.addCell(cc2);
 	    		       
@@ -295,6 +298,7 @@ public class CommonController {
 	    		       cc2.setHorizontalAlignment(Element.ALIGN_CENTER);
 	    		       cc2.setVerticalAlignment(Element.ALIGN_MIDDLE);
 	    		       cc2.setBorderWidth(2);
+	    		       cc2.setFixedHeight(height);
 	    		       cc2.setBorderColor(grayBorder);
 	    		       table.addCell(cc2);
 	    		       
@@ -302,6 +306,7 @@ public class CommonController {
 	    		       cc2.setHorizontalAlignment(Element.ALIGN_CENTER);
 	    		       cc2.setVerticalAlignment(Element.ALIGN_MIDDLE);
 	    		       cc2.setBorderWidth(2);
+	    		       cc2.setFixedHeight(height);
 	    		       cc2.setBorderColor(grayBorder);
 	    		       table.addCell(cc2);
 	    		       
@@ -309,6 +314,7 @@ public class CommonController {
 	    		       cc2.setHorizontalAlignment(Element.ALIGN_CENTER);
 	    		       cc2.setVerticalAlignment(Element.ALIGN_MIDDLE);
 	    		       cc2.setBorderWidth(2);
+	    		       cc2.setFixedHeight(height);
 	    		       cc2.setBorderColor(grayBorder);
 	    		       table.addCell(cc2);
 	    		   }
@@ -333,7 +339,7 @@ public class CommonController {
        
         //Font contentFont =  new Font(bfChinese, 12, Font.NORMAL);
         //设置每列宽度比例   
-        int[] width= {8,92};
+        int[] width= {6,94};
         tableTitle.setWidths(width); 
         tableTitle.setWidthPercentage(100); // 宽度100%填充
         tableTitle.getDefaultCell().setBorder(0);
@@ -360,9 +366,10 @@ public class CommonController {
        //table.setTableEvent(new DottedHeader());
        //table.getDefaultCell().setBorder(PdfPCell.);
 	   table.setWidths(new int[]{30,20,50});
-	   int height = 40;
+	   int height = 30;
+	   Font titleFont = new Font(bfChinese, 12, Font.NORMAL);
        //BaseColor border = new BaseColor(0xd9, 0xe4, 0xe2);
-       PdfPCell cc2 = new PdfPCell(new Paragraph("时间",contentFont));//单元格内容
+       PdfPCell cc2 = new PdfPCell(new Paragraph("时间",titleFont));//单元格内容
        cc2.setBackgroundColor(grayBorder);
        cc2.setHorizontalAlignment(Element.ALIGN_CENTER);
        cc2.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -372,7 +379,7 @@ public class CommonController {
        cc2.setFixedHeight(height);
        table.addCell(cc2);
        
-       cc2 = new PdfPCell(new Paragraph("城市",contentFont));//单元格内容
+       cc2 = new PdfPCell(new Paragraph("城市",titleFont));//单元格内容
        cc2.setBackgroundColor(grayBorder);
        cc2.setHorizontalAlignment(Element.ALIGN_CENTER);
        cc2.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -383,7 +390,7 @@ public class CommonController {
        cc2.setFixedHeight(height);
        table.addCell(cc2);
        
-       cc2 = new PdfPCell(new Paragraph("酒店",contentFont));//单元格内容
+       cc2 = new PdfPCell(new Paragraph("酒店",titleFont));//单元格内容
        cc2.setBackgroundColor(grayBorder);
        cc2.setHorizontalAlignment(Element.ALIGN_CENTER);
        cc2.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -393,10 +400,12 @@ public class CommonController {
        cc2.setFixedHeight(height);
        
        table.addCell(cc2);
-       Font titFont = new Font(bfChinese, 22, Font.NORMAL);
+       Font titFont = new Font(bfChinese, 12, Font.NORMAL);
 	   titFont.setColor(0x22,0xa9,0x8e);
        Date start = detail.getStartDate();
+       Font contentFont  = new Font(bfChinese, 10.5f, Font.NORMAL);
        //保存以画酒店ID信息
+       height = 50;
        List<String> drawedHotel = new ArrayList<String>();
        for(TTripNoteScheduleResultVo vo:detail.getTTripNoteSchedules()){
     	   for(TTripnoteScheduleHotelResultVo tripvo:vo.getScheduleHotels()){
@@ -412,6 +421,7 @@ public class CommonController {
     			   cc2.setHorizontalAlignment(Element.ALIGN_CENTER);
     		       cc2.setVerticalAlignment(Element.ALIGN_MIDDLE);
     		       cc2.setBorderWidth(2);
+    		       cc2.setFixedHeight(height);
     		       cc2.setBorderColor(grayBorder);
     		       table.addCell(cc2);
     		       
@@ -419,6 +429,7 @@ public class CommonController {
     		       cc2.setHorizontalAlignment(Element.ALIGN_CENTER);
     		       cc2.setVerticalAlignment(Element.ALIGN_MIDDLE);
     		       cc2.setBorderWidth(2);
+    		       cc2.setFixedHeight(height);
     		       cc2.setBorderColor(grayBorder);
     		       table.addCell(cc2);
     		       
@@ -426,6 +437,7 @@ public class CommonController {
     		       cc2.setHorizontalAlignment(Element.ALIGN_CENTER);
     		       cc2.setVerticalAlignment(Element.ALIGN_MIDDLE);
     		       cc2.setBorderWidth(2);
+    		       cc2.setFixedHeight(height);
     		       cc2.setBorderColor(grayBorder);
     		       table.addCell(cc2);
     		       drawedHotel.add(tripvo.getHotelId()+tripvo.getCheckInTime()+tripvo.getCheckOuTime());
@@ -457,13 +469,10 @@ public class CommonController {
 	     document.add(table5);
 	}
 	private void setRemark(Document document,TTripNote tripnote) throws DocumentException, IOException{
-		Font titFont = new Font(bfChinese, 14, Font.NORMAL);
-		Paragraph blankRow1 = new Paragraph(18f, " ", titFont); 
-        document.add(blankRow1);
 		//table2
         PdfPTable table2 = new PdfPTable(2);
         //设置每列宽度比例   
-        int width21[] = {8,90};
+        int width21[] = {6,90};
         table2.setWidths(width21); 
         table2.getDefaultCell().setBorder(0);
         table2.setWidthPercentage(100); // 宽度100%填充
@@ -484,7 +493,7 @@ public class CommonController {
         PdfPCell cell51 = new PdfPCell(ph);
         cell51.setLeading(lineSpacing, lineSpacing);
         cell51.setBorder(0);
-        cell51.setIndent(26);
+        //cell51.setIndent(26);
         table5.addCell(cell51);
         document.add(table5);
 	}
@@ -495,7 +504,7 @@ public class CommonController {
        
         //Font contentFont =  new Font(bfChinese, 12, Font.NORMAL);
         //设置每列宽度比例   
-        int[] width= {8,92};
+        int[] width= {6,94};
         table.setWidths(width); 
         table.setWidthPercentage(100); // 宽度100%填充
         table.getDefaultCell().setBorder(0);
@@ -542,31 +551,48 @@ public class CommonController {
      	   
      	   Date current = TimeUtils.getAfterDay(start, vo.getIndexdate()-1);
      	   //设置表头日程安排
-     	   PdfPTable tabletop = new PdfPTable(3);
-     	   width = new int[]{10,8,74};
+     	   PdfPTable tabletop = new PdfPTable(4);
+     	   width = new int[]{10,7,7,77};
      	   tabletop.setWidths(width); 
      	   ArrayList<PdfPRow> rows = tabletop.getRows();
-     	   Font titFont = new Font(bfChinese, 22, Font.NORMAL);
+     	   Font titFont = new Font(bfChinese, 18, Font.NORMAL);
      	   titFont.setColor(0x22,0xa9,0x8e);
      	   //单元格
     	   PdfPCell cc0 = new PdfPCell(new Paragraph("D"+vo.getIndexdate(),titFont));//单元格内容
     	   cc0.setBorder(0);
-    	   titFont = new Font(bfChinese, 13, Font.NORMAL);
+    	   titFont = new Font(bfChinese, 13.5f, Font.NORMAL);
      	   titFont.setColor(0x72,0x7f,0x90);
     	   PdfPCell cc1 = new PdfPCell(new Paragraph(TimeUtils.getDateString(current, "MM/dd"),titFont));//单元格内容
     	   cc1.setBorder(0);
-    	   titFont = new Font(bfChinese, 13, Font.NORMAL);
+    	   titFont = new Font(bfChinese, 13.5f, Font.NORMAL);
      	   titFont.setColor(0x72,0x7f,0x90);
     	   PdfPCell cc2 = new PdfPCell(new Paragraph("周"+num[TimeUtils.getDayofweek(current)-1],titFont));//单元格内容
     	   cc2.setBorder(0);
     	   
-    	   cc1.setVerticalAlignment(Element.ALIGN_BOTTOM);
-    	   cc1.setHorizontalAlignment(Element.ALIGN_RIGHT);
-    	   cc2.setHorizontalAlignment(Element.ALIGN_LEFT);
-    	   cc2.setVerticalAlignment(Element.ALIGN_BOTTOM);
+    	   cc1.setVerticalAlignment(Element.ALIGN_MIDDLE);
+    	   cc1.setHorizontalAlignment(Element.ALIGN_CENTER);
+    	   cc2.setVerticalAlignment(Element.ALIGN_MIDDLE);
+    	   cc2.setHorizontalAlignment(Element.ALIGN_CENTER);
     	   cc0.setVerticalAlignment(Element.ALIGN_MIDDLE);
-    	  
-    	   rows.add(new PdfPRow(new PdfPCell[]{cc0,cc1,cc2}));
+    	    
+    	   Paragraph cityPh = null;
+    	   if(vo.getCitys()!=null){
+    		   int size = vo.getCitys().size();
+    		   if(size==1){
+    			   cityPh = new Paragraph(vo.getCitys().get(0).getNameCn(),titFont);
+    		   }else{
+    			   cityPh = new Paragraph(vo.getCitys().get(0).getNameCn()+"->"+vo.getCitys().get(size-1).getNameCn(),titFont);
+    		   }
+    	   }
+    	   PdfPCell cc3 = new PdfPCell();
+    	   if(cityPh!=null){
+    		   cc3 = new PdfPCell(cityPh);//单元格内容
+    	   }
+    	   cc3.setHorizontalAlignment(Element.ALIGN_RIGHT);
+    	   cc3.setBorder(0);
+    	   
+    	   rows.add(new PdfPRow(new PdfPCell[]{cc0,cc1,cc2,cc3}));
+    	   
     	   tabletop.setHorizontalAlignment(Element.ALIGN_MIDDLE);
            PdfPCell tt1 = new PdfPCell();//单元格内容
            tt1.setBorder(0);
@@ -576,7 +602,7 @@ public class CommonController {
            //行程简介不为空
            if(vo.getIntroduction()!=null && !StringUtils.isEmpty(vo.getIntroduction())){
         	   PdfPTable introduct = new PdfPTable(2);
-        	   introduct.setWidths(new int[]{4,84});
+        	   introduct.setWidths(new int[]{0,84});
         	   PdfPCell ccintrduct = new PdfPCell(this.removeHtml(vo.getIntroduction(), contentFont));//单元格内容
         	   ccintrduct.setBorder(0);
         	   ccintrduct.setLeading(lineSpacing, lineSpacing);
@@ -601,9 +627,77 @@ public class CommonController {
            }
            List<TTripnoteScheduleTripResultVo> trips = vo.getScheduletrips();
            int size = trips.size();
+           Font secondTitle= new Font(bfChinese, 13.5f, Font.NORMAL);
+           secondTitle.setColor(new BaseColor(0xFF,0xFF,0xFF));
+           
+           Font contentFont= new Font(bfChinese, 16f, Font.NORMAL);
            if(trips!=null)
         	 for(int i=0;i<size;i++){
         	   TTripnoteScheduleTripResultVo trip = trips.get(i);
+        	   if(trip.getType()==7){//城际交通
+        		   PdfPTable tablename = new PdfPTable(3);
+               	   width = new int[]{5,5,90};
+               	   tablename.setWidths(width); 
+                   tablename.getDefaultCell().setBorder(0);
+                   PdfPCell c0 = new PdfPCell(new Paragraph(trip.getNameCn(),secondTitle));//单元格内容
+             	   c0.setBorder(0);
+             	   c0.setBackgroundColor(new BaseColor(0x22,0xa9,0x8e));
+             	   PdfPCell image = new PdfPCell();//单元格内容
+         	       image.setBorder(0);
+           	       imagePath2 = imagePrefix+"icon_飞机1.png";//"http://pic.rruu.com/img/user/pic/20151221/20151221110915578.png";
+           	       image21 = Image.getInstance(imagePath2); 
+           	       image21.setAlignment(1);
+           	       image.addElement(image21);
+           	       image.setVerticalAlignment(Element.ALIGN_MIDDLE);
+           	       image.setBackgroundColor(new BaseColor(0x22,0xa9,0x8e));
+           	       c0.setVerticalAlignment(Element.ALIGN_MIDDLE);
+     	          
+           	       PdfPCell image1 = new PdfPCell();
+    	           image1.addElement(Image.getInstance(imagePrefix+"icon_交通.png"));
+    	           image1.setBorder(0);
+    	           PdfPCell emtp = new PdfPCell();//单元格内容
+            	   emtp.setBorder(0);
+    	           tablename.addCell(emtp);
+    	           tablename.addCell(image);
+     	           tablename.addCell(c0);
+     	           
+    	           table.addCell(image1);
+           	       table.addCell(tablename);
+
+     	           PdfPTable content = new PdfPTable(5);
+     	           tablename.getDefaultCell().setBorder(0);
+     	           width = new int[]{5,5,40,5,45};
+     	           content.setWidths(width);
+     	           c0 = new PdfPCell(new Paragraph(trip.getStartName(),contentFont));//单元格内容
+            	   c0.setBorder(0);
+            	   c0.setHorizontalAlignment(Element.ALIGN_LEFT);
+            	   c0.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            	   emtp = new PdfPCell();//单元格内容
+            	   emtp.setBorder(0);
+            	   content.addCell(emtp);
+            	   content.addCell(emtp);
+            	   content.addCell(c0);
+            	   
+            	   PdfPCell emtp1 = new PdfPCell();
+            	   emtp1.setBorder(0);
+            	   emtp1.addElement(Image.getInstance(imagePrefix+"icon_箭头.PNG"));
+            	   emtp1.setHorizontalAlignment(Element.ALIGN_BOTTOM);
+            	   
+            	   
+            	   c0 = new PdfPCell(new Paragraph(trip.getEndName(),contentFont));//单元格内容
+            	   c0.setBorder(0);
+            	   c0.setHorizontalAlignment(Element.ALIGN_CENTER);
+            	   c0.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            	   
+            	   content.addCell(emtp1);
+            	   content.addCell(c0);
+            	   emtp = new PdfPCell();//单元格内容
+            	   emtp.setBorder(0);
+            	   //emtp.setCellEvent(new SolidVerticalLine());
+            	   table.addCell(emtp);
+            	   table.addCell(content);
+        		   continue;
+        	   }
         	   PdfPTable tablename = new PdfPTable(2);
            	   width = new int[]{5,95};
            	   tablename.setWidths(width); 
@@ -639,7 +733,7 @@ public class CommonController {
 						c2.setBorder(0);
 						c2.setLeading(lineSpacing, lineSpacing);
 						c2.setVerticalAlignment(Element.ALIGN_LEFT);
-						c2.setIndent(26);
+						//c2.setIndent(26);
 						PdfPCell image2 = new PdfPCell();//单元格内容
 						imagePath2 =  (trip.getImageurl()!=null && !"".equals(trip.getImageurl())) ?trip.getImageurl():"http://pic.rruu.com/img/user/pic/20151221/20151221110915578.png";
 						Image image212 = Image.getInstance(imagePath2);
@@ -669,7 +763,7 @@ public class CommonController {
 						c1.setBorder(0);
 						c1.setLeading(lineSpacing, lineSpacing);
 						c1.setVerticalAlignment(Element.ALIGN_LEFT);
-						c1.setIndent(26);
+						//c1.setIndent(26);
 						PdfPCell image2 = new PdfPCell();//单元格内容
 						 
 						imagePath2 =  trip.getImageurl()!=null?trip.getImageurl():"http://pic.rruu.com/img/user/pic/20151221/20151221110915578.png";
@@ -698,6 +792,14 @@ public class CommonController {
                /* blankRow1 = new Paragraph(18f, " ", titFont); 
                document.add(blankRow1);
                */
+     	       PdfPCell emtp = new PdfPCell( new Paragraph(18f, " ", titFont));//单元格内容
+     	       emtp.setBorder(0);
+     	       emtp.setCellEvent(new SolidVerticalLine());
+     	       table.addCell(emtp);
+     	       emtp = new PdfPCell( new Paragraph(18f, " ", titFont));//单元格内容
+     	       emtp.setBorder(0);
+     	       table.addCell(emtp);
+     	       
                key = trip.getType()+""+trip.getId();
                traffic = trafficline.get(key);
                if(traffic!=null){
@@ -759,8 +861,7 @@ public class CommonController {
 	       emtp.setFixedHeight(40);
 	       emtp.setCellEvent(new SolidHorizontalLine(new BaseColor(0x22,0xa9,0x8e)));
            document.addCell(emtp);
-           
-           
+          
 		   PdfPTable table1 = new PdfPTable(2);
     	   int[] width = new int[]{5,95};
     	   table1.setWidths(width); 
@@ -789,15 +890,15 @@ public class CommonController {
 	       table1.addCell(c0);
 	       
 	       PdfPCell image1 = new PdfPCell();
-	       image1.addElement(Image.getInstance(imagePrefix+getImage(count)));
+	       //image1.addElement(Image.getInstance(imagePrefix+getImage(count)));
 	       image1.setBorder(0);
 	       //image1.setHorizontalAlignment(Element.ALIGN_MIDDLE);
-	       image1.setVerticalAlignment(Element.ALIGN_TOP);
+	       //image1.setVerticalAlignment(Element.ALIGN_TOP);
 	       table1.setHorizontalAlignment(Element.ALIGN_MIDDLE);
 	       image1.setCellEvent(new SolidVerticalLine());
 	       document.addCell(image1);
            document.addCell(table1);
-           
+      
            emtp = new PdfPCell( new Paragraph(18f, " ", titFont));//单元格内容
            emtp.setBorder(0);
            emtp.setCellEvent(new SolidVerticalLine());
@@ -805,12 +906,13 @@ public class CommonController {
            emtp = new PdfPCell( new Paragraph(18f, " ", titFont));//单元格内容
            emtp.setBorder(0);
            document.addCell(emtp);
-           
+           Font startFont = new Font(bfChinese, 16, Font.NORMAL);
+           Font contentFont = new Font(bfChinese, 12, Font.NORMAL);
            if(traffic.getTrafficGuide()!=null){
 			JSONArray jsonArray = JSONArray.fromObject(traffic.getTrafficGuide());
 			int size = jsonArray.size();
 			PdfPTable tabletraffic = new PdfPTable(2);
-			tabletraffic.setWidths(new int[]{5,95});
+			tabletraffic.setWidths(new int[]{4,96});
 			String start = traffic.getStartScheduleType()+""+traffic.getStartScheduleTrip();
 			String startLine = trafficMap.get(start);
 			{ //增加起点
@@ -820,13 +922,13 @@ public class CommonController {
 			    Image startImage = Image.getInstance(startImagePath); 
 			   
 			    emty.setHorizontalAlignment(Element.ALIGN_CENTER);
-			    emty.setVerticalAlignment(Element.ALIGN_TOP);
+			    emty.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				emty.setCellEvent(new DottedVerticalLine(DottedVerticalLine.Location.TOP));
 				//emty.setFixedHeight(35);
 				emty.addElement(startImage);
 				tabletraffic.addCell(emty);
 				
-				PdfPCell content = new PdfPCell( new Paragraph(startLine,contentFont));//单元格内容
+				PdfPCell content = new PdfPCell( new Paragraph(startLine,startFont));//单元格内容
 				content.setBorderColor(grayBorder);
 				content.setBorderWidth(2);
 				content.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -848,9 +950,15 @@ public class CommonController {
 					// 车名称
 					String transitName = transit.getJSONObject("line").getString("short_name");
 					PdfPCell emty = new PdfPCell();//单元格内容
+					String startImagePath = imagePrefix+"3_点点.PNG";//"http://pic.rruu.com/img/user/pic/20151221/20151221110915578.png";
+				    Image startImage = Image.getInstance(startImagePath); 
 					emty.setBorder(0);
+					emty.addElement(startImage);
+				    emty.setHorizontalAlignment(Element.ALIGN_CENTER);
+					emty.setVerticalAlignment(Element.ALIGN_MIDDLE);
 					emty.setCellEvent(new DottedVerticalLine());
-					emty.setFixedHeight(35);
+					//emty.setFixedHeight(35);
+					
 					tabletraffic.addCell(emty);
 					PdfPCell content = new PdfPCell( new Paragraph("在  "+startStation+"  上车 ",contentFont));//单元格内容
 					content.setBorderColor(grayBorder);
@@ -862,9 +970,13 @@ public class CommonController {
 					tabletraffic.addCell(content);
 					
 				    emty = new PdfPCell();//单元格内容
+				    startImagePath = imagePrefix+"3_点点.PNG";//"http://pic.rruu.com/img/user/pic/20151221/20151221110915578.png";
+				    startImage = Image.getInstance(startImagePath); 
 					emty.setBorder(0);
+				    emty.setHorizontalAlignment(Element.ALIGN_CENTER);
+					emty.setVerticalAlignment(Element.ALIGN_MIDDLE);
 					emty.setCellEvent(new DottedVerticalLine());
-					emty.setFixedHeight(35);
+					emty.addElement(startImage);
 					tabletraffic.addCell(emty);
 					content = new PdfPCell( new Paragraph("乘坐  "+transitName+" 在 "+stopStation+"  下车      "+duration+"   "+distance,contentFont));//单元格内容
 					content.setBorderColor(grayBorder);
@@ -880,8 +992,13 @@ public class CommonController {
 
 				PdfPCell emty = new PdfPCell();//单元格内容
 				emty.setBorder(0);
+				String startImagePath = imagePrefix+"3_点点.PNG";//"http://pic.rruu.com/img/user/pic/20151221/20151221110915578.png";
+			    Image startImage = Image.getInstance(startImagePath); 
+				emty.setBorder(0);
+			    emty.setHorizontalAlignment(Element.ALIGN_CENTER);
+				emty.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				emty.setCellEvent(new DottedVerticalLine());
-				emty.setFixedHeight(35);
+				emty.addElement(startImage);
 				tabletraffic.addCell(emty);
 				PdfPCell content = new PdfPCell(new Paragraph(removeHtml(instructions)+"   "+duration+"   "+distance,contentFont));//单元格内容
 				content.setBorderColor(grayBorder);
@@ -903,10 +1020,10 @@ public class CommonController {
 				emty.setCellEvent(new DottedVerticalLine(DottedVerticalLine.Location.BOTTOM));
 				emty.setFixedHeight(35);
 			    emty.setHorizontalAlignment(Element.ALIGN_CENTER);
-			    emty.setVerticalAlignment(Element.ALIGN_BOTTOM);
+			    emty.setVerticalAlignment(Element.ALIGN_MIDDLE);
 			    
 				tabletraffic.addCell(emty);
-				PdfPCell content = new PdfPCell( new Paragraph(endLine,contentFont));//单元格内容
+				PdfPCell content = new PdfPCell( new Paragraph(endLine,startFont));//单元格内容
 				content.setBorderColor(grayBorder);
 				content.setBorderWidth(2);
 				content.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -922,9 +1039,8 @@ public class CommonController {
 			 document.addCell(exemty);
 			 document.addCell(tabletraffic);
            }
-   
            //document.addCell(emtp);
-	       count++;
+	       //count++;
 	       return count;
 	}
 	private String getImageHotel(int type){
@@ -1012,18 +1128,9 @@ public class CommonController {
 	}
 	
 	private String setPrintHotel(TTripNoteScheduleResultVo vo,PdfPTable document,int type,int count) throws DocumentException, IOException{
+	   
 	   BaseFont bfChinese = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
-       Font titFont = new Font(bfChinese, 16, Font.NORMAL);
-       
-       PdfPCell emtp = new PdfPCell( new Paragraph(18f, " ", titFont));//单元格内容
-       emtp.setBorder(0);
-       if(count!=0)//第一个是酒店 不需要画实线
-        emtp.setCellEvent(new SolidVerticalLine());
-       document.addCell(emtp);
-       emtp = new PdfPCell( new Paragraph(18f, " ", titFont));//单元格内容
-       emtp.setBorder(0);
-       document.addCell(emtp);
-    
+       Font titFont = new Font(bfChinese, 14, Font.NORMAL);
        List<TTripnoteScheduleHotelResultVo> scheduleHotels = vo.getScheduleHotels();
 		 //打印退房酒店
         if(scheduleHotels!=null)
@@ -1033,15 +1140,17 @@ public class CommonController {
           	   int[] width = new int[]{5,95};
           	   table1.setWidths(width); 
           	   table1.getDefaultCell().setBorder(0);
-          	   PdfPCell c0 = new PdfPCell(new Paragraph(hotel.getNameCn(),secondTitleFont));//单元格内容
+          	   PdfPCell c0 = new PdfPCell(new Paragraph(this.removeHtml(hotel.getNameCn()),secondTitleFont));//单元格内容
         	   c0.setBorder(0);
       	       String imagePath2 = imagePrefix+getPoiImage(hotel.getType());//"http://pic.rruu.com/img/user/pic/20151221/20151221110915578.png";
       	       PdfPCell image = new PdfPCell();
       	       Image image21 = Image.getInstance(imagePath2); 
       	       image.addElement(image21);
       	       image.setBorder(0);
-      	       c0.setHorizontalAlignment(Element.ALIGN_MIDDLE);
-      	       image.setHorizontalAlignment(Element.ALIGN_MIDDLE);
+      	      
+      	       //c0.setHorizontalAlignment(Element.ALIGN_MIDDLE);
+      	       //image.setHorizontalAlignment(Element.ALIGN_MIDDLE);
+      	       
       	       table1.addCell(image);
       	       table1.addCell(c0);
       	       
@@ -1080,7 +1189,7 @@ public class CommonController {
 						c0 = new PdfPCell(this.removeHtml(hotel.getIntroduction(), contentFont));// 单元格内容
 						c0.setBorder(0);
 						c0.setLeading(lineSpacing, lineSpacing);
-						c0.setIndent(26);
+						//c0.setIndent(26);
 						imagePath2 = hotel.getImageurl();
 						image21 = Image.getInstance(imagePath2);
 						table1.addCell(image21);
@@ -1098,7 +1207,7 @@ public class CommonController {
 						table1.getDefaultCell().setBorder(0);
 						c0 = new PdfPCell(this.removeHtml(hotel.getIntroduction(), contentFont));// 单元格内容
 						c0.setBorder(0);
-						c0.setIndent(26);
+						//c0.setIndent(26);
 						c0.setLeading(lineSpacing, lineSpacing);
 						imagePath2 = hotel.getImageurl();
 						image21 = Image.getInstance(imagePath2);
@@ -1111,9 +1220,13 @@ public class CommonController {
 						document.addCell(emty1);
 						document.addCell(table1);
                }
+               PdfPCell emtp = new PdfPCell( new Paragraph(18f, " ", titFont));//单元格内容
+               emtp.setBorder(0);
+               if(type==0)//早上的酒店下 需要画连线
+            	   emtp.setCellEvent(new SolidVerticalLine());
+               document.addCell(emtp);
                emtp = new PdfPCell( new Paragraph(18f, " ", titFont));//单元格内容
                emtp.setBorder(0);
-               document.addCell(emtp);
                document.addCell(emtp);
                return hotel.getType()+""+hotel.getId();
      	   }
@@ -1139,7 +1252,7 @@ public class CommonController {
         table.setWidths(columnWidths);
         Date start = detail.getStartDate();
         BaseFont bfChinese = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
-        Font titFont = new Font(bfChinese, 22, Font.NORMAL);
+        Font titFont = new Font(bfChinese, 18F, Font.NORMAL);
         int j = detail.getTTripNoteSchedules().size();
         
         for(int m=0;m<j;m++){
@@ -1170,17 +1283,17 @@ public class CommonController {
     			   title.append("-->"+ci.getNameCn()); 
     		   }
     	   }
-    	   Font titFont2 = new Font(bfChinese, 16, Font.NORMAL);
+    	   Font titFont2 = new Font(bfChinese, 12, Font.NORMAL);
     	   PdfPCell c1 = new PdfPCell(new Paragraph(title.toString(),titFont2));//单元格内容
     	   //c1.setBorder(0);
     	   c1.setHorizontalAlignment(Element.ALIGN_LEFT);
     	   
-    	   Font titFont1 = new Font(bfChinese, 13, Font.NORMAL);
+    	   Font titFont1 = new Font(bfChinese, 12, Font.NORMAL);
     	   titFont1.setColor(0x27, 0x7f, 0x90);
     	   PdfPCell c2 = new PdfPCell(new Paragraph(TimeUtils.getDateString(current, "MM/dd"),titFont1));//单元格内容
     	  // c2.setBorder(0);
     	   c2.setHorizontalAlignment(Element.ALIGN_RIGHT);
-    	   titFont1 = new Font(bfChinese, 13, Font.NORMAL);
+    	   titFont1 = new Font(bfChinese, 12, Font.NORMAL);
     	   titFont1.setColor(0x27, 0x7f, 0x90);
     	   PdfPCell c3 = new PdfPCell(new Paragraph("周"+num[TimeUtils.getDayofweek(current)-1],titFont1));//单元格内容
     	  // c3.setBorder(0);
@@ -1238,7 +1351,7 @@ public class CommonController {
         PdfPTable table2 = new PdfPTable(2);
         //设置每列宽度比例   
         table2.setWidthPercentage(100); // 宽度100%填充
-        int width21[] = {8,92};
+        int width21[] = {6,94};
         table2.setWidths(width21); 
         table2.getDefaultCell().setBorder(0);
        
@@ -1255,30 +1368,20 @@ public class CommonController {
         cell21.setHorizontalAlignment(Element.ALIGN_LEFT);
         cell21.setVerticalAlignment(Element.ALIGN_MIDDLE);
         cell21.setBorder(0); 
-        PdfPCell cells1[]= new PdfPCell[]{cell22,cell21};
-        PdfPRow row1 = new PdfPRow(cells1);
-        table2.getRows().add(row1);
-        //table2.addCell(cell21); 
-        document.add(table2);
-         //空行间距
-        blankRow1 = new Paragraph(18f, " ", titFont); 
-        document.add(blankRow1);
-        //table5
-        PdfPTable table5 = new PdfPTable(1);
+        
+        table2.addCell(cell22);
+        table2.addCell(cell21); 
+        
+       
         Paragraph ph = this.removeHtml(detail.getIntroduction(),contentFont);  
         PdfPCell cell51 = new PdfPCell(ph);
+        PdfPCell emty= new PdfPCell();
         cell51.setBorder(0);
-        cell51.setIndent(26);
-        cell51.setLeading(lineSpacing,lineSpacing);
-        String imagePath = /*tripnote.getImageurl()!=null?tripnote.getImageurl():*/"http://pic.rruu.com/img/user/pic/20151221/20151221110915578.png";
-        PdfPCell imagecell = new PdfPCell(ph);
-        Image image = Image.getInstance(imagePath); 
-        cell21.setBorder(0);
-        imagecell.addElement(image);
-        imagecell.setBorder(0);
-        table5.addCell(imagecell);
-        table5.addCell(cell51);
-        document.add(table5);
+        emty.setBorder(0);
+        table2.addCell(emty);
+        table2.addCell(cell51);
+        document.add(table2);
+       
         blankRow1 = new Paragraph(18f, " ", titFont); 
         document.add(blankRow1);
         
@@ -1304,7 +1407,7 @@ public class CommonController {
         //设置图片的宽度和高度
         image1.scaleAbsolute(document.right()-document.left(), 250);
         BaseFont bfChinese = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
-        Font titFont = new Font(bfChinese, 24, Font.NORMAL);
+        Font titFont = new Font(bfChinese, 27, Font.NORMAL);
         titFont.setColor(0xff, 0xff, 0xff);
         Paragraph header = new Paragraph(tripnote.getTitle(), titFont);
         image1.setAlignment(Image.ALIGN_CENTER);
@@ -1318,7 +1421,7 @@ public class CommonController {
         blankRow1 = new Paragraph(10f, " ", titFont); 
         document.add(blankRow1);
         
-        titFont = new Font(bfChinese, 13, Font.NORMAL);
+        titFont = new Font(bfChinese, 13.5f, Font.NORMAL);
         titFont.setColor(0x9d, 0xb4, 0xeb);
         header = new Paragraph(TimeUtils.getDateString(tripnote.getStartDate(), "yyyy.MM.dd")+"-"+TimeUtils.getDateString(tripnote.getEndDate(), "yyyy.MM.dd"), titFont);
         header.setAlignment(1);
@@ -1338,7 +1441,7 @@ public class CommonController {
         document.add(blankRow1);
         
         
-        titFont = new Font(bfChinese, 16, Font.NORMAL);
+        titFont = new Font(bfChinese, 12, Font.BOLD);
         titFont.setColor(0x00, 0x15, 0x2f);
         Paragraph line = new Paragraph("------行程路线-----", titFont);
         line.setAlignment(1);

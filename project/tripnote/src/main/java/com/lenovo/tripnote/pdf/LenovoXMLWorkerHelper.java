@@ -24,6 +24,7 @@ import com.itextpdf.tool.xml.pipeline.html.HtmlPipeline;
 import com.itextpdf.tool.xml.pipeline.html.HtmlPipelineContext;
 
 public class LenovoXMLWorkerHelper {
+	
     public static class LenovoFontsProvider extends XMLWorkerFontProvider {
         public LenovoFontsProvider() {
             super(null, null);
@@ -32,7 +33,7 @@ public class LenovoXMLWorkerHelper {
         public Font getFont(final String fontname, String encoding, float size, final int style) {  
             try {  
                 BaseFont bfChinese = BaseFont.createFont("STSong-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);//中文字体  
-                Font contentFont = new Font(bfChinese, 14, Font.NORMAL);
+                Font contentFont = new Font(bfChinese, 12f, Font.NORMAL);
                 return contentFont;
             } catch (Exception ex) {  
                 return new Font(Font.FontFamily.UNDEFINED, size, style);  
@@ -75,7 +76,7 @@ public class LenovoXMLWorkerHelper {
     			e.printStackTrace();
     		}
 			 html = html.replaceAll("<br>", "").replaceAll("\r\n", "").replaceAll("\n", "");
-             Font contentFont = new Font(bfChinese, 14, Font.NORMAL);
+             Font contentFont = new Font(bfChinese, 12f, Font.NORMAL);
              elements.add(new Paragraph(html,contentFont));
         }
         return elements;
