@@ -176,7 +176,7 @@ public class CommonController {
 		       secondTitleFont.setColor(new BaseColor(0x22,0xa9,0x8e));
 		       cutLength = 200;
 			   if(imagePrefix==null)
-				 imagePrefix = request.getRealPath("/")+File.separator+"pdf"+File.separator;
+				 imagePrefix = request.getRealPath("/")+"pdf"+File.separator;
 				Document document = getPdfDocument(tripnote.getTitle()+".pdf",response);
 				setHeader(document,tripnote);
 				setScheduleTrip(document,detail);
@@ -810,22 +810,28 @@ public class CommonController {
 			JSONArray jsonArray = JSONArray.fromObject(traffic.getTrafficGuide());
 			int size = jsonArray.size();
 			PdfPTable tabletraffic = new PdfPTable(2);
-			tabletraffic.setWidths(new int[]{10,90});
+			tabletraffic.setWidths(new int[]{5,95});
 			String start = traffic.getStartScheduleType()+""+traffic.getStartScheduleTrip();
 			String startLine = trafficMap.get(start);
 			{ //增加起点
 				PdfPCell emty = new PdfPCell();//单元格内容
 				emty.setBorder(0);
-				emty.setCellEvent(new DottedVerticalLine());
-				emty.setFixedHeight(35);
+				String startImagePath = imagePrefix+"1_圈圈.PNG";//"http://pic.rruu.com/img/user/pic/20151221/20151221110915578.png";
+			    Image startImage = Image.getInstance(startImagePath); 
+			   
+			    emty.setHorizontalAlignment(Element.ALIGN_CENTER);
+			    emty.setVerticalAlignment(Element.ALIGN_TOP);
+				emty.setCellEvent(new DottedVerticalLine(DottedVerticalLine.Location.TOP));
+				//emty.setFixedHeight(35);
+				emty.addElement(startImage);
 				tabletraffic.addCell(emty);
+				
 				PdfPCell content = new PdfPCell( new Paragraph(startLine,contentFont));//单元格内容
 				content.setBorderColor(grayBorder);
 				content.setBorderWidth(2);
 				content.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				content.setFixedHeight(35);
-				content.disableBorderSide(4);
-				content.disableBorderSide(8);
+				content.setBorder(0);
 				tabletraffic.addCell(content);
 			}
 			for (int i = 0; i < size; i++) {
@@ -891,16 +897,23 @@ public class CommonController {
 			{//增加终点
 				PdfPCell emty = new PdfPCell();//单元格内容
 				emty.setBorder(0);
-				emty.setCellEvent(new DottedVerticalLine());
+				String startImagePath = imagePrefix+"2_结束.PNG";//"http://pic.rruu.com/img/user/pic/20151221/20151221110915578.png";
+			    Image startImage = Image.getInstance(startImagePath); 
+			    emty.addElement(startImage);
+				emty.setCellEvent(new DottedVerticalLine(DottedVerticalLine.Location.BOTTOM));
 				emty.setFixedHeight(35);
+			    emty.setHorizontalAlignment(Element.ALIGN_CENTER);
+			    emty.setVerticalAlignment(Element.ALIGN_BOTTOM);
+			    
 				tabletraffic.addCell(emty);
 				PdfPCell content = new PdfPCell( new Paragraph(endLine,contentFont));//单元格内容
 				content.setBorderColor(grayBorder);
 				content.setBorderWidth(2);
 				content.setVerticalAlignment(Element.ALIGN_MIDDLE);
 				content.setFixedHeight(35);
-				content.disableBorderSide(4);
-				content.disableBorderSide(8);
+				content.setBorder(0);
+				//content.disableBorderSide(4);
+				//content.disableBorderSide(8);
 				tabletraffic.addCell(content);
 			}
 			 PdfPCell exemty = new PdfPCell();//单元格内容
