@@ -1,6 +1,7 @@
 build/
 target/
 repos/
+project/tripnote/src/main/resources/conf/sms.properties
 tmp/
 .settings
 .settings/*

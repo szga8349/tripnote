@@ -1,5 +1,6 @@
 package com.lenovo.tripnote.controller;
 
+import java.io.IOException;
 import java.util.Date;
 
 import javax.annotation.Resource;
@@ -21,9 +22,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aliyuncs.exceptions.ClientException;
 import com.lenovo.tripnote.entity.BAccount;
 import com.lenovo.tripnote.entity.BLogin;
 import com.lenovo.tripnote.service.BAccountService;
+import com.lenovo.tripnote.sms.ISmsSender;
 import com.lenovo.tripnote.util.RandomUtils;
 import com.lenovo.tripnote.vo.LoginInfoVo;
 import com.lenovo.tripnote.vo.RegisterVo;
@@ -45,6 +48,9 @@ public class LoginController {
 	@Resource
 	private BAccountService bAccountService;
 
+	@Resource
+	private ISmsSender smsSender;
+
 	@RequestMapping(value = "/doLogin")
 	public @ResponseBody ResultVo doLogin(HttpServletRequest request, Model model, LoginInfoVo info) {
 		String msg = "";
@@ -61,7 +67,7 @@ public class LoginController {
 				vo.setCode(Result.SUCESSFUL);
 				BAccount account = (BAccount) subject.getPrincipal();
 				BLogin oldLogin = bAccountService.getByAccountID(Long.valueOf(account.getId()));
-				if (oldLogin != null) {//在其它客户端已经登录 返回状态给正在登录的客户端
+				if (oldLogin != null) {// 在其它客户端已经登录 返回状态给正在登录的客户端
 					vo.setCode(Result.REPEAT);
 					vo.setMessage(oldLogin.getDevice());
 					oldLogin.setDevice(info.getDevice());
@@ -70,7 +76,7 @@ public class LoginController {
 					oldLogin.setLoginname(account.getLoginName());
 					oldLogin.setLoginip(request.getRemoteHost());
 					bAccountService.update(oldLogin);
-				}else{
+				} else {
 					BLogin record = new BLogin();
 					record.setDevice(info.getDevice());
 					record.setLogintime(new Date());
@@ -81,7 +87,7 @@ public class LoginController {
 					bAccountService.insert(record);
 					System.out.println(record);
 				}
-				//设置失效前访问的url信息 提供前端判断进行跳转
+				// 设置失效前访问的url信息 提供前端判断进行跳转
 				vo.setData(WebUtils.getSavedRequest(request));
 				return vo;
 			} else {
@@ -126,21 +132,65 @@ public class LoginController {
 		return vo;
 	}
 
-	@RequestMapping(value = "/sendSmsCode")
-	public @ResponseBody ResultVo doSendSMS(HttpServletRequest request, String phoneNo) {
+	@RequestMapping(value = "/sendRegisterCode")
+	public @ResponseBody ResultVo doSendRegisterSMS(HttpServletRequest request, String phoneNo) {
 		SmsCodeVo smsCodeVO = new SmsCodeVo();
 		String code = RandomUtils.createRandomVcode();
 		smsCodeVO.setSendTime(new Date().getTime());
 		smsCodeVO.setSmsCode(code);
-		request.getSession().setAttribute("smscode", smsCodeVO);
 		ResultVo vo = new ResultVo();
 		vo.setCode(Result.SUCESSFUL);
 		vo.setData(code);
+		try {
+			if (smsSender.sendRegisterCode(phoneNo, code))// 发送验证码成功
+				request.getSession().setAttribute("smscode", smsCodeVO);
+		} catch (ClientException | IOException e) {
+			vo.setCode(Result.FAUL);
+			vo.setData(e.getMessage());
+		}
+		return vo;
+	}
+
+	@RequestMapping(value = "/sendResetCode")
+	public @ResponseBody ResultVo doSendResetSMS(HttpServletRequest request, String phoneNo) {
+		SmsCodeVo smsCodeVO = new SmsCodeVo();
+		String code = RandomUtils.createRandomVcode();
+		smsCodeVO.setSendTime(new Date().getTime());
+		smsCodeVO.setSmsCode(code);
+		ResultVo vo = new ResultVo();
+		vo.setCode(Result.SUCESSFUL);
+		vo.setData(code);
+		try {
+			if (smsSender.sendResetCode(phoneNo, code))// 发送验证码成功
+				request.getSession().setAttribute("smscode", smsCodeVO);
+		} catch (ClientException | IOException e) {
+			vo.setCode(Result.FAUL);
+			vo.setData(e.getMessage());
+		}
+		return vo;
+	}
+
+	@RequestMapping(value = "/sendLoginCode")
+	public @ResponseBody ResultVo doSendLoginSMS(HttpServletRequest request, String phoneNo) {
+		SmsCodeVo smsCodeVO = new SmsCodeVo();
+		String code = RandomUtils.createRandomVcode();
+		smsCodeVO.setSendTime(new Date().getTime());
+		smsCodeVO.setSmsCode(code);
+		ResultVo vo = new ResultVo();
+		vo.setCode(Result.SUCESSFUL);
+		vo.setData(code);
+		try {
+			if (smsSender.sendLoginCode(phoneNo, code))// 发送验证码成功
+				request.getSession().setAttribute("smscode", smsCodeVO);
+		} catch (ClientException | IOException e) {
+			vo.setCode(Result.FAUL);
+			vo.setData(e.getMessage());
+		}
 		return vo;
 	}
 
 	@RequestMapping(value = "/logout")
-	public  @ResponseBody ResultVo doLogut(HttpServletRequest request, Model model) {
+	public @ResponseBody ResultVo doLogut(HttpServletRequest request, Model model) {
 		Subject subject = SecurityUtils.getSubject();
 		BAccount account = (BAccount) subject.getPrincipal();
 		ResultVo vo = new ResultVo();
@@ -149,7 +199,7 @@ public class LoginController {
 			oldLogin.setLoginouttime(new Date());
 			oldLogin.setStatus(-1);
 			bAccountService.update(oldLogin);
-		}else{
+		} else {
 			vo.setCode(Result.FAUL);
 		}
 		subject.logout();
@@ -198,15 +248,21 @@ public class LoginController {
 	@RequestMapping(value = "/resetPasswd")
 	public @ResponseBody ResultVo doResetPasswd(HttpServletRequest request, RegisterVo register) {
 		ResultVo vo = new ResultVo();
-		BAccount account = bAccountService.getByUsernameOrPhone(register.getLoginName());
-		if (account == null) {
+		SmsCodeVo smsCode = (SmsCodeVo) request.getSession().getAttribute("smscode");
+		if (smsCode != null && StringUtils.equals(register.getSmsCode(), smsCode.getSmsCode())) {// 验证码相同
+			BAccount account = bAccountService.getByUsernameOrPhone(register.getLoginName());
+			if (account == null) {
+				vo.setCode(Result.FAUL);
+				vo.setMessage("用户名或手机号不存在");
+				return vo;
+			}
+			account.setLoginPassword(register.getLoginPasswd());
+			bAccountService.update(account);
+			vo.setCode(Result.SUCESSFUL);
+		} else {
 			vo.setCode(Result.FAUL);
-			vo.setMessage("用户名或手机号不存在");
-			return vo;
+			vo.setMessage("验证码错误或过时");
 		}
-		account.setLoginPassword(register.getLoginPasswd());
-		bAccountService.update(account);
-		vo.setCode(Result.SUCESSFUL);
 		return vo;
 
 	}

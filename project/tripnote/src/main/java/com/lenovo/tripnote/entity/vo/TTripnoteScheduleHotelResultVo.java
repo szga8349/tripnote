@@ -87,4 +87,10 @@ public class TTripnoteScheduleHotelResultVo{
      */
     private Integer hotelId;
 
+    /**
+     * t_tripnote_schedule_hotel.city_name (酒店所在城市)
+     * @ibatorgenerated 2018-01-30 16:34:45
+     */
+    private String cityName;
+
 }

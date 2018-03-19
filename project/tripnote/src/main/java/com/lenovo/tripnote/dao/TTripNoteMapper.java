@@ -97,4 +97,10 @@ public interface TTripNoteMapper {
 	 * @return
 	 */
 	int queryCount(@Param("record")TTripNoteSearchVo t);
+	
+	 /**生成pdf时获取所有信息
+	 * @param id
+	 * @return
+	 */
+	TTripNoteDetailResultVo getPdfDetailByKey(Integer id);
 }
