@@ -207,7 +207,7 @@ public class CommonController {
 	        tableTitle.setWidthPercentage(100); // 宽度100%填充
 	        tableTitle.getDefaultCell().setBorder(0);
 	        PdfPCell cell21 = new PdfPCell(new Paragraph("城际交通",firstTitleFont));
-	        String imagePath2 = imagePrefix+"icon_标题.PNG";
+	        String imagePath2 = imagePrefix+"icon_城际交通.png";
 	        Image image21 = Image.getInstance(imagePath2); 
 	        cell21.setBorder(0);
 	        
@@ -338,7 +338,7 @@ public class CommonController {
         tableTitle.setWidthPercentage(100); // 宽度100%填充
         tableTitle.getDefaultCell().setBorder(0);
         PdfPCell cell21 = new PdfPCell(new Paragraph("酒店安排",firstTitleFont));
-        String imagePath2 = imagePrefix+"icon_标题.PNG";
+        String imagePath2 = imagePrefix+"床_酒店安排.png";
         Image image21 = Image.getInstance(imagePath2); 
         cell21.setBorder(0);
         
