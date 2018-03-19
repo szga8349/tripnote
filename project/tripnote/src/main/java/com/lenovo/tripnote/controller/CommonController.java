@@ -681,7 +681,8 @@ public class CommonController {
             	   PdfPCell emtp1 = new PdfPCell();
             	   emtp1.setBorder(0);
             	   emtp1.addElement(Image.getInstance(imagePrefix+"icon_箭头.PNG"));
-            	   emtp1.setHorizontalAlignment(Element.ALIGN_BOTTOM);
+            	   emtp1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            	   emtp1.setVerticalAlignment(Element.ALIGN_MIDDLE);
             	   
             	   
             	   c0 = new PdfPCell(new Paragraph(trip.getEndName(),contentFont));//单元格内容
@@ -1372,14 +1373,26 @@ public class CommonController {
         table2.addCell(cell22);
         table2.addCell(cell21); 
         
-       
+        PdfPCell emty= new PdfPCell();
+        emty.setBorder(0);
+        String imagePath = /*tripnote.getImageurl()!=null?tripnote.getImageurl():*/"http://pic.rruu.com/img/user/pic/20151221/20151221110915578.png";
+        PdfPCell imagecell = new PdfPCell();
+        Image image = Image.getInstance(imagePath); 
+        cell21.setBorder(0);
+        imagecell.addElement(image);
+        imagecell.setBorder(0);
+        table2.addCell(emty);
+        table2.addCell(imagecell);
+        
         Paragraph ph = this.removeHtml(detail.getIntroduction(),contentFont);  
         PdfPCell cell51 = new PdfPCell(ph);
-        PdfPCell emty= new PdfPCell();
+        emty= new PdfPCell();
         cell51.setBorder(0);
         emty.setBorder(0);
         table2.addCell(emty);
         table2.addCell(cell51);
+        
+        
         document.add(table2);
        
         blankRow1 = new Paragraph(18f, " ", titFont); 
