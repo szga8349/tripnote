@@ -2,6 +2,7 @@ package com.lenovo.tripnote.sms;
 
 import java.io.IOException;
 
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,7 @@ import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
 
 @Service
-public class SmsSender implements ISmsSender {
+public class SmsSender implements ISmsSender,InitializingBean{
 	// 初始化ascClient需要的几个参数
 	final String product = "Dysmsapi";// 短信API产品名称（短信产品名固定，无需修改）
 	final String domain = "dysmsapi.aliyuncs.com";// 短信API产品域名（接口地址固定，无需修改）
@@ -38,18 +39,6 @@ public class SmsSender implements ISmsSender {
 
 	private IClientProfile profile;
 
-	public SmsSender() {
-		//可自助调整超时时间
-        System.setProperty("sun.net.client.defaultConnectTimeout", "10000");
-        System.setProperty("sun.net.client.defaultReadTimeout", "10000");
-       // 初始化ascClient,暂时不支持多region（请勿修改）
-		profile = DefaultProfile.getProfile("cn-hangzhou", accessKeyId, accessKeySecret);
-		try {
-			DefaultProfile.addEndpoint("cn-hangzhou", "cn-hangzhou", product, domain);
-		} catch (ClientException e) {
-			e.printStackTrace();
-		}
-	}
 	@Override
 	public boolean sendLoginCode(String phone, String code) throws ServerException, ClientException,IOException {
 		return sendCode(phone,code,loginTemplateCode);
@@ -114,6 +103,19 @@ public class SmsSender implements ISmsSender {
 		smsSender.sendLoginCode("13730696614", "12321321");
 		smsSender.sendResetCode("18109060227", "12wewq");
 		smsSender.sendRegisterCode("13730696614", "123232");
+	}
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		//可自助调整超时时间
+        System.setProperty("sun.net.client.defaultConnectTimeout", "10000");
+        System.setProperty("sun.net.client.defaultReadTimeout", "10000");
+       // 初始化ascClient,暂时不支持多region（请勿修改）
+		profile = DefaultProfile.getProfile("cn-hangzhou", accessKeyId, accessKeySecret);
+		try {
+			DefaultProfile.addEndpoint("cn-hangzhou", "cn-hangzhou", product, domain);
+		} catch (ClientException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
