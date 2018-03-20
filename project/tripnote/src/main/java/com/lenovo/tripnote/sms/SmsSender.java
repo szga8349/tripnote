@@ -39,7 +39,10 @@ public class SmsSender implements ISmsSender {
 	private IClientProfile profile;
 
 	public SmsSender() {
-		// 初始化ascClient,暂时不支持多region（请勿修改）
+		//可自助调整超时时间
+        System.setProperty("sun.net.client.defaultConnectTimeout", "10000");
+        System.setProperty("sun.net.client.defaultReadTimeout", "10000");
+       // 初始化ascClient,暂时不支持多region（请勿修改）
 		profile = DefaultProfile.getProfile("cn-hangzhou", accessKeyId, accessKeySecret);
 		try {
 			DefaultProfile.addEndpoint("cn-hangzhou", "cn-hangzhou", product, domain);
