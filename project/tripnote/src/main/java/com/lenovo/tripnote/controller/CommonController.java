@@ -522,6 +522,16 @@ public class CommonController {
         cell21.setVerticalAlignment(Element.ALIGN_MIDDLE);
         table.addCell(cell22);
         table.addCell(cell21); 
+        {
+    	   PdfPCell emtp = new PdfPCell();//单元格内容
+    	   emtp.setBorder(0);
+    	   emtp.setFixedHeight(10);
+    	   table.addCell(emtp);
+    	   emtp = new PdfPCell();//单元格内容
+    	   emtp.setBorder(0);
+    	   emtp.setFixedHeight(10);
+    	   table.addCell(emtp);
+        }
         //空行间距
         Date start = detail.getStartDate();
         int j = detail.getTTripNoteSchedules().size();
@@ -613,6 +623,19 @@ public class CommonController {
                table.addCell(emtp);
                table.addCell(introduct);
            }
+           
+           {//加空格间隙
+           	
+               PdfPCell emtp = new PdfPCell();//单元格内容
+         	   emtp.setBorder(0);
+         	   emtp.setFixedHeight(30);
+         	   table.addCell(emtp);
+         	   emtp = new PdfPCell();//单元格内容
+         	   emtp.setBorder(0);
+         	   emtp.setFixedHeight(30);
+         	   table.addCell(emtp);
+            }
+           
            int count = 0;
            String key = "";
            // 设置入住酒店信息
@@ -630,7 +653,7 @@ public class CommonController {
            Font secondTitle= new Font(bfChinese, 13.5f, Font.NORMAL);
            secondTitle.setColor(new BaseColor(0xFF,0xFF,0xFF));
            
-           Font contentFont= new Font(bfChinese, 16f, Font.NORMAL);
+           Font contentFont= new Font(bfChinese, 12f, Font.NORMAL);
            if(trips!=null)
         	 for(int i=0;i<size;i++){
         	   TTripnoteScheduleTripResultVo trip = trips.get(i);
@@ -697,6 +720,16 @@ public class CommonController {
             	   //emtp.setCellEvent(new SolidVerticalLine());
             	   table.addCell(emtp);
             	   table.addCell(content);
+            	   {
+                	   emtp1 = new PdfPCell();//单元格内容
+                	   emtp1.setBorder(0);
+                	   emtp1.setFixedHeight(20);
+                	   table.addCell(emtp1);
+                	   emtp1 = new PdfPCell();//单元格内容
+                	   emtp1.setBorder(0);
+                	   emtp1.setFixedHeight(20);
+                	   table.addCell(emtp1);
+                    }
         		   continue;
         	   }
         	   PdfPTable tablename = new PdfPTable(2);
@@ -825,6 +858,10 @@ public class CommonController {
 	}
 	private Paragraph removeHtml(String source,Font contentFont) throws IOException{
 		Paragraph context = new Paragraph();
+	/*	if(source!=null){
+			source = HTMLUtils.trimTags(source);//source.replaceAll("<p>", "").replaceAll("\n", "").replaceAll("\r\n", "").replaceAll("<br>", "").replaceAll("</p>", "").replaceAll("<h[0-9]>", "").replaceAll("</h[0-9]>", "");
+			context = new Paragraph(source,contentFont);
+	    }*/
 		if(source!=null){
 			ElementList elementList = LenovoXMLWorkerHelper.parseToElementList(source, null);
 			for (Element element : elementList) {
@@ -1221,13 +1258,16 @@ public class CommonController {
 						document.addCell(emty1);
 						document.addCell(table1);
                }
+               //间隔
                PdfPCell emtp = new PdfPCell( new Paragraph(18f, " ", titFont));//单元格内容
                emtp.setBorder(0);
                if(type==0)//早上的酒店下 需要画连线
             	   emtp.setCellEvent(new SolidVerticalLine());
+               emtp.setFixedHeight(30);
                document.addCell(emtp);
                emtp = new PdfPCell( new Paragraph(18f, " ", titFont));//单元格内容
                emtp.setBorder(0);
+               emtp.setFixedHeight(30);
                document.addCell(emtp);
                return hotel.getType()+""+hotel.getId();
      	   }
@@ -1384,20 +1424,27 @@ public class CommonController {
         table2.addCell(emty);
         table2.addCell(imagecell);
         
+        Font contentFont = new Font(bfChinese, 12F, Font.NORMAL);
         Paragraph ph = this.removeHtml(detail.getIntroduction(),contentFont);  
         PdfPCell cell51 = new PdfPCell(ph);
         emty= new PdfPCell();
         cell51.setBorder(0);
         emty.setBorder(0);
+        cell51.setLeading(lineSpacing, lineSpacing);
         table2.addCell(emty);
         table2.addCell(cell51);
-        
-        
+        {//加空格间隙
+        	
+           PdfPCell emtp = new PdfPCell();//单元格内容
+     	   emtp.setBorder(0);
+     	   emtp.setFixedHeight(30);
+     	   table2.addCell(emtp);
+     	   emtp = new PdfPCell();//单元格内容
+     	   emtp.setBorder(0);
+     	   emtp.setFixedHeight(30);
+     	   table2.addCell(emtp);
+        }
         document.add(table2);
-       
-        blankRow1 = new Paragraph(18f, " ", titFont); 
-        document.add(blankRow1);
-        
 	}
 	
 	
