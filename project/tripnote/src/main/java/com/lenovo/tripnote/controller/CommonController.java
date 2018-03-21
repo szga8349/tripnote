@@ -50,7 +50,6 @@ import com.lenovo.tripnote.entity.vo.TTripnoteScheduleRCityVo;
 import com.lenovo.tripnote.entity.vo.TTripnoteScheduleTrafficResultVo;
 import com.lenovo.tripnote.entity.vo.TTripnoteScheduleTripResultVo;
 import com.lenovo.tripnote.export.PdfHeaderFooter;
-import com.lenovo.tripnote.pdf.CellImage;
 import com.lenovo.tripnote.pdf.DottedVerticalLine;
 import com.lenovo.tripnote.pdf.LenovoXMLWorkerHelper;
 import com.lenovo.tripnote.pdf.SolidHorizontalLine;
@@ -908,7 +907,7 @@ public class CommonController {
     	   int[] width = new int[]{5,95};
     	   table1.setWidths(width); 
     	   table1.getDefaultCell().setBorder(0);
-    	   Paragraph ph = new Paragraph(getTrafficName(traffic.getTrafficType())+"/"+"约"+traffic.getDistance()+" 米"+"/预计用时:"+traffic.getSpendTime()+" 秒",titFont);
+    	   Paragraph ph = new Paragraph(getTrafficName(traffic.getTrafficType())+" /"+" 约"+traffic.getDistance()+" 米"+" / 预计用时:"+traffic.getSpendTime()+" 秒",titFont);
     	   //ph.setAlignment(Element.ALIGN_BOTTOM);
     	   PdfPCell c0 = new PdfPCell(ph);//单元格内容
   	       PdfPCell image = new PdfPCell();//单元格内容
@@ -1425,9 +1424,9 @@ public class CommonController {
 			Image image = Image.getInstance(imagePath);
 			//image.scaleAbsolute(100,200);
 			cell21.setBorder(0);
-			//imagecell.addElement(image);
+			imagecell.addElement(image);
 			imagecell.setBorder(0);
-			imagecell.setCellEvent(new CellImage(image));
+			//imagecell.setCellEvent(new CellImage(image));
 			table2.addCell(emty);
 			table2.addCell(imagecell);
         }
