@@ -20,6 +20,7 @@ import com.lenovo.tripnote.entity.BAccount;
 import com.lenovo.tripnote.entity.vo.UploadFileVo;
 import com.lenovo.tripnote.service.CommonService;
 
+import lombok.Getter;
 import lombok.extern.log4j.Log4j;
 
 @Service
@@ -30,6 +31,7 @@ public class CommonServiceImpl implements CommonService {
 	/**
 	 * 上传文件后返回的url路径 根据配置文件中得到 主要为了图片和应用可以进行分离
 	 */
+	@Getter
 	@Value("${impage.url}")
 	private String imageUrl = "http://localhost:8080";
 

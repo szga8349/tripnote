@@ -1415,14 +1415,16 @@ public class CommonController {
         
         PdfPCell emty= new PdfPCell();
         emty.setBorder(0);
-        String imagePath = /*tripnote.getImageurl()!=null?tripnote.getImageurl():*/"http://pic.rruu.com/img/user/pic/20151221/20151221110915578.png";
-        PdfPCell imagecell = new PdfPCell();
-        Image image = Image.getInstance(imagePath); 
-        cell21.setBorder(0);
-        imagecell.addElement(image);
-        imagecell.setBorder(0);
-        table2.addCell(emty);
-        table2.addCell(imagecell);
+        if(detail.getImageurl()!=null){
+			String imagePath = detail.getImageurl();
+			PdfPCell imagecell = new PdfPCell();
+			Image image = Image.getInstance(imagePath);
+			cell21.setBorder(0);
+			imagecell.addElement(image);
+			imagecell.setBorder(0);
+			table2.addCell(emty);
+			table2.addCell(imagecell);
+        }
         
         Font contentFont = new Font(bfChinese, 12F, Font.NORMAL);
         Paragraph ph = this.removeHtml(detail.getIntroduction(),contentFont);  

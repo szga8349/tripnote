@@ -15,5 +15,7 @@ public interface CommonService {
 	 * @return
 	 */
 	String upload(BAccount account, Map<String, MultipartFile> files,String model);
+	
+	public String getImageUrl();
 
 }
