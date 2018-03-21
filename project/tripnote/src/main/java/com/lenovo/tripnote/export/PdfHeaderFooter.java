@@ -113,7 +113,7 @@ public class PdfHeaderFooter extends PdfPageEventHelper {
         }  
     
         // 1.写入页眉  
-        ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_LEFT, new Phrase(header, fontDetail), document.left()-20, document.top() + 20, 0);  
+        //ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_LEFT, new Phrase(header, fontDetail), document.left()-20, document.top() + 20, 0);  
            
         // 2.写入前半部分的 第 X页/共  
         int pageS = writer.getPageNumber();  
