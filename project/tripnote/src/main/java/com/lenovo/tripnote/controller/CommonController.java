@@ -411,7 +411,7 @@ public class CommonController {
     	   for(TTripnoteScheduleHotelResultVo tripvo:vo.getScheduleHotels()){
     		     if(!drawedHotel.contains(tripvo.getHotelId()+tripvo.getCheckInTime()+tripvo.getCheckOuTime())){//先前已经画了不需要再做重画操作
     			   Date current = TimeUtils.getAfterDay(start, vo.getIndexdate()-1);
-    			   Paragraph ph= new Paragraph(tripvo.getCheckInTime()+"-"+tripvo.getCheckOuTime()+"\r\n",titFont);//单元格内容
+    			   Paragraph ph= new Paragraph(tripvo.getCheckInTime()+" - "+tripvo.getCheckOuTime()+"\r\n",titFont);//单元格内容
     			   Integer offset = Integer.valueOf(tripvo.getCheckOuTime().substring(1));
     			   Date end = TimeUtils.getAfterDay(start, offset-1);
     			   Paragraph ph1 = new Paragraph(TimeUtils.getDateString(current, "MM.dd")+" - "+TimeUtils.getDateString(end, "MM.dd"),contentFont);//单元格内容
