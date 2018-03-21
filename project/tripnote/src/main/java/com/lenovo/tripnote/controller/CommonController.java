@@ -50,6 +50,7 @@ import com.lenovo.tripnote.entity.vo.TTripnoteScheduleRCityVo;
 import com.lenovo.tripnote.entity.vo.TTripnoteScheduleTrafficResultVo;
 import com.lenovo.tripnote.entity.vo.TTripnoteScheduleTripResultVo;
 import com.lenovo.tripnote.export.PdfHeaderFooter;
+import com.lenovo.tripnote.pdf.CellImage;
 import com.lenovo.tripnote.pdf.DottedVerticalLine;
 import com.lenovo.tripnote.pdf.LenovoXMLWorkerHelper;
 import com.lenovo.tripnote.pdf.SolidHorizontalLine;
@@ -768,16 +769,19 @@ public class CommonController {
 						c2.setLeading(lineSpacing, lineSpacing);
 						c2.setVerticalAlignment(Element.ALIGN_LEFT);
 						//c2.setIndent(26);
-						PdfPCell image2 = new PdfPCell();//单元格内容
-						imagePath2 =  (trip.getImageurl()!=null && !"".equals(trip.getImageurl())) ?trip.getImageurl():"http://pic.rruu.com/img/user/pic/20151221/20151221110915578.png";
-						Image image212 = Image.getInstance(imagePath2);
-						//image2.setFixedHeight(3f);
-						image2.setHorizontalAlignment(Element.ALIGN_TOP);
-						image2.setVerticalAlignment(Element.ALIGN_LEFT);
-						image2.setBorder(0);
-						image2.addElement(image212);
-						table1.addCell(image2);
+						if(trip.getImageurl()!=null){
+							PdfPCell image2 = new PdfPCell();// 单元格内容
+							imagePath2 = trip.getImageurl();
+							Image image212 = Image.getInstance(imagePath2);
+							// image2.setFixedHeight(3f);
+							image2.setHorizontalAlignment(Element.ALIGN_TOP);
+							image2.setVerticalAlignment(Element.ALIGN_LEFT);
+							image2.setBorder(0);
+							image2.addElement(image212);
+							table1.addCell(image2);
+						}
 						table1.addCell(c2);
+						
 						PdfPCell emty = new PdfPCell();
 						if(i==size-1 && getEndHotel(vo))//最后一个 如果有晚间酒店 需要设置连线  没有的话 不设置连线
 						     emty.setCellEvent(new SolidVerticalLine());
@@ -799,15 +803,15 @@ public class CommonController {
 						c1.setVerticalAlignment(Element.ALIGN_LEFT);
 						//c1.setIndent(26);
 						PdfPCell image2 = new PdfPCell();//单元格内容
-						 
-						imagePath2 =  trip.getImageurl()!=null?trip.getImageurl():"http://pic.rruu.com/img/user/pic/20151221/20151221110915578.png";
-						
-						Image image212 = Image.getInstance(imagePath2);
-						//image2.setFixedHeight(3f);
-						image2.setHorizontalAlignment(Element.ALIGN_TOP);
-						image2.setVerticalAlignment(Element.ALIGN_LEFT);
-						image2.setBorder(0);
-						image2.addElement(image212);
+						if(trip.getImageurl()!=null){
+							imagePath2 = trip.getImageurl();
+							Image image212 = Image.getInstance(imagePath2);
+							// image2.setFixedHeight(3f);
+							image2.setHorizontalAlignment(Element.ALIGN_TOP);
+							image2.setVerticalAlignment(Element.ALIGN_LEFT);
+							image2.setBorder(0);
+							image2.addElement(image212);
+						}
 						
 						table1.addCell(c1);
 						table1.addCell(image2);
@@ -1419,10 +1423,11 @@ public class CommonController {
 			String imagePath = detail.getImageurl();
 			PdfPCell imagecell = new PdfPCell();
 			Image image = Image.getInstance(imagePath);
-			image.scaleAbsolute(imagecell.getWidth(),200);
+			//image.scaleAbsolute(100,200);
 			cell21.setBorder(0);
-			imagecell.addElement(image);
+			//imagecell.addElement(image);
 			imagecell.setBorder(0);
+			imagecell.setCellEvent(new CellImage(image));
 			table2.addCell(emty);
 			table2.addCell(imagecell);
         }
