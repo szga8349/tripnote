@@ -1419,6 +1419,7 @@ public class CommonController {
 			String imagePath = detail.getImageurl();
 			PdfPCell imagecell = new PdfPCell();
 			Image image = Image.getInstance(imagePath);
+			image.scaleAbsolute(imagecell.getWidth(),200);
 			cell21.setBorder(0);
 			imagecell.addElement(image);
 			imagecell.setBorder(0);
