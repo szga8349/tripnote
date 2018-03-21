@@ -42,7 +42,6 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.tool.xml.ElementList;
 import com.lenovo.tripnote.entity.BAccount;
-import com.lenovo.tripnote.entity.TTripNote;
 import com.lenovo.tripnote.entity.vo.TTripNoteDetailResultVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteScheduleResultVo;
 import com.lenovo.tripnote.entity.vo.TTripnoteScheduleHotelResultVo;
@@ -164,7 +163,7 @@ public class CommonController {
 	@SuppressWarnings("deprecation")
 	@RequestMapping(value = "/export/{id}")
 	public  void export(@PathVariable String id,HttpServletRequest request,HttpServletResponse response){
-		TTripNote tripnote = tTripnoteService.getByKey(Integer.valueOf(id));
+		//TTripNote tripnote = tTripnoteService.getByKey(Integer.valueOf(id));
 		
 		TTripNoteDetailResultVo detail = tTripnoteService.getPdfDetailByKey(Integer.valueOf(id));
 			try {
@@ -177,11 +176,11 @@ public class CommonController {
 		       cutLength = 200;
 			   if(imagePrefix==null)
 				 imagePrefix = request.getRealPath("/")+"pdf"+File.separator;
-				Document document = getPdfDocument(tripnote.getTitle()+".pdf",response);
-				setHeader(document,tripnote);
+				Document document = getPdfDocument(detail.getTitle()+".pdf",response);
+				setHeader(document,detail);
 				setScheduleTrip(document,detail);
 				setScheduleTripDetail(document,detail);
-				setRemark(document,tripnote);
+				setRemark(document,detail);
 				setEndImage(document);
 				document.close();
 			} catch (DocumentException | IOException e) {
@@ -468,7 +467,7 @@ public class CommonController {
 	     table5.addCell(cell51);
 	     document.add(table5);
 	}
-	private void setRemark(Document document,TTripNote tripnote) throws DocumentException, IOException{
+	private void setRemark(Document document,TTripNoteDetailResultVo tripnote) throws DocumentException, IOException{
 		//table2
         PdfPTable table2 = new PdfPTable(2);
         //设置每列宽度比例   
@@ -1422,7 +1421,7 @@ public class CommonController {
 			String imagePath = detail.getImageurl();
 			PdfPCell imagecell = new PdfPCell();
 			Image image = Image.getInstance(imagePath);
-			//image.scaleAbsolute(100,200);
+			//image.scaleAbsolute(460,115);
 			cell21.setBorder(0);
 			imagecell.addElement(image);
 			imagecell.setBorder(0);
@@ -1461,7 +1460,7 @@ public class CommonController {
 	 * @throws DocumentException
 	 * @throws IOException
 	 */
-	private void setHeader(Document document,TTripNote tripnote) throws DocumentException, IOException{
+	private void setHeader(Document document,TTripNoteDetailResultVo tripnote) throws DocumentException, IOException{
 	    //设置标题
         document.addTitle(tripnote.getTitle());
         document.open();
