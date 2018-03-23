@@ -8,25 +8,25 @@ import java.util.List;
 public class TCustomerExample {
     /**
      * 主键字段
-     * @ibatorgenerated 2018-01-31 18:03:56
+     * @ibatorgenerated 2018-03-23 17:00:11
      */
     protected String pk_name = "id";
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-01-31 18:03:56
+     * @ibatorgenerated 2018-03-23 17:00:11
      */
     protected String orderByClause;
 
     /**
      * 去重复
-     * @ibatorgenerated 2018-01-31 18:03:56
+     * @ibatorgenerated 2018-03-23 17:00:11
      */
     protected boolean distinct;
 
     /**
      * 条件集
-     * @ibatorgenerated 2018-01-31 18:03:56
+     * @ibatorgenerated 2018-03-23 17:00:11
      */
     protected List<Criteria> oredCriteria;
 
@@ -44,7 +44,7 @@ public class TCustomerExample {
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-01-31 18:03:56
+     * @ibatorgenerated 2018-03-23 17:00:11
      */
     public void setOrderByClause(String orderByClause) {
         this.orderByClause = orderByClause;
@@ -56,7 +56,7 @@ public class TCustomerExample {
 
     /**
      * 设置去重复
-     * @ibatorgenerated 2018-01-31 18:03:56
+     * @ibatorgenerated 2018-03-23 17:00:11
      */
     public void setDistinct(boolean distinct) {
         this.distinct = distinct;
@@ -82,7 +82,7 @@ public class TCustomerExample {
 
     /**
      * 条件查询要先创建Criteria
-     * @ibatorgenerated 2018-01-31 18:03:56
+     * @ibatorgenerated 2018-03-23 17:00:11
      */
     public Criteria createCriteria() {
         Criteria criteria = createCriteriaInternal();
@@ -106,7 +106,7 @@ public class TCustomerExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-01-31 18:03:56
+     * @ibatorgenerated 2018-03-23 17:00:11
      */
     protected abstract static class GeneratedCriteria {
         protected List<Criterion> criteria;
@@ -616,72 +616,72 @@ public class TCustomerExample {
         }
 
         public Criteria andIdcardIsNull() {
-            addCriterion("IDCard is null");
+            addCriterion("idcard is null");
             return (Criteria) this;
         }
 
         public Criteria andIdcardIsNotNull() {
-            addCriterion("IDCard is not null");
+            addCriterion("idcard is not null");
             return (Criteria) this;
         }
 
         public Criteria andIdcardEqualTo(String value) {
-            addCriterion("IDCard =", value, "idcard");
+            addCriterion("idcard =", value, "idcard");
             return (Criteria) this;
         }
 
         public Criteria andIdcardNotEqualTo(String value) {
-            addCriterion("IDCard <>", value, "idcard");
+            addCriterion("idcard <>", value, "idcard");
             return (Criteria) this;
         }
 
         public Criteria andIdcardGreaterThan(String value) {
-            addCriterion("IDCard >", value, "idcard");
+            addCriterion("idcard >", value, "idcard");
             return (Criteria) this;
         }
 
         public Criteria andIdcardGreaterThanOrEqualTo(String value) {
-            addCriterion("IDCard >=", value, "idcard");
+            addCriterion("idcard >=", value, "idcard");
             return (Criteria) this;
         }
 
         public Criteria andIdcardLessThan(String value) {
-            addCriterion("IDCard <", value, "idcard");
+            addCriterion("idcard <", value, "idcard");
             return (Criteria) this;
         }
 
         public Criteria andIdcardLessThanOrEqualTo(String value) {
-            addCriterion("IDCard <=", value, "idcard");
+            addCriterion("idcard <=", value, "idcard");
             return (Criteria) this;
         }
 
         public Criteria andIdcardLike(String value) {
-            addCriterion("IDCard like", value, "idcard");
+            addCriterion("idcard like", value, "idcard");
             return (Criteria) this;
         }
 
         public Criteria andIdcardNotLike(String value) {
-            addCriterion("IDCard not like", value, "idcard");
+            addCriterion("idcard not like", value, "idcard");
             return (Criteria) this;
         }
 
         public Criteria andIdcardIn(List<String> values) {
-            addCriterion("IDCard in", values, "idcard");
+            addCriterion("idcard in", values, "idcard");
             return (Criteria) this;
         }
 
         public Criteria andIdcardNotIn(List<String> values) {
-            addCriterion("IDCard not in", values, "idcard");
+            addCriterion("idcard not in", values, "idcard");
             return (Criteria) this;
         }
 
         public Criteria andIdcardBetween(String value1, String value2) {
-            addCriterion("IDCard between", value1, value2, "idcard");
+            addCriterion("idcard between", value1, value2, "idcard");
             return (Criteria) this;
         }
 
         public Criteria andIdcardNotBetween(String value1, String value2) {
-            addCriterion("IDCard not between", value1, value2, "idcard");
+            addCriterion("idcard not between", value1, value2, "idcard");
             return (Criteria) this;
         }
 
@@ -1834,11 +1834,81 @@ public class TCustomerExample {
             addCriterion("create_time not between", value1, value2, "createTime");
             return (Criteria) this;
         }
+
+        public Criteria andInterestTimeIsNull() {
+            addCriterion("interest_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInterestTimeIsNotNull() {
+            addCriterion("interest_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInterestTimeEqualTo(String value) {
+            addCriterion("interest_time =", value, "interestTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInterestTimeNotEqualTo(String value) {
+            addCriterion("interest_time <>", value, "interestTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInterestTimeGreaterThan(String value) {
+            addCriterion("interest_time >", value, "interestTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInterestTimeGreaterThanOrEqualTo(String value) {
+            addCriterion("interest_time >=", value, "interestTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInterestTimeLessThan(String value) {
+            addCriterion("interest_time <", value, "interestTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInterestTimeLessThanOrEqualTo(String value) {
+            addCriterion("interest_time <=", value, "interestTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInterestTimeLike(String value) {
+            addCriterion("interest_time like", value, "interestTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInterestTimeNotLike(String value) {
+            addCriterion("interest_time not like", value, "interestTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInterestTimeIn(List<String> values) {
+            addCriterion("interest_time in", values, "interestTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInterestTimeNotIn(List<String> values) {
+            addCriterion("interest_time not in", values, "interestTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInterestTimeBetween(String value1, String value2) {
+            addCriterion("interest_time between", value1, value2, "interestTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andInterestTimeNotBetween(String value1, String value2) {
+            addCriterion("interest_time not between", value1, value2, "interestTime");
+            return (Criteria) this;
+        }
     }
 
     /**
      * t_customer
-     * @ibatorgenerated do_not_delete_during_merge 2018-01-31 18:03:56
+     * @ibatorgenerated do_not_delete_during_merge 2018-03-23 17:00:11
      */
     public static class Criteria extends GeneratedCriteria {
 
@@ -1850,7 +1920,7 @@ public class TCustomerExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-01-31 18:03:56
+     * @ibatorgenerated 2018-03-23 17:00:11
      */
     public static class Criterion {
         private String condition;
