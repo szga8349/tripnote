@@ -14,7 +14,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class BatchDeleteVo {
+public class BatchIdsVo {
 
 	private List<Integer> ids;
 }

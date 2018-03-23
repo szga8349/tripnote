@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lenovo.tripnote.entity.BAccount;
 import com.lenovo.tripnote.entity.TCustomer;
-import com.lenovo.tripnote.entity.vo.BatchDeleteVo;
+import com.lenovo.tripnote.entity.vo.BatchIdsVo;
 import com.lenovo.tripnote.entity.vo.TCustemAddVo;
 import com.lenovo.tripnote.service.TCustomerService;
 import com.lenovo.tripnote.vo.Result;
@@ -118,12 +118,26 @@ public class TCustomerController {
 		return vo;
 	}
 	@RequestMapping(value = "/batch/doDelete")
-	public @ResponseBody ResultVo batchDelete(@RequestBody BatchDeleteVo ids) {
+	public @ResponseBody ResultVo batchDelete(@RequestBody BatchIdsVo ids) {
 		ResultVo vo = new ResultVo();
 		vo.setCode(Result.SUCESSFUL);
 		Subject subject = SecurityUtils.getSubject();
 		BAccount account = (BAccount) subject.getPrincipal();
 		tCustomerService.batchDelete(ids,account);
+	    return vo;
+	}
+	/**批处理将客户放到分组中
+	 * @param ids
+	 * @param catogryId
+	 * @return
+	 */
+	@RequestMapping(value = "/batch/doAdd/{catogryId}")
+	public @ResponseBody ResultVo batchToCatogry(@RequestBody BatchIdsVo ids,@PathVariable String catogryId) {
+		ResultVo vo = new ResultVo();
+		vo.setCode(Result.SUCESSFUL);
+		Subject subject = SecurityUtils.getSubject();
+		BAccount account = (BAccount) subject.getPrincipal();
+		tCustomerService.batchAddToCatogry(ids, account, Integer.valueOf(catogryId));
 	    return vo;
 	}
 

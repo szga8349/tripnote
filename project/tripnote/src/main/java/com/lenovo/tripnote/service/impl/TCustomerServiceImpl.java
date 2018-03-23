@@ -15,7 +15,7 @@ import com.lenovo.tripnote.entity.TCustomerExample;
 import com.lenovo.tripnote.entity.TCustomerExample.Criteria;
 import com.lenovo.tripnote.entity.TTripnoteRCustomer;
 import com.lenovo.tripnote.entity.TTripnoteRCustomerExample;
-import com.lenovo.tripnote.entity.vo.BatchDeleteVo;
+import com.lenovo.tripnote.entity.vo.BatchIdsVo;
 import com.lenovo.tripnote.service.TCustomerService;
 
 @Service()
@@ -103,7 +103,7 @@ public class TCustomerServiceImpl implements TCustomerService {
 	}
 
 	@Override
-	public List<Integer> batchDelete(BatchDeleteVo ids, BAccount account) {
+	public List<Integer> batchDelete(BatchIdsVo ids, BAccount account) {
 	    List<Integer> r = new ArrayList<Integer>();
 		for(Integer inter:ids.getIds()){
 			TCustomerExample example = new TCustomerExample();
@@ -111,6 +111,21 @@ public class TCustomerServiceImpl implements TCustomerService {
 			cri.andIdEqualTo(inter);
 			cri.andCreateUserIdEqualTo(account.getId());
 			r.add(this.tCustomerMapper.deleteByExample(example));
+		}
+		return r;
+	}
+
+	@Override
+	public List<Integer> batchAddToCatogry(BatchIdsVo ids, BAccount account,Integer catogryId) {
+		List<Integer> r = new ArrayList<Integer>();
+		for (Integer inter : ids.getIds()) {
+			TCustomer customer = new TCustomer();
+			customer.setCatogryId(catogryId);
+			TCustomerExample example = new TCustomerExample();
+			Criteria cri = example.createCriteria();
+			cri.andIdEqualTo(inter);
+			cri.andCreateUserIdEqualTo(account.getId());
+			r.add(this.tCustomerMapper.updateByExampleSelective(customer, example));
 		}
 		return r;
 	}
