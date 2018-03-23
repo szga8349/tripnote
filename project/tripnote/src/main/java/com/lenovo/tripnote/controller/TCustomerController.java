@@ -4,8 +4,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.shiro.SecurityUtils;
@@ -116,13 +114,5 @@ public class TCustomerController {
 		vo.setCode(Result.SUCESSFUL);
 		vo.setData(result);
 		return vo;
-	}
-
-	@RequestMapping(value = "/export")
-	public void export(HttpServletRequest request, HttpServletResponse response) {
-		Subject subject = SecurityUtils.getSubject();
-		BAccount account = (BAccount) subject.getPrincipal();
-		TCustomer search = new TCustomer();
-		List<TCustomer> result = tCustomerService.search(search, account, false);
 	}
 }
