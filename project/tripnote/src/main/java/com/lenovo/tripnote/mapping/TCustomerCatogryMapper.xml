@@ -99,6 +99,20 @@
      </if>
      group by tc.importance,tc.catogry_id 
   </select>
+   <select id="selectByExampleAndPage" resultMap="BaseResultMap" parameterType="com.lenovo.tripnote.entity.TCustomerCatogryExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_customer_catogry
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
   
   <delete id="deleteByExample" parameterType="com.lenovo.tripnote.entity.TCustomerCatogryExample" >
     delete from t_customer_catogry
