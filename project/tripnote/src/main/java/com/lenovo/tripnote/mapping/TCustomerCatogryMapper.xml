@@ -12,6 +12,7 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="count" property="count" jdbcType="INTEGER" />
+    <result column="importance" property="importance" jdbcType="INTEGER" />
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -90,13 +91,13 @@
     </if>
   </select>
   <select id="statistics" resultMap="StatisticsResultMap" parameterType="com.lenovo.tripnote.entity.vo.TCustemAddVo" >
-    select count(1) as count,tc.catogry_id as id,tcc.name 
+    select count(1) as count,tc.catogry_id as id,tcc.name,tc.importance
     from t_customer tc left join t_customer_catogry tcc on tc.catogry_id = tcc.id  
     where tc.create_user_id = #{record.createUserId,jdbcType=INTEGER}  
      <if test="record.name != null" >
         and tc.name like #{record.name,jdbcType=VARCHAR}
      </if>
-     group by tc.catogry_id 
+     group by tc.importance,tc.catogry_id 
   </select>
   
   <delete id="deleteByExample" parameterType="com.lenovo.tripnote.entity.TCustomerCatogryExample" >

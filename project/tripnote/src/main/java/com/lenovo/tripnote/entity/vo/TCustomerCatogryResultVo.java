@@ -18,6 +18,8 @@ public class TCustomerCatogryResultVo {
     
     private Integer id;
     
+    private Integer importance;
+    
     /**
      * 分组下客户人数
      */
