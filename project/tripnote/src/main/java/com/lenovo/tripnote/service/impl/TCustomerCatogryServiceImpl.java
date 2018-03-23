@@ -12,6 +12,8 @@ import com.lenovo.tripnote.entity.BAccount;
 import com.lenovo.tripnote.entity.TCustomerCatogry;
 import com.lenovo.tripnote.entity.TCustomerCatogryExample;
 import com.lenovo.tripnote.entity.TCustomerCatogryExample.Criteria;
+import com.lenovo.tripnote.entity.vo.TCustemAddVo;
+import com.lenovo.tripnote.entity.vo.TCustomerCatogryResultVo;
 import com.lenovo.tripnote.entity.vo.TCustomerCatogryVo;
 import com.lenovo.tripnote.service.TCustomerCatogryService;
 @Service
@@ -68,5 +70,11 @@ public class TCustomerCatogryServiceImpl implements TCustomerCatogryService{
 			cri.andIdNotEqualTo(t.getId());
 		}
 		return this.tCustomerCatogryMapper.selectByExampleAndPage(example, rowBound);
+	}
+	@Override
+	public List<TCustomerCatogryResultVo> statistics(TCustemAddVo searchVo ) {
+		if(searchVo.getName()!=null)
+			searchVo.setName("%"+searchVo.getName()+"%");
+		return this.tCustomerCatogryMapper.statistics(searchVo);
 	}
 }

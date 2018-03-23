@@ -1,0 +1,16 @@
+build/
+target/
+repos/
+project/tripnote/src/main/resources/conf/sms.properties
+project/tripnote/src/main/resources/conf/common.properties
+tmp/
+.settings
+.settings/*
+.project
+.pydevproject
+.classpath
+*.idea
+*.iml
+*.class
+**/test/resources/*.properties
+/.gradle/

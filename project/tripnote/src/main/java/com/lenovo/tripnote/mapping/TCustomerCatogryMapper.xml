@@ -7,6 +7,13 @@
     <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
+  
+  <resultMap id="StatisticsResultMap" type="com.lenovo.tripnote.entity.vo.TCustomerCatogryResultVo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="count" property="count" jdbcType="INTEGER" />
+  </resultMap>
+  
   <sql id="Base_Column_List" >
     id, `name`, create_user_id, create_time
   </sql>
@@ -82,20 +89,16 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByExampleAndPage" resultMap="BaseResultMap" parameterType="com.lenovo.tripnote.entity.TCustomerCatogryExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from t_customer_catogry
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
+  <select id="statistics" resultMap="StatisticsResultMap" parameterType="com.lenovo.tripnote.entity.vo.TCustemAddVo" >
+    select count(1) as count,tc.catogry_id as id,tcc.name 
+    from t_customer tc left join t_customer_catogry tcc on tc.catogry_id = tcc.id  
+    where tc.create_user_id = #{record.createUserId,jdbcType=INTEGER}  
+     <if test="record.name != null" >
+        and tc.name like #{record.name,jdbcType=VARCHAR}
+     </if>
+     group by tc.catogry_id 
   </select>
+  
   <delete id="deleteByExample" parameterType="com.lenovo.tripnote.entity.TCustomerCatogryExample" >
     delete from t_customer_catogry
     <if test="_parameter != null" >

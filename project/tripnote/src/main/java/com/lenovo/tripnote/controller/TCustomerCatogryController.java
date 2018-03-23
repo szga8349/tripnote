@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lenovo.tripnote.entity.BAccount;
 import com.lenovo.tripnote.entity.TCustomerCatogry;
+import com.lenovo.tripnote.entity.vo.TCustemAddVo;
+import com.lenovo.tripnote.entity.vo.TCustomerCatogryResultVo;
 import com.lenovo.tripnote.entity.vo.TCustomerCatogryVo;
 import com.lenovo.tripnote.service.TCustomerCatogryService;
 import com.lenovo.tripnote.vo.Result;
@@ -103,6 +105,17 @@ public class TCustomerCatogryController {
 			Subject subject = SecurityUtils.getSubject();
 			BAccount account = (BAccount) subject.getPrincipal();
 			List<TCustomerCatogry> result = tCustomerCatogryService.search(search,account, false);
+			vo.setCode(Result.SUCESSFUL);
+			vo.setData(result);
+			return vo;
+		}
+		@RequestMapping(value = "/doStatistic")
+		public @ResponseBody ResultVo statistics(TCustemAddVo searchVo) throws IllegalAccessException, InvocationTargetException{
+			ResultVo vo = new ResultVo();
+			Subject subject = SecurityUtils.getSubject();
+			BAccount account = (BAccount) subject.getPrincipal();
+			searchVo.setCreateUserId(account.getId());
+			List<TCustomerCatogryResultVo> result = tCustomerCatogryService.statistics(searchVo);
 			vo.setCode(Result.SUCESSFUL);
 			vo.setData(result);
 			return vo;

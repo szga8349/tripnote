@@ -2,6 +2,9 @@ package com.lenovo.tripnote.dao;
 
 import com.lenovo.tripnote.entity.TCustomerCatogry;
 import com.lenovo.tripnote.entity.TCustomerCatogryExample;
+import com.lenovo.tripnote.entity.vo.TCustemAddVo;
+import com.lenovo.tripnote.entity.vo.TCustomerCatogryResultVo;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
@@ -103,4 +106,7 @@ public interface TCustomerCatogryMapper {
      * @ibatorgenerated 2018-01-31 18:03:56
      */
     int updateByPrimaryKey(TCustomerCatogry record);
+    
+
+	List<TCustomerCatogryResultVo> statistics(@Param("record")TCustemAddVo record);
 }
