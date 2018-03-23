@@ -1,5 +1,6 @@
 package com.lenovo.tripnote.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -14,6 +15,7 @@ import com.lenovo.tripnote.entity.TCustomerExample;
 import com.lenovo.tripnote.entity.TCustomerExample.Criteria;
 import com.lenovo.tripnote.entity.TTripnoteRCustomer;
 import com.lenovo.tripnote.entity.TTripnoteRCustomerExample;
+import com.lenovo.tripnote.entity.vo.BatchDeleteVo;
 import com.lenovo.tripnote.service.TCustomerService;
 
 @Service()
@@ -98,5 +100,18 @@ public class TCustomerServiceImpl implements TCustomerService {
 		}
 		t.andTripnoteIdEqualTo(tripnoteId);
 		return tTripnoteRCustomerMapper.deleteByExample(example);
+	}
+
+	@Override
+	public List<Integer> batchDelete(BatchDeleteVo ids, BAccount account) {
+	    List<Integer> r = new ArrayList<Integer>();
+		for(Integer inter:ids.getIds()){
+			TCustomerExample example = new TCustomerExample();
+			Criteria cri = example.createCriteria();
+			cri.andIdEqualTo(inter);
+			cri.andCreateUserIdEqualTo(account.getId());
+			r.add(this.tCustomerMapper.deleteByExample(example));
+		}
+		return r;
 	}
 }

@@ -10,11 +10,13 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lenovo.tripnote.entity.BAccount;
 import com.lenovo.tripnote.entity.TCustomer;
+import com.lenovo.tripnote.entity.vo.BatchDeleteVo;
 import com.lenovo.tripnote.entity.vo.TCustemAddVo;
 import com.lenovo.tripnote.service.TCustomerService;
 import com.lenovo.tripnote.vo.Result;
@@ -115,4 +117,14 @@ public class TCustomerController {
 		vo.setData(result);
 		return vo;
 	}
+	@RequestMapping(value = "/batch/doDelete")
+	public @ResponseBody ResultVo batchDelete(@RequestBody BatchDeleteVo ids) {
+		ResultVo vo = new ResultVo();
+		vo.setCode(Result.SUCESSFUL);
+		Subject subject = SecurityUtils.getSubject();
+		BAccount account = (BAccount) subject.getPrincipal();
+		tCustomerService.batchDelete(ids,account);
+	    return vo;
+	}
+
 }
