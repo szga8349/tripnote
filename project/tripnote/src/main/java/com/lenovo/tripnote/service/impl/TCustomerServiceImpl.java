@@ -80,6 +80,9 @@ public class TCustomerServiceImpl implements TCustomerService {
 		if (search.getCatogryId() != null) {// 修改时候判断 名称不重复时调用
 			cri.andCatogryIdEqualTo(search.getCatogryId());
 		}
+		if (search.getImportance() != null) {// 修改时候判断 名称不重复时调用
+			cri.andImportanceEqualTo(search.getImportance());
+		}
 		return tCustomerMapper.selectByExample(example);
 	}
 
