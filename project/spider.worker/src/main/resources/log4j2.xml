@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<properties>
+		<Property name="rootDir">log</Property>
+	</properties>
+	<appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout>
+				<Pattern>%d{yyyy-MM-dd HH:mm:ss} %p %l [%msg]%n</Pattern>
+			</PatternLayout>
+		</Console>
+		<!-- 全局日志 -->
+		<RollingRandomAccessFile name="globalAppender" fileName="${rootDir}/global.log"
+			filePattern="${rootDir}/global.%d{yyyy-MM-dd}.%i.log" append="true">
+			<PatternLayout>
+				<Pattern>%d{yyyy-MM-dd HH:mm:ss} %p %l [%msg]%n</Pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy/>
+				<SizeBasedTriggeringPolicy size="10m" />
+			</Policies>
+			<DefaultRolloverStrategy>
+				<Delete basePath="${rootDir}" maxDepth="1">
+  					<IfFileName regex="global\.\d{4}-\d{2}-\d{2}.*" /> 
+  					<IfLastModified age="10d" /> 
+  				</Delete>
+  			</DefaultRolloverStrategy>
+		</RollingRandomAccessFile>
+	</appenders>
+	<loggers>
+		<root level="warn">
+			<appender-ref ref="globalAppender" />
+			<appender-ref ref="Console" />
+		</root>
+	</loggers>
+</configuration> 
