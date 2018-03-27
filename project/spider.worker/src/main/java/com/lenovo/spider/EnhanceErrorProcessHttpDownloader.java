@@ -1,6 +1,7 @@
 package com.lenovo.spider;
 
 import com.lenovo.spider.util.LogUtil;
+import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -17,8 +18,12 @@ import us.codecraft.webmagic.downloader.HttpClientRequestContext;
 import us.codecraft.webmagic.downloader.HttpUriRequestConverter;
 import us.codecraft.webmagic.proxy.Proxy;
 import us.codecraft.webmagic.proxy.ProxyProvider;
+import us.codecraft.webmagic.selector.PlainText;
+import us.codecraft.webmagic.utils.CharsetUtils;
+import us.codecraft.webmagic.utils.HttpClientUtils;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,6 +44,7 @@ public class EnhanceErrorProcessHttpDownloader extends HttpClientDownloader {
     private HttpUriRequestConverter httpUriRequestConverter = new HttpUriRequestConverter();
 
     private ProxyProvider proxyProvider;
+    private boolean responseHeader = true;
 
     public void setProxyProvider(ProxyProvider proxyProvider) {
         this.proxyProvider = proxyProvider;
@@ -71,6 +77,10 @@ public class EnhanceErrorProcessHttpDownloader extends HttpClientDownloader {
         CloseableHttpClient httpClient = getHttpClient(task.getSite());
         Proxy proxy = proxyProvider != null ? proxyProvider.getProxy(task) : null;
         HttpClientRequestContext requestContext = httpUriRequestConverter.convert(request, task.getSite(), proxy);
+        if (proxy == null) {
+            proxy = new Proxy("-", 0);
+        }
+
         Page page = Page.fail();
         long start = System.currentTimeMillis();
         try {
@@ -102,7 +112,24 @@ public class EnhanceErrorProcessHttpDownloader extends HttpClientDownloader {
     protected Page handleResponse(Request request, String charset, HttpResponse httpResponse, Task task)
             throws IOException {
 
-        Page page = super.handleResponse(request, charset, httpResponse, task);
+        byte[] bytes = IOUtils.toByteArray(httpResponse.getEntity().getContent());
+        String contentType = httpResponse.getEntity().getContentType() == null ? "" : httpResponse.getEntity().getContentType().getValue();
+        Page page = new Page();
+        page.setBytes(bytes);
+        if (!request.isBinaryContent()) {
+            if (charset == null) {
+                charset = getHtmlCharset(contentType, bytes);
+            }
+            page.setCharset(charset);
+            page.setRawText(new String(bytes, charset));
+        }
+        page.setUrl(new PlainText(request.getUrl()));
+        page.setRequest(request);
+        page.setStatusCode(httpResponse.getStatusLine().getStatusCode());
+        page.setDownloadSuccess(true);
+        if (responseHeader) {
+            page.setHeaders(HttpClientUtils.convertHeaders(httpResponse.getAllHeaders()));
+        }
 
         //把set-cookie设置回去
         for (Header header : httpResponse.getAllHeaders()) {
@@ -117,5 +144,13 @@ public class EnhanceErrorProcessHttpDownloader extends HttpClientDownloader {
             }
         }
         return page;
+    }
+
+    private String getHtmlCharset(String contentType, byte[] contentBytes) throws IOException {
+        String charset = CharsetUtils.detectCharset(contentType, contentBytes);
+        if (charset == null) {
+            charset = Charset.defaultCharset().name();
+        }
+        return "gb2312".equalsIgnoreCase(charset) ? "gbk" : charset;
     }
 }

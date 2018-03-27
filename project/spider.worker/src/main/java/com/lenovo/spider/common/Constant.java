@@ -14,4 +14,9 @@ public class Constant {
     public static final String urlKey = "urlKey";
     public static final String site = "site";
     public static final String siteExclude = "spiderExcludeSite";
+
+    public static final String DOM_EVENT = "domEvent";
+    public static final String DOM_EVENT_TYPE = "eventType";
+    public static final String DOM_EVENT_TARGET = "eventTarget";
+    public static final String EXECUTE_COUNT = "executeCount";
 }

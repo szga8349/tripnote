@@ -1,5 +1,22 @@
 package com.lenovo.spider;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.Date;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.logging.log4j.Logger;
+
 import com.alibaba.fastjson.JSON;
 import com.lenovo.exception.NetException;
 import com.lenovo.spider.common.Config;
@@ -7,22 +24,12 @@ import com.lenovo.spider.common.Constant;
 import com.lenovo.spider.common.IPCount;
 import com.lenovo.spider.common.ThreadPool;
 import com.lenovo.spider.interfaces.ConfigInterface;
-import com.lenovo.spider.interfaces.HBaseInterface;
 import com.lenovo.spider.util.DateUtil;
 import com.lenovo.spider.util.LogUtil;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
-import org.apache.logging.log4j.Logger;
+
 import us.codecraft.webmagic.ResultItems;
 import us.codecraft.webmagic.Task;
 import us.codecraft.webmagic.pipeline.Pipeline;
-
-import java.io.*;
-import java.util.Date;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 带数据缓冲的Pipline
@@ -78,14 +85,8 @@ public class CachePipline implements Pipeline {
                         final Object[] data = dataQueue.take();
                         if (data != null && data[2] != null) {
                             try {
-                                if (data[2] instanceof JSON) {
-                                    HBaseInterface.uploadAnalyzeData((String) data[0], (String) data[1], ((JSON) data[2]).toJSONString());
-                                    dataLogger.info("上传成功：{}", data[2].toString());
-                                    uploadCount.incrementAndGet();
-                                } else {
-                                    HBaseInterface.uploadRawPage((String) data[0], (String) data[1], (String) data[2]);
-                                }
-                            } catch (IOException e) {
+                                System.out.println(data);
+                            } catch (Exception e) {
                                 dataLogger.info("上传失败：{}", data[2].toString());
                                 try {
                                     Thread.sleep(3000);

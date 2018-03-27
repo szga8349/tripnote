@@ -1,5 +1,6 @@
 package com.lenovo.spider;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Vector;
@@ -16,7 +17,6 @@ import com.lenovo.spider.common.Config;
 import com.lenovo.spider.common.IPCount;
 import com.lenovo.spider.common.ThreadPool;
 import com.lenovo.spider.interfaces.ConfigInterface;
-import com.lenovo.spider.interfaces.HBaseInterface;
 import com.lenovo.spider.interfaces.HttpLogin;
 import com.lenovo.spider.util.LogUtil;
 import com.lenovo.spider.vo.AuthInfo;
@@ -27,6 +27,7 @@ import com.lenovo.spider.vo.SiteInfo;
 import com.lenovo.spider.vo.UrlInfo;
 
 import us.codecraft.webmagic.Site;
+import us.codecraft.webmagic.scheduler.FileCacheQueueScheduler;
 import us.codecraft.webmagic.utils.UrlUtils;
 
 /**
@@ -54,7 +55,6 @@ public class SpiderContext {
 			public void run() {
 				IPCount.getInstance().store();
 				CachePipline.store();
-				HBaseInterface.close();
 				for(int i = spiders.size() - 1; i >= 0; i--){
 					spiders.get(i).stop();
 				}
@@ -64,7 +64,17 @@ public class SpiderContext {
 		ThreadPool.scheduleAtFixedRate(() -> printSpiderStatus(), 1, 1, TimeUnit.MINUTES);
 		
 		int spiderAmount = Integer.parseInt(Config.get("spiderAmount"));
-		while(true){
+		IpInfo ipinfo = new IpInfo("115.209.118.174", "4328", "2018-03-27 17:28:08");
+		try {
+			SiteInfo siteInfo = new SiteInfo();
+			siteInfo.setAuthType(1);
+			siteInfo.setDomainName("http://www.rruu.com/local/");
+			ipinfo.setSite(siteInfo);
+			startSpider(ipinfo);
+		} catch (NetException | LocateException e) {
+			e.printStackTrace();
+		}
+		/*while(true){
 			statusLogger.info("存活爬虫：{}", spiders.size());
 			if(spiders.size() > spiderAmount){
 				try {Thread.sleep(1000);} catch (InterruptedException i) {}
@@ -89,13 +99,22 @@ public class SpiderContext {
 				exceptionLogger.error("发生异常", e);
 				try {Thread.sleep(1000);} catch (InterruptedException i) {}
 			}
-		}
+		}*/
 	}
 	
 	public static void startSpider(IpInfo ip) throws NetException, LocateException{
 		SiteInfo site = ip.getSite();
 		
-		List<UrlInfo> urls = ConfigInterface.selectUrl(site.getId());
+		List<UrlInfo> urls = new ArrayList<UrlInfo>();//ConfigInterface.selectUrl(site.getId());
+		UrlInfo info = new UrlInfo();
+		//页面是否分析
+		info.setId(1l);
+		
+		info.setAnalyzePage(true);
+		info.setSavePage(true);
+		info.setType(1);
+		info.setUrl("http://www.rruu.com/local/");
+		urls.add(info);
 		if(urls.size() > 0){
 			Site siteCookie = new Site()
 					.addHeader("User-Agent", Config.get("UserAgent"))
@@ -129,7 +148,9 @@ public class SpiderContext {
 				}
 			}
 			
-			List<PageHandle> exceptionHandles = ConfigInterface.selectPageHandler(site.getId());
+			List<PageHandle> exceptionHandles = new ArrayList<>();//ConfigInterface.selectPageHandler(site.getId());
+			//PageHandle pageHandle = new PageHandle();
+			//exceptionHandles.add(pageHandle);
 			TemplateProcessor processor = new TemplateProcessor(siteCookie, urls);
 			
 			RichSpider spider = new RichSpider(processor, ip, urls, exceptionHandles);
@@ -147,7 +168,8 @@ public class SpiderContext {
 				}
 			}
 			spider.addPipeline(new CachePipline());
-			spider.setScheduler(new MultiSiteRedisScheduler(UrlUtils.getDomain(site.getDomainName())));
+			FileCacheQueueScheduler  fileCache = new FileCacheQueueScheduler("pull");
+			spider.setScheduler(fileCache);
 			spider.addUrl(site.getDomainName());
 			spider.start();
 		}

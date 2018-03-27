@@ -1,8 +1,17 @@
 package com.lenovo.spider.vo;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 import java.util.Date;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class SiteInfo implements Serializable{
 
 	private static final long serialVersionUID = 1035843310630484059L;
@@ -16,49 +25,9 @@ public class SiteInfo implements Serializable{
     private String note;
     private Date createTime;
     private Date updateTime;
+
+    private Integer crawlerable;
     
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public String getSiteName() {
-		return siteName;
-	}
-	public void setSiteName(String siteName) {
-		this.siteName = siteName;
-	}
-	public String getDomainName() {
-		return domainName;
-	}
-	public void setDomainName(String domainName) {
-		this.domainName = domainName;
-	}
-	public Integer getAuthType() {
-		return authType;
-	}
-	public void setAuthType(Integer authType) {
-		this.authType = authType;
-	}
-	public String getNote() {
-		return note;
-	}
-	public void setNote(String note) {
-		this.note = note;
-	}
-	public Date getCreateTime() {
-		return createTime;
-	}
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
-	public Date getUpdateTime() {
-		return updateTime;
-	}
-	public void setUpdateTime(Date updateTime) {
-		this.updateTime = updateTime;
-	}
 	@Override
 	public String toString() {
 		return "[siteName=" + siteName + ", domainName=" + domainName + ", authType=" + authType + "]";

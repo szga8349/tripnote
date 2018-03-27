@@ -1,11 +1,14 @@
 package com.lenovo.spider;
 
 import com.lenovo.exception.LocateException;
+import com.lenovo.spider.common.Constant;
+import com.lenovo.spider.selenium.EventType;
 import com.lenovo.spider.selenium.SeleniumUtil;
 import com.lenovo.spider.util.LogUtil;
 import com.lenovo.spider.vo.AuthInfo;
 import com.lenovo.spider.vo.AuthLocator;
 import com.lenovo.spider.vo.IpInfo;
+import org.apache.commons.collections.MapUtils;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
@@ -73,19 +76,56 @@ public class SeleniumDownloader implements Downloader, Closeable {
 
         logger.info("downloading page " + request.getUrl());
         webDriver.get(request.getUrl());
-        try {
-            Thread.sleep(site.getSleepTime());
-        } catch (InterruptedException e) {
+        sleep(site.getSleepTime());
+
+        Object domEvent = request.getExtra(Constant.DOM_EVENT);
+        if (domEvent != null && domEvent instanceof DomEvent) {
+            // 有脚本执行或者dom事件的在这里执行
+            int executeCount = MapUtils.getInteger(request.getExtras(), Constant.EXECUTE_COUNT, 1);
+            handleScriptEvent(webDriver, (DomEvent) domEvent, executeCount);
+            if (((DomEvent) domEvent).getEventType() == EventType.SCROLL) {
+                // 滚动翻页事件的要增加滚动次数
+                request.putExtra(Constant.EXECUTE_COUNT, executeCount + 1);
+            }
         }
+
         String content = webDriver.getPageSource();
         Page page = new Page();
         page.setRawText(content);
-        page.setUrl(new PlainText(request.getUrl()));
+        // 这里需要记录页面的真实地址
+        System.out.println(String.format("真实地址：%s", webDriver.getCurrentUrl()));
+        page.setUrl(new PlainText(webDriver.getCurrentUrl()));
         page.setRequest(request);
         return page;
     }
 
     @Override
     public void setThread(int threadNum) {
+    }
+
+    /**
+     * 执行事件
+     *
+     * @param webDriver
+     * @param domEvent
+     */
+    private void handleScriptEvent(WebDriver webDriver, DomEvent domEvent, int executeCount) {
+        while (executeCount > 0) {
+            EventType eventType = domEvent.getEventType();
+            if (eventType == null) {
+                break;
+            }
+            eventType.invoke(webDriver, domEvent.getEventTargetLocator());
+            sleep(2000);
+            executeCount--;
+        }
+    }
+
+    private void sleep(int time) {
+        try {
+            Thread.sleep(time);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
