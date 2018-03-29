@@ -1,22 +1,13 @@
-package com.lenovo.tripnote.entity;
-
-import java.io.Serializable;
-import java.util.Date;
+package com.lenovo.tripnote.entity.vo;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-@SuppressWarnings("serial")
+
 @Getter
 @Setter
 @NoArgsConstructor
-public class BAccount implements Serializable {
-    /**
-     * b_account.id
-     * @ibatorgenerated 2018-03-29 15:38:39
-     */
-    private Integer id;
-
+public class BAccountVo {
     /**
      * b_account.login_name
      * @ibatorgenerated 2018-03-29 15:38:39
@@ -88,18 +79,6 @@ public class BAccount implements Serializable {
      * @ibatorgenerated 2018-03-29 15:38:39
      */
     private Integer score;
-
-    /**
-     * b_account.create_time
-     * @ibatorgenerated 2018-03-29 15:38:39
-     */
-    private Date createTime;
-
-    /**
-     * b_account.create_user_id (0-system)
-     * @ibatorgenerated 2018-03-29 15:38:39
-     */
-    private Integer createUserId;
 
     /**
      * b_account.imageurl (头像url信息)

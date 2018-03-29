@@ -17,10 +17,11 @@
     <result column="score" property="score" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="imageurl" property="imageurl" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, login_name, login_password, login_name_type, real_name, sex, account_type, `status`, 
-    phone, email, address, `level`, score, create_time, create_user_id
+    phone, email, address, `level`, score, create_time, create_user_id, imageurl
   </sql>
   <sql id="Example_Where_Clause" >
     <where >
@@ -120,6 +121,12 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
+  <select id="getByUsernameOrPhone" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from b_account
+    where login_name = #{loginName,jdbcType=VARCHAR} or phone= #{loginName,jdbcType=VARCHAR}
+  </select>
   <update id="updateByExampleSelective" parameterType="map" >
     update b_account
     <set >
@@ -168,6 +175,9 @@
       <if test="record.createUserId != null" >
         create_user_id = #{record.createUserId,jdbcType=INTEGER},
       </if>
+      <if test="record.imageurl != null" >
+        imageurl = #{record.imageurl,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -189,7 +199,8 @@
       `level` = #{record.level,jdbcType=INTEGER},
       score = #{record.score,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      create_user_id = #{record.createUserId,jdbcType=INTEGER}
+      create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      imageurl = #{record.imageurl,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -200,14 +211,6 @@
     from b_account
     where id = #{id,jdbcType=INTEGER}
   </select>
-  
-  <select id="getByUsernameOrPhone" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    from b_account
-    where login_name = #{loginName,jdbcType=VARCHAR} or phone= #{loginName,jdbcType=VARCHAR}
-  </select>
-  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from b_account
     where id = #{id,jdbcType=INTEGER}
@@ -217,12 +220,14 @@
       real_name, sex, account_type, 
       `status`, phone, email, 
       address, `level`, score, 
-      create_time, create_user_id)
+      create_time, create_user_id, imageurl
+      )
     values (#{loginName,jdbcType=VARCHAR}, #{loginPassword,jdbcType=VARCHAR}, #{loginNameType,jdbcType=INTEGER}, 
       #{realName,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, #{accountType,jdbcType=INTEGER}, 
       #{status,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{address,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, #{score,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER})
+      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, #{imageurl,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.BAccount" useGeneratedKeys="true" keyProperty="id" >
     insert into b_account
@@ -241,6 +246,7 @@
       score,
       create_time,
       create_user_id,
+      imageurl,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       #{loginName,jdbcType=VARCHAR},
@@ -257,6 +263,7 @@
       #{score,jdbcType=INTEGER},
       #{createTime,jdbcType=TIMESTAMP},
       #{createUserId,jdbcType=INTEGER},
+      #{imageurl,jdbcType=VARCHAR},
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.lenovo.tripnote.entity.BAccount" >
@@ -304,6 +311,9 @@
       <if test="createUserId != null" >
         create_user_id = #{createUserId,jdbcType=INTEGER},
       </if>
+      <if test="imageurl != null" >
+        imageurl = #{imageurl,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -322,7 +332,8 @@
       `level` = #{level,jdbcType=INTEGER},
       score = #{score,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      create_user_id = #{createUserId,jdbcType=INTEGER}
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      imageurl = #{imageurl,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
