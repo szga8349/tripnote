@@ -65,14 +65,45 @@ public class TemplateProcessor implements PageProcessor {
     }
     private List<UrlTemplate> getUrlTemplate(Long id){
     	Map<Long,List<UrlTemplate>> template = new HashMap<>();
-    	{
+    	{   //任游详情解析模板
     		List<UrlTemplate> l = new ArrayList<UrlTemplate>();
     		UrlTemplate urlT = new UrlTemplate();
-    		urlT.setType(3);
-    		urlT.setLocator("//ul[@class*='products-new']/li/a/@href");
-    		urlT.setName("detailUrl");
+    		urlT.setType(1);
+    		urlT.setLocator("//div[@class='product-head']/h1/text()");
+    		urlT.setName("title");
+    		l.add(urlT);
+    		urlT = new UrlTemplate();
+    		urlT.setType(1);
+    		urlT.setLocator("//div[@class='product-head']/p[@class='en']/text()");
+    		urlT.setName("entitle");
+    		l.add(urlT);
+    		urlT = new UrlTemplate();
+    		urlT.setType(1);
+    		urlT.setLocator("//div[@class='p-attr']/span[contains(text(), '城市')]/i/text()");
+    		urlT.setName("city");
     		l.add(urlT);
     		template.put(3l, l);
+    		
+    	}
+    	{   //猫途鹰详情解析模板
+    		List<UrlTemplate> l = new ArrayList<UrlTemplate>();
+    		UrlTemplate urlT = new UrlTemplate();
+    		urlT.setType(1);
+    		urlT.setLocator("//div[@class='product-head']/h1/text()");
+    		urlT.setName("title");
+    		l.add(urlT);
+    		urlT = new UrlTemplate();
+    		urlT.setType(1);
+    		urlT.setLocator("//div[@class='product-head']/p[@class='en']/text()");
+    		urlT.setName("entitle");
+    		l.add(urlT);
+    		urlT = new UrlTemplate();
+    		urlT.setType(1);
+    		urlT.setLocator("//div[@class='p-attr']/span[contains(text(), '城市')]/i/text()");
+    		urlT.setName("city");
+    		l.add(urlT);
+    		template.put(4l, l);
+    		
     	}
     	return template.get(id);
     }
@@ -109,6 +140,7 @@ public class TemplateProcessor implements PageProcessor {
                 }
                 if (url.getAnalyzePage()) {
                     // 解析网页
+                	System.out.println(page.getHtml());
                     JSONObject data = ItemExtractor.extract(page.getHtml(), templates.get(url.getId()), new JSONObject());
                     if (MapUtils.isNotEmpty(data)) {
                         page.putField(Constant.analyzePageKey, data);

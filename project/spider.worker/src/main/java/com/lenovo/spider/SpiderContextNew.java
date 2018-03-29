@@ -1,6 +1,7 @@
 package com.lenovo.spider;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,6 +56,7 @@ public class SpiderContextNew {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		System.out.println(new Date().getTime());
 		// 注册退出Hook
 		registerShutdownHook();
 		// 每秒打印爬虫状态
@@ -77,12 +79,18 @@ public class SpiderContextNew {
 	}
 
 	private static List<SiteInfo> getSiteInfos() {
+		List<SiteInfo> infos = new ArrayList<>();
 		SiteInfo siteInfo = new SiteInfo();
 		siteInfo.setAuthType(1);
 		siteInfo.setDomainName("http://www.rruu.com/local/");
 		siteInfo.setCrawlerable(1);
 		siteInfo.setId(1l);
-		List<SiteInfo> infos = new ArrayList<>();
+		infos.add(siteInfo);
+		siteInfo = new SiteInfo();
+		siteInfo.setAuthType(1);
+		siteInfo.setDomainName("http://www.mafengwo.cn/hotel/");
+		siteInfo.setCrawlerable(1);
+		siteInfo.setId(2l);
 		infos.add(siteInfo);
 		return infos;
 	}
@@ -142,30 +150,74 @@ public class SpiderContextNew {
 		Map<Long, List<UrlInfo>> siteUrlInfos = new HashMap<>();
 		if (!siteUrlInfos.containsKey(id)) {
 			List<UrlInfo> urls = new ArrayList<UrlInfo>();// ConfigInterface.selectUrl(site.getId());
-			UrlInfo info = new UrlInfo();
-			// 页面是否分析
-			info.setId(2l);
-			info.setAnalyzePage(false);
-			info.setSavePage(true);
-			info.setNextPageType(1);
-			info.setHasNextPage(true);
-			info.setType(1);
-			info.setUrl("https?://www\\.rruu\\.com/local-p*/");
-			urls.add(info);
 			
-			info = new UrlInfo();
-			// 页面是否分析
-			info.setId(3l);
-			info.setAnalyzePage(true);
-			info.setSavePage(true);
-			//info.setNextPageType(1);
-			info.setHasNextPage(false);
-			info.setType(1);
-			info.setUrl("https?://www\\.rruu\\.com/\\w+/\\d+.html");
-			urls.add(info);
-			
+			switch (Integer.parseInt(id.toString())) {
+			case 1:
+				//任游网采集配置
+			{
+				UrlInfo info = new UrlInfo();
+				// 页面是否分析
+				info.setId(2l);
+				info.setAnalyzePage(false);
+				info.setSavePage(true);
+				info.setNextPageType(1);
+				info.setHasNextPage(true);
+				info.setType(1);
+				info.setUrl("https?://www\\.rruu\\.com/local-p*/");
+				urls.add(info);
+				info = new UrlInfo();
+				// 页面是否分析
+				info.setId(3l);
+				info.setAnalyzePage(true);
+				info.setSavePage(true);
+				//info.setNextPageType(1);
+				info.setHasNextPage(false);
+				info.setType(1);
+				info.setUrl("https?://www\\.rruu\\.com/\\w+/\\d+.html");
+				urls.add(info);
+			}
+				break;
+			case 2:
+				//猫途鹰
+			  {
+				UrlInfo info = new UrlInfo();
+				// 页面是否分析
+				info.setId(4l);  //景点详情
+				info.setAnalyzePage(true);
+				info.setSavePage(true);
+				//info.setNextPageType(false);
+				info.setHasNextPage(false);
+				info.setType(1);
+				info.setUrl("https?://www\\.mafengwo\\.cn/hotel/\\d+.html");
+				urls.add(info);
+				info = new UrlInfo();
+				
+				// 页面是否分析   城市列表解析
+				info.setId(5l);
+				info.setAnalyzePage(true);
+				info.setSavePage(true);
+				//info.setNextPageType(1);
+				info.setHasNextPage(false);
+				info.setType(1);
+				info.setUrl("https?://www\\.mafengwo\\.cn/hotel/$");
+				urls.add(info);
+				
+				info = new UrlInfo();
+				// 页面是否分析  每个城市节点列表解析
+				info.setId(5l);
+				info.setAnalyzePage(true);
+				info.setSavePage(true);
+				info.setNextPageType(1);
+				info.setHasNextPage(true);
+				info.setType(1);
+				info.setUrl("https?://www\\.mafengwo\\.cn/hotel/\\d+/");
+				urls.add(info);
+			  }
+				break;
+			default:
+				break;
+			}
 			siteUrlInfos.put(id, urls);
-			
 			return urls;
 		}
 		return siteUrlInfos.get(id);

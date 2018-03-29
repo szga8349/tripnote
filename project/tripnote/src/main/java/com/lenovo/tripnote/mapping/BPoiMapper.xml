@@ -209,7 +209,7 @@
        and bp.city_id = #{cityId,jdbcType=INTEGER}
     </if>
     <if test="name != null" >
-       and bp.name_cn like #{name,jdbcType=VARCHAR}
+       and (bp.name_cn like #{name,jdbcType=VARCHAR} or bp.name_en like #{name,jdbcType=VARCHAR})
     </if>
     order by bp.permissions_type asc,bp.create_time desc
   </select>
@@ -231,7 +231,7 @@
         and bp.city_id = #{cityId,jdbcType=INTEGER}
     </if>
     <if test="name != null" >
-       and bp.name_cn like #{name,jdbcType=VARCHAR}
+       and (bp.name_cn like #{name,jdbcType=VARCHAR} or bp.name_en like #{name,jdbcType=VARCHAR})
     </if>
   </select>
   

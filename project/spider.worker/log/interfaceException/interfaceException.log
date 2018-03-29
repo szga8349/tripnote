@@ -1,23 +1,4 @@
-2018-03-27 17:36:33 发生异常
-java.lang.NullPointerException: null
-	at com.lenovo.spider.SpiderContextNew.createSpider(SpiderContextNew.java:135) ~[classes/:?]
-	at com.lenovo.spider.SpiderContextNew.loopTryStartSpider(SpiderContextNew.java:106) [classes/:?]
-	at com.lenovo.spider.SpiderContextNew.main(SpiderContextNew.java:57) [classes/:?]
-2018-03-27 17:46:59 null
-com.lenovo.exception.NetException: null
-	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) [classes/:?]
-	at com.lenovo.spider.interfaces.ConfigInterface.selectPageHandler(ConfigInterface.java:190) [classes/:?]
-	at com.lenovo.spider.SpiderContextNew.createSpider(SpiderContextNew.java:196) [classes/:?]
-	at com.lenovo.spider.SpiderContextNew.loopTryStartSpider(SpiderContextNew.java:109) [classes/:?]
-	at com.lenovo.spider.SpiderContextNew.main(SpiderContextNew.java:57) [classes/:?]
-2018-03-27 17:47:00 发生异常
-com.lenovo.exception.NetException: null
-	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:54) ~[classes/:?]
-	at com.lenovo.spider.interfaces.ConfigInterface.selectPageHandler(ConfigInterface.java:190) ~[classes/:?]
-	at com.lenovo.spider.SpiderContextNew.createSpider(SpiderContextNew.java:196) ~[classes/:?]
-	at com.lenovo.spider.SpiderContextNew.loopTryStartSpider(SpiderContextNew.java:109) [classes/:?]
-	at com.lenovo.spider.SpiderContextNew.main(SpiderContextNew.java:57) [classes/:?]
-2018-03-27 17:48:15 null
+2018-03-28 14:07:31 null
 com.lenovo.exception.NetException: null
 	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
 	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
@@ -29,7 +10,7 @@ com.lenovo.exception.NetException: null
 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
 	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
-2018-03-27 17:48:16 null
+2018-03-28 14:07:32 null
 com.lenovo.exception.NetException: null
 	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
 	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
@@ -41,7 +22,7 @@ com.lenovo.exception.NetException: null
 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
 	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
-2018-03-27 17:48:17 null
+2018-03-28 14:07:33 null
 com.lenovo.exception.NetException: null
 	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
 	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
@@ -53,7 +34,7 @@ com.lenovo.exception.NetException: null
 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
 	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
-2018-03-27 17:48:18 null
+2018-03-28 14:07:34 null
 com.lenovo.exception.NetException: null
 	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
 	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
@@ -65,7 +46,7 @@ com.lenovo.exception.NetException: null
 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
 	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
-2018-03-27 17:48:19 null
+2018-03-28 14:07:35 null
 com.lenovo.exception.NetException: null
 	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
 	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
@@ -77,7 +58,7 @@ com.lenovo.exception.NetException: null
 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
 	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
-2018-03-27 17:48:21 null
+2018-03-28 14:07:36 null
 com.lenovo.exception.NetException: null
 	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
 	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
@@ -89,7 +70,7 @@ com.lenovo.exception.NetException: null
 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
 	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
-2018-03-27 17:48:22 null
+2018-03-28 14:07:37 null
 com.lenovo.exception.NetException: null
 	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
 	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
@@ -101,7 +82,7 @@ com.lenovo.exception.NetException: null
 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
 	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
-2018-03-27 17:48:23 null
+2018-03-28 14:07:38 null
 com.lenovo.exception.NetException: null
 	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
 	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
@@ -113,7 +94,7 @@ com.lenovo.exception.NetException: null
 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
 	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
-2018-03-27 17:48:24 null
+2018-03-28 14:07:39 null
 com.lenovo.exception.NetException: null
 	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
 	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
@@ -125,7 +106,7 @@ com.lenovo.exception.NetException: null
 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
 	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
-2018-03-27 17:48:25 null
+2018-03-28 14:07:41 null
 com.lenovo.exception.NetException: null
 	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
 	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
@@ -137,7 +118,7 @@ com.lenovo.exception.NetException: null
 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
 	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
-2018-03-27 17:48:26 null
+2018-03-28 14:07:42 null
 com.lenovo.exception.NetException: null
 	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
 	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
@@ -149,7 +130,7 @@ com.lenovo.exception.NetException: null
 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
 	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
-2018-03-27 17:48:27 null
+2018-03-28 14:07:43 null
 com.lenovo.exception.NetException: null
 	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
 	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
@@ -161,7 +142,7 @@ com.lenovo.exception.NetException: null
 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
 	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
-2018-03-27 17:48:28 null
+2018-03-28 14:07:44 null
 com.lenovo.exception.NetException: null
 	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
 	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
@@ -173,7 +154,7 @@ com.lenovo.exception.NetException: null
 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
 	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
-2018-03-27 17:48:29 null
+2018-03-28 14:07:45 null
 com.lenovo.exception.NetException: null
 	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
 	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
@@ -185,7 +166,7 @@ com.lenovo.exception.NetException: null
 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
 	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
-2018-03-27 17:48:30 null
+2018-03-28 14:07:46 null
 com.lenovo.exception.NetException: null
 	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
 	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
@@ -197,7 +178,7 @@ com.lenovo.exception.NetException: null
 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
 	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
-2018-03-27 17:48:31 null
+2018-03-28 14:07:47 null
 com.lenovo.exception.NetException: null
 	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
 	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
@@ -209,7 +190,7 @@ com.lenovo.exception.NetException: null
 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
 	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
-2018-03-27 17:48:32 null
+2018-03-28 14:07:48 null
 com.lenovo.exception.NetException: null
 	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
 	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
@@ -221,7 +202,7 @@ com.lenovo.exception.NetException: null
 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
 	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
-2018-03-27 17:48:33 null
+2018-03-28 14:07:49 null
 com.lenovo.exception.NetException: null
 	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
 	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
@@ -233,7 +214,7 @@ com.lenovo.exception.NetException: null
 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
 	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
-2018-03-27 17:48:34 null
+2018-03-28 14:07:50 null
 com.lenovo.exception.NetException: null
 	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
 	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
@@ -245,7 +226,7 @@ com.lenovo.exception.NetException: null
 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
 	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
-2018-03-27 17:48:35 null
+2018-03-28 14:07:51 null
 com.lenovo.exception.NetException: null
 	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
 	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
@@ -257,7 +238,7 @@ com.lenovo.exception.NetException: null
 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
 	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
-2018-03-27 17:48:36 null
+2018-03-28 14:07:52 null
 com.lenovo.exception.NetException: null
 	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
 	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
@@ -269,7 +250,7 @@ com.lenovo.exception.NetException: null
 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
 	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
-2018-03-27 17:48:37 null
+2018-03-28 14:07:53 null
 com.lenovo.exception.NetException: null
 	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
 	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
@@ -281,7 +262,7 @@ com.lenovo.exception.NetException: null
 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
 	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
-2018-03-27 17:48:38 null
+2018-03-28 14:07:54 null
 com.lenovo.exception.NetException: null
 	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
 	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
@@ -293,7 +274,415 @@ com.lenovo.exception.NetException: null
 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
 	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
-2018-03-27 17:48:39 null
+2018-03-28 14:07:55 null
+com.lenovo.exception.NetException: null
+	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
+	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
+	at com.lenovo.spider.CachePipline.lambda$1(CachePipline.java:148) ~[classes/:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) [?:1.8.0_121]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
+	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
+2018-03-28 14:07:56 null
+com.lenovo.exception.NetException: null
+	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
+	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
+	at com.lenovo.spider.CachePipline.lambda$1(CachePipline.java:148) ~[classes/:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) [?:1.8.0_121]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
+	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
+2018-03-28 14:07:57 null
+com.lenovo.exception.NetException: null
+	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
+	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
+	at com.lenovo.spider.CachePipline.lambda$1(CachePipline.java:148) ~[classes/:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) [?:1.8.0_121]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
+	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
+2018-03-28 14:07:58 null
+com.lenovo.exception.NetException: null
+	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
+	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
+	at com.lenovo.spider.CachePipline.lambda$1(CachePipline.java:148) ~[classes/:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) [?:1.8.0_121]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
+	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
+2018-03-28 14:07:59 null
+com.lenovo.exception.NetException: null
+	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
+	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
+	at com.lenovo.spider.CachePipline.lambda$1(CachePipline.java:148) ~[classes/:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) [?:1.8.0_121]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
+	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
+2018-03-28 14:08:00 null
+com.lenovo.exception.NetException: null
+	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
+	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
+	at com.lenovo.spider.CachePipline.lambda$1(CachePipline.java:148) ~[classes/:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) [?:1.8.0_121]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
+	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
+2018-03-28 14:08:01 null
+com.lenovo.exception.NetException: null
+	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
+	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
+	at com.lenovo.spider.CachePipline.lambda$1(CachePipline.java:148) ~[classes/:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) [?:1.8.0_121]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
+	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
+2018-03-28 14:08:02 null
+com.lenovo.exception.NetException: null
+	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
+	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
+	at com.lenovo.spider.CachePipline.lambda$1(CachePipline.java:148) ~[classes/:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) [?:1.8.0_121]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
+	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
+2018-03-28 14:08:03 null
+com.lenovo.exception.NetException: null
+	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
+	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
+	at com.lenovo.spider.CachePipline.lambda$1(CachePipline.java:148) ~[classes/:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) [?:1.8.0_121]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
+	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
+2018-03-28 14:08:04 null
+com.lenovo.exception.NetException: null
+	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
+	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
+	at com.lenovo.spider.CachePipline.lambda$1(CachePipline.java:148) ~[classes/:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) [?:1.8.0_121]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
+	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
+2018-03-28 14:08:05 null
+com.lenovo.exception.NetException: null
+	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
+	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
+	at com.lenovo.spider.CachePipline.lambda$1(CachePipline.java:148) ~[classes/:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) [?:1.8.0_121]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
+	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
+2018-03-28 14:08:06 null
+com.lenovo.exception.NetException: null
+	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
+	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
+	at com.lenovo.spider.CachePipline.lambda$1(CachePipline.java:148) ~[classes/:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) [?:1.8.0_121]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
+	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
+2018-03-28 14:08:07 null
+com.lenovo.exception.NetException: null
+	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
+	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
+	at com.lenovo.spider.CachePipline.lambda$1(CachePipline.java:148) ~[classes/:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) [?:1.8.0_121]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
+	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
+2018-03-28 14:08:08 null
+com.lenovo.exception.NetException: null
+	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
+	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
+	at com.lenovo.spider.CachePipline.lambda$1(CachePipline.java:148) ~[classes/:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) [?:1.8.0_121]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
+	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
+2018-03-28 14:08:09 null
+com.lenovo.exception.NetException: null
+	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
+	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
+	at com.lenovo.spider.CachePipline.lambda$1(CachePipline.java:148) ~[classes/:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) [?:1.8.0_121]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
+	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
+2018-03-28 14:08:10 null
+com.lenovo.exception.NetException: null
+	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
+	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
+	at com.lenovo.spider.CachePipline.lambda$1(CachePipline.java:148) ~[classes/:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) [?:1.8.0_121]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
+	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
+2018-03-28 14:08:11 null
+com.lenovo.exception.NetException: null
+	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
+	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
+	at com.lenovo.spider.CachePipline.lambda$1(CachePipline.java:148) ~[classes/:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) [?:1.8.0_121]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
+	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
+2018-03-28 14:08:12 null
+com.lenovo.exception.NetException: null
+	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
+	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
+	at com.lenovo.spider.CachePipline.lambda$1(CachePipline.java:148) ~[classes/:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) [?:1.8.0_121]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
+	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
+2018-03-28 14:08:13 null
+com.lenovo.exception.NetException: null
+	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
+	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
+	at com.lenovo.spider.CachePipline.lambda$1(CachePipline.java:148) ~[classes/:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) [?:1.8.0_121]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
+	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
+2018-03-28 14:08:14 null
+com.lenovo.exception.NetException: null
+	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
+	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
+	at com.lenovo.spider.CachePipline.lambda$1(CachePipline.java:148) ~[classes/:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) [?:1.8.0_121]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
+	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
+2018-03-28 14:08:15 null
+com.lenovo.exception.NetException: null
+	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
+	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
+	at com.lenovo.spider.CachePipline.lambda$1(CachePipline.java:148) ~[classes/:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) [?:1.8.0_121]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
+	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
+2018-03-28 14:08:16 null
+com.lenovo.exception.NetException: null
+	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
+	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
+	at com.lenovo.spider.CachePipline.lambda$1(CachePipline.java:148) ~[classes/:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) [?:1.8.0_121]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
+	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
+2018-03-28 14:08:17 null
+com.lenovo.exception.NetException: null
+	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
+	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
+	at com.lenovo.spider.CachePipline.lambda$1(CachePipline.java:148) ~[classes/:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) [?:1.8.0_121]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
+	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
+2018-03-28 14:08:18 null
+com.lenovo.exception.NetException: null
+	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
+	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
+	at com.lenovo.spider.CachePipline.lambda$1(CachePipline.java:148) ~[classes/:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) [?:1.8.0_121]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
+	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
+2018-03-28 14:08:19 null
+com.lenovo.exception.NetException: null
+	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
+	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
+	at com.lenovo.spider.CachePipline.lambda$1(CachePipline.java:148) ~[classes/:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) [?:1.8.0_121]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
+	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
+2018-03-28 14:08:20 null
+com.lenovo.exception.NetException: null
+	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
+	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
+	at com.lenovo.spider.CachePipline.lambda$1(CachePipline.java:148) ~[classes/:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) [?:1.8.0_121]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
+	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
+2018-03-28 14:08:21 null
+com.lenovo.exception.NetException: null
+	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
+	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
+	at com.lenovo.spider.CachePipline.lambda$1(CachePipline.java:148) ~[classes/:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) [?:1.8.0_121]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
+	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
+2018-03-28 14:08:22 null
+com.lenovo.exception.NetException: null
+	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
+	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
+	at com.lenovo.spider.CachePipline.lambda$1(CachePipline.java:148) ~[classes/:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) [?:1.8.0_121]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
+	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
+2018-03-28 14:08:23 null
+com.lenovo.exception.NetException: null
+	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
+	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
+	at com.lenovo.spider.CachePipline.lambda$1(CachePipline.java:148) ~[classes/:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) [?:1.8.0_121]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
+	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
+2018-03-28 14:08:24 null
+com.lenovo.exception.NetException: null
+	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
+	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
+	at com.lenovo.spider.CachePipline.lambda$1(CachePipline.java:148) ~[classes/:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) [?:1.8.0_121]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
+	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
+2018-03-28 14:08:25 null
+com.lenovo.exception.NetException: null
+	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
+	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
+	at com.lenovo.spider.CachePipline.lambda$1(CachePipline.java:148) ~[classes/:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) [?:1.8.0_121]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
+	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
+2018-03-28 14:08:26 null
+com.lenovo.exception.NetException: null
+	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
+	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
+	at com.lenovo.spider.CachePipline.lambda$1(CachePipline.java:148) ~[classes/:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) [?:1.8.0_121]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
+	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
+2018-03-28 14:08:27 null
+com.lenovo.exception.NetException: null
+	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
+	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
+	at com.lenovo.spider.CachePipline.lambda$1(CachePipline.java:148) ~[classes/:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) [?:1.8.0_121]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
+	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
+2018-03-28 14:08:28 null
+com.lenovo.exception.NetException: null
+	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
+	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
+	at com.lenovo.spider.CachePipline.lambda$1(CachePipline.java:148) ~[classes/:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511) [?:1.8.0_121]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180) [?:1.8.0_121]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142) [?:1.8.0_121]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617) [?:1.8.0_121]
+	at java.lang.Thread.run(Thread.java:745) [?:1.8.0_121]
+2018-03-28 14:08:29 null
 com.lenovo.exception.NetException: null
 	at com.lenovo.spider.interfaces.ConfigInterface.check(ConfigInterface.java:53) ~[classes/:?]
 	at com.lenovo.spider.interfaces.ConfigInterface.uploadCrawlerInfo(ConfigInterface.java:256) ~[classes/:?]
