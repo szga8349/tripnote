@@ -2,6 +2,10 @@ build/
 target/
 repos/
 project/tripnote/src/main/resources/conf/sms.properties
+project/spider.worker/data/
+project/spider.worker/log/
+project/spider.worker/pull/
+project/xsoup-custom/
 tmp/
 .settings
 .settings/*
