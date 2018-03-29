@@ -17,8 +17,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.lenovo.tripnote.entity.BAccount;
 import com.lenovo.tripnote.entity.TCustomer;
 import com.lenovo.tripnote.entity.vo.BatchIdsVo;
+import com.lenovo.tripnote.entity.vo.PageResultVo;
 import com.lenovo.tripnote.entity.vo.TCustemAddVo;
+import com.lenovo.tripnote.entity.vo.TTripNoteSearchResultVo;
+import com.lenovo.tripnote.entity.vo.TTripNoteSearchVo;
 import com.lenovo.tripnote.service.TCustomerService;
+import com.lenovo.tripnote.service.TTripnoteService;
 import com.lenovo.tripnote.vo.Result;
 import com.lenovo.tripnote.vo.ResultVo;
 
@@ -33,6 +37,8 @@ import com.lenovo.tripnote.vo.ResultVo;
 public class TCustomerController {
 	@Resource
 	private TCustomerService tCustomerService;
+	@Resource
+	private TTripnoteService tTripnoteService;
 
 	@RequestMapping(value = "/doAdd")
 	public @ResponseBody ResultVo add(TCustemAddVo tripnoteScheduleVo) {
@@ -139,6 +145,32 @@ public class TCustomerController {
 		BAccount account = (BAccount) subject.getPrincipal();
 		tCustomerService.batchAddToCatogry(ids, account, Integer.valueOf(catogryId));
 	    return vo;
+	}
+	
+	/**客户关联的定制信息
+	 * @param search
+	 * @return
+	 * @throws IllegalAccessException
+	 * @throws InvocationTargetException
+	 */
+	@RequestMapping(value = "/tripnote/{id}")
+	public @ResponseBody ResultVo search(TTripNoteSearchVo search,@PathVariable String id) throws IllegalAccessException, InvocationTargetException {
+		ResultVo vo = new ResultVo();
+		Subject subject = SecurityUtils.getSubject();
+		BAccount account = (BAccount) subject.getPrincipal();
+		vo.setCode(Result.SUCESSFUL);
+		search.setUserId(account.getId());
+		Integer offset = (search.getPageNo()-1<0?0:(search.getPageNo()-1))*search.getPageSize();
+		search.setPageNo(offset);
+		search.setType(1);
+		PageResultVo result = new PageResultVo();
+		BeanUtils.copyProperties(result, search);
+		search.setCustomerId(Integer.valueOf(id));
+		List<TTripNoteSearchResultVo> t1 = tTripnoteService.queryByCustomer(search);
+		result.setData(t1);
+		result.setTotal(tTripnoteService.queryCountByCustomer(search));
+		vo.setData(result);
+		return vo;
 	}
 
 }

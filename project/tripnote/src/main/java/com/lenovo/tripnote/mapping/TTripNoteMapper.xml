@@ -350,6 +350,30 @@
       </foreach>
     </where>
   </sql>
+  
+  <select id="queryCountByCustomer" resultType="java.lang.Integer"  parameterType="com.lenovo.tripnote.entity.vo.TTripNoteSearchVo" >
+     select count(1) from t_trip_note t  inner join t_tripnote_r_customer ts on t.id = ts.tripnote_id and ts.customer_id = #{record.customerId,jdbcType=INTEGER} where type = #{record.type,jdbcType=INTEGER} 
+   </select>
+   
+   <select id="queryByCustomer" resultMap="DetailResultMap" parameterType="com.lenovo.tripnote.entity.vo.TTripNoteSearchVo" >
+    select
+    t.id,t.code, t.title,t.start_date, t.end_date, t.`days`, t.destination, 
+    t.`status`, t.start_city, t.remarks,
+    tc.name,tc.phone1,tc.id as customer_id,
+    t.introduction,t.imageurl,t.price,
+    tts.id as schedule_id, tts.title as schedule_title,tts.indexdate,
+    bc.id as city_id,bc.name_cn,bc.name_en,bc.lat,bc.lon,ttsrc.schedule_id as rcity_schedule_id,bc.country_id,ttsrc.id as rcity_id
+    from (select 
+     <include refid="Base_Column_List" />
+     ,ts.customer_id from t_trip_note t inner join t_tripnote_r_customer ts on t.id = ts.tripnote_id and ts.customer_id = #{record.customerId,jdbcType=INTEGER} where type = #{record.type,jdbcType=INTEGER}
+    limit #{record.pageNo,jdbcType=INTEGER},#{record.pageSize,jdbcType=INTEGER}) as t 
+    left join t_customer tc on tc.id = t.customer_id 
+    left join t_tripnote_schedule tts on tts.tripnote_id = t.id 
+    left join t_tripnote_schedule_r_city ttsrc on ttsrc.schedule_id = tts.id
+    left join b_city bc on ttsrc.city_id = bc.id 
+    order by t.create_time desc,tts.indexdate asc,ttsrc.create_time asc,ttsrc.id asc
+  </select>
+   
    <select id="queryCount" resultType="java.lang.Integer"  parameterType="com.lenovo.tripnote.entity.vo.TTripNoteSearchVo" >
      select count(1) from t_trip_note t where  type = #{record.type,jdbcType=INTEGER}
      <choose>  

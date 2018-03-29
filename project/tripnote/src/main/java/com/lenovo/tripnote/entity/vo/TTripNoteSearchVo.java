@@ -42,4 +42,6 @@ public class TTripNoteSearchVo extends PageInfoVo{
     
     
     private Integer dateEnd;
+    
+    private Integer customerId;
 }

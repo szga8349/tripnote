@@ -103,4 +103,9 @@ public interface TTripNoteMapper {
 	 * @return
 	 */
 	TTripNoteDetailResultVo getPdfDetailByKey(Integer id);
+	
+
+	int queryCountByCustomer(@Param("record")TTripNoteSearchVo vo);
+
+	List<TTripNoteSearchResultVo> queryByCustomer(@Param("record")TTripNoteSearchVo vo);
 }

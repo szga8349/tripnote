@@ -223,7 +223,16 @@ public class TripnoteServiceImpl implements TTripnoteService{
 	
 		return this.tTripNoteMapper.queryCount(t);
 	}
+	
+	@Override
+	public int queryCountByCustomer(TTripNoteSearchVo id) {
+	
+		return this.tTripNoteMapper.queryCountByCustomer(id);
+	}
 
+	public List<TTripNoteSearchResultVo> queryByCustomer(TTripNoteSearchVo vo){
+		return this.tTripNoteMapper.queryByCustomer(vo);
+	}
 	@Override
 	public TTripNoteDetailResultVo getTravelQuotationByKey(Integer id) {
 		// TODO Auto-generated method stub
