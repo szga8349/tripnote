@@ -5,16 +5,36 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
-    <result column="cover" property="cover" jdbcType="VARCHAR" />
+    <result column="image_url" property="imageUrl" jdbcType="VARCHAR" />
     <result column="create_userid" property="createUserid" jdbcType="INTEGER" />
-    <result column="create_username" property="createUsername" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="relation_city_id" property="relationCityId" jdbcType="INTEGER" />
+    <result column="relation_city_name" property="relationCityName" jdbcType="VARCHAR" />
+    <result column="relation_poi_id" property="relationPoiId" jdbcType="INTEGER" />
+    <result column="ralation_poi_name" property="ralationPoiName" jdbcType="VARCHAR" />
+    <result column="label" property="label" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.lenovo.tripnote.entity.BUserTripnote" extends="BaseResultMap" >
     <result column="context" property="context" jdbcType="LONGVARCHAR" />
   </resultMap>
+  
+  <resultMap id="DetailResultMap" type="com.lenovo.tripnote.entity.vo.BUserTripnoteResultVo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="image_url" property="imageUrl" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="relation_city_id" property="relationCityId" jdbcType="INTEGER" />
+    <result column="relation_city_name" property="relationCityName" jdbcType="VARCHAR" />
+    <result column="relation_poi_id" property="relationPoiId" jdbcType="INTEGER" />
+    <result column="ralation_poi_name" property="ralationPoiName" jdbcType="VARCHAR" />
+    <result column="label" property="label" jdbcType="VARCHAR" />
+  </resultMap>
+  
   <sql id="Base_Column_List" >
-    id, title, `status`, cover, create_userid, create_username, create_time
+    id, title, `status`, image_url, create_userid, create_time, `type`, relation_city_id, 
+    relation_city_name, relation_poi_id, ralation_poi_name, `label`
   </sql>
   <sql id="Blob_Column_List" >
     context
@@ -93,6 +113,26 @@
       order by ${orderByClause}
     </if>
   </select>
+  
+  <select id="queryCountCondition" resultType="java.lang.Integer"  parameterType="com.lenovo.tripnote.entity.vo.BUserTripnoteSearchVo" >
+     select count(1) from b_user_tripnote t where  type = #{record.type,jdbcType=INTEGER}
+     and create_userid = #{record.userId,jdbcType=INTEGER}
+     <if test="record.title != null" >
+        and t.title like #{record.title,jdbcType=VARCHAR}
+     </if>
+   </select>
+  <select id="queryCondition" resultMap="DetailResultMap" parameterType="com.lenovo.tripnote.entity.vo.BUserTripnoteSearchVo" >
+    select
+    <include refid="Base_Column_List" />
+    from b_user_tripnote t where type = #{record.type,jdbcType=INTEGER}
+    and t.create_userid = #{record.userId,jdbcType=INTEGER}
+    <if test="record.title != null" >
+        and t.title like #{record.title,jdbcType=VARCHAR}
+    </if>
+    order by t.create_time desc
+    limit #{record.pageNo,jdbcType=INTEGER},#{record.pageSize,jdbcType=INTEGER}
+  </select>
+  
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lenovo.tripnote.entity.BUserTripnoteExample" >
     select
     <if test="distinct" >
@@ -161,17 +201,32 @@
       <if test="record.status != null" >
         `status` = #{record.status,jdbcType=INTEGER},
       </if>
-      <if test="record.cover != null" >
-        cover = #{record.cover,jdbcType=VARCHAR},
+      <if test="record.imageUrl != null" >
+        image_url = #{record.imageUrl,jdbcType=VARCHAR},
       </if>
       <if test="record.createUserid != null" >
         create_userid = #{record.createUserid,jdbcType=INTEGER},
       </if>
-      <if test="record.createUsername != null" >
-        create_username = #{record.createUsername,jdbcType=VARCHAR},
-      </if>
       <if test="record.createTime != null" >
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.type != null" >
+        `type` = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.relationCityId != null" >
+        relation_city_id = #{record.relationCityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.relationCityName != null" >
+        relation_city_name = #{record.relationCityName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.relationPoiId != null" >
+        relation_poi_id = #{record.relationPoiId,jdbcType=INTEGER},
+      </if>
+      <if test="record.ralationPoiName != null" >
+        ralation_poi_name = #{record.ralationPoiName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.label != null" >
+        `label` = #{record.label,jdbcType=VARCHAR},
       </if>
       <if test="record.context != null" >
         context = #{record.context,jdbcType=LONGVARCHAR},
@@ -186,10 +241,15 @@
     set id = #{record.id,jdbcType=INTEGER},
       title = #{record.title,jdbcType=VARCHAR},
       `status` = #{record.status,jdbcType=INTEGER},
-      cover = #{record.cover,jdbcType=VARCHAR},
+      image_url = #{record.imageUrl,jdbcType=VARCHAR},
       create_userid = #{record.createUserid,jdbcType=INTEGER},
-      create_username = #{record.createUsername,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      `type` = #{record.type,jdbcType=INTEGER},
+      relation_city_id = #{record.relationCityId,jdbcType=INTEGER},
+      relation_city_name = #{record.relationCityName,jdbcType=VARCHAR},
+      relation_poi_id = #{record.relationPoiId,jdbcType=INTEGER},
+      ralation_poi_name = #{record.ralationPoiName,jdbcType=VARCHAR},
+      `label` = #{record.label,jdbcType=VARCHAR},
       context = #{record.context,jdbcType=LONGVARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -200,10 +260,15 @@
     set id = #{record.id,jdbcType=INTEGER},
       title = #{record.title,jdbcType=VARCHAR},
       `status` = #{record.status,jdbcType=INTEGER},
-      cover = #{record.cover,jdbcType=VARCHAR},
+      image_url = #{record.imageUrl,jdbcType=VARCHAR},
       create_userid = #{record.createUserid,jdbcType=INTEGER},
-      create_username = #{record.createUsername,jdbcType=VARCHAR},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      `type` = #{record.type,jdbcType=INTEGER},
+      relation_city_id = #{record.relationCityId,jdbcType=INTEGER},
+      relation_city_name = #{record.relationCityName,jdbcType=VARCHAR},
+      relation_poi_id = #{record.relationPoiId,jdbcType=INTEGER},
+      ralation_poi_name = #{record.ralationPoiName,jdbcType=VARCHAR},
+      `label` = #{record.label,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -220,32 +285,46 @@
     delete from b_user_tripnote
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.lenovo.tripnote.entity.BUserTripnote" useGeneratedKeys="true" keyProperty="id">
-    insert into b_user_tripnote (title, `status`, cover, 
-      create_userid, create_username, create_time, 
-      context)
-    values (#{title,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{cover,jdbcType=VARCHAR}, 
-      #{createUserid,jdbcType=INTEGER}, #{createUsername,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{context,jdbcType=LONGVARCHAR})
+  <insert id="insert" parameterType="com.lenovo.tripnote.entity.BUserTripnote" useGeneratedKeys="true" keyProperty="id" >
+    insert into b_user_tripnote (title, `status`, image_url, 
+      create_userid, create_time, `type`, 
+      relation_city_id, relation_city_name, relation_poi_id, 
+      ralation_poi_name, `label`, context
+      )
+    values (#{title,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{imageUrl,jdbcType=VARCHAR}, 
+      #{createUserid,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{type,jdbcType=INTEGER}, 
+      #{relationCityId,jdbcType=INTEGER}, #{relationCityName,jdbcType=VARCHAR}, #{relationPoiId,jdbcType=INTEGER}, 
+      #{ralationPoiName,jdbcType=VARCHAR}, #{label,jdbcType=VARCHAR}, #{context,jdbcType=LONGVARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.BUserTripnote" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.BUserTripnote" useGeneratedKeys="true" keyProperty="id" >
     insert into b_user_tripnote
     <trim prefix="(" suffix=")" suffixOverrides="," >
       title,
       `status`,
-      cover,
+      image_url,
       create_userid,
-      create_username,
       create_time,
+      `type`,
+      relation_city_id,
+      relation_city_name,
+      relation_poi_id,
+      ralation_poi_name,
+      `label`,
       context,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       #{title,jdbcType=VARCHAR},
       #{status,jdbcType=INTEGER},
-      #{cover,jdbcType=VARCHAR},
+      #{imageUrl,jdbcType=VARCHAR},
       #{createUserid,jdbcType=INTEGER},
-      #{createUsername,jdbcType=VARCHAR},
       #{createTime,jdbcType=TIMESTAMP},
+      #{type,jdbcType=INTEGER},
+      #{relationCityId,jdbcType=INTEGER},
+      #{relationCityName,jdbcType=VARCHAR},
+      #{relationPoiId,jdbcType=INTEGER},
+      #{ralationPoiName,jdbcType=VARCHAR},
+      #{label,jdbcType=VARCHAR},
       #{context,jdbcType=LONGVARCHAR},
     </trim>
   </insert>
@@ -258,17 +337,32 @@
       <if test="status != null" >
         `status` = #{status,jdbcType=INTEGER},
       </if>
-      <if test="cover != null" >
-        cover = #{cover,jdbcType=VARCHAR},
+      <if test="imageUrl != null" >
+        image_url = #{imageUrl,jdbcType=VARCHAR},
       </if>
       <if test="createUserid != null" >
         create_userid = #{createUserid,jdbcType=INTEGER},
       </if>
-      <if test="createUsername != null" >
-        create_username = #{createUsername,jdbcType=VARCHAR},
-      </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        `type` = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="relationCityId != null" >
+        relation_city_id = #{relationCityId,jdbcType=INTEGER},
+      </if>
+      <if test="relationCityName != null" >
+        relation_city_name = #{relationCityName,jdbcType=VARCHAR},
+      </if>
+      <if test="relationPoiId != null" >
+        relation_poi_id = #{relationPoiId,jdbcType=INTEGER},
+      </if>
+      <if test="ralationPoiName != null" >
+        ralation_poi_name = #{ralationPoiName,jdbcType=VARCHAR},
+      </if>
+      <if test="label != null" >
+        `label` = #{label,jdbcType=VARCHAR},
       </if>
       <if test="context != null" >
         context = #{context,jdbcType=LONGVARCHAR},
@@ -280,10 +374,15 @@
     update b_user_tripnote
     set title = #{title,jdbcType=VARCHAR},
       `status` = #{status,jdbcType=INTEGER},
-      cover = #{cover,jdbcType=VARCHAR},
+      image_url = #{imageUrl,jdbcType=VARCHAR},
       create_userid = #{createUserid,jdbcType=INTEGER},
-      create_username = #{createUsername,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
+      `type` = #{type,jdbcType=INTEGER},
+      relation_city_id = #{relationCityId,jdbcType=INTEGER},
+      relation_city_name = #{relationCityName,jdbcType=VARCHAR},
+      relation_poi_id = #{relationPoiId,jdbcType=INTEGER},
+      ralation_poi_name = #{ralationPoiName,jdbcType=VARCHAR},
+      `label` = #{label,jdbcType=VARCHAR},
       context = #{context,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -291,10 +390,15 @@
     update b_user_tripnote
     set title = #{title,jdbcType=VARCHAR},
       `status` = #{status,jdbcType=INTEGER},
-      cover = #{cover,jdbcType=VARCHAR},
+      image_url = #{imageUrl,jdbcType=VARCHAR},
       create_userid = #{createUserid,jdbcType=INTEGER},
-      create_username = #{createUsername,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      `type` = #{type,jdbcType=INTEGER},
+      relation_city_id = #{relationCityId,jdbcType=INTEGER},
+      relation_city_name = #{relationCityName,jdbcType=VARCHAR},
+      relation_poi_id = #{relationPoiId,jdbcType=INTEGER},
+      ralation_poi_name = #{ralationPoiName,jdbcType=VARCHAR},
+      `label` = #{label,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

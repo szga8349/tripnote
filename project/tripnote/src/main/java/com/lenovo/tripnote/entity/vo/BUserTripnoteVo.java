@@ -7,21 +7,60 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class BUserTripnoteVo {
+public class BUserTripnoteVo{
 	
-	/**
-	 * 定制日程主键值
-	 */
-	private Integer scheduleId;
-	
-	private String title;
 
-	/**
-	 * 默认笔记为定制师私有的
-	 */
-	private Integer status = -1;
+    /**
+     * b_user_tripnote.title
+     * @ibatorgenerated 2018-04-10 16:48:42
+     */
+    private String title;
 
-	private String cover;
+    /**
+     * b_user_tripnote.status (1 公开 -1 未公开私有)
+     * @ibatorgenerated 2018-04-10 16:48:42
+     */
+    private Integer status;
 
-	private String context;
+    /**
+     * b_user_tripnote.image_url (图片url)
+     * @ibatorgenerated 2018-04-10 16:48:42
+     */
+    private String imageUrl;
+
+    /**
+     * b_user_tripnote.type (类型：1笔记 2图片)
+     * @ibatorgenerated 2018-04-10 16:48:42
+     */
+    private Integer type;
+
+    /**
+     * b_user_tripnote.relation_city_id (相关城市ID)
+     * @ibatorgenerated 2018-04-10 16:48:42
+     */
+    private Integer relationCityId;
+
+    /**
+     * b_user_tripnote.relation_city_name (相关城市名称)
+     * @ibatorgenerated 2018-04-10 16:48:42
+     */
+    private String relationCityName;
+
+    /**
+     * b_user_tripnote.relation_poi_id (相关poi id)
+     * @ibatorgenerated 2018-04-10 16:48:42
+     */
+    private Integer relationPoiId;
+
+    /**
+     * b_user_tripnote.ralation_poi_name (相关poi的名称)
+     * @ibatorgenerated 2018-04-10 16:48:42
+     */
+    private String ralationPoiName;
+
+    /**
+     * b_user_tripnote.label (标签)
+     * @ibatorgenerated 2018-04-10 16:48:42
+     */
+    private String label;
 }

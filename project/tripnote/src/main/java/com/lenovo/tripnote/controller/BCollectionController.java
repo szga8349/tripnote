@@ -1,6 +1,7 @@
 package com.lenovo.tripnote.controller;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -14,47 +15,47 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lenovo.tripnote.entity.BAccount;
-import com.lenovo.tripnote.entity.BUserTripnote;
-import com.lenovo.tripnote.entity.vo.BUserTripnoteResultVo;
-import com.lenovo.tripnote.entity.vo.BUserTripnoteSearchVo;
-import com.lenovo.tripnote.entity.vo.BUserTripnoteVo;
+import com.lenovo.tripnote.entity.BCollection;
+import com.lenovo.tripnote.entity.vo.BCollectionResultVo;
+import com.lenovo.tripnote.entity.vo.BCollectionSearchVo;
+import com.lenovo.tripnote.entity.vo.BCollectionVo;
 import com.lenovo.tripnote.entity.vo.PageResultVo;
-import com.lenovo.tripnote.service.BUserTripnoteService;
+import com.lenovo.tripnote.service.BCollectionService;
 import com.lenovo.tripnote.vo.Result;
 import com.lenovo.tripnote.vo.ResultVo;
 
-/**定制师笔记
+/**用户收藏
  * @author shijy2
  *
  */
 @Controller
-@RequestMapping(value = "/user/tripnote")
-public class BUserTripnoteController {
+@RequestMapping(value = "/user/collection")
+public class BCollectionController {
 	@Resource
-	private BUserTripnoteService bUserTripnoteService;
+	private BCollectionService bCollectionService;
 	@RequestMapping(value = "/doAdd")
-	public @ResponseBody ResultVo addBUserTripnote(BUserTripnoteVo tripnoteScheduleVo){
+	public @ResponseBody ResultVo addBUserTripnote(BCollectionVo tripnoteScheduleVo){
 		Subject subject = SecurityUtils.getSubject();
 		ResultVo vo = new ResultVo();
 		vo.setCode(Result.SUCESSFUL);
-		BUserTripnote schedule = new BUserTripnote();
+		BCollection schedule = new BCollection();
 		try {
 			BeanUtils.copyProperties(schedule, tripnoteScheduleVo);
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			e.printStackTrace();
 		}
 		BAccount account = (BAccount) subject.getPrincipal();
-		schedule.setCreateUserid(account.getId());
-		bUserTripnoteService.insert(schedule);
+		schedule.setCreateUserId(account.getId());
+		bCollectionService.insert(schedule);
 		vo.setData(schedule.getId());
 		return vo;
 	}
 	@RequestMapping(value = "/doUpdate/{id}")
-	public @ResponseBody ResultVo updateBUserTripnote(BUserTripnoteVo tripnoteScheduleVo,@PathVariable String id){
+	public @ResponseBody ResultVo updateBUserTripnote(BCollectionVo tripnoteScheduleVo,@PathVariable String id){
 		Subject subject = SecurityUtils.getSubject();
 		ResultVo vo = new ResultVo();
 		vo.setCode(Result.SUCESSFUL);
-		BUserTripnote schedule = new BUserTripnote();
+		BCollection schedule = new BCollection();
 		try {
 			BeanUtils.copyProperties(schedule, tripnoteScheduleVo);
 		} catch (IllegalAccessException | InvocationTargetException e) {
@@ -62,8 +63,9 @@ public class BUserTripnoteController {
 		}
 		BAccount account = (BAccount) subject.getPrincipal();
 		schedule.setId(Integer.valueOf(id));
-		schedule.setCreateUserid(account.getId());
-		bUserTripnoteService.update(schedule);
+		schedule.setCreateTime(new Date());
+		schedule.setCreateUserId(account.getId());
+		bCollectionService.update(schedule);
 		vo.setData(schedule.getId());
 		return vo;
 	}
@@ -71,12 +73,12 @@ public class BUserTripnoteController {
 	public @ResponseBody ResultVo deleteBUserTripnote(@PathVariable String id){
 		ResultVo vo = new ResultVo();
 		vo.setCode(Result.SUCESSFUL);
-		bUserTripnoteService.deleteBykey(Integer.valueOf(id));
+		bCollectionService.deleteBykey(Integer.valueOf(id));
 		return vo;
 	}
 	
 	@RequestMapping(value = "/doSearch")
-	public @ResponseBody ResultVo search(BUserTripnoteSearchVo search) throws IllegalAccessException, InvocationTargetException {
+	public @ResponseBody ResultVo search(BCollectionSearchVo search) throws IllegalAccessException, InvocationTargetException {
 		ResultVo vo = new ResultVo();
 		Subject subject = SecurityUtils.getSubject();
 		BAccount account = (BAccount) subject.getPrincipal();
@@ -88,12 +90,11 @@ public class BUserTripnoteController {
 		}
 		Integer offset = (search.getPageNo()-1<0?0:(search.getPageNo()-1))*search.getPageSize();
 		search.setPageNo(offset);
-		search.setType(1);
 		PageResultVo result = new PageResultVo();
 		BeanUtils.copyProperties(result, search);
-		List<BUserTripnoteResultVo> t1 = bUserTripnoteService.queryCondition(search);
+		List<BCollectionResultVo> t1 = bCollectionService.queryCondition(search);
 		result.setData(t1);
-		result.setTotal(bUserTripnoteService.queryCountCondition(search));
+		result.setTotal(bCollectionService.queryCountCondition(search));
 		vo.setData(result);
 		return vo;
 	}
