@@ -43,5 +43,13 @@ public class TTripNoteSearchVo extends PageInfoVo{
     
     private Integer dateEnd;
     
+    /**
+     * 按照客户ID进行搜索
+     */
     private Integer customerId;
+    
+    /**
+     * 按照城市ID进行搜索
+     */
+    private Integer cityId;
 }

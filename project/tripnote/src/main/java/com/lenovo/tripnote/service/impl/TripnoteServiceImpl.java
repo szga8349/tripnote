@@ -1,6 +1,7 @@
 package com.lenovo.tripnote.service.impl;
 
 import java.lang.reflect.InvocationTargetException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -10,8 +11,10 @@ import javax.annotation.Resource;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.lenovo.tripnote.dao.BNumberGenerationMapper;
 import com.lenovo.tripnote.dao.TTripNoteMapper;
 import com.lenovo.tripnote.dao.TTripnoteRCustomerMapper;
 import com.lenovo.tripnote.dao.TTripnoteScheduleHotelMapper;
@@ -20,6 +23,7 @@ import com.lenovo.tripnote.dao.TTripnoteScheduleRCityMapper;
 import com.lenovo.tripnote.dao.TTripnoteScheduleTrafficMapper;
 import com.lenovo.tripnote.dao.TTripnoteScheduleTripMapper;
 import com.lenovo.tripnote.entity.BAccount;
+import com.lenovo.tripnote.entity.BNumberGeneration;
 import com.lenovo.tripnote.entity.TCustomer;
 import com.lenovo.tripnote.entity.TTripNote;
 import com.lenovo.tripnote.entity.TTripNoteExample;
@@ -66,6 +70,10 @@ public class TripnoteServiceImpl implements TTripnoteService{
 	private TTripnoteScheduleTrafficMapper tTripnoteScheduleTrafficMapper;
 	@Resource
 	private TTripnoteScheduleRCityMapper tTripnoteScheduleRCityMapper;
+	@Resource
+	private BNumberGenerationMapper bNumberGenerationMapper;
+	@Value("${number.generation}")
+	private Integer generationNum;
 	@Override
 	public int insert(TTripNote t) {
 		return tTripNoteMapper.insertSelective(t);
@@ -132,6 +140,30 @@ public class TripnoteServiceImpl implements TTripnoteService{
 	
 		return tTripNoteMapper.queryConditionAndPage(t, rowBound);
 	}
+	/**根据日期生成编号
+	 * @param currentDate
+	 * @return
+	 */
+	private String generationNumber(Date currentDate){
+		int maxNum = bNumberGenerationMapper.selectMaxNumber(currentDate);
+		BNumberGeneration record = new BNumberGeneration();
+		record.setNumber(maxNum);
+		record.setCurrentTime(currentDate);
+		bNumberGenerationMapper.insert(record);
+		//不足位的左端补齐
+	    String fill = getFillSeats(this.generationNum);
+	    String er = maxNum+"";
+		er = fill.substring(er.length()) + er;
+		SimpleDateFormat dataFormat = new SimpleDateFormat("yyyyMMdd");
+		return dataFormat.format(currentDate)+er;
+	}
+	private String getFillSeats(int readLength) {
+		StringBuffer buffer = new StringBuffer();
+		for (int i = 0; i < readLength; i++) {
+			buffer.append("0");
+		}
+		return buffer.toString();
+	}
 	public TTripNote insertTripNote(TTripNoteVo tripnoteVo,BAccount account){
 		TTripNote t = new TTripNote();
 		try {
@@ -140,8 +172,10 @@ public class TripnoteServiceImpl implements TTripnoteService{
 			e.printStackTrace();
 		}
 		t.setCreateUserId(account.getCreateUserId());
-		t.setCreateTime(new Date());
+		Date currentDate = new Date();
+		t.setCreateTime(currentDate);
 		t.setCreateUserId(account.getId());
+	    t.setCode(generationNumber(currentDate));
 		this.insert(t);
 	    if(tripnoteVo.getCustomers()!=null){//关联客户信息
 	    	JSONObject json = JSONObject.fromObject(tripnoteVo.getCustomers());
