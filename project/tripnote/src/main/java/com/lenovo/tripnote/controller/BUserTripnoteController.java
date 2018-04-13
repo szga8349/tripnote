@@ -88,7 +88,6 @@ public class BUserTripnoteController {
 		}
 		Integer offset = (search.getPageNo()-1<0?0:(search.getPageNo()-1))*search.getPageSize();
 		search.setPageNo(offset);
-		search.setType(1);
 		PageResultVo result = new PageResultVo();
 		BeanUtils.copyProperties(result, search);
 		List<BUserTripnoteResultVo> t1 = bUserTripnoteService.queryCondition(search);
