@@ -63,4 +63,10 @@ public class BUserTripnoteVo{
      * @ibatorgenerated 2018-04-10 16:48:42
      */
     private String label;
+
+    /**
+     * b_user_tripnote.context (内容)
+     * @ibatorgenerated 2018-04-10 16:48:42
+     */
+    private String context;
 }
