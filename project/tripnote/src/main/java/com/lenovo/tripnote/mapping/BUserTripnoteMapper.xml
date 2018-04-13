@@ -115,8 +115,10 @@
   </select>
   
   <select id="queryCountCondition" resultType="java.lang.Integer"  parameterType="com.lenovo.tripnote.entity.vo.BUserTripnoteSearchVo" >
-     select count(1) from b_user_tripnote t where  type = #{record.type,jdbcType=INTEGER}
-     and create_userid = #{record.userId,jdbcType=INTEGER}
+     select count(1) from b_user_tripnote t where create_userid = #{record.userId,jdbcType=INTEGER}
+     <if test="record.type != null" >
+        and t.type = #{record.type,jdbcType=INTEGER}
+     </if>
      <if test="record.title != null" >
         and t.title like #{record.title,jdbcType=VARCHAR}
      </if>
@@ -124,8 +126,10 @@
   <select id="queryCondition" resultMap="DetailResultMap" parameterType="com.lenovo.tripnote.entity.vo.BUserTripnoteSearchVo" >
     select
     <include refid="Base_Column_List" />
-    from b_user_tripnote t where type = #{record.type,jdbcType=INTEGER}
-    and t.create_userid = #{record.userId,jdbcType=INTEGER}
+    from b_user_tripnote t where t.create_userid = #{record.userId,jdbcType=INTEGER}
+    <if test="record.type != null" >
+        and t.type = #{record.type,jdbcType=INTEGER}
+     </if>
     <if test="record.title != null" >
         and t.title like #{record.title,jdbcType=VARCHAR}
     </if>

@@ -9,7 +9,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -24,23 +23,27 @@ import com.lenovo.tripnote.vo.ResultVo;
 public class BAccountController {
 	@Resource
 	private BAccountService bAccountService;
-	@RequestMapping(value = "/doUpdate/{id}")
-	public @ResponseBody ResultVo update(BAccountVo bpoiVo, @PathVariable String id)
+	@RequestMapping(value = "/doUpdate")
+	public @ResponseBody ResultVo update(BAccountVo bpoiVo)
 			throws IllegalAccessException, InvocationTargetException {
 		ResultVo vo = new ResultVo();
 		vo.setCode(Result.SUCESSFUL);
+		Subject subject = SecurityUtils.getSubject();
+		BAccount account = (BAccount) subject.getPrincipal();
 		BAccount t = new BAccount();
 		BeanUtils.copyProperties(t, bpoiVo);
-		t.setId(Integer.valueOf(id));
+		t.setId(account.getId());
 		bAccountService.update(t);
 		return vo;
 	}
-	@RequestMapping(value = "/doDetail/{id}")
-	public @ResponseBody ResultVo detail(@PathVariable String id)
+	@RequestMapping(value = "/doDetail")
+	public @ResponseBody ResultVo detail()
 			throws IllegalAccessException, InvocationTargetException {
+		Subject subject = SecurityUtils.getSubject();
+		BAccount account = (BAccount) subject.getPrincipal();
 		ResultVo vo = new ResultVo();
 		vo.setCode(Result.SUCESSFUL);
-		vo.setData(bAccountService.getDetail(Integer.valueOf(id)));
+		vo.setData(bAccountService.getDetail(account.getId()));
 		return vo;
 	}
 	@RequestMapping(value = "/doCheckPasswd")
