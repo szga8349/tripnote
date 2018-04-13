@@ -32,4 +32,12 @@ public class BAccountController {
 		bAccountService.update(t);
 		return vo;
 	}
+	@RequestMapping(value = "/doDetail/{id}")
+	public @ResponseBody ResultVo detail(@PathVariable String id)
+			throws IllegalAccessException, InvocationTargetException {
+		ResultVo vo = new ResultVo();
+		vo.setCode(Result.SUCESSFUL);
+		vo.setData(bAccountService.getDetail(Integer.valueOf(id)));
+		return vo;
+	}
 }

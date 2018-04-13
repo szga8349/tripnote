@@ -18,10 +18,33 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
     <result column="imageurl" property="imageurl" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="DATE" />
+    <result column="language" property="language" jdbcType="VARCHAR" />
+    <result column="occupation" property="occupation" jdbcType="VARCHAR" />
+  </resultMap>
+  
+   <resultMap id="DetailResultMap" type="com.lenovo.tripnote.entity.vo.BAccountDetailVo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="login_name" property="loginName" jdbcType="VARCHAR" />
+    <result column="login_name_type" property="loginNameType" jdbcType="INTEGER" />
+    <result column="real_name" property="realName" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="INTEGER" />
+    <result column="account_type" property="accountType" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+    <result column="score" property="score" jdbcType="INTEGER" />
+    <result column="imageurl" property="imageurl" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="DATE" />
+    <result column="language" property="language" jdbcType="VARCHAR" />
+    <result column="occupation" property="occupation" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, login_name, login_password, login_name_type, real_name, sex, account_type, `status`, 
-    phone, email, address, `level`, score, create_time, create_user_id, imageurl
+    phone, email, address, `level`, score, create_time, create_user_id, imageurl, birthday, 
+    `language`, occupation
   </sql>
   <sql id="Example_Where_Clause" >
     <where >
@@ -109,6 +132,12 @@
       order by ${orderByClause}
     </if>
   </select>
+  <select id="getByUsernameOrPhone" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from b_account
+    where login_name = #{loginName,jdbcType=VARCHAR} or phone= #{loginName,jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByExample" parameterType="com.lenovo.tripnote.entity.BAccountExample" >
     delete from b_account
     <if test="_parameter != null" >
@@ -120,12 +149,6 @@
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
-  </select>
-  <select id="getByUsernameOrPhone" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    from b_account
-    where login_name = #{loginName,jdbcType=VARCHAR} or phone= #{loginName,jdbcType=VARCHAR}
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
     update b_account
@@ -178,6 +201,15 @@
       <if test="record.imageurl != null" >
         imageurl = #{record.imageurl,jdbcType=VARCHAR},
       </if>
+      <if test="record.birthday != null" >
+        birthday = #{record.birthday,jdbcType=DATE},
+      </if>
+      <if test="record.language != null" >
+        `language` = #{record.language,jdbcType=VARCHAR},
+      </if>
+      <if test="record.occupation != null" >
+        occupation = #{record.occupation,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -200,12 +232,21 @@
       score = #{record.score,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       create_user_id = #{record.createUserId,jdbcType=INTEGER},
-      imageurl = #{record.imageurl,jdbcType=VARCHAR}
+      imageurl = #{record.imageurl,jdbcType=VARCHAR},
+      birthday = #{record.birthday,jdbcType=DATE},
+      `language` = #{record.language,jdbcType=VARCHAR},
+      occupation = #{record.occupation,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from b_account
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+   <select id="getDetail" resultMap="DetailResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from b_account
@@ -220,13 +261,15 @@
       real_name, sex, account_type, 
       `status`, phone, email, 
       address, `level`, score, 
-      create_time, create_user_id, imageurl
+      create_time, create_user_id, imageurl, 
+      birthday, `language`, occupation
       )
     values (#{loginName,jdbcType=VARCHAR}, #{loginPassword,jdbcType=VARCHAR}, #{loginNameType,jdbcType=INTEGER}, 
       #{realName,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, #{accountType,jdbcType=INTEGER}, 
       #{status,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{address,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, #{score,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, #{imageurl,jdbcType=VARCHAR}
+      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, #{imageurl,jdbcType=VARCHAR}, 
+      #{birthday,jdbcType=DATE}, #{language,jdbcType=VARCHAR}, #{occupation,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.BAccount" useGeneratedKeys="true" keyProperty="id" >
@@ -247,6 +290,9 @@
       create_time,
       create_user_id,
       imageurl,
+      birthday,
+      `language`,
+      occupation,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       #{loginName,jdbcType=VARCHAR},
@@ -264,6 +310,9 @@
       #{createTime,jdbcType=TIMESTAMP},
       #{createUserId,jdbcType=INTEGER},
       #{imageurl,jdbcType=VARCHAR},
+      #{birthday,jdbcType=DATE},
+      #{language,jdbcType=VARCHAR},
+      #{occupation,jdbcType=VARCHAR},
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.lenovo.tripnote.entity.BAccount" >
@@ -314,6 +363,15 @@
       <if test="imageurl != null" >
         imageurl = #{imageurl,jdbcType=VARCHAR},
       </if>
+      <if test="birthday != null" >
+        birthday = #{birthday,jdbcType=DATE},
+      </if>
+      <if test="language != null" >
+        `language` = #{language,jdbcType=VARCHAR},
+      </if>
+      <if test="occupation != null" >
+        occupation = #{occupation,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -333,7 +391,10 @@
       score = #{score,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user_id = #{createUserId,jdbcType=INTEGER},
-      imageurl = #{imageurl,jdbcType=VARCHAR}
+      imageurl = #{imageurl,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=DATE},
+      `language` = #{language,jdbcType=VARCHAR},
+      occupation = #{occupation,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -5,22 +5,21 @@ import java.util.Date;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 @Getter
 @Setter
 @NoArgsConstructor
-public class BAccountVo {
+public class BAccountDetailVo {
+	 /**
+     * b_account.id
+     * @ibatorgenerated 2018-03-29 15:38:39
+     */
+    private Integer id;
+
     /**
      * b_account.login_name
      * @ibatorgenerated 2018-03-29 15:38:39
      */
     private String loginName;
-
-    /**
-     * b_account.login_password
-     * @ibatorgenerated 2018-03-29 15:38:39
-     */
-    private String loginPassword;
 
     /**
      * b_account.login_name_type (登录账号类型：0-string,1-phoneNumber,2-email)
