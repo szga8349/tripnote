@@ -417,13 +417,13 @@
     bc.id as city_id,bc.name_cn,bc.name_en,bc.lat,bc.lon,ttsrc.schedule_id as rcity_schedule_id,bc.country_id,ttsrc.id as rcity_id
     from (select 
      t.id, t.code, t.title, t.start_date, t.end_date, t.`days`, t.destination,
-     t.`status`, t.start_city, t.remarks,t.introduction,t.type,t.publish_time,t.imageurl,t.price
+     t.`status`, t.start_city, t.remarks,t.introduction,t.type,t.publish_time,t.imageurl,t.price,t.create_time
      from t_trip_note t
      <if test="record.cityId != null" >
          right join t_tripnote_schedule tts on tts.tripnote_id = t.id 
          right join t_tripnote_schedule_r_city ttsrc on ttsrc.schedule_id = tts.id and ttsrc.city_id = #{record.cityId,jdbcType=INTEGER}
      </if>
-     where  type = #{record.type,jdbcType=INTEGER}
+     where  t.type = #{record.type,jdbcType=INTEGER}
      <choose>  
           <when test="record.isAll==false"> and t.create_user_id = #{record.userId,jdbcType=INTEGER} </when>  
           <when test="record.isAll==true"> and t.create_user_id in (0,#{record.userId,jdbcType=INTEGER})</when>  
