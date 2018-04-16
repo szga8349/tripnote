@@ -34,7 +34,7 @@
   
   <sql id="Base_Column_List" >
     id, title, `status`, image_url, create_userid, create_time, `type`, relation_city_id, 
-    relation_city_name, relation_poi_id, ralation_poi_name, `label`
+    relation_city_name, relation_poi_id, ralation_poi_name, `label`, context
   </sql>
   <sql id="Blob_Column_List" >
     context
