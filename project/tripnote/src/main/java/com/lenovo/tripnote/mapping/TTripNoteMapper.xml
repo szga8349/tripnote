@@ -375,23 +375,28 @@
   </select>
    
    <select id="queryCount" resultType="java.lang.Integer"  parameterType="com.lenovo.tripnote.entity.vo.TTripNoteSearchVo" >
-     select count(1) from t_trip_note t where  type = #{record.type,jdbcType=INTEGER}
+     select count(1) from t_trip_note t 
+     <if test="record.cityId != null" >
+         right join t_tripnote_schedule tts on tts.tripnote_id = t.id 
+         right join t_tripnote_schedule_r_city ttsrc on ttsrc.schedule_id = tts.id and ttsrc.city_id = #{record.cityId,jdbcType=INTEGER}
+     </if>
+     where  t.type = #{record.type,jdbcType=INTEGER}
      <choose>  
           <when test="record.isAll==false"> and create_user_id = #{record.userId,jdbcType=INTEGER} </when>  
           <when test="record.isAll==true"> and create_user_id in (0,#{record.userId,jdbcType=INTEGER})</when>  
      </choose>
       <if test="record.dateStart != null" >
-        and `days` >= #{record.dateStart,jdbcType=INTEGER} 
+        and t.`days` >= #{record.dateStart,jdbcType=INTEGER} 
      </if>
       <if test="record.dateEnd != null" >
-        and `days` <![CDATA[ < ]]> #{record.dateEnd,jdbcType=INTEGER} 
+        and t.`days` <![CDATA[ < ]]> #{record.dateEnd,jdbcType=INTEGER} 
      </if>
      <if test="record.title != null" >
-        and  title like #{record.title,jdbcType=VARCHAR}
+        and  t.title like #{record.title,jdbcType=VARCHAR}
      </if>
      <choose>
          <when test="record.sortField != null">
-         order by ${record.sortField}  
+         order by t.${record.sortField}  
          <choose>  
              <when test="record.ascOrDes==1">asc</when>  
              <when test="record.ascOrDes!=1">desc</when>  
@@ -411,17 +416,23 @@
     tts.id as schedule_id, tts.title as schedule_title,tts.indexdate,
     bc.id as city_id,bc.name_cn,bc.name_en,bc.lat,bc.lon,ttsrc.schedule_id as rcity_schedule_id,bc.country_id,ttsrc.id as rcity_id
     from (select 
-     <include refid="Base_Column_List" />
-     from t_trip_note t where  type = #{record.type,jdbcType=INTEGER}
+     t.id, t.code, t.title, t.start_date, t.end_date, t.`days`, t.destination,
+     t.`status`, t.start_city, t.remarks,t.introduction,t.type,t.publish_time,t.imageurl,t.price
+     from t_trip_note t
+     <if test="record.cityId != null" >
+         right join t_tripnote_schedule tts on tts.tripnote_id = t.id 
+         right join t_tripnote_schedule_r_city ttsrc on ttsrc.schedule_id = tts.id and ttsrc.city_id = #{record.cityId,jdbcType=INTEGER}
+     </if>
+     where  type = #{record.type,jdbcType=INTEGER}
      <choose>  
-          <when test="record.isAll==false"> and create_user_id = #{record.userId,jdbcType=INTEGER} </when>  
-          <when test="record.isAll==true"> and create_user_id in (0,#{record.userId,jdbcType=INTEGER})</when>  
+          <when test="record.isAll==false"> and t.create_user_id = #{record.userId,jdbcType=INTEGER} </when>  
+          <when test="record.isAll==true"> and t.create_user_id in (0,#{record.userId,jdbcType=INTEGER})</when>  
      </choose>
      <if test="record.dateStart != null" >
-        and `days` >= #{record.dateStart,jdbcType=INTEGER} 
+        and t.`days` >= #{record.dateStart,jdbcType=INTEGER} 
      </if>
       <if test="record.dateEnd != null" >
-        and `days` <![CDATA[ < ]]> #{record.dateEnd,jdbcType=INTEGER} 
+        and t.`days` <![CDATA[ < ]]> #{record.dateEnd,jdbcType=INTEGER} 
      </if>
      <if test="record.title != null" >
         and t.title like #{record.title,jdbcType=VARCHAR}
