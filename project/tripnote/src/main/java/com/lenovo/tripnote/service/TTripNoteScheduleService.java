@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.lenovo.tripnote.entity.BAccount;
 import com.lenovo.tripnote.entity.TTripnoteSchedule;
+import com.lenovo.tripnote.entity.vo.BatchIdsVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteScheduleResultVo;
 
 public interface TTripNoteScheduleService extends IDbService<TTripnoteSchedule> {
@@ -14,5 +15,7 @@ public interface TTripNoteScheduleService extends IDbService<TTripnoteSchedule> 
 	public int updateIndexdates(String indexdates);
 	
 	public List<Integer> addIndexdates(Integer tripnoteId,String indexdates,BAccount account);
+
+	public List<Integer> deleteBatch(BatchIdsVo ids,BAccount account);
 	
 }

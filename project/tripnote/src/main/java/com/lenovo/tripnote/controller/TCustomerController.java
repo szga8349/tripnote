@@ -129,7 +129,7 @@ public class TCustomerController {
 		vo.setCode(Result.SUCESSFUL);
 		Subject subject = SecurityUtils.getSubject();
 		BAccount account = (BAccount) subject.getPrincipal();
-		tCustomerService.batchDelete(ids,account);
+		tCustomerService.deleteBatch(ids,account);
 	    return vo;
 	}
 	/**批处理将客户放到分组中
@@ -143,7 +143,7 @@ public class TCustomerController {
 		vo.setCode(Result.SUCESSFUL);
 		Subject subject = SecurityUtils.getSubject();
 		BAccount account = (BAccount) subject.getPrincipal();
-		tCustomerService.batchAddToCatogry(ids, account, Integer.valueOf(catogryId));
+		tCustomerService.addBatchToCatogry(ids, account, Integer.valueOf(catogryId));
 	    return vo;
 	}
 	

@@ -13,6 +13,7 @@ import com.lenovo.tripnote.entity.BAccount;
 import com.lenovo.tripnote.entity.TTripnoteSchedule;
 import com.lenovo.tripnote.entity.TTripnoteScheduleExample;
 import com.lenovo.tripnote.entity.TTripnoteScheduleRCity;
+import com.lenovo.tripnote.entity.vo.BatchIdsVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteScheduleResultVo;
 import com.lenovo.tripnote.service.TTripNoteScheduleService;
 
@@ -131,6 +132,19 @@ public class TTripNoteScheduleServiceImpl implements TTripNoteScheduleService {
 			result.add(t1.getId());
 		}
 		return result;
+	}
+
+	@Override
+	public List<Integer> deleteBatch(BatchIdsVo ids, BAccount account) {
+		List<Integer> returnRows = new ArrayList<Integer>();
+		if(ids.getIds()!=null)
+		for(Integer i:ids.getIds()){
+			TTripnoteSchedule  schedule = new TTripnoteSchedule();
+			schedule.setId(i);
+			schedule.setCreateUserid(account.getId());
+			returnRows.add(deleteCondition(schedule));
+		}
+		return returnRows;
 	}
 
 }
