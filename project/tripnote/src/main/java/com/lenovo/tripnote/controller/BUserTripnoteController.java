@@ -96,4 +96,13 @@ public class BUserTripnoteController {
 		vo.setData(result);
 		return vo;
 	}
+
+    @RequestMapping(value = "/doDetail/{id}")
+    public @ResponseBody ResultVo getDetail(@PathVariable String id) throws IllegalAccessException, InvocationTargetException{
+        ResultVo vo = new ResultVo();
+        BUserTripnote result = bUserTripnoteService.getByKey(Integer.valueOf(id));
+        vo.setCode(Result.SUCESSFUL);
+        vo.setData(result);
+        return vo;
+    }
 }

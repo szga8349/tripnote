@@ -52,4 +52,9 @@ public class BCollection implements Serializable {
      * @ibatorgenerated 2018-04-10 16:48:42
      */
     private Integer createUserId;
+
+    private Integer type;
+
+    private Integer cid;
+
 }

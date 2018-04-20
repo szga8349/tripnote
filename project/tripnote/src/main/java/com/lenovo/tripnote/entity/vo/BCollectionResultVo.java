@@ -28,4 +28,8 @@ public class BCollectionResultVo {
      */
     private String url;
 
+    private Integer type;
+
+    private Integer cid;
+
 }
