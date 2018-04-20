@@ -11,6 +11,6 @@ public interface TCustomerService extends IDbService<TCustomer>{
       /*public List<TCustomer> selectCondition(TCustomer t);*/
 	  public List<TCustomer> search(TCustomer search, BAccount account, boolean b);
 	  int deleteTripnoteRCustomer(Integer tripnoteId, Integer customerId);
-	  public List<Integer> batchDelete(BatchIdsVo ids,BAccount account);
-	  public List<Integer> batchAddToCatogry(BatchIdsVo ids,BAccount account,Integer catogry);
+	  public List<Integer> deleteBatch(BatchIdsVo ids,BAccount account);
+	  public List<Integer> addBatchToCatogry(BatchIdsVo ids,BAccount account,Integer catogry);
 }

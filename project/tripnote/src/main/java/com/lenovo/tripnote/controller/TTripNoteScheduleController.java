@@ -9,11 +9,13 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lenovo.tripnote.entity.BAccount;
 import com.lenovo.tripnote.entity.TTripnoteSchedule;
+import com.lenovo.tripnote.entity.vo.BatchIdsVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteScheduleResultVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteScheduleVo;
 import com.lenovo.tripnote.service.BRentService;
@@ -86,6 +88,15 @@ public class TTripNoteScheduleController {
 		t.setId(Integer.valueOf(id));
 		t.setCreateUserid(account.getId());
 		tTripNoteScheduleService.deleteCondition(t);
+		return vo;
+	}
+	@RequestMapping(value = "/batch/doDelete")
+	public @ResponseBody ResultVo batchDelete(@RequestBody BatchIdsVo ids){
+		ResultVo vo = new ResultVo();
+		vo.setCode(Result.SUCESSFUL);
+		Subject subject = SecurityUtils.getSubject();
+		BAccount account = (BAccount) subject.getPrincipal();
+		tTripNoteScheduleService.deleteBatch(ids, account);
 		return vo;
 	}
 	

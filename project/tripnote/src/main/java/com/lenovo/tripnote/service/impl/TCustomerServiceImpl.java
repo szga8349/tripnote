@@ -106,7 +106,7 @@ public class TCustomerServiceImpl implements TCustomerService {
 	}
 
 	@Override
-	public List<Integer> batchDelete(BatchIdsVo ids, BAccount account) {
+	public List<Integer> deleteBatch(BatchIdsVo ids, BAccount account) {
 	    List<Integer> r = new ArrayList<Integer>();
 		for(Integer inter:ids.getIds()){
 			TCustomerExample example = new TCustomerExample();
@@ -119,7 +119,7 @@ public class TCustomerServiceImpl implements TCustomerService {
 	}
 
 	@Override
-	public List<Integer> batchAddToCatogry(BatchIdsVo ids, BAccount account,Integer catogryId) {
+	public List<Integer> addBatchToCatogry(BatchIdsVo ids, BAccount account,Integer catogryId) {
 		List<Integer> r = new ArrayList<Integer>();
 		for (Integer inter : ids.getIds()) {
 			TCustomer customer = new TCustomer();
