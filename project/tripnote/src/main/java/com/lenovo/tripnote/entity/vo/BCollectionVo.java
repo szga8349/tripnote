@@ -31,4 +31,16 @@ public class BCollectionVo{
      */
     private String apiUrl;
 
+    /**
+     * b_collection.type (类型)
+     * @ibatorgenerated 2018-04-10 16:48:42
+     */
+    private Integer type;
+
+    /**
+     * b_collection.cid (收藏的来源id)
+     * @ibatorgenerated 2018-04-10 16:48:42
+     */
+    private Integer cid;
+
 }
