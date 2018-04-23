@@ -85,11 +85,9 @@ public class TCustomerController {
 		ResultVo vo = new ResultVo();
 		BAccount account = (BAccount) subject.getPrincipal();
 		tripnoteScheduleVo.setId(Integer.valueOf(id));
-
-		List<TCustomer> result = tCustomerService.search(tripnoteScheduleVo, account, true);
-		if (result != null && !result.isEmpty()) {// 分组重复 直接返回true
+		if (tCustomerService.exsit(tripnoteScheduleVo, account, true)) {// 分组重复 直接返回true
 			vo.setCode(Result.FAUL);
-			vo.setMessage("分组已经存在");
+			vo.setMessage("客户已经存在");
 			return vo;
 		}
 		vo.setCode(Result.SUCESSFUL);

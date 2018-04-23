@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import com.lenovo.tripnote.dao.TCustomerMapper;
@@ -131,5 +132,26 @@ public class TCustomerServiceImpl implements TCustomerService {
 			r.add(this.tCustomerMapper.updateByExampleSelective(customer, example));
 		}
 		return r;
+	}
+
+	@Override
+	public boolean exsit(TCustomer search, BAccount account, boolean b) {
+		if(StringUtils.isEmpty(search.getName()) && StringUtils.isEmpty(search.getPhone1())){
+			return false;
+		}
+		TCustomerExample example = new TCustomerExample();
+		Criteria cri = example.createCriteria();
+		// 设置查询当前用户的客户组
+		cri.andCreateUserIdEqualTo(account.getId());
+		if (search.getName() != null ) {// 判断名称是否存在的情况下										// 只能使用相等进行查询
+			cri.andNameEqualTo(search.getName());
+		}
+		if (search.getPhone1() != null) {// 判断名称是否存在的情况下// 只能使用相等进行查询
+			cri.andPhone1EqualTo(search.getPhone1());
+		}
+		List<TCustomer> customers = tCustomerMapper.selectByExample(example);
+		if(customers!=null && customers.size()>0)
+			return true;
+		return false;
 	}
 }

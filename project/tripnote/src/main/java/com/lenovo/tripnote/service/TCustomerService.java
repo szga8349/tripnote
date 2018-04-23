@@ -13,4 +13,11 @@ public interface TCustomerService extends IDbService<TCustomer>{
 	  int deleteTripnoteRCustomer(Integer tripnoteId, Integer customerId);
 	  public List<Integer> deleteBatch(BatchIdsVo ids,BAccount account);
 	  public List<Integer> addBatchToCatogry(BatchIdsVo ids,BAccount account,Integer catogry);
+	  /**判断是否存在
+	 * @param search
+	 * @param account
+	 * @param b
+	 * @return
+	 */
+	public boolean exsit(TCustomer search, BAccount account, boolean b);
 }
