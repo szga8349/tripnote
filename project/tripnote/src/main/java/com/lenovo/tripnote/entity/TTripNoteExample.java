@@ -8,25 +8,25 @@ import java.util.List;
 public class TTripNoteExample {
     /**
      * 主键字段
-     * @ibatorgenerated 2018-01-10 10:00:14
+     * @ibatorgenerated 2018-04-24 14:53:48
      */
     protected String pk_name = "id";
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-01-10 10:00:14
+     * @ibatorgenerated 2018-04-24 14:53:48
      */
     protected String orderByClause;
 
     /**
      * 去重复
-     * @ibatorgenerated 2018-01-10 10:00:14
+     * @ibatorgenerated 2018-04-24 14:53:48
      */
     protected boolean distinct;
 
     /**
      * 条件集
-     * @ibatorgenerated 2018-01-10 10:00:14
+     * @ibatorgenerated 2018-04-24 14:53:48
      */
     protected List<Criteria> oredCriteria;
 
@@ -44,7 +44,7 @@ public class TTripNoteExample {
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-01-10 10:00:14
+     * @ibatorgenerated 2018-04-24 14:53:48
      */
     public void setOrderByClause(String orderByClause) {
         this.orderByClause = orderByClause;
@@ -56,7 +56,7 @@ public class TTripNoteExample {
 
     /**
      * 设置去重复
-     * @ibatorgenerated 2018-01-10 10:00:14
+     * @ibatorgenerated 2018-04-24 14:53:48
      */
     public void setDistinct(boolean distinct) {
         this.distinct = distinct;
@@ -82,7 +82,7 @@ public class TTripNoteExample {
 
     /**
      * 条件查询要先创建Criteria
-     * @ibatorgenerated 2018-01-10 10:00:14
+     * @ibatorgenerated 2018-04-24 14:53:48
      */
     public Criteria createCriteria() {
         Criteria criteria = createCriteriaInternal();
@@ -106,7 +106,7 @@ public class TTripNoteExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-01-10 10:00:14
+     * @ibatorgenerated 2018-04-24 14:53:48
      */
     protected abstract static class GeneratedCriteria {
         protected List<Criterion> criteria;
@@ -625,6 +625,66 @@ public class TTripNoteExample {
             return (Criteria) this;
         }
 
+        public Criteria andEndCityIdIsNull() {
+            addCriterion("end_city_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndCityIdIsNotNull() {
+            addCriterion("end_city_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndCityIdEqualTo(Integer value) {
+            addCriterion("end_city_id =", value, "endCityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndCityIdNotEqualTo(Integer value) {
+            addCriterion("end_city_id <>", value, "endCityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndCityIdGreaterThan(Integer value) {
+            addCriterion("end_city_id >", value, "endCityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndCityIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("end_city_id >=", value, "endCityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndCityIdLessThan(Integer value) {
+            addCriterion("end_city_id <", value, "endCityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndCityIdLessThanOrEqualTo(Integer value) {
+            addCriterion("end_city_id <=", value, "endCityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndCityIdIn(List<Integer> values) {
+            addCriterion("end_city_id in", values, "endCityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndCityIdNotIn(List<Integer> values) {
+            addCriterion("end_city_id not in", values, "endCityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndCityIdBetween(Integer value1, Integer value2) {
+            addCriterion("end_city_id between", value1, value2, "endCityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndCityIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("end_city_id not between", value1, value2, "endCityId");
+            return (Criteria) this;
+        }
+
         public Criteria andCreateTimeIsNull() {
             addCriterion("create_time is null");
             return (Criteria) this;
@@ -875,6 +935,66 @@ public class TTripNoteExample {
             return (Criteria) this;
         }
 
+        public Criteria andStartCityIdIsNull() {
+            addCriterion("start_city_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartCityIdIsNotNull() {
+            addCriterion("start_city_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartCityIdEqualTo(Integer value) {
+            addCriterion("start_city_id =", value, "startCityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartCityIdNotEqualTo(Integer value) {
+            addCriterion("start_city_id <>", value, "startCityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartCityIdGreaterThan(Integer value) {
+            addCriterion("start_city_id >", value, "startCityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartCityIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("start_city_id >=", value, "startCityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartCityIdLessThan(Integer value) {
+            addCriterion("start_city_id <", value, "startCityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartCityIdLessThanOrEqualTo(Integer value) {
+            addCriterion("start_city_id <=", value, "startCityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartCityIdIn(List<Integer> values) {
+            addCriterion("start_city_id in", values, "startCityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartCityIdNotIn(List<Integer> values) {
+            addCriterion("start_city_id not in", values, "startCityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartCityIdBetween(Integer value1, Integer value2) {
+            addCriterion("start_city_id between", value1, value2, "startCityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartCityIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("start_city_id not between", value1, value2, "startCityId");
+            return (Criteria) this;
+        }
+
         public Criteria andRemarksIsNull() {
             addCriterion("remarks is null");
             return (Criteria) this;
@@ -1004,11 +1124,201 @@ public class TTripNoteExample {
             addCriterion("`type` not between", value1, value2, "type");
             return (Criteria) this;
         }
+
+        public Criteria andPublishTimeIsNull() {
+            addCriterion("publish_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPublishTimeIsNotNull() {
+            addCriterion("publish_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPublishTimeEqualTo(Date value) {
+            addCriterion("publish_time =", value, "publishTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPublishTimeNotEqualTo(Date value) {
+            addCriterion("publish_time <>", value, "publishTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPublishTimeGreaterThan(Date value) {
+            addCriterion("publish_time >", value, "publishTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPublishTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("publish_time >=", value, "publishTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPublishTimeLessThan(Date value) {
+            addCriterion("publish_time <", value, "publishTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPublishTimeLessThanOrEqualTo(Date value) {
+            addCriterion("publish_time <=", value, "publishTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPublishTimeIn(List<Date> values) {
+            addCriterion("publish_time in", values, "publishTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPublishTimeNotIn(List<Date> values) {
+            addCriterion("publish_time not in", values, "publishTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPublishTimeBetween(Date value1, Date value2) {
+            addCriterion("publish_time between", value1, value2, "publishTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPublishTimeNotBetween(Date value1, Date value2) {
+            addCriterion("publish_time not between", value1, value2, "publishTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageurlIsNull() {
+            addCriterion("imageurl is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageurlIsNotNull() {
+            addCriterion("imageurl is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageurlEqualTo(String value) {
+            addCriterion("imageurl =", value, "imageurl");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageurlNotEqualTo(String value) {
+            addCriterion("imageurl <>", value, "imageurl");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageurlGreaterThan(String value) {
+            addCriterion("imageurl >", value, "imageurl");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageurlGreaterThanOrEqualTo(String value) {
+            addCriterion("imageurl >=", value, "imageurl");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageurlLessThan(String value) {
+            addCriterion("imageurl <", value, "imageurl");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageurlLessThanOrEqualTo(String value) {
+            addCriterion("imageurl <=", value, "imageurl");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageurlLike(String value) {
+            addCriterion("imageurl like", value, "imageurl");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageurlNotLike(String value) {
+            addCriterion("imageurl not like", value, "imageurl");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageurlIn(List<String> values) {
+            addCriterion("imageurl in", values, "imageurl");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageurlNotIn(List<String> values) {
+            addCriterion("imageurl not in", values, "imageurl");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageurlBetween(String value1, String value2) {
+            addCriterion("imageurl between", value1, value2, "imageurl");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageurlNotBetween(String value1, String value2) {
+            addCriterion("imageurl not between", value1, value2, "imageurl");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceIsNull() {
+            addCriterion("price is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceIsNotNull() {
+            addCriterion("price is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceEqualTo(Double value) {
+            addCriterion("price =", value, "price");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceNotEqualTo(Double value) {
+            addCriterion("price <>", value, "price");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceGreaterThan(Double value) {
+            addCriterion("price >", value, "price");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceGreaterThanOrEqualTo(Double value) {
+            addCriterion("price >=", value, "price");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceLessThan(Double value) {
+            addCriterion("price <", value, "price");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceLessThanOrEqualTo(Double value) {
+            addCriterion("price <=", value, "price");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceIn(List<Double> values) {
+            addCriterion("price in", values, "price");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceNotIn(List<Double> values) {
+            addCriterion("price not in", values, "price");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceBetween(Double value1, Double value2) {
+            addCriterion("price between", value1, value2, "price");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceNotBetween(Double value1, Double value2) {
+            addCriterion("price not between", value1, value2, "price");
+            return (Criteria) this;
+        }
     }
 
     /**
      * t_trip_note
-     * @ibatorgenerated do_not_delete_during_merge 2018-01-10 10:00:14
+     * @ibatorgenerated do_not_delete_during_merge 2018-04-24 14:53:48
      */
     public static class Criteria extends GeneratedCriteria {
 
@@ -1020,7 +1330,7 @@ public class TTripNoteExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-01-10 10:00:14
+     * @ibatorgenerated 2018-04-24 14:53:48
      */
     public static class Criterion {
         private String condition;

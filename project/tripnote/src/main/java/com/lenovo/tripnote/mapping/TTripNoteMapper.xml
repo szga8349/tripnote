@@ -19,6 +19,8 @@
     <result column="publish_time" property="publishTime" jdbcType="TIMESTAMP" />
     <result column="imageurl" property="imageurl" jdbcType="VARCHAR" />
     <result column="price" property="price" jdbcType="INTEGER" />
+    <result column="start_city_id" property="startCityId" jdbcType="INTEGER" />
+    <result column="end_city_id" property="endCityId" jdbcType="INTEGER" />
   </resultMap>
   
   
@@ -36,6 +38,9 @@
     <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
     <result column="imageurl" property="imageurl" jdbcType="VARCHAR" />
     <result column="price" property="price" jdbcType="INTEGER" />
+    <result column="start_city_id" property="startCityId" jdbcType="INTEGER" />
+    <result column="end_city_id" property="endCityId" jdbcType="INTEGER" />
+    
     <collection property="custems" javaType="java.util.List" ofType="com.lenovo.tripnote.entity.vo.TCustemVo">  
             <result column="customer_id" property="id" jdbcType="INTEGER" />
             <result column="phone1" property="phone" jdbcType="VARCHAR" />
@@ -289,7 +294,7 @@
   
   <sql id="Base_Column_List" >
     id, code, title, start_date, end_date, `days`, destination, create_time, create_user_id, 
-    `status`, start_city, remarks,introduction,type,publish_time,imageurl,price
+    `status`, start_city, remarks,introduction,type,publish_time,imageurl,price,end_city_id,start_city_id
   </sql>
   
   <sql id="Example_Where_Clause" >
@@ -360,7 +365,7 @@
     t.id,t.code, t.title,t.start_date, t.end_date, t.`days`, t.destination, 
     t.`status`, t.start_city, t.remarks,
     tc.name,tc.phone1,tc.id as customer_id,
-    t.introduction,t.imageurl,t.price,
+    t.introduction,t.imageurl,t.price,t.start_city_id,t.end_city_id,
     tts.id as schedule_id, tts.title as schedule_title,tts.indexdate,
     bc.id as city_id,bc.name_cn,bc.name_en,bc.lat,bc.lon,ttsrc.schedule_id as rcity_schedule_id,bc.country_id,ttsrc.id as rcity_id
     from (select 
@@ -473,7 +478,7 @@
    <select id="getDetailByKey" resultMap="DetailResultMap" parameterType="java.lang.Integer" >
     select
     t.id,t.code, t.title,t.start_date, t.end_date, t.`days`, t.destination, 
-    t.`status`, t.start_city, t.remarks,tc.name,tc.phone1,t.introduction,
+    t.`status`, t.start_city, t.remarks,tc.name,tc.phone1,t.introduction,t.start_city_id,t.end_city_id,
     tts.id as schedule_id, tts.title as schedule_title,tts.indexdate,tts.introduction as schedule_introduction,t.imageurl,t.price,
     bc.id as city_id,bc.name_cn,bc.name_en,bc.lat,bc.lon,ttsrc.schedule_id as rcity_schedule_id,bc.country_id,ttsrc.id as rcity_id
     from t_trip_note t 
@@ -700,6 +705,12 @@
       <if test="record.price != null" >
         price = #{record.price,jdbcType=INTEGER},
       </if>
+      <if test="record.endCityId != null" >
+        end_city_id = #{record.endCityId,jdbcType=INTEGER},
+      </if>
+       <if test="record.startCityId != null" >
+        start_city_id = #{record.startCityId,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -723,6 +734,8 @@
       type = #{record.type,jdbcType=INTEGER},
       publish_time = #{record.publishTime,jdbcType=TIMESTAMP},
       imageurl = #{record.imageurl,jdbcType=VARCHAR},
+      end_city_id = #{record.endCityId,jdbcType=INTEGER},
+      start_city_id = #{record.startCityId,jdbcType=INTEGER},
       price = #{record.price,jdbcType=INTEGER},
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -741,15 +754,21 @@
   <insert id="insert" parameterType="com.lenovo.tripnote.entity.TTripNote" useGeneratedKeys="true"  keyProperty="id">
     insert into t_trip_note (code, title, start_date, 
       end_date, `days`, destination, 
-      create_time, create_user_id, `status`, 
-      start_city, remarks, introduction,type,publish_time,imageurl,price)
+      end_city_id, create_time, create_user_id, 
+      `status`, start_city, start_city_id, 
+      remarks, `type`, publish_time, 
+      imageurl, price, introduction
+      )
     values (#{code,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{startDate,jdbcType=DATE}, 
       #{endDate,jdbcType=DATE}, #{days,jdbcType=INTEGER}, #{destination,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
-      #{startCity,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR},#{introduction,jdbcType=LONGVARCHAR},#{type,jdbcType=INTEGER},#{publishTime,jdbcType=TIMESTAMP},#{imageurl,jdbcType=VARCHAR},#{price,jdbcType=INTEGER})
+      #{endCityId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER}, #{startCity,jdbcType=VARCHAR}, #{startCityId,jdbcType=INTEGER}, 
+      #{remarks,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{publishTime,jdbcType=TIMESTAMP}, 
+      #{imageurl,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}, #{introduction,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.TTripNote" useGeneratedKeys="true" keyProperty="id">
-    insert into t_trip_note
+   insert into t_trip_note
     <trim prefix="(" suffix=")" suffixOverrides="," >
       code,
       title,
@@ -757,16 +776,18 @@
       end_date,
       `days`,
       destination,
+      end_city_id,
       create_time,
       create_user_id,
       `status`,
       start_city,
+      start_city_id,
       remarks,
-      introduction,
-      type,
+      `type`,
       publish_time,
       imageurl,
       price,
+      introduction,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       #{code,jdbcType=VARCHAR},
@@ -775,20 +796,22 @@
       #{endDate,jdbcType=DATE},
       #{days,jdbcType=INTEGER},
       #{destination,jdbcType=VARCHAR},
+      #{endCityId,jdbcType=INTEGER},
       #{createTime,jdbcType=TIMESTAMP},
       #{createUserId,jdbcType=INTEGER},
       #{status,jdbcType=INTEGER},
       #{startCity,jdbcType=VARCHAR},
+      #{startCityId,jdbcType=INTEGER},
       #{remarks,jdbcType=VARCHAR},
-      #{introduction,jdbcType=LONGVARCHAR},
       #{type,jdbcType=INTEGER},
       #{publishTime,jdbcType=TIMESTAMP},
       #{imageurl,jdbcType=VARCHAR},
-      #{price,jdbcType=INTEGER},
+      #{price,jdbcType=DOUBLE},
+      #{introduction,jdbcType=LONGVARCHAR},
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.lenovo.tripnote.entity.TTripNote" >
-    update t_trip_note
+   update t_trip_note
     <set >
       <if test="code != null" >
         code = #{code,jdbcType=VARCHAR},
@@ -808,6 +831,9 @@
       <if test="destination != null" >
         destination = #{destination,jdbcType=VARCHAR},
       </if>
+      <if test="endCityId != null" >
+        end_city_id = #{endCityId,jdbcType=INTEGER},
+      </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -820,23 +846,26 @@
       <if test="startCity != null" >
         start_city = #{startCity,jdbcType=VARCHAR},
       </if>
+      <if test="startCityId != null" >
+        start_city_id = #{startCityId,jdbcType=INTEGER},
+      </if>
       <if test="remarks != null" >
         remarks = #{remarks,jdbcType=VARCHAR},
       </if>
-       <if test="introduction != null" >
-        introduction = #{introduction,jdbcType=LONGVARCHAR},
-      </if>
-       <if test="type != null" >
-        type = #{type,jdbcType=INTEGER},
+      <if test="type != null" >
+        `type` = #{type,jdbcType=INTEGER},
       </if>
       <if test="publishTime != null" >
-         publish_time = #{publishTime,jdbcType=TIMESTAMP},
+        publish_time = #{publishTime,jdbcType=TIMESTAMP},
       </if>
-        <if test="imageurl != null" >
-         imageurl = #{imageurl,jdbcType=VARCHAR},
+      <if test="imageurl != null" >
+        imageurl = #{imageurl,jdbcType=VARCHAR},
       </if>
       <if test="price != null" >
-         price = #{price,jdbcType=INTEGER},
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="introduction != null" >
+        introduction = #{introduction,jdbcType=LONGVARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -849,16 +878,17 @@
       end_date = #{endDate,jdbcType=DATE},
       `days` = #{days,jdbcType=INTEGER},
       destination = #{destination,jdbcType=VARCHAR},
+      end_city_id = #{endCityId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user_id = #{createUserId,jdbcType=INTEGER},
       `status` = #{status,jdbcType=INTEGER},
       start_city = #{startCity,jdbcType=VARCHAR},
+      start_city_id = #{startCityId,jdbcType=INTEGER},
       remarks = #{remarks,jdbcType=VARCHAR},
-      introduction = #{introduction,jdbcType=LONGVARCHAR},
-      type = #{type,jdbcType=LONGVARCHAR},
+      `type` = #{type,jdbcType=INTEGER},
       publish_time = #{publishTime,jdbcType=TIMESTAMP},
       imageurl = #{imageurl,jdbcType=VARCHAR},
-      price = #{price,jdbcType=INTEGER}
+      price = #{price,jdbcType=DOUBLE}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
