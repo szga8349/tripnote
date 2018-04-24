@@ -6,9 +6,10 @@
     <result column="city_id" property="cityId" jdbcType="INTEGER" />
     <result column="schedule_id" property="scheduleId" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="position" property="position" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, city_id, schedule_id, create_time
+    id, city_id, schedule_id, create_time, `position`
   </sql>
   <sql id="Example_Where_Clause" >
     <where >
@@ -123,6 +124,9 @@
       <if test="record.createTime != null" >
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.position != null" >
+        `position` = #{record.position,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -133,7 +137,8 @@
     set id = #{record.id,jdbcType=INTEGER},
       city_id = #{record.cityId,jdbcType=INTEGER},
       schedule_id = #{record.scheduleId,jdbcType=INTEGER},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      `position` = #{record.position,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -149,10 +154,10 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleRCity" useGeneratedKeys="true" keyProperty="id" >
-    insert into t_tripnote_schedule_r_city (city_id, schedule_id, create_time
-      )
-    values (#{cityId,jdbcType=INTEGER}, #{scheduleId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
-      )
+    insert into t_tripnote_schedule_r_city (city_id, schedule_id, create_time, 
+      `position`)
+    values (#{cityId,jdbcType=INTEGER}, #{scheduleId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{position,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleRCity" useGeneratedKeys="true" keyProperty="id" >
     insert into t_tripnote_schedule_r_city
@@ -160,11 +165,13 @@
       city_id,
       schedule_id,
       create_time,
+      `position`,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       #{cityId,jdbcType=INTEGER},
       #{scheduleId,jdbcType=INTEGER},
       #{createTime,jdbcType=TIMESTAMP},
+      #{position,jdbcType=INTEGER},
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.lenovo.tripnote.entity.TTripnoteScheduleRCity" >
@@ -179,6 +186,9 @@
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="position != null" >
+        `position` = #{position,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -186,7 +196,8 @@
     update t_tripnote_schedule_r_city
     set city_id = #{cityId,jdbcType=INTEGER},
       schedule_id = #{scheduleId,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      `position` = #{position,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

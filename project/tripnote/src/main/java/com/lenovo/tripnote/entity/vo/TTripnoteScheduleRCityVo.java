@@ -58,5 +58,12 @@ public class TTripnoteScheduleRCityVo {
      * @ibatorgenerated 2018-01-10 13:59:25
      */
     private Double lon;
+    
+    
+    /**
+     * t_tripnote_schedule_r_city.position (位置:-1开始城市标识,0行程中城市,1达到城市标识)
+     * @ibatorgenerated 2018-04-24 15:26:08
+     */
+    private Integer position;
 
 }

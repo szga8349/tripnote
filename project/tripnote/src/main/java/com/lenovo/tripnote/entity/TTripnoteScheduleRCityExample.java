@@ -7,25 +7,25 @@ import java.util.List;
 public class TTripnoteScheduleRCityExample {
     /**
      * 主键字段
-     * @ibatorgenerated 2018-01-11 17:32:53
+     * @ibatorgenerated 2018-04-24 15:26:08
      */
     protected String pk_name = "id";
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-01-11 17:32:53
+     * @ibatorgenerated 2018-04-24 15:26:08
      */
     protected String orderByClause;
 
     /**
      * 去重复
-     * @ibatorgenerated 2018-01-11 17:32:53
+     * @ibatorgenerated 2018-04-24 15:26:08
      */
     protected boolean distinct;
 
     /**
      * 条件集
-     * @ibatorgenerated 2018-01-11 17:32:53
+     * @ibatorgenerated 2018-04-24 15:26:08
      */
     protected List<Criteria> oredCriteria;
 
@@ -43,7 +43,7 @@ public class TTripnoteScheduleRCityExample {
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-01-11 17:32:53
+     * @ibatorgenerated 2018-04-24 15:26:08
      */
     public void setOrderByClause(String orderByClause) {
         this.orderByClause = orderByClause;
@@ -55,7 +55,7 @@ public class TTripnoteScheduleRCityExample {
 
     /**
      * 设置去重复
-     * @ibatorgenerated 2018-01-11 17:32:53
+     * @ibatorgenerated 2018-04-24 15:26:08
      */
     public void setDistinct(boolean distinct) {
         this.distinct = distinct;
@@ -81,7 +81,7 @@ public class TTripnoteScheduleRCityExample {
 
     /**
      * 条件查询要先创建Criteria
-     * @ibatorgenerated 2018-01-11 17:32:53
+     * @ibatorgenerated 2018-04-24 15:26:08
      */
     public Criteria createCriteria() {
         Criteria criteria = createCriteriaInternal();
@@ -105,7 +105,7 @@ public class TTripnoteScheduleRCityExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-01-11 17:32:53
+     * @ibatorgenerated 2018-04-24 15:26:08
      */
     protected abstract static class GeneratedCriteria {
         protected List<Criterion> criteria;
@@ -387,11 +387,71 @@ public class TTripnoteScheduleRCityExample {
             addCriterion("create_time not between", value1, value2, "createTime");
             return (Criteria) this;
         }
+
+        public Criteria andPositionIsNull() {
+            addCriterion("`position` is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositionIsNotNull() {
+            addCriterion("`position` is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositionEqualTo(Integer value) {
+            addCriterion("`position` =", value, "position");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositionNotEqualTo(Integer value) {
+            addCriterion("`position` <>", value, "position");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositionGreaterThan(Integer value) {
+            addCriterion("`position` >", value, "position");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositionGreaterThanOrEqualTo(Integer value) {
+            addCriterion("`position` >=", value, "position");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositionLessThan(Integer value) {
+            addCriterion("`position` <", value, "position");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositionLessThanOrEqualTo(Integer value) {
+            addCriterion("`position` <=", value, "position");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositionIn(List<Integer> values) {
+            addCriterion("`position` in", values, "position");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositionNotIn(List<Integer> values) {
+            addCriterion("`position` not in", values, "position");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositionBetween(Integer value1, Integer value2) {
+            addCriterion("`position` between", value1, value2, "position");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositionNotBetween(Integer value1, Integer value2) {
+            addCriterion("`position` not between", value1, value2, "position");
+            return (Criteria) this;
+        }
     }
 
     /**
      * t_tripnote_schedule_r_city
-     * @ibatorgenerated do_not_delete_during_merge 2018-01-11 17:32:53
+     * @ibatorgenerated do_not_delete_during_merge 2018-04-24 15:26:08
      */
     public static class Criteria extends GeneratedCriteria {
 
@@ -403,7 +463,7 @@ public class TTripnoteScheduleRCityExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-01-11 17:32:53
+     * @ibatorgenerated 2018-04-24 15:26:08
      */
     public static class Criterion {
         private String condition;

@@ -61,6 +61,7 @@
                    <result column="name_en" property="nameEn" jdbcType="VARCHAR" />
                    <result column="lat" property="lat" jdbcType="DOUBLE" />
                    <result column="lon" property="lon" jdbcType="DOUBLE" />
+                   <result column="position" property="position" jdbcType="INTEGER" />
              </collection> 
      </collection> 
   </resultMap>
@@ -419,7 +420,7 @@
     tc.name,tc.phone1,tc.id as customer_id,
     t.introduction,t.imageurl,t.price,
     tts.id as schedule_id, tts.title as schedule_title,tts.indexdate,
-    bc.id as city_id,bc.name_cn,bc.name_en,bc.lat,bc.lon,ttsrc.schedule_id as rcity_schedule_id,bc.country_id,ttsrc.id as rcity_id
+    bc.id as city_id,bc.name_cn,bc.name_en,bc.lat,bc.lon,ttsrc.schedule_id as rcity_schedule_id,bc.country_id,ttsrc.id as rcity_id,ttsrc.position
     from (select 
      t.id, t.code, t.title, t.start_date, t.end_date, t.`days`, t.destination,
      t.`status`, t.start_city, t.remarks,t.introduction,t.type,t.publish_time,t.imageurl,t.price,t.create_time
@@ -480,14 +481,14 @@
     t.id,t.code, t.title,t.start_date, t.end_date, t.`days`, t.destination, 
     t.`status`, t.start_city, t.remarks,tc.name,tc.phone1,t.introduction,t.start_city_id,t.end_city_id,
     tts.id as schedule_id, tts.title as schedule_title,tts.indexdate,tts.introduction as schedule_introduction,t.imageurl,t.price,
-    bc.id as city_id,bc.name_cn,bc.name_en,bc.lat,bc.lon,ttsrc.schedule_id as rcity_schedule_id,bc.country_id,ttsrc.id as rcity_id
+    bc.id as city_id,bc.name_cn,bc.name_en,bc.lat,bc.lon,ttsrc.schedule_id as rcity_schedule_id,bc.country_id,ttsrc.id as rcity_id,ttsrc.position
     from t_trip_note t 
     left join t_tripnote_r_customer ts on t.id = ts.tripnote_id 
     left join t_customer tc on tc.id = ts.customer_id 
     left join t_tripnote_schedule tts on tts.tripnote_id = t.id 
     left join t_tripnote_schedule_r_city ttsrc on ttsrc.schedule_id = tts.id
     left join b_city bc on ttsrc.city_id = bc.id
-    where t.id = #{id,jdbcType=INTEGER} order by tts.indexdate asc,ttsrc.create_time asc
+    where t.id = #{id,jdbcType=INTEGER} order by tts.indexdate asc,ttsrc.position asc,ttsrc.create_time asc
   </select>
   <!-- pdf -->
    <select id="getPdfDetailByKey" resultMap="PdfDetailResultMap" parameterType="java.lang.Integer" >
@@ -578,7 +579,7 @@
     t.id,t.code, t.title,t.start_date, t.end_date, t.`days`, t.destination, 
     t.`status`, t.start_city, t.remarks,tc.name,tc.phone1,tc.id as customer_id,t.introduction,t.imageurl,t.price,
     tts.id as schedule_id, tts.title as schedule_title,tts.indexdate,
-    bc.id as city_id,bc.name_cn,bc.name_en,bc.lat,bc.lon,ttsrc.schedule_id as rcity_schedule_id,bc.country_id,ttsrc.id as rcity_id
+    bc.id as city_id,bc.name_cn,bc.name_en,bc.lat,bc.lon,ttsrc.schedule_id as rcity_schedule_id,bc.country_id,ttsrc.id as rcity_id,ttsrc.position
     from (select 
      <include refid="Base_Column_List" />
      from t_trip_note t where  type = #{record.type,jdbcType=INTEGER} and create_user_id = #{record.userId,jdbcType=INTEGER}
@@ -615,7 +616,7 @@
               order by t.create_time desc
           </when>
     </choose>
-    ,tts.indexdate asc,ttsrc.create_time asc,ttsrc.id asc
+    ,tts.indexdate asc,ttsrc.position asc,ttsrc.create_time asc,ttsrc.id asc
   </select>
   
   <delete id="deleteByExample" parameterType="com.lenovo.tripnote.entity.TTripNoteExample" >

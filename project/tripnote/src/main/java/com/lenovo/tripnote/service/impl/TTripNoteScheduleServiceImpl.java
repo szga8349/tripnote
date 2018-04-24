@@ -126,6 +126,10 @@ public class TTripNoteScheduleServiceImpl implements TTripNoteScheduleService {
 			if (custer.containsKey("cityId")) {//增加定制日程与城市间的关联关系
 				TTripnoteScheduleRCity record = new TTripnoteScheduleRCity();
 				record.setCityId(custer.getInt("cityId"));
+				if(custer.containsKey("position"))
+				    record.setPosition(custer.getInt("position"));
+				else
+				   record.setPosition(0);
 				record.setScheduleId(t1.getId());
 				tTripnoteScheduleRCityMapper.insert(record);
 			}
