@@ -1,5 +1,12 @@
 package com.lenovo.spider;
 
+import java.io.Closeable;
+import java.util.concurrent.ThreadLocalRandom;
+
+import org.apache.commons.collections.MapUtils;
+import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.WebDriver;
+
 import com.lenovo.exception.LocateException;
 import com.lenovo.spider.common.Constant;
 import com.lenovo.spider.selenium.EventType;
@@ -8,20 +15,13 @@ import com.lenovo.spider.util.LogUtil;
 import com.lenovo.spider.vo.AuthInfo;
 import com.lenovo.spider.vo.AuthLocator;
 import com.lenovo.spider.vo.IpInfo;
-import org.apache.commons.collections.MapUtils;
-import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.Cookie;
-import org.openqa.selenium.WebDriver;
+
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Request;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Task;
 import us.codecraft.webmagic.downloader.Downloader;
 import us.codecraft.webmagic.selector.PlainText;
-
-import java.io.Closeable;
-import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Selenium支持动态js渲染
@@ -67,12 +67,12 @@ public class SeleniumDownloader implements Downloader, Closeable {
 
         WebDriver.Options manage = webDriver.manage();
         Site site = task.getSite();
-        if (site.getCookies() != null) {
-            for (Map.Entry<String, String> cookieEntry : site.getCookies().entrySet()) {
-                Cookie cookie = new Cookie(cookieEntry.getKey(), cookieEntry.getValue());
-                manage.addCookie(cookie);
-            }
-        }
+//        if (site.getCookies() != null) {
+//            for (Map.Entry<String, String> cookieEntry : site.getCookies().entrySet()) {
+//                Cookie cookie = new Cookie(cookieEntry.getKey(), cookieEntry.getValue());
+//                manage.addCookie(cookie);
+//            }
+//        }
 
         logger.info("downloading page " + request.getUrl());
         webDriver.get(request.getUrl());
@@ -93,7 +93,7 @@ public class SeleniumDownloader implements Downloader, Closeable {
         Page page = new Page();
         page.setRawText(content);
         // 这里需要记录页面的真实地址
-        System.out.println(String.format("真实地址：%s", webDriver.getCurrentUrl()));
+        System.out.println(String.format("真实地址：%s,上一层连接地址:%s", webDriver.getCurrentUrl(),request.getExtra(Constant.parentKey)));
         page.setUrl(new PlainText(webDriver.getCurrentUrl()));
         page.setRequest(request);
         return page;

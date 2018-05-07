@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd  http://www.springframework.org/schema/aop  http://www.springframework.org/schema/aop/spring-aop-2.5.xsd  http://www.springframework.org/schema/tx  http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+   
+   	<!-- 加载配置文件 -->
+	<!-- 将多个配置文件读取到容器中，交给Spring管理 -->
+    <!-- - - - - - 扫描业务层包，支持织入DAO -  - - -  - -->
+    <context:component-scan base-package="com.lenovo.tripnote.service"/>
+    <!-- - - - - - - - Apache 连接池 - - - - - - - -->
+    <bean id="datasource" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="username" value="root"/>
+        <property name="password" value="root"/>
+        <property name="url" value="jdbc:mysql://10.109.4.6:3306/tripnote"/>
+    </bean>
+    <!-- - - - - - - - sessionFactory - - - - - - - -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="datasource"/>
+        <property name="configLocation" value="classpath:sqlMapConfig.xml"/>
+    </bean>
+    <!-- - - - - - - spring 声明式事务 - - - - - - - -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="datasource"/>
+    </bean>
+    <!-- - - - - - - spring 事务属性 - - - - - - - -->
+    <tx:advice id="transactionAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+             <tx:method name="add*" />
+        </tx:attributes>
+    </tx:advice>
+    <!--******    织入，请修改成实际的业务层包名  *********-->
+    <aop:config>
+        <aop:advisor advice-ref="transactionAdvice" pointcut="execution(* com.lenovo.tripnote.service.*.*(..))"/>
+    </aop:config>
+    <!-- - - - - - - DAO - - - - - - - -->
+    <bean id="bUserTripnoteMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+        <property name="mapperInterface" value="com.lenovo.tripnote.dao.BUserTripnoteMapper"/>
+    </bean>
+    <bean id="bHotelMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+        <property name="mapperInterface" value="com.lenovo.tripnote.dao.BHotelMapper"/>
+    </bean>
+    <bean id="bPoiMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+        <property name="mapperInterface" value="com.lenovo.tripnote.dao.BPoiMapper"/>
+    </bean>
+</beans>

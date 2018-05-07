@@ -20,6 +20,8 @@ import com.lenovo.spider.common.IPCount;
 import com.lenovo.spider.common.ThreadPool;
 import com.lenovo.spider.interfaces.ConfigInterface;
 import com.lenovo.spider.interfaces.HttpLogin;
+import com.lenovo.spider.pipeline.JdbcPipline;
+import com.lenovo.spider.scheduler.MaFengWoCacheQueueScheduler;
 import com.lenovo.spider.selenium.SeleniumUtil;
 import com.lenovo.spider.util.LogUtil;
 import com.lenovo.spider.vo.AuthInfo;
@@ -33,7 +35,6 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Filter;
 import cn.hutool.core.util.StrUtil;
 import us.codecraft.webmagic.Site;
-import us.codecraft.webmagic.pipeline.ConsolePipeline;
 import us.codecraft.webmagic.utils.UrlUtils;
 
 public class SpiderContextNew {
@@ -80,15 +81,15 @@ public class SpiderContextNew {
 
 	private static List<SiteInfo> getSiteInfos() {
 		List<SiteInfo> infos = new ArrayList<>();
-		SiteInfo siteInfo = new SiteInfo();
+		SiteInfo /*siteInfo = new SiteInfo();
 		siteInfo.setAuthType(1);
 		siteInfo.setDomainName("http://www.rruu.com/local/");
 		siteInfo.setCrawlerable(1);
 		siteInfo.setId(1l);
-		infos.add(siteInfo);
+		infos.add(siteInfo);*/
 		siteInfo = new SiteInfo();
 		siteInfo.setAuthType(1);
-		siteInfo.setDomainName("http://www.mafengwo.cn/hotel/");
+		siteInfo.setDomainName("http://www.mafengwo.cn/mdd/");
 		siteInfo.setCrawlerable(1);
 		siteInfo.setId(2l);
 		infos.add(siteInfo);
@@ -122,9 +123,8 @@ public class SpiderContextNew {
 					}
 					createSpider(site).forEach(spider -> {
 						spiders.add(spider);
-						spider.addPipeline(new CachePipline());
-						spider.addPipeline(new ConsolePipeline());
-						spider.setScheduler(new LenovoFileCacheQueueScheduler("pull"));
+						spider.addPipeline(new JdbcPipline());
+						spider.setScheduler(new MaFengWoCacheQueueScheduler("pull"));
 						spider.addUrl(site.getDomainName());
 						spider.start();
 					});
@@ -180,37 +180,104 @@ public class SpiderContextNew {
 			case 2:
 				//猫途鹰
 			  {
+				 //分析酒店详细信息
 				UrlInfo info = new UrlInfo();
 				// 页面是否分析
 				info.setId(4l);  //景点详情
 				info.setAnalyzePage(true);
-				info.setSavePage(true);
+				info.setSavePage(false);
 				//info.setNextPageType(false);
 				info.setHasNextPage(false);
-				info.setType(1);
+				info.setType(2);
+				info.setSort(1d);
 				info.setUrl("https?://www\\.mafengwo\\.cn/hotel/\\d+.html");
 				urls.add(info);
-				info = new UrlInfo();
 				
-				// 页面是否分析   城市列表解析
-				info.setId(5l);
+				 //分析POI详细信息
+				info = new UrlInfo();
+				// 页面是否分析
+				info.setId(5l);  //景点详情
 				info.setAnalyzePage(true);
-				info.setSavePage(true);
-				//info.setNextPageType(1);
+				info.setSavePage(false);
+				//info.setNextPageType(false);
 				info.setHasNextPage(false);
-				info.setType(1);
-				info.setUrl("https?://www\\.mafengwo\\.cn/hotel/$");
+				info.setSort(0d);
+				info.setType(2);
+				info.setUrl("https?://www\\.mafengwo\\.cn/poi/\\d+.html");
 				urls.add(info);
 				
 				info = new UrlInfo();
-				// 页面是否分析  每个城市节点列表解析
-				info.setId(5l);
-				info.setAnalyzePage(true);
-				info.setSavePage(true);
+				//取目的地下的酒店列表
+				info.setId(6l);
+				info.setAnalyzePage(false);
+				info.setSavePage(false);
 				info.setNextPageType(1);
-				info.setHasNextPage(true);
-				info.setType(1);
-				info.setUrl("https?://www\\.mafengwo\\.cn/hotel/\\d+/");
+				info.setHasNextPage(false);
+				info.setType(2);
+				info.setSort(3d);
+				info.setNextPageLocator("//div[@class='page-hotel']/a[@class='ti _j_pageitem prev']");
+				info.setUrl("https?://www\\.mafengwo\\.cn/hotel/\\d+/.*");
+				urls.add(info);
+				
+				//取目的地下的景点信息
+				info = new UrlInfo();
+				info.setId(7l);
+				info.setAnalyzePage(false);
+				info.setSavePage(false);
+				info.setNextPageType(1);
+				info.setHasNextPage(false);
+				info.setType(2);
+				info.setSort(2d);
+				info.setNextPageLocator("//div[@class='page-hotel']/a[@class='ti _j_pageitem prev']");
+				info.setUrl("https?://www\\.mafengwo\\.cn/jd/\\d+/gonglve.html");
+				urls.add(info);
+				//取目的地下的餐饮信息
+				info = new UrlInfo();
+				info.setId(8l);
+				info.setAnalyzePage(false);
+				info.setSavePage(false);
+				info.setNextPageType(1);
+				info.setHasNextPage(false);
+				info.setType(2);
+				info.setSort(2d);
+				info.setNextPageLocator("//div[@class='page-hotel']/a[@class='ti _j_pageitem prev']");
+				info.setUrl("https?://www\\.mafengwo\\.cn/cy/\\d+/gonglve.html");
+				urls.add(info);
+				//取目的地下的购物信息
+				info = new UrlInfo();
+				info.setId(9l);
+				info.setAnalyzePage(false);
+				info.setSavePage(false);
+				info.setNextPageType(1);
+				info.setHasNextPage(false);
+				info.setType(2);
+				info.setSort(2d);
+				info.setNextPageLocator("//div[@class='page-hotel']/a[@class='ti _j_pageitem prev']");
+				info.setUrl("https?://www\\.mafengwo\\.cn/yl/\\d+/gonglve.html");
+				urls.add(info);
+				//取目的地下的娱乐信息
+				info = new UrlInfo();
+				info.setId(10l);
+				info.setAnalyzePage(false);
+				info.setSavePage(false);
+				info.setNextPageType(1);
+				info.setHasNextPage(false);
+				info.setType(2);
+				info.setSort(2d);
+				info.setNextPageLocator("//div[@class='page-hotel']/a[@class='ti _j_pageitem prev']");
+				info.setUrl("https?://www\\.mafengwo\\.cn/gw/\\d+/gonglve.html");
+				urls.add(info);
+				
+				//按照目的地进行解析
+				info = new UrlInfo();
+				info.setId(11l);
+				info.setAnalyzePage(false);
+				info.setSavePage(false);
+				info.setNextPageType(1);
+				info.setHasNextPage(false);
+				info.setType(2);
+				info.setSort(4d);
+				info.setUrl("https?://www\\.mafengwo\\.cn/travel-scenic-spot/mafengwo/\\d+.html");
 				urls.add(info);
 			  }
 				break;
@@ -225,11 +292,21 @@ public class SpiderContextNew {
 	
 	private static List<IpInfo> getIpInfos(){
 		List<IpInfo> ipinfos = new ArrayList<>();
-		/*IpInfo ip = new IpInfo();
-		ip.setDeadline("2018-03-27 17:28:08");
-        ip.setIp("115.209.118.174");
-        ip.setPort("4328");
-		ipinfos.add(ip);*/
+		IpInfo ip = new IpInfo();
+		/*ip.setDeadline("2018-05-03 11:09:04");
+        ip.setIp("114.239.201.167");
+        ip.setPort("4317");
+		ipinfos.add(ip);
+		ip = new IpInfo();
+		ip.setDeadline("2018-05-03 11:43:02");
+        ip.setIp("1.70.119.0");
+        ip.setPort("4387");
+		ipinfos.add(ip);
+		IpInfo ip = new IpInfo();
+		ip.setDeadline("2018-05-03 12:49:11");
+        ip.setIp("115.223.212.175");
+        ip.setPort("9000");*/
+		ipinfos.add(ip);
 		return ipinfos;
 	}
 

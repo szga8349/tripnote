@@ -1,0 +1,587 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.lenovo.tripnote.dao.BHotelMapper" >
+  <resultMap id="BaseResultMap" type="com.lenovo.tripnote.entity.BHotel" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name_cn" property="nameCn" jdbcType="VARCHAR" />
+    <result column="name_en" property="nameEn" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="type_id" property="typeId" jdbcType="INTEGER" />
+    <result column="star_level" property="starLevel" jdbcType="INTEGER" />
+    <result column="brand" property="brand" jdbcType="VARCHAR" />
+    <result column="check_in_time" property="checkInTime" jdbcType="VARCHAR" />
+    <result column="check_ou_time" property="checkOuTime" jdbcType="VARCHAR" />
+    <result column="built_in" property="builtIn" jdbcType="VARCHAR" />
+    <result column="repair_time" property="repairTime" jdbcType="VARCHAR" />
+    <result column="floor_number" property="floorNumber" jdbcType="INTEGER" />
+    <result column="room_number" property="roomNumber" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="city_id" property="cityId" jdbcType="INTEGER" />
+    <result column="city_name" property="cityName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="lon" property="lon" jdbcType="DOUBLE" />
+    <result column="lat" property="lat" jdbcType="DOUBLE" />
+    <result column="traffic" property="traffic" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="imageurl" property="imageurl" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DOUBLE" />
+    <result column="supplier" property="supplier" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.lenovo.tripnote.entity.BHotelWithBLOBs" extends="BaseResultMap" >
+    <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
+    <result column="strategy" property="strategy" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name_cn, name_en, address, type_id, star_level, brand, check_in_time, check_ou_time, 
+    built_in, repair_time, floor_number, room_number, `status`, city_id, city_name, create_time, 
+    create_user_id, lon, lat, traffic, url, imageurl, phone, price, supplier, `type`
+  </sql>
+  <sql id="Blob_Column_List" >
+    introduction, strategy
+  </sql>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.lenovo.tripnote.entity.BHotelExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from b_hotel
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lenovo.tripnote.entity.BHotelExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from b_hotel
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleWithBLOBsAndPage" resultMap="ResultMapWithBLOBs" parameterType="com.lenovo.tripnote.entity.BHotelExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from b_hotel
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleAndPage" resultMap="BaseResultMap" parameterType="com.lenovo.tripnote.entity.BHotelExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from b_hotel
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.lenovo.tripnote.entity.BHotelExample" >
+    delete from b_hotel
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <select id="countByExample" parameterType="com.lenovo.tripnote.entity.BHotelExample" resultType="java.lang.Integer" >
+    select count(*) from b_hotel
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update b_hotel
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.nameCn != null" >
+        name_cn = #{record.nameCn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nameEn != null" >
+        name_en = #{record.nameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null" >
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.typeId != null" >
+        type_id = #{record.typeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.starLevel != null" >
+        star_level = #{record.starLevel,jdbcType=INTEGER},
+      </if>
+      <if test="record.brand != null" >
+        brand = #{record.brand,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkInTime != null" >
+        check_in_time = #{record.checkInTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkOuTime != null" >
+        check_ou_time = #{record.checkOuTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.builtIn != null" >
+        built_in = #{record.builtIn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.repairTime != null" >
+        repair_time = #{record.repairTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.floorNumber != null" >
+        floor_number = #{record.floorNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.roomNumber != null" >
+        room_number = #{record.roomNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null" >
+        `status` = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.cityId != null" >
+        city_id = #{record.cityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.cityName != null" >
+        city_name = #{record.cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUserId != null" >
+        create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.lon != null" >
+        lon = #{record.lon,jdbcType=DOUBLE},
+      </if>
+      <if test="record.lat != null" >
+        lat = #{record.lat,jdbcType=DOUBLE},
+      </if>
+      <if test="record.traffic != null" >
+        traffic = #{record.traffic,jdbcType=VARCHAR},
+      </if>
+      <if test="record.url != null" >
+        url = #{record.url,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imageurl != null" >
+        imageurl = #{record.imageurl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null" >
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.price != null" >
+        price = #{record.price,jdbcType=DOUBLE},
+      </if>
+      <if test="record.supplier != null" >
+        supplier = #{record.supplier,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        `type` = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.introduction != null" >
+        introduction = #{record.introduction,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.strategy != null" >
+        strategy = #{record.strategy,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update b_hotel
+    set id = #{record.id,jdbcType=INTEGER},
+      name_cn = #{record.nameCn,jdbcType=VARCHAR},
+      name_en = #{record.nameEn,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      type_id = #{record.typeId,jdbcType=INTEGER},
+      star_level = #{record.starLevel,jdbcType=INTEGER},
+      brand = #{record.brand,jdbcType=VARCHAR},
+      check_in_time = #{record.checkInTime,jdbcType=VARCHAR},
+      check_ou_time = #{record.checkOuTime,jdbcType=VARCHAR},
+      built_in = #{record.builtIn,jdbcType=VARCHAR},
+      repair_time = #{record.repairTime,jdbcType=VARCHAR},
+      floor_number = #{record.floorNumber,jdbcType=INTEGER},
+      room_number = #{record.roomNumber,jdbcType=INTEGER},
+      `status` = #{record.status,jdbcType=INTEGER},
+      city_id = #{record.cityId,jdbcType=INTEGER},
+      city_name = #{record.cityName,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      lon = #{record.lon,jdbcType=DOUBLE},
+      lat = #{record.lat,jdbcType=DOUBLE},
+      traffic = #{record.traffic,jdbcType=VARCHAR},
+      url = #{record.url,jdbcType=VARCHAR},
+      imageurl = #{record.imageurl,jdbcType=VARCHAR},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=DOUBLE},
+      supplier = #{record.supplier,jdbcType=VARCHAR},
+      `type` = #{record.type,jdbcType=INTEGER},
+      introduction = #{record.introduction,jdbcType=LONGVARCHAR},
+      strategy = #{record.strategy,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update b_hotel
+    set id = #{record.id,jdbcType=INTEGER},
+      name_cn = #{record.nameCn,jdbcType=VARCHAR},
+      name_en = #{record.nameEn,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      type_id = #{record.typeId,jdbcType=INTEGER},
+      star_level = #{record.starLevel,jdbcType=INTEGER},
+      brand = #{record.brand,jdbcType=VARCHAR},
+      check_in_time = #{record.checkInTime,jdbcType=VARCHAR},
+      check_ou_time = #{record.checkOuTime,jdbcType=VARCHAR},
+      built_in = #{record.builtIn,jdbcType=VARCHAR},
+      repair_time = #{record.repairTime,jdbcType=VARCHAR},
+      floor_number = #{record.floorNumber,jdbcType=INTEGER},
+      room_number = #{record.roomNumber,jdbcType=INTEGER},
+      `status` = #{record.status,jdbcType=INTEGER},
+      city_id = #{record.cityId,jdbcType=INTEGER},
+      city_name = #{record.cityName,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      lon = #{record.lon,jdbcType=DOUBLE},
+      lat = #{record.lat,jdbcType=DOUBLE},
+      traffic = #{record.traffic,jdbcType=VARCHAR},
+      url = #{record.url,jdbcType=VARCHAR},
+      imageurl = #{record.imageurl,jdbcType=VARCHAR},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=DOUBLE},
+      supplier = #{record.supplier,jdbcType=VARCHAR},
+      `type` = #{record.type,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from b_hotel
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from b_hotel
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lenovo.tripnote.entity.BHotelWithBLOBs" useGeneratedKeys="true" keyProperty="id" >
+    insert into b_hotel (name_cn, name_en, address, 
+      type_id, star_level, brand, 
+      check_in_time, check_ou_time, built_in, 
+      repair_time, floor_number, room_number, 
+      `status`, city_id, city_name, 
+      create_time, create_user_id, lon, 
+      lat, traffic, url, imageurl, 
+      phone, price, supplier, 
+      `type`, introduction, strategy
+      )
+    values (#{nameCn,jdbcType=VARCHAR}, #{nameEn,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{typeId,jdbcType=INTEGER}, #{starLevel,jdbcType=INTEGER}, #{brand,jdbcType=VARCHAR}, 
+      #{checkInTime,jdbcType=VARCHAR}, #{checkOuTime,jdbcType=VARCHAR}, #{builtIn,jdbcType=VARCHAR}, 
+      #{repairTime,jdbcType=VARCHAR}, #{floorNumber,jdbcType=INTEGER}, #{roomNumber,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER}, #{cityId,jdbcType=INTEGER}, #{cityName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, #{lon,jdbcType=DOUBLE}, 
+      #{lat,jdbcType=DOUBLE}, #{traffic,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{imageurl,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}, #{supplier,jdbcType=VARCHAR}, 
+      #{type,jdbcType=INTEGER}, #{introduction,jdbcType=LONGVARCHAR}, #{strategy,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.BHotelWithBLOBs" useGeneratedKeys="true" keyProperty="id" >
+    insert into b_hotel
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      name_cn,
+      name_en,
+      address,
+      type_id,
+      star_level,
+      brand,
+      check_in_time,
+      check_ou_time,
+      built_in,
+      repair_time,
+      floor_number,
+      room_number,
+      `status`,
+      city_id,
+      city_name,
+      create_time,
+      create_user_id,
+      lon,
+      lat,
+      traffic,
+      url,
+      imageurl,
+      phone,
+      price,
+      supplier,
+      `type`,
+      introduction,
+      strategy,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{nameCn,jdbcType=VARCHAR},
+      #{nameEn,jdbcType=VARCHAR},
+      #{address,jdbcType=VARCHAR},
+      #{typeId,jdbcType=INTEGER},
+      #{starLevel,jdbcType=INTEGER},
+      #{brand,jdbcType=VARCHAR},
+      #{checkInTime,jdbcType=VARCHAR},
+      #{checkOuTime,jdbcType=VARCHAR},
+      #{builtIn,jdbcType=VARCHAR},
+      #{repairTime,jdbcType=VARCHAR},
+      #{floorNumber,jdbcType=INTEGER},
+      #{roomNumber,jdbcType=INTEGER},
+      #{status,jdbcType=INTEGER},
+      #{cityId,jdbcType=INTEGER},
+      #{cityName,jdbcType=VARCHAR},
+      #{createTime,jdbcType=TIMESTAMP},
+      #{createUserId,jdbcType=INTEGER},
+      #{lon,jdbcType=DOUBLE},
+      #{lat,jdbcType=DOUBLE},
+      #{traffic,jdbcType=VARCHAR},
+      #{url,jdbcType=VARCHAR},
+      #{imageurl,jdbcType=VARCHAR},
+      #{phone,jdbcType=VARCHAR},
+      #{price,jdbcType=DOUBLE},
+      #{supplier,jdbcType=VARCHAR},
+      #{type,jdbcType=INTEGER},
+      #{introduction,jdbcType=LONGVARCHAR},
+      #{strategy,jdbcType=LONGVARCHAR},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lenovo.tripnote.entity.BHotelWithBLOBs" >
+    update b_hotel
+    <set >
+      <if test="nameCn != null" >
+        name_cn = #{nameCn,jdbcType=VARCHAR},
+      </if>
+      <if test="nameEn != null" >
+        name_en = #{nameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null" >
+        type_id = #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="starLevel != null" >
+        star_level = #{starLevel,jdbcType=INTEGER},
+      </if>
+      <if test="brand != null" >
+        brand = #{brand,jdbcType=VARCHAR},
+      </if>
+      <if test="checkInTime != null" >
+        check_in_time = #{checkInTime,jdbcType=VARCHAR},
+      </if>
+      <if test="checkOuTime != null" >
+        check_ou_time = #{checkOuTime,jdbcType=VARCHAR},
+      </if>
+      <if test="builtIn != null" >
+        built_in = #{builtIn,jdbcType=VARCHAR},
+      </if>
+      <if test="repairTime != null" >
+        repair_time = #{repairTime,jdbcType=VARCHAR},
+      </if>
+      <if test="floorNumber != null" >
+        floor_number = #{floorNumber,jdbcType=INTEGER},
+      </if>
+      <if test="roomNumber != null" >
+        room_number = #{roomNumber,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        `status` = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="cityId != null" >
+        city_id = #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="cityName != null" >
+        city_name = #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="lon != null" >
+        lon = #{lon,jdbcType=DOUBLE},
+      </if>
+      <if test="lat != null" >
+        lat = #{lat,jdbcType=DOUBLE},
+      </if>
+      <if test="traffic != null" >
+        traffic = #{traffic,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="imageurl != null" >
+        imageurl = #{imageurl,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="supplier != null" >
+        supplier = #{supplier,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        `type` = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="introduction != null" >
+        introduction = #{introduction,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="strategy != null" >
+        strategy = #{strategy,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lenovo.tripnote.entity.BHotelWithBLOBs" >
+    update b_hotel
+    set name_cn = #{nameCn,jdbcType=VARCHAR},
+      name_en = #{nameEn,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      type_id = #{typeId,jdbcType=INTEGER},
+      star_level = #{starLevel,jdbcType=INTEGER},
+      brand = #{brand,jdbcType=VARCHAR},
+      check_in_time = #{checkInTime,jdbcType=VARCHAR},
+      check_ou_time = #{checkOuTime,jdbcType=VARCHAR},
+      built_in = #{builtIn,jdbcType=VARCHAR},
+      repair_time = #{repairTime,jdbcType=VARCHAR},
+      floor_number = #{floorNumber,jdbcType=INTEGER},
+      room_number = #{roomNumber,jdbcType=INTEGER},
+      `status` = #{status,jdbcType=INTEGER},
+      city_id = #{cityId,jdbcType=INTEGER},
+      city_name = #{cityName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      lon = #{lon,jdbcType=DOUBLE},
+      lat = #{lat,jdbcType=DOUBLE},
+      traffic = #{traffic,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      imageurl = #{imageurl,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DOUBLE},
+      supplier = #{supplier,jdbcType=VARCHAR},
+      `type` = #{type,jdbcType=INTEGER},
+      introduction = #{introduction,jdbcType=LONGVARCHAR},
+      strategy = #{strategy,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lenovo.tripnote.entity.BHotel" >
+    update b_hotel
+    set name_cn = #{nameCn,jdbcType=VARCHAR},
+      name_en = #{nameEn,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      type_id = #{typeId,jdbcType=INTEGER},
+      star_level = #{starLevel,jdbcType=INTEGER},
+      brand = #{brand,jdbcType=VARCHAR},
+      check_in_time = #{checkInTime,jdbcType=VARCHAR},
+      check_ou_time = #{checkOuTime,jdbcType=VARCHAR},
+      built_in = #{builtIn,jdbcType=VARCHAR},
+      repair_time = #{repairTime,jdbcType=VARCHAR},
+      floor_number = #{floorNumber,jdbcType=INTEGER},
+      room_number = #{roomNumber,jdbcType=INTEGER},
+      `status` = #{status,jdbcType=INTEGER},
+      city_id = #{cityId,jdbcType=INTEGER},
+      city_name = #{cityName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      lon = #{lon,jdbcType=DOUBLE},
+      lat = #{lat,jdbcType=DOUBLE},
+      traffic = #{traffic,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      imageurl = #{imageurl,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DOUBLE},
+      supplier = #{supplier,jdbcType=VARCHAR},
+      `type` = #{type,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

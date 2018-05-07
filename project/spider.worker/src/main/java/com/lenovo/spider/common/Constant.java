@@ -10,6 +10,9 @@ public class Constant {
     public static final String originPageKey = "originPageKey";
     /**解析网页*/
     public static final String analyzePageKey = "analyzePageKey";
+    
+    /**当前网页的上一层网页地址*/
+    public static final String parentKey = "parentKeyUrl";
     /**网页url*/
     public static final String urlKey = "urlKey";
     public static final String site = "site";

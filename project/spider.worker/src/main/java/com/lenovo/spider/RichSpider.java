@@ -76,7 +76,7 @@ public class RichSpider extends Spider {
         this.ip = ip;
         this.urls = urls;
         this.exceptionHandles = exceptionHandles;
-        SpiderContext.addSpider(this);
+        SpiderContextNew.addSpider(this);
     }
 
     @Override
@@ -124,7 +124,7 @@ public class RichSpider extends Spider {
                 //方便处理完再到redis拿链接，避免拿链接的速度太快，处理跟不上导致线程池堆积
                 try {
                     pageCount.incrementAndGet();
-                    SpiderContext.increTotalCount(getSite().getDomain());
+                    SpiderContextNew.increTotalCount(getSite().getDomain());
                     processRequest(request);
                     onSuccess(request);
                 } catch (Exception e) {
@@ -218,7 +218,7 @@ public class RichSpider extends Spider {
                     }
                     pageExceptionLogger.info("url:{}, spider:{}", request.getUrl(), toString());
                     ConfigInterface.setIpSleeping(ip, 12);
-                    SpiderContext.increFailCount(getSite().getDomain());
+                    SpiderContextNew.increFailCount(getSite().getDomain());
                     stop();
                     return;
                 }
@@ -246,7 +246,7 @@ public class RichSpider extends Spider {
             //如果页面状态码不对，则保存当前url并关闭爬虫
             forceAddReqeust(request);
             failCount++;
-            SpiderContext.increFailCount(getSite().getDomain());
+            SpiderContextNew.increFailCount(getSite().getDomain());
         }
         sleep(site.getSleepTime());
         return;
@@ -260,7 +260,7 @@ public class RichSpider extends Spider {
         logger.warn("downloader fail,url:{},{}", request.getUrl(), ip.toString());
         forceAddReqeust(request);
         failCount++;
-        SpiderContext.increFailCount(getSite().getDomain());
+        SpiderContextNew.increFailCount(getSite().getDomain());
     }
 
     @Override
@@ -269,7 +269,7 @@ public class RichSpider extends Spider {
         //保存当前url并关闭爬虫
         forceAddReqeust(request);
         failCount++;
-        SpiderContext.increFailCount(getSite().getDomain());
+        SpiderContextNew.increFailCount(getSite().getDomain());
         sleep(site.getSleepTime());
     }
 
@@ -296,7 +296,7 @@ public class RichSpider extends Spider {
         if (seleniumDownloader != null) {
             seleniumDownloader.close(); //关闭浏览器内核
         }
-        SpiderContext.removeSpider(this);
+        SpiderContextNew.removeSpider(this);
         super.stop();
     }
 

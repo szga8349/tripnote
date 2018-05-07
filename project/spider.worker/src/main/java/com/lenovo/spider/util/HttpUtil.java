@@ -1,14 +1,20 @@
 package com.lenovo.spider.util;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.UUID;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.http.Consts;
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
@@ -26,11 +32,14 @@ import org.apache.logging.log4j.Logger;
 
 import com.alibaba.fastjson.JSONObject;
 
+import lombok.extern.log4j.Log4j;
+
 /**
  * http 请求工具类
  * @author WangYinPing(王崟平)
  *
  */
+@Log4j
 public class HttpUtil {
     public static CloseableHttpClient httpClient;
     private static Logger logger = LogUtil.getLogger("time");
@@ -238,5 +247,32 @@ public class HttpUtil {
         jsonObj.put("code", code);
         jsonObj.put("tip", tip);
         return jsonObj;
+    }
+    public static String downLoadImage(String url,String imageOutPath,String httpUrl) throws ClientProtocolException, IOException{
+    	if(StringUtils.isEmpty(url))
+    		return null;
+    	HttpGet get = new HttpGet(url);
+    	HttpResponse response = httpClient.execute(get);
+    	if (response.getStatusLine().getStatusCode() == 200) {
+			// 得到实体
+			Header[] contentType = response.getHeaders("Content-Type");
+			HttpEntity entity = response.getEntity();
+			byte[] data = EntityUtils.toByteArray(entity);
+			Header content = contentType[0];
+			File imageFile = new File(imageOutPath,UUID.randomUUID().toString()+"."+content.getValue().split("/")[1]);
+			if(!imageFile.exists()){
+				if(!imageFile.getParentFile().exists())
+					imageFile.getParentFile().mkdirs();
+				imageFile.createNewFile();
+			}
+			// 图片存入磁盘
+			FileOutputStream fos = new FileOutputStream(imageFile);
+			fos.write(data);
+			fos.close();
+			log.debug(url+"[图片下载成功]");
+			httpUrl = httpUrl.endsWith("/")?httpUrl:httpUrl+"/";
+            return httpUrl+imageFile.getName();
+		}
+    	return null;
     }
 }

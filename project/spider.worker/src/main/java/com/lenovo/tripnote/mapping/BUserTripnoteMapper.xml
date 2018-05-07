@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.lenovo.tripnote.dao.BUserTripnoteMapper" >
+  <resultMap id="BaseResultMap" type="com.lenovo.tripnote.entity.BUserTripnote" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="image_url" property="imageUrl" jdbcType="VARCHAR" />
+    <result column="create_userid" property="createUserid" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="relation_city_id" property="relationCityId" jdbcType="INTEGER" />
+    <result column="relation_city_name" property="relationCityName" jdbcType="VARCHAR" />
+    <result column="relation_poi_id" property="relationPoiId" jdbcType="INTEGER" />
+    <result column="ralation_poi_name" property="ralationPoiName" jdbcType="VARCHAR" />
+    <result column="label" property="label" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.lenovo.tripnote.entity.BUserTripnote" extends="BaseResultMap" >
+    <result column="context" property="context" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, title, `status`, image_url, create_userid, create_time, `type`, relation_city_id, 
+    relation_city_name, relation_poi_id, ralation_poi_name, `label`
+  </sql>
+  <sql id="Blob_Column_List" >
+    context
+  </sql>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.lenovo.tripnote.entity.BUserTripnoteExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from b_user_tripnote
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lenovo.tripnote.entity.BUserTripnoteExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from b_user_tripnote
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleWithBLOBsAndPage" resultMap="ResultMapWithBLOBs" parameterType="com.lenovo.tripnote.entity.BUserTripnoteExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from b_user_tripnote
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleAndPage" resultMap="BaseResultMap" parameterType="com.lenovo.tripnote.entity.BUserTripnoteExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from b_user_tripnote
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.lenovo.tripnote.entity.BUserTripnoteExample" >
+    delete from b_user_tripnote
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <select id="countByExample" parameterType="com.lenovo.tripnote.entity.BUserTripnoteExample" resultType="java.lang.Integer" >
+    select count(*) from b_user_tripnote
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update b_user_tripnote
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.title != null" >
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        `status` = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.imageUrl != null" >
+        image_url = #{record.imageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUserid != null" >
+        create_userid = #{record.createUserid,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.type != null" >
+        `type` = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.relationCityId != null" >
+        relation_city_id = #{record.relationCityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.relationCityName != null" >
+        relation_city_name = #{record.relationCityName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.relationPoiId != null" >
+        relation_poi_id = #{record.relationPoiId,jdbcType=INTEGER},
+      </if>
+      <if test="record.ralationPoiName != null" >
+        ralation_poi_name = #{record.ralationPoiName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.label != null" >
+        `label` = #{record.label,jdbcType=VARCHAR},
+      </if>
+      <if test="record.context != null" >
+        context = #{record.context,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update b_user_tripnote
+    set id = #{record.id,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      `status` = #{record.status,jdbcType=INTEGER},
+      image_url = #{record.imageUrl,jdbcType=VARCHAR},
+      create_userid = #{record.createUserid,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      `type` = #{record.type,jdbcType=INTEGER},
+      relation_city_id = #{record.relationCityId,jdbcType=INTEGER},
+      relation_city_name = #{record.relationCityName,jdbcType=VARCHAR},
+      relation_poi_id = #{record.relationPoiId,jdbcType=INTEGER},
+      ralation_poi_name = #{record.ralationPoiName,jdbcType=VARCHAR},
+      `label` = #{record.label,jdbcType=VARCHAR},
+      context = #{record.context,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update b_user_tripnote
+    set id = #{record.id,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      `status` = #{record.status,jdbcType=INTEGER},
+      image_url = #{record.imageUrl,jdbcType=VARCHAR},
+      create_userid = #{record.createUserid,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      `type` = #{record.type,jdbcType=INTEGER},
+      relation_city_id = #{record.relationCityId,jdbcType=INTEGER},
+      relation_city_name = #{record.relationCityName,jdbcType=VARCHAR},
+      relation_poi_id = #{record.relationPoiId,jdbcType=INTEGER},
+      ralation_poi_name = #{record.ralationPoiName,jdbcType=VARCHAR},
+      `label` = #{record.label,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from b_user_tripnote
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from b_user_tripnote
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lenovo.tripnote.entity.BUserTripnote" useGeneratedKeys="true" keyProperty="id" >
+    insert into b_user_tripnote (title, `status`, image_url, 
+      create_userid, create_time, `type`, 
+      relation_city_id, relation_city_name, relation_poi_id, 
+      ralation_poi_name, `label`, context
+      )
+    values (#{title,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{imageUrl,jdbcType=VARCHAR}, 
+      #{createUserid,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{type,jdbcType=INTEGER}, 
+      #{relationCityId,jdbcType=INTEGER}, #{relationCityName,jdbcType=VARCHAR}, #{relationPoiId,jdbcType=INTEGER}, 
+      #{ralationPoiName,jdbcType=VARCHAR}, #{label,jdbcType=VARCHAR}, #{context,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lenovo.tripnote.entity.BUserTripnote" useGeneratedKeys="true" keyProperty="id" >
+    insert into b_user_tripnote
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      title,
+      `status`,
+      image_url,
+      create_userid,
+      create_time,
+      `type`,
+      relation_city_id,
+      relation_city_name,
+      relation_poi_id,
+      ralation_poi_name,
+      `label`,
+      context,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{title,jdbcType=VARCHAR},
+      #{status,jdbcType=INTEGER},
+      #{imageUrl,jdbcType=VARCHAR},
+      #{createUserid,jdbcType=INTEGER},
+      #{createTime,jdbcType=TIMESTAMP},
+      #{type,jdbcType=INTEGER},
+      #{relationCityId,jdbcType=INTEGER},
+      #{relationCityName,jdbcType=VARCHAR},
+      #{relationPoiId,jdbcType=INTEGER},
+      #{ralationPoiName,jdbcType=VARCHAR},
+      #{label,jdbcType=VARCHAR},
+      #{context,jdbcType=LONGVARCHAR},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lenovo.tripnote.entity.BUserTripnote" >
+    update b_user_tripnote
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        `status` = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="imageUrl != null" >
+        image_url = #{imageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserid != null" >
+        create_userid = #{createUserid,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        `type` = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="relationCityId != null" >
+        relation_city_id = #{relationCityId,jdbcType=INTEGER},
+      </if>
+      <if test="relationCityName != null" >
+        relation_city_name = #{relationCityName,jdbcType=VARCHAR},
+      </if>
+      <if test="relationPoiId != null" >
+        relation_poi_id = #{relationPoiId,jdbcType=INTEGER},
+      </if>
+      <if test="ralationPoiName != null" >
+        ralation_poi_name = #{ralationPoiName,jdbcType=VARCHAR},
+      </if>
+      <if test="label != null" >
+        `label` = #{label,jdbcType=VARCHAR},
+      </if>
+      <if test="context != null" >
+        context = #{context,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lenovo.tripnote.entity.BUserTripnote" >
+    update b_user_tripnote
+    set title = #{title,jdbcType=VARCHAR},
+      `status` = #{status,jdbcType=INTEGER},
+      image_url = #{imageUrl,jdbcType=VARCHAR},
+      create_userid = #{createUserid,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      `type` = #{type,jdbcType=INTEGER},
+      relation_city_id = #{relationCityId,jdbcType=INTEGER},
+      relation_city_name = #{relationCityName,jdbcType=VARCHAR},
+      relation_poi_id = #{relationPoiId,jdbcType=INTEGER},
+      ralation_poi_name = #{ralationPoiName,jdbcType=VARCHAR},
+      `label` = #{label,jdbcType=VARCHAR},
+      context = #{context,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lenovo.tripnote.entity.BUserTripnote" >
+    update b_user_tripnote
+    set title = #{title,jdbcType=VARCHAR},
+      `status` = #{status,jdbcType=INTEGER},
+      image_url = #{imageUrl,jdbcType=VARCHAR},
+      create_userid = #{createUserid,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      `type` = #{type,jdbcType=INTEGER},
+      relation_city_id = #{relationCityId,jdbcType=INTEGER},
+      relation_city_name = #{relationCityName,jdbcType=VARCHAR},
+      relation_poi_id = #{relationPoiId,jdbcType=INTEGER},
+      ralation_poi_name = #{ralationPoiName,jdbcType=VARCHAR},
+      `label` = #{label,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

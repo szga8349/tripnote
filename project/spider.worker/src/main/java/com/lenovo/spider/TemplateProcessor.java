@@ -19,8 +19,15 @@ import org.apache.logging.log4j.Logger;
 import com.alibaba.fastjson.JSONObject;
 import com.lenovo.exception.NetException;
 import com.lenovo.spider.common.Constant;
+import com.lenovo.spider.model.MaFengWoHotelModel;
+import com.lenovo.spider.model.MaFengWoPoiCyModel;
+import com.lenovo.spider.model.MaFengWoPoiGwModel;
+import com.lenovo.spider.model.MaFengWoPoiJdModel;
+import com.lenovo.spider.model.MaFengWoPoiYlModel;
 import com.lenovo.spider.selenium.EventType;
 import com.lenovo.spider.util.LogUtil;
+import com.lenovo.spider.util.ModelUtils;
+import com.lenovo.spider.util.UrlType;
 import com.lenovo.spider.vo.IpInfo;
 import com.lenovo.spider.vo.SiteInfo;
 import com.lenovo.spider.vo.UrlInfo;
@@ -59,11 +66,11 @@ public class TemplateProcessor implements PageProcessor {
         this.urlRegexs = urlRegexs;
         for (UrlInfo url : urlRegexs) {
             if (url.getAnalyzePage()) {
-                templates.put(url.getId(), getUrlTemplate(url.getId()));
+                templates = getUrlTemplate();
             }
         }
     }
-    private List<UrlTemplate> getUrlTemplate(Long id){
+    private Map<Long,List<UrlTemplate>> getUrlTemplate(){
     	Map<Long,List<UrlTemplate>> template = new HashMap<>();
     	{   //任游详情解析模板
     		List<UrlTemplate> l = new ArrayList<UrlTemplate>();
@@ -85,27 +92,32 @@ public class TemplateProcessor implements PageProcessor {
     		template.put(3l, l);
     		
     	}
-    	{   //猫途鹰详情解析模板
-    		List<UrlTemplate> l = new ArrayList<UrlTemplate>();
-    		UrlTemplate urlT = new UrlTemplate();
-    		urlT.setType(1);
-    		urlT.setLocator("//div[@class='product-head']/h1/text()");
-    		urlT.setName("title");
-    		l.add(urlT);
-    		urlT = new UrlTemplate();
-    		urlT.setType(1);
-    		urlT.setLocator("//div[@class='product-head']/p[@class='en']/text()");
-    		urlT.setName("entitle");
-    		l.add(urlT);
-    		urlT = new UrlTemplate();
-    		urlT.setType(1);
-    		urlT.setLocator("//div[@class='p-attr']/span[contains(text(), '城市')]/i/text()");
-    		urlT.setName("city");
-    		l.add(urlT);
-    		template.put(4l, l);
+    	{   //马蜂窝酒店详情解析模板
+    		template.put(4l, ModelUtils.getUrlTemPlate(MaFengWoHotelModel.class));
     		
     	}
-    	return template.get(id);
+    	
+    	{   
+    		//马蜂窝POI餐饮详情解析模板
+    		template.put(6l, ModelUtils.getUrlTemPlate(MaFengWoPoiCyModel.class));
+    		
+    	}
+    	{   
+    		//马蜂窝POI景点详情解析模板
+    		template.put(7l, ModelUtils.getUrlTemPlate(MaFengWoPoiJdModel.class));
+    		
+    	}
+    	{   
+    		//马蜂窝POI购物详情解析模板
+    		template.put(8l, ModelUtils.getUrlTemPlate(MaFengWoPoiGwModel.class));
+    		
+    	}
+    	{   
+    		//马蜂窝POI娱乐详情解析模板
+    		template.put(9l, ModelUtils.getUrlTemPlate(MaFengWoPoiYlModel.class));
+    		
+    	}
+    	return template;
     }
 
     public void setSpider(RichSpider spider) {
@@ -128,7 +140,7 @@ public class TemplateProcessor implements PageProcessor {
 
         //默认不处理
         page.setSkip(true);
-
+        
         page.putField(Constant.site, getDomainSubject(site.getDomain()) + "_" + getSiteId());
         page.putField(Constant.urlKey, page.getUrl().toString());
         for (UrlInfo url : urlRegexs) {
@@ -140,9 +152,13 @@ public class TemplateProcessor implements PageProcessor {
                 }
                 if (url.getAnalyzePage()) {
                     // 解析网页
-                	System.out.println(page.getHtml());
-                    JSONObject data = ItemExtractor.extract(page.getHtml(), templates.get(url.getId()), new JSONObject());
+                	String parent = (String)page.getRequest().getExtra(Constant.parentKey);
+                	int poiType = UrlType.getPoiType(parent);
+                    JSONObject data = ItemExtractor.extract(page.getHtml(), templates.get(url.getId()+poiType), new JSONObject());
                     if (MapUtils.isNotEmpty(data)) {
+                    	if(parent!=null){
+                    		 page.putField(Constant.parentKey, parent);
+                    	}
                         page.putField(Constant.analyzePageKey, data);
                         page.setSkip(false);
                     }
@@ -153,7 +169,7 @@ public class TemplateProcessor implements PageProcessor {
                 }
             }
         }
-
+       //System.out.println(page.getHtml());
         Selectable allLinks = ItemExtractor.extractLinks(page.getHtml());
         // 部分三：从页面发现后续的url地址来抓取
         for (UrlInfo u : urlRegexs) {
@@ -162,7 +178,13 @@ public class TemplateProcessor implements PageProcessor {
             // 根据是否有ｈｔｔｐ：／／开头修正
 //            nextUrl = checkAndFixUrls(page.getRequest().getUrl().replaceAll(u.getUrl(), ""), nextUrl);
             nextUrl.forEach(urlLog::info);
-            page.addTargetRequests(nextUrl, Optional.ofNullable(u.getSort()).map(Double::longValue).orElse((long) Integer.MAX_VALUE));
+       
+            nextUrl.forEach(url->{
+            	Map<String,Object> extras = new HashMap<>();
+            	extras.put(Constant.parentKey, page.getUrl().toString());
+            	page.addTargetRequest(new Request(url).setExtras(extras).setPriority(Optional.ofNullable(u.getSort()).map(Double::longValue).orElse((long) Integer.MAX_VALUE)));
+            });
+           // page.addTargetRequests(nextUrl, Optional.ofNullable(u.getSort()).map(Double::longValue).orElse((long) Integer.MAX_VALUE));
         }
     }
 
