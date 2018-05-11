@@ -80,6 +80,7 @@
     <result column="trip_instrodution" property="introduction" jdbcType="LONGVARCHAR" />
     <result column="trip_imageurl" property="imageurl" jdbcType="VARCHAR" />
     <result column="trip_price" property="price" jdbcType="INTEGER" />
+    <result column="trip_createUserId" property="createUserId" jdbcType="INTEGER" />
     <collection property="custems" javaType="java.util.List" ofType="com.lenovo.tripnote.entity.vo.TCustemVo">  
             <result column="customer_id" property="id" jdbcType="INTEGER" />
             <result column="phone1" property="phone" jdbcType="VARCHAR" />
@@ -154,14 +155,14 @@
             <result column="end_lat" property="endLat" jdbcType="DOUBLE" />
             <result column="time_consume" property="timeConsume" jdbcType="VARCHAR" />
 		</collection>
-		<collection property="usertripnotes" javaType="java.util.List"
+		<!-- <collection property="usertripnotes" javaType="java.util.List"
 			ofType="com.lenovo.tripnote.entity.vo.BUserTripnoteResultVo">
 			<result column="busertrip_id" property="id" jdbcType="INTEGER" />
 			<result column="busertrip_title" property="title" jdbcType="VARCHAR" />
 			<result column="cover" property="cover" jdbcType="VARCHAR" />
 			<result column="busertrip_context" property="context"
 				jdbcType="LONGVARCHAR" />
-		</collection>
+		</collection> -->
 		<collection property="citys" javaType="java.util.List"
 			ofType="com.lenovo.tripnote.entity.vo.TTripnoteScheduleRCityVo">
 			<result column="rcity_id" property="id" jdbcType="INTEGER" />
@@ -493,7 +494,7 @@
   <!-- pdf -->
    <select id="getPdfDetailByKey" resultMap="PdfDetailResultMap" parameterType="java.lang.Integer" >
         select
-        ttn.id,ttn.code, ttn.title,ttn.start_date, ttn.end_date, ttn.`days`, ttn.destination,
+        ttn.id,ttn.code, ttn.title,ttn.start_date, ttn.end_date, ttn.`days`, ttn.destination,ttn.create_user_id as trip_createUserId,
         ttn.`status`, ttn.start_city, ttn.remarks,ttn.introduction as trip_instrodution,ttn.imageurl as trip_imageurl,ttn.price as trip_price,
 		t.id as trip_schedule_id, t.tripnote_id, t.title, t.indexdate,t.introduction,
 		ttst.id as scheduletrip_id,ttst.schedule_id as scheduletrip_schedule_id,
@@ -510,8 +511,7 @@
 		ttstc.arrival_time,ttstc.start_time,ttstc.shift,ttstc.traffic_guide,
 		ttsh.id as hotel_id,ttsh.name_cn as hotel_name_cn,ttsh.name_en as hotel_name_en,ttsh.check_in_time,ttsh.check_ou_time,ttsh.check_in_type,ttsh.city_name as hotel_city_name,
 		ttsh.type as hotel_type,ttsh.price as hotel_price,ttsh.lon as hotel_lon,ttsh.lat as hotel_lat,ttsh.imageurl as hotel_imageurl,ttsh.introduction as hotel_introduction,ttsh.hotel_id as source_hotel_id,
-		but.id as busertrip_id,but.title as
-		busertrip_title,but.cover,but.context as busertrip_context,
+		<!-- but.id as busertrip_id,but.title as busertrip_title,but.cover,but.context as busertrip_context, -->
 		bc.id as city_id,bc.name_cn,bc.name_en,bc.lat,bc.lon,ttsrc.schedule_id as
 		schedule_id,bc.country_id,ttsrc.id as rcity_id,
 		bt.type as traffictype,bt.start_name,bt.end_name,bt.start_time as traffic_start_time,bt.end_time,
@@ -527,7 +527,7 @@
 		left join t_tripnote_schedule_traffic ttstc on ttstc.schedule_id = t.id
 		left join t_tripnote_schedule_r_usenote ttsru on ttsru.tripnote_schedule_id=t.id
 		left join t_tripnote_schedule_hotel ttsh on ttsh.schedule_id=t.id
-		left join b_user_tripnote but on but.id = ttsru.user_tripnote_id
+		<!-- left join b_user_tripnote but on but.id = ttsru.user_tripnote_id -->
 		left join t_tripnote_schedule_r_city ttsrc on ttsrc.schedule_id = t.id
 		left join b_city bc on ttsrc.city_id = bc.id
 		where ttn.id = #{id,jdbcType=INTEGER} order by t.indexdate asc,ttst.sort asc, ttsrc.create_time asc,ttsrc.id
