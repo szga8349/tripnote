@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lenovo.tripnote.entity.BAccount;
 import com.lenovo.tripnote.entity.TTripNote;
+import com.lenovo.tripnote.entity.vo.BAccountDetailVo;
 import com.lenovo.tripnote.entity.vo.BExportVo;
 import com.lenovo.tripnote.entity.vo.BHtml5Vo;
 import com.lenovo.tripnote.entity.vo.PageResultVo;
@@ -136,7 +137,7 @@ public class TTripNoteController {
 		vo.setCode(Result.SUCESSFUL);;
 		TTripNoteDetailResultVo detail = tTripnoteService.getPdfDetailByKey(Integer.valueOf(id));
 		if(detail!=null){
-			BAccount account = bAccountService.getByKey(detail.getCreateUserId());
+			BAccountDetailVo account = bAccountService.getDetail(detail.getCreateUserId());
 			BHtml5Vo html5 = new BHtml5Vo();
 			html5.setAccount(account);
 			html5.setTripnote(detail);

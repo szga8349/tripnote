@@ -1,7 +1,5 @@
 package com.lenovo.tripnote.entity.vo;
 
-import com.lenovo.tripnote.entity.BAccount;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,5 +8,5 @@ import lombok.Setter;
 @NoArgsConstructor
 public class BHtml5Vo {
 	private TTripNoteDetailResultVo tripnote;
-	private BAccount account ;
+	private BAccountDetailVo account ;
 }
