@@ -17,10 +17,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.lenovo.tripnote.entity.BAccount;
 import com.lenovo.tripnote.entity.TTripNote;
 import com.lenovo.tripnote.entity.vo.BExportVo;
+import com.lenovo.tripnote.entity.vo.BHtml5Vo;
 import com.lenovo.tripnote.entity.vo.PageResultVo;
+import com.lenovo.tripnote.entity.vo.TTripNoteDetailResultVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteSearchResultVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteSearchVo;
 import com.lenovo.tripnote.entity.vo.TTripNoteVo;
+import com.lenovo.tripnote.service.BAccountService;
 import com.lenovo.tripnote.service.TCustomerService;
 import com.lenovo.tripnote.service.TTripnoteService;
 import com.lenovo.tripnote.vo.Result;
@@ -37,7 +40,9 @@ public class TTripNoteController {
 	private TTripnoteService tTripnoteService;
 	@Resource
 	private TCustomerService tCustomerService;
-
+	@Resource
+	private BAccountService bAccountService;
+	
 	@RequestMapping(value = "/doAdd")
 	public @ResponseBody ResultVo addTTripNote(TTripNoteVo tripnoteVo) {
 		Subject subject = SecurityUtils.getSubject();
@@ -122,6 +127,21 @@ public class TTripNoteController {
 		exportVo.setCreateUserId(account.getId());
 		tTripnoteService.insertToTemplate(Integer.valueOf(id), exportVo);
 		vo.setCode(Result.SUCESSFUL);
+		return vo;
+	}
+	@RequestMapping(value = "/doExport/html5/{id}")
+	public  @ResponseBody ResultVo exportHtml5(@PathVariable String id){
+		//TTripNote tripnote = tTripnoteService.getByKey(Integer.valueOf(id));
+		ResultVo vo = new ResultVo();
+		vo.setCode(Result.SUCESSFUL);;
+		TTripNoteDetailResultVo detail = tTripnoteService.getPdfDetailByKey(Integer.valueOf(id));
+		if(detail!=null){
+			BAccount account = bAccountService.getByKey(detail.getCreateUserId());
+			BHtml5Vo html5 = new BHtml5Vo();
+			html5.setAccount(account);
+			html5.setTripnote(detail);
+			vo.setData(html5);
+		}
 		return vo;
 	}
 }
