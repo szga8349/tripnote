@@ -7,10 +7,14 @@ import Main from 'views/Main/Main'
     import MainRouteList from 'views/Main/RouteList'
     import MainPoiList from 'views/Main/PoiList'
     import MainTemplateList from 'views/Main/TemplateList'
+    import CustomerList from 'views/Main/CustomerList'
+        import CustomerInfo from 'views/Main/CustomerInfo'
 
-// import RouteTemplate from 'views/Main/RouteTemplate'
+    import MainResList from 'views/Main/ResList'
+    import MainCollectionList from 'views/Main/CollectionList'
 
 import Route from 'views/Route/Route'
+import RouteTemplate from 'views/Route/RouteTemplate'
     import RouteIntro from 'views/Route/RouteIntro'
     import ImportTemplate from 'views/Route/ImportTemplate'
     import ExportTemplate from 'views/Route/ExportTemplate'
@@ -34,7 +38,14 @@ import Order from 'views/Order/Order'
     import OrderSuccess from 'views/Order/OrderSuccess'
 
 import Publish from 'views/Publish/Publish'
+
 import OrderHistory from 'views/Order/OrderHistory'
+
+import User from 'views/User/Index'
+    import UserInfo from 'views/User/Info'
+    import ChangePwd from 'views/User/ChangePwd'
+
+
 
 Vue.use(Router)
 
@@ -52,7 +63,13 @@ let routes = [
             {path: '', redirect: { name: 'route' }},
             {path: 'route', name: 'route', component: MainRouteList},
             {path: 'poi', name: 'poi', component: MainPoiList},
+            {path: 'res', name: 'res', component: MainResList},
+            {path: 'collection', name: 'collection', component: MainCollectionList},
             {path: 'template', name: 'template', component: MainTemplateList},
+            {path: 'customer', name: 'customer', component: CustomerList},
+            {path: 'customerNew', name: 'customerInfo', component: CustomerInfo},
+            {path: 'customerNew/:groupId', name: 'customerInfoGroup', component: CustomerInfo},
+            {path: 'customerEdit/:customerId', name: 'customerEdit', component: CustomerInfo},
         ]
     },
 
@@ -91,6 +108,57 @@ let routes = [
                         // ]
                     },
                     {path: 'traffic/:poiStartId/:poiEndId', name: 'traffic', component: DayTraffic,
+                        // children: [
+                        //     {path: 'poi/:poiId', name: 'poiDetail', component: PoiDetail}
+                        // ]
+                    },
+                ]
+            },
+
+            // {path: 'template', name: 'template', component: MainTemplateList},
+
+            // {path: '',  redirect: 'MetaData'},
+            // {path: 'MetaData', name: 'MetaData', component: MetaData,
+            // children: [
+            //   {path: '', redirect: {name: 'home'}},
+            //   {path: 'home', name: 'home', component: Home},
+            // ]
+        ]
+    },
+
+    {
+        path: '/template/:routeId',
+        name: 'RouteTemplate',
+        component: RouteTemplate,
+        children: [
+            {path: '', redirect: { name: 'RouteIntroTemplate'}},
+            {path: 'intro', name: 'RouteIntroTemplate', component: RouteIntro},
+            {path: 'remarks', name: 'RouteRemarksTemplate', component: RouteRemarks},
+            {path: 'day/:dayId', name: 'DayDetailTemplate', component: DayDetail,
+                children: [
+                    {path: 'schedule', name: 'scheduleTemplate', component: DaySchedule,
+                        children: [
+                            {path: 'poi/:poiId', name: 'poiDetailTemplate', component: PoiDetail},
+                            {path: 'product/:poiId', name: 'ProductDetailTemplate', component: ProductDetail},
+                            {path: 'hotel/:poiId', name: 'HotelDetailTemplate', component: HotelDetail},
+                        ]
+                    },
+                    {path: 'poi/:scheduleId/:poiId', name: 'poiTemplate', component: DayPoi,
+                        // children: [
+                        //     {path: 'poi/:poiId', name: 'poiDetail', component: PoiDetail}
+                        // ]
+                    },
+                    {path: 'hotel/:scheduleId/:hotelId', name: 'hotelTemplate', component: DayHotel,
+                        // children: [
+                        //     {path: 'poi/:poiId', name: 'poiDetail', component: PoiDetail}
+                        // ]
+                    },
+                    {path: 'traffic/:poiStartId/:poiEndId/:trafficId', name: 'trafficTemplate', component: DayTraffic,
+                        // children: [
+                        //     {path: 'poi/:poiId', name: 'poiDetail', component: PoiDetail}
+                        // ]
+                    },
+                    {path: 'traffic/:poiStartId/:poiEndId', name: 'trafficTemplate', component: DayTraffic,
                         // children: [
                         //     {path: 'poi/:poiId', name: 'poiDetail', component: PoiDetail}
                         // ]
@@ -154,6 +222,16 @@ let routes = [
         name: 'Login',
         component: Login
     },
+
+    {path: '/setting', name: 'user', component: User,
+        children: [
+            {path: '', redirect: { name: 'userInfo' }},
+            {path: 'info', name: 'userInfo', component: UserInfo},
+            {path: 'changePwd', name: 'changePwd', component: ChangePwd},
+        ]
+    },
+
+    
 
 
 ];

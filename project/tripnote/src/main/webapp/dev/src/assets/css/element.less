@@ -31,6 +31,7 @@
 }
 .el-table th > .cell{
   line-height: 36px !important;
+  color: #555;
 }
 .el-table .caret-wrapper{
   margin-top: -2px;
@@ -68,8 +69,8 @@
 }
 
 // dialog
-.el-dialog__wrapper .el-dialog{ background: #f3f3f3; border-radius: 0; }
-.el-dialog__wrapper .el-dialog .el-dialog__header{ line-height: 50px; padding: 0 30px ;border-bottom: 1px solid #e2e2e2; border-radius: 0; font-weight: normal;}
+.el-dialog__wrapper .el-dialog{ border-radius: 0; }
+.el-dialog__wrapper .el-dialog .el-dialog__header{ line-height: 50px; padding: 0 30px; background: #f9f9f9; border-bottom: 1px solid #e2e2e2; border-radius: 0; font-weight: normal;}
 .el-dialog__wrapper .el-dialog .el-dialog__title{ font-weight: normal;display: inline-block; font-size: 16px;}
 .el-message-box .el-message-box__header{ height: 49px; border-bottom: 1px solid #ddd;}
 .el-message-box__header{ padding: 12px 0 0 20px;}
@@ -80,13 +81,13 @@
 .el-message-box__headerbtn .el-message-box__close,
 .el-message-box__headerbtn .el-message-box__close:hover{ color: #fff;}
 .el-dialog__wrapper .el-dialog .el-dialog__headerbtn,
-.el-message-box__close{ position: absolute; right: 18px; top: 0; width: 20px; height: 20px; background: #F46A48; color: #fff; text-align: center; line-height: 14px;}
+.el-message-box__close{ position: absolute; right: 5px; top: 0; width: 24px; height: 24px; background: #F46A48; color: #fff; text-align: center; line-height: 14px;}
 
 .el-dialog__wrapper .el-dialog .el-dialog__headerbtn:hover,
 .el-message-box__close:hover{ background: red}
 .el-message-box__close{line-height: 20px;}
 
-.el-dialog__wrapper .el-dialog .el-dialog__headerbtn i,.el-message-box__close{ font-size: 10px; color: #fff; }
+.el-dialog__wrapper .el-dialog .el-dialog__headerbtn i,.el-message-box__close{ font-size: 14px; color: #fff; }
 .el-dialog__wrapper .el-dialog__footer,.el-message-box__btns{ background: #E2E2E2; font-size: 10px; color: #fff; height: 59px; padding: 14px 35px;}
 .el-dialog__wrapper .el-dialog__footer .el-button,.el-message-box__btns .el-button{ margin-left: 15px; width: 70px; display: inline;}
 .el-message-box__status{left: 25%}
@@ -157,12 +158,12 @@
   border-width: 2px;
 }
 .el-checkbox__label{
-  padding-left: 6px;
+  padding-left: 4px;
 }
 
 
 .el-tooltip__popper{padding: 6px;}
-.el-radio__label{display: none}
+// .el-radio__label{display: none}
 .edit-container{
 		float: right;
 		margin-bottom: 10px;
@@ -348,4 +349,7 @@
 }
 .el-radio__input.is-checked .el-radio__inner,.el-radio__input .el-radio__inner,.el-radio__inner::after{
   border-radius: 100%;
+}
+.el-autocomplete-suggestion__wrap{
+  padding: 0;
 }

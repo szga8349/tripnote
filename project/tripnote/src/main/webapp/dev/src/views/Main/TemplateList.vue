@@ -13,6 +13,7 @@
                     class="routeListTable"
                     :default-sort = "{prop: 'date', order: 'descending'}"
                     @sort-change="sortChange"
+                    @row-click="rowClick"
                 >
                     <el-table-column
                         prop="title"
@@ -35,11 +36,13 @@
                         prop="code"
                         label="编号"
                         sortable
+                        align="center"
                         width="100">
                     </el-table-column>
                     <el-table-column
                         prop="custems"
                         label="客人名"
+                        align="center"
                         width="110">
                         <template slot-scope="scope">
                             <div v-html="formatCustomer(scope.row.custems)"></div>
@@ -49,6 +52,7 @@
                         prop="start_date"
                         label="出发时间"
                         sortable
+                        align="center"
                         width="100">
                         <template slot-scope="scope">
                             {{ formatTime(scope.row.startDate) }}
@@ -58,12 +62,14 @@
                         prop="days"
                         label="行程天数"
                         sortable
+                        align="center"
                         width="100">
                     </el-table-column>
                     <el-table-column
                         prop="publish_time"
-                        label="发布时间"
+                        label="创建时间"
                         sortable
+                        align="center"
                         width="100">
                         <template slot-scope="scope">
                             {{ formatTime(scope.row.createTime) }}
@@ -78,12 +84,12 @@
                                     <div slot="content">删除</div>
                                     <a href="javascript:;" @click.stop="delRouteConfirm(scope.row.id)" class="tableDataDel"><i class="el-icon-delete"></i></a>
                                 </el-tooltip>
-                                
                             </template>
                     </el-table-column>
                 </el-table>
 
                 <el-pagination
+                    v-if="!tableDataLoading && tableData.length > 0"
                     background
                     @current-change="handleCurrentChange"
                     :current-page.sync="pageNo"
@@ -92,9 +98,8 @@
                     :total="total">
                 </el-pagination>
 
-
-                <div v-if="!tableDataLoading && tableData.length == 0" class="addNewRouteTip">
-                    <p>您还没有线路模板，您导出的线路模板将会出现在这里！</p>
+                <div class="noDataTip" v-if="!tableDataLoading && tableData.length == 0">
+                    <i class="iconfont icon-point-out"></i>您还没有模板，您导出的模板将会出现在这里！
                 </div>
             </div>
         </div>
@@ -134,11 +139,13 @@
                         prop="code"
                         label="编号"
                         sortable
+                        align="center"
                         width="100">
                     </el-table-column>
                     <el-table-column
                         prop="custems"
                         label="客人名"
+                        align="center"
                         width="110">
                         <template slot-scope="scope">
                             <div v-html="formatCustomer(scope.row.custems)"></div>
@@ -148,6 +155,7 @@
                         prop="start_date"
                         label="出发时间"
                         sortable
+                        align="center"
                         width="100">
                         <template slot-scope="scope">
                             {{ formatTime(scope.row.startDate) }}
@@ -157,16 +165,25 @@
                         prop="days"
                         label="行程天数"
                         sortable
+                        align="center"
                         width="100">
                     </el-table-column>
                     <el-table-column
                         prop="publish_time"
-                        label="发布时间"
+                        label="创建时间"
                         sortable
+                        align="center"
                         width="100">
                         <template slot-scope="scope">
                             {{ formatTime(scope.row.createTime) }}
                         </template>
+                    </el-table-column>
+                    <el-table-column
+                        prop="opts"
+                        label=""
+                        width="80">
+                            <template slot-scope="scope">
+                            </template>
                     </el-table-column>
                 </el-table>
 
@@ -201,6 +218,7 @@
 <script>
 import moment from 'moment'
 import { FormatTime } from 'mixins/common'
+import Bus from 'utils/bus'
 
 export default {
     mixins: [ FormatTime ],
@@ -243,11 +261,25 @@ export default {
 
             sortFieldS: 'create_time',
             sortTypeS: -1,
+            searchKeyword: '',
+            searchCity: ''
         }
     },
     created(){
         this.getMyTemplateList()
         this.getSystemTemplateList()
+
+        Bus.$emit('setMainRoutePage', true)
+
+        var vm = this
+
+        Bus.$on('headerSearchTemplate', function(keywords, cityId){
+            vm.searchKeyword = keywords
+            vm.searchCity = cityId
+            
+            vm.getMyTemplateList()
+            vm.getSystemTemplateList()
+        })
     },
     methods: {
         newRoute(){
@@ -284,8 +316,10 @@ export default {
         },
 
         rowClick(row, event, column){
-            // this.$router.push({path: '/route/' + row.id})
+            console.log(123)
+            this.$router.push({path: '/template/' + row.id})
         },
+
 
         formatCityList(ttripNoteSchedules){
             var _cityList = []
@@ -294,6 +328,7 @@ export default {
                     _cityList.push(ttripNoteSchedules[i].citys[j].nameCn)
                 }
             }
+            _cityList = Array.from(new Set(_cityList))
             return _cityList.join(' / ')
         },
 
@@ -325,6 +360,8 @@ export default {
                     pageSize: this.pageSize,
                     sortField: this.sortField,
                     ascOrDes: this.sortType,
+                    title: this.searchKeyword,
+                    cityId: this.searchCity
                 }
             })
             .then((res)=>{
@@ -355,6 +392,8 @@ export default {
                     pageSize: this.pageSizeS,
                     sortField: this.sortFieldS,
                     ascOrDes: this.sortTypeS,
+                    title: this.searchKeyword,
+                    cityId: this.searchCity
                 }
             })
             .then((res)=>{
@@ -513,6 +552,10 @@ export default {
             })
         }
     },
+
+    destroyed(){
+        Bus.$off('headerSearchTemplate')
+    }
 }
 </script>
 <style lang="less" scope>
@@ -528,7 +571,7 @@ export default {
 }
 .routeListTable{
     td{
-        padding: 20px 0;
+        padding: 10px 0;
         color: #9FA5B0;
         cursor: pointer;
     }
@@ -536,32 +579,6 @@ export default {
 .tableDataDel{
     font-size: 18px;
     color: #9FA5B0;
-}
-.routeTit{
-    .avatar{
-        float: left;
-        width: 90px;
-        height: 70px;
-        background-size: cover;
-        background-position: center;
-    }
-    h3{
-        padding-top: 5px;
-        margin-left: 105px;
-        font-size: 16px;
-        font-weight: normal;
-        color: #444;
-    }
-    .cityList{
-        margin-top: 20px;
-        margin-left: 105px;
-        div{
-            width: 100%;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-        }
-    }
 }
 .addNewRouteTip{
     width: 170px;
@@ -637,9 +654,9 @@ export default {
     }
     .personList{
         li{
-            margin-top: 4px;
+            margin-bottom: 10px;
             .done{
-                line-height: 24px;
+                line-height: 32px;
             }
             .iconEdit{
                 display: inline-block;

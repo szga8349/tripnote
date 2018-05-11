@@ -81,6 +81,7 @@
 </div>
 </template>
 <script>
+import Bus from 'utils/bus'
 export default {
     data() {
         return {
@@ -194,6 +195,7 @@ export default {
                             type: 'success',
                             duration: 2000
                         });
+                        Bus.$emit('refreshDay', true)
                         vm.$router.push({path: '/route/' + vm.routeId})
                     }
                 }

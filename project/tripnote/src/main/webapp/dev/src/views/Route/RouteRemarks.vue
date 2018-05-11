@@ -1,11 +1,11 @@
 <template>
     <div>
         <!-- <div class="columnWrap notes" v-if="!setRouteLineActive"> -->
-            <div class="columnBox notes" v-if="!setRouteLineActive">
+            <div class="columnBox notes" @mouseenter="setBtnActive=true" @mouseleave="setBtnActive=false" v-if="!setRouteLineActive">
                 <div class="header">
                     <div class="tit"><i class="iconfont icon-wenjian"></i>行程备注</div>
                     <div class="opts">
-                        <a href="javascript:;" @click="isEdit=true" v-if="!isEdit" class="actionBtn">
+                        <a href="javascript:;" @click="isEdit=true" v-if="!isEdit" class="actionBtn" :class="{active: setBtnActive}">
                             <i class="iconfont icon-bianji-blue"></i>
                             <span>编辑</span>
                         </a>
@@ -17,9 +17,13 @@
                     </div>
                 </div>
 
-                <div class="content" v-if="!isEdit" v-html="routeInfo.remarkes"></div>
+                <div class="content" v-if="!isEdit" v-html="routeInfo.remarks"></div>
                 <div class="content" v-if="isEdit">
-                    <froala :tag="'textarea'" :config="config" v-model="routeInfo.remarkes"></froala>
+                    <froala :tag="'textarea'" :config="config" v-model="routeInfo.remarks"></froala>
+                </div>
+                <div class="dataNull" v-if="!isEdit && !routeInfo.remarks">
+                    <i class="icon"></i>
+                    <p>暂时还没有行程备注，开始 <a href="javascript:;" @click="isEdit=true">添加</a> 吧！</p>
                 </div>
             </div>
 
@@ -35,6 +39,7 @@ import VueFroala from 'vue-froala-wysiwyg';
 export default {
     data() {
         return {
+            setBtnActive: false,
             showMap: false,
             googleMap: '',
             markerImg: require('../../assets/images/markers.png'),
@@ -55,7 +60,7 @@ export default {
                         // response = JSON.parse(response);
                     },
                 },
-                // heightMin: 300,
+                heightMin: 255,
                 // heightMax: 500,
                 charCounterCount: false,
                 quickInsertTags: [],
@@ -103,7 +108,7 @@ export default {
                 method: 'post',
                 url: '/tripnote/doUpdate/' + this.routeId,
                 data: {
-                    remarkes: this.routeInfo.remarkes
+                    remarks: this.routeInfo.remarks
                 }
             })
             .then((res)=>{

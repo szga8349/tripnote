@@ -56,12 +56,13 @@
                 /customer/**=fauthc
                 /travel/**=fauthc
 				/login/logut=fauthc
+                /tripnote/doExport/html5/**= anon
 				/tripnote/**=fauthc
 				<!--/login/*=anon-->
 				<!--/index.*=anon-->
 				<!--/common/**= anon-->
 				<!--/static/**= anon-->
-				<!--/tripnotes/**= anon-->
+
 				<!--/**= fauthc-->
 			</value>
 		</property>

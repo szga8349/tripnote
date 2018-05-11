@@ -511,7 +511,7 @@ export default {
             }
             this.chainPloyline = new google.maps.Polyline({
                 path: flightPlanCoordinates,
-                geodesic: true,
+                // geodesic: true,
                 strokeColor: '#4F5A61',
                 strokeOpacity: 1.0,
                 strokeWeight: 1.5
@@ -997,6 +997,7 @@ export default {
     }
 }
 .mapTrafficMarker{
+    position: relative;
     width: 20px;
     height: 20px;
     background: #23a16d;

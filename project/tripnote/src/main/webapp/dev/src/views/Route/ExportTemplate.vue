@@ -92,6 +92,7 @@ export default {
     },
     methods: {
         changeDay(day){
+            console.log(3)
             this.daySel = day.id
             this.$http({
                 method: 'post',

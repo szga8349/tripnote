@@ -1,26 +1,102 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta name="renderer" content="webkit" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>TripNote</title>
-<meta name="description" content="">
-<script src="js/jquery-1.12.0.min.js"></script>
-<link rel="stylesheet" href="css/common.css">
+  <meta name="renderer" content="webkit" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>TripNote</title>
+  <meta name="description" content="">
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/swiper.css">
+  <link rel="stylesheet" href="font/iconfont.css">
+
+  <script src="js/jquery-1.12.0.min.js"></script>
+  <script src="js/swiper.min.js"></script>
+  <script src="js/html5.js"></script>
+  <script src="http://maps.google.cn/maps/api/js?region=cn&language=zh-CN&libraries=places&key=AIzaSyAmhTSJ4VTpmTf-wX4AE4TXMrZmKzjJ36o"></script>
+  <script src="../googlemap/richmarker/src/richmarker-compiled.js"></script>
+  <script src="../googlemap/infobubble/src/infobubble-compiled.js"></script>
+  <script src="js/moment.min.js"></script>
 </head>
+
 <body>
-<section class="cover">
-    <h1>标题标题标题标题标题</h1>
-    <div class="date">2018-01-01 - 2018-01-01</div>
-    <div class="pic">
-        <img src="images/">
+  <div class="swiper-container">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide cover">
+        <div class="picWrap">
+          <div class="pic">
+            <img src="images/route_pic_blank.png" id="RouteAvatar">
+          </div>
+          <div class="copyright">由Tripnote提供技术支持</div>
+        </div>
+        <h1 id="RouteTitle"></h1>
+        <div class="date" id="RouteDate">2018-01-01 - 2018-01-01</div>
+        <div class="user"><span id="RouteUser"></span>为您定制的行程</div>
+        <div class="tapTips">
+          <div class="pointer">
+            <p>
+              <i class="iconfont icon-gengduo-copy-copy"></i>
+            </p>
+          </div>
+          向上滑动浏览
+        </div>
+        <div class="tipsTxt">
+          <span>开启您专属的旅行</span>
+        </div>
+      </div>
+
+      <div class="swiper-slide summary">
+        <div class="map" id="SummaryMap"></div>
+        <div class="dayList">
+          <ul id="DayList">
+          </ul>
+        </div>
+      </div>
+
+      <div class="swiper-slide intro">
+        <div class="introTitle">关于这次旅行</div>
+        <div class="introCon" id="RouteIntro"></div>
+      </div>
+
+      <div class="swiper-slide remark" id="Remark">
+        <div class="remarkTitle">行程备注</div>
+        <div class="remarkCon" id="RouteRemark"></div>
+      </div>
     </div>
-    <div class="user">xxx为您定制的行程</div>
-</section>
+    <div class="swiper-pagination"></div>
+  </div> 
 
-<section class="detail">
-    <h2><span>开启您专属的旅行</span></h2>
-
-</section>
+  <div class="tripMenu" id="TripMenu">
+    <div class="btn" id="MenuControl">
+      <i class="iconfont icon-menu"></i>
+      <i class="iconfont icon-close"></i>
+    </div>
+    <div class="menuMask"></div>
+    <div class="menuBox">
+      <div class="title">选择查看的页面</div>
+      <div class="pageType">
+        <a href="javascript:;" id="LinkCover">行程封面</a>
+        <a href="javascript:;" id="LinkDay">行程路线</a>
+      </div>
+      <div class="dayTitle">
+        <span>日程安排</span>
+      </div>
+      <div class="dayList" id="DayListLink">
+        <!-- <a href="">D1</a>
+        <a href="">D1</a>
+        <a href="">D1</a>
+        <a href="">D1</a>
+        <a href="">D1</a>
+        <a href="">D1</a>
+        <a href="">D1</a>
+        <a href="">D1</a>
+        <a href="">D1</a>
+        <a href="">D1</a>
+        <a href="">D1</a>
+        <a href="">D1</a> -->
+      </div>
+    </div>
+  </div>
 </body>

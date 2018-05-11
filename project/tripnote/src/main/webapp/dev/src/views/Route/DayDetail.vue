@@ -1,33 +1,82 @@
 <template>
     <div>
-        <div class="columnBox daySchedule" :class="{active: setDayScheduleActive, setDayPoiEditActive: setDayPoiEditActive}">
+        <div class="columnBox daySchedule" @mouseenter="setScheduleBtnActive=true" @mouseleave="setScheduleBtnActive=false" :class="{active: setDayScheduleActive, setDayPoiEditActive: setDayPoiEditActive}">
             <div class="header">
-                <div class="tit"><i class="iconfont icon-rili"></i>日程安排</div>
+                <div class="tit"><i class="iconfont icon-rili"></i>日程安排 D{{dayInfo.indexdate + 1}}</div>
+                
                 <div class="opts">
-                    <a href="javascript:;" @click="setSchedule" class="actionBtn" v-if="!setDayScheduleActive">
+                    <a href="javascript:;" @click="setSchedule" class="actionBtn" :class="{active: setScheduleBtnActive}" v-if="!setDayScheduleActive">
                         <i class="iconfont icon-bianji-blue"></i>
                         <span>安排日程</span>
                     </a>
                 </div>
+
+                <div class="dayPercent" v-if="!setScheduleBtnActive">
+                    <el-progress type="circle" :percentage="dayPercent" :width="30" :stroke-width="3" :show-text="false"></el-progress>
+                    <div class="dayPercentTxt">{{dayPercentTxt}}</div>
+                </div>
             </div>
 
             <div class="content">
-                <div class="dayCityList">
-                    <div class="item" v-for="(item, index) in dayInfo.citys">
-                        <span class="cityName">
-                            {{item.nameCn}}
-                            <!-- <span class="delCity" @click="delDayCity(item.id)">
-                                <i class="iconfont icon-shanchu1"></i>
-                            </span> -->
-                        </span>
-                        <span class="arrow">
+                <div class="dayCityList clearfix" id="DayCityList" @mouseenter="addCityVisible = true" @mouseleave="addCityLeave">
+                    <span class="cityList">
+                        <div class="item" v-for="(item, index) in dayInfo.citys">
+                            <span class="cityName">
+                                {{item.nameCn}}
+                                <span class="delCity" @click="delDayCity(item.id)">
+                                    <i class="iconfont icon-shanchu1"></i>
+                                </span>
+                            </span>
+                            <span class="arrow">
+                                <i class="iconfont icon-jiantou02"></i>
+                            </span>
+                        </div>
+                    </span>
+                    <a href="javascript:;" class="addCity" v-if="dayInfo.citys.length == 0 && !addCityBoxVisible" @click="addCityBoxAction">
+                        添加城市
+                    </a>
+                    <a href="javascript:;" class="addCity" v-if="addCityVisible && dayInfo.citys.length > 0 && !addCityBoxVisible" @click="addCityBoxAction">
+                        <i class="el-icon-plus"></i>
+                    </a>
+                    <div class="addCityCon" v-if="addCityVisible && addCityBoxVisible">
+                        <span class="arrow" v-if="dayInfo.citys.length > 0">
                             <i class="iconfont icon-jiantou02"></i>
                         </span>
+                        <el-autocomplete
+                            class="citySelect"
+                            prefix-icon="el-icon-search"
+                            :fetch-suggestions="queryCitySearch"
+                            placeholder="输入城市名"
+                            :trigger-on-focus="false"
+                            @select="addCitySelect"
+                        ></el-autocomplete>
                     </div>
                 </div>
 
-                <div class="scheduleList">
+                <div class="scheduleList" id="ScheduleList">
                     <div class="scheduleCon" :class="{singleItem: (dayInfo.scheduleHotels.length)+(dayInfo.scheduletrips.length) == 1}">
+                        <!-- 租车 -->
+                        <div class="itemWrap" v-for="(item, index) in dayInfo.rents">
+                            <div class="item poi">
+                                <div class="no noCar">
+                                    <i class="iconfont icon-che"></i>
+                                </div>
+                                <div class="con">
+                                    <div class="tit">
+                                        {{item.nameCn}}
+                                    </div>
+                                    <div class="titEn">
+                                        {{item.model}}&nbsp;&nbsp;|&nbsp;&nbsp;{{item.pedestal}}座&nbsp;&nbsp;|&nbsp;&nbsp;{{item.doors}}门&nbsp;&nbsp;|&nbsp;&nbsp;{{item.suitcases}}行李箱
+                                    </div>
+                                    <div class="price" v-if="item.price">￥{{item.price}}</div>
+                                </div>
+                                <div class="del" @click.stop="delScheduleCar(item)" v-if="setDayScheduleActive">
+                                    <i class="iconfont icon-cha"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 酒店入住 -->
                         <div class="itemWrap" v-for="(item, index) in dayInfo.scheduleHotels" v-if="item.checkInType == 0">
                             <div class="item poi" @click="poiDetail(item)">
                                 <div class="no noHotel">
@@ -53,7 +102,6 @@
                                 <span v-if="traffics[item.id].trafficType<4">{{trafficsTimeFormat(traffics[item.id].spendTime)}}</span>
                                 <span v-if="traffics[item.id].trafficType>=4">{{trafficsNameFormat(traffics[item.id].trafficType)}} {{traffics[item.id].shift}}</span>
 
-
                                 <div class="del" @click.stop="delScheduleTraffic(traffics[item.id].id)" v-if="setDayScheduleActive">
                                     <i class="iconfont icon-cha"></i>
                                 </div>
@@ -67,44 +115,76 @@
                                 <i class="el-icon-plus"></i>添加交通信息
                             </div>
                         </div>
-
-                        <div class="itemWrap" v-for="(item, index) in dayInfo.scheduletrips">
-                            <div class="item poi" :class="{active:poiId==item.poiId, product:item.type==5, hotel:item.type==6}" @click="poiDetail(item)">
-                                <div class="no">{{(index+1)}}</div>
-                                <div class="con">
-                                    <div class="tit">
-                                        <span v-html="poiTypeFormat(item.type)"></span>
-                                        {{item.nameCn}}
+                        
+                        <!-- 行程POI -->
+                        <draggable element="ul" :list="dayInfo.scheduletrips" :options="{dragClass: 'dayDragging'}" @end="dragEnd">
+                            <div class="itemWrap" v-for="(item, index) in dayInfo.scheduletrips">
+                                <div class="item poi" :class="{active:poiId==item.poiId, product:item.type==5, hotel:item.type==6}" @click="poiDetail(item)">
+                                    <div v-if="item.type != 7">
+                                        <div class="no">{{item.num}}</div>
+                                        <div class="con">
+                                            <div class="tit">
+                                                <label>景点：</label>
+                                                <span v-html="poiTypeFormat(item.type)"></span>
+                                                {{item.nameCn}}
+                                            </div>
+                                            <div class="tit">
+                                                <label>门票：</label>
+                                                {{item.price ? item.price : '免费'}}
+                                            </div>
+                                            <div class="tit">
+                                                <label>时间：</label>
+                                                {{item.timeReference}}
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="titEn">{{item.nameEn}}</div>
-                                    <div class="price" v-if="item.price">￥{{item.price}}</div>
+                                    <div v-if="item.type == 7">
+                                        <div class="no noTraffic"></div>
+                                        <div class="con trafficInfo">
+                                            <div class="startPoint">
+                                                <i></i>
+                                                <div class="city">{{item.startName}}</div>
+                                                <div class="point">{{item.startName}}</div>
+                                            </div>
+                                            <div class="type">
+                                                <span class="icon" v-html="trafficFormat(item.traffictype)"></span>
+                                                <span class="model">{{item.model}}</span>
+                                            </div>
+                                            <div class="endPoint">
+                                                <i></i>
+                                                <div class="city">{{item.endName}}</div>
+                                                <div class="point">{{item.endName}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="del" @click.stop="delSchedule(item)" v-if="setDayScheduleActive">
+                                        <i class="iconfont icon-cha"></i>
+                                    </div>
                                 </div>
-                                <div class="del" @click.stop="delSchedule(item)" v-if="setDayScheduleActive">
-                                    <i class="iconfont icon-cha"></i>
+                                
+                                <div class="item traffic" :class="{active:trafficId && traffics[item.id].id == trafficId}"
+                                    @click="goTrafficDetail(index, traffics[item.id].id)" v-if="traffics[item.id]"
+                                >
+                                    <span v-html="trafficsTypeForamt(traffics[item.id].trafficType)"></span>
+                                    <span v-if="traffics[item.id].trafficType<4">{{trafficsTimeFormat(traffics[item.id].spendTime)}}</span>
+                                    <span v-if="traffics[item.id].trafficType>=4">{{trafficsNameFormat(traffics[item.id].trafficType)}} {{traffics[item.id].shift}}</span>
+
+                                    <div class="del" @click.stop="delScheduleTraffic(traffics[item.id].id)" v-if="setDayScheduleActive">
+                                        <i class="iconfont icon-cha"></i>
+                                    </div>
+                                </div>
+
+                                <div class="item traffic"
+                                    v-if="setDayScheduleActive && !traffics[item.id]"
+                                    :class="{active:poiStartId && poiStartId == item.id + '_' + item.type}"
+                                    @click="addTraffic(index)"
+                                >
+                                    <i class="el-icon-plus"></i>添加交通信息
                                 </div>
                             </div>
-                            
-                            <div class="item traffic" :class="{active:trafficId && traffics[item.id].id == trafficId}"
-                                @click="goTrafficDetail(index, traffics[item.id].id)" v-if="traffics[item.id]"
-                            >
-                                <span v-html="trafficsTypeForamt(traffics[item.id].trafficType)"></span>
-                                <span v-if="traffics[item.id].trafficType<4">{{trafficsTimeFormat(traffics[item.id].spendTime)}}</span>
-                                <span v-if="traffics[item.id].trafficType>=4">{{trafficsNameFormat(traffics[item.id].trafficType)}} {{traffics[item.id].shift}}</span>
-
-                                <div class="del" @click.stop="delScheduleTraffic(traffics[item.id].id)" v-if="setDayScheduleActive">
-                                    <i class="iconfont icon-cha"></i>
-                                </div>
-                            </div>
-
-                            <div class="item traffic"
-                                v-if="setDayScheduleActive && !traffics[item.id]"
-                                :class="{active:poiStartId && poiStartId == item.id + '_' + item.type}"
-                                @click="addTraffic(index)"
-                            >
-                                <i class="el-icon-plus"></i>添加交通信息
-                            </div>
-                        </div>
-
+                        </draggable>
+    
+                        <!-- 酒店退房 -->
                         <div class="itemWrap" v-for="(item, index) in dayInfo.scheduleHotels" v-if="item.checkInType == 1">
                             <div class="item poi" @click="poiDetail(item)">
                                 <div class="no noHotel">
@@ -146,10 +226,10 @@
                         </div>
                     </div>
 
-                    <div class="nullTip" v-if="dayInfo.scheduletrips.length == 0 && dayInfo.scheduleHotels.length == 0">
+                    <div class="nullTip" v-if="dayInfo.rents.length == 0 && dayInfo.scheduletrips.length == 0 && dayInfo.scheduleHotels.length == 0">
                         <div class="icon"></div>
                         <p v-if="dayInfo.citys.length == 0">请先选择这天要游览的城市</p>
-                        <p v-if="dayInfo.citys.length > 0">暂时还没有安排，开始添加吧</p>
+                        <p v-if="dayInfo.citys.length > 0">暂时还没有安排，开始 <a href="javascript:;" @click="setSchedule">添加</a> 吧</p>
                         <el-button size="small" round icon="el-icon-plus" @click="setSchedule" v-if="dayInfo.citys.length > 0 && !setDayScheduleActive">添加产品</el-button>
                     </div>
                 </div>
@@ -157,11 +237,11 @@
         </div>
 
         <!-- <div class="columnWrap notes day" > -->
-            <div class="columnBox notes day" v-if="!setDayScheduleActive" :class="{poiActive: poiId || trafficId}">
+            <div class="columnBox notes day" @mouseenter="setDayIntroBtnActive=true" @mouseleave="setDayIntroBtnActive=false" v-if="!setDayScheduleActive" :class="{poiActive: poiId || trafficId}">
                 <div class="header">
-                    <div class="tit"><i class="iconfont icon-wenjian"></i>行程介绍</div>
+                    <div class="tit"><i class="iconfont icon-wenjian"></i>今日精彩点评</div>
                     <div class="opts">
-                        <a href="javascript:;" @click="isEdit=true" class="actionBtn" v-if="!isEdit">
+                        <a href="javascript:;" @click="isEdit=true" class="actionBtn" :class="{active: setDayIntroBtnActive}" v-if="!isEdit">
                             <i class="iconfont icon-bianji-blue"></i>
                             <span>编辑</span>
                         </a>
@@ -175,6 +255,10 @@
                 <div class="content" v-if="!isEdit" v-html="dayInfo.introduction"></div>
                 <div class="content" v-if="isEdit">
                     <froala :tag="'textarea'" :config="config" v-model="dayInfo.introduction"></froala>
+                </div>
+                <div class="dataNull" v-if="!isEdit && !dayInfo.introduction">
+                    <i class="icon"></i>
+                    <p>暂时还没有今日精彩点评，开始 <a href="javascript:;" @click="isEdit=true">添加</a> 吧！</p>
                 </div>
             </div>
 
@@ -202,7 +286,12 @@
 import {mapState} from 'vuex'
 import Bus from 'utils/bus'
 
+import draggable from 'vuedraggable'
+
 export default {
+    components: {
+        draggable
+    },
     data() {
         return {
             config: {
@@ -221,7 +310,7 @@ export default {
                         console.log(error)
                     },
                 },
-                // heightMin: 300,
+                heightMin: 255,
                 // heightMax: 500,
                 charCounterCount: false,
                 quickInsertTags: [],
@@ -240,9 +329,19 @@ export default {
                 tripnoteId: '',
                 usertripnotes: '',
                 citys: [],
+                rents: []
             },
+            addCityVisible: false,
+            addCityBoxVisible: false,
 
-            traffics: {}
+            setScheduleBtnActive: false,
+
+            setDayIntroBtnActive: false,
+
+            traffics: {},
+            scheduleNum: 1,
+            dayPercent: 0,
+            dayPercentTxt: '',
         }
     },
     
@@ -257,7 +356,9 @@ export default {
 
         var vm = this
         Bus.$on('refreshSchedule', function(item){
-            vm.getDayDetail()
+            if(vm.dayId){
+                vm.getDayDetail()
+            }
         })
     },
 
@@ -294,6 +395,142 @@ export default {
 
     },
     methods: {
+        // 改变poi顺序
+        dragEnd(data){
+            var _newIndex = data.newIndex
+            var _oldIndex = data.oldIndex
+
+            console.log('new', _newIndex)
+            console.log('old', _oldIndex)
+
+            var _changeSort = []
+
+            for (var i = 0; i < this.dayInfo.scheduletrips.length; i++) {
+                if(this.dayInfo.scheduletrips[i].sort != i+1){
+                    _changeSort.push({
+                        scheduletripId: this.dayInfo.scheduletrips[i].id,
+                        sort: i+1
+                    })
+                }
+            }
+
+            console.log(_changeSort)
+
+            var vm = this
+
+            $.ajax({
+                method: 'POST',
+                url: '/tripnote/scheduletrip/sort/doUpdate',
+                data: JSON.stringify({"sorts":_changeSort}),
+                contentType: 'application/json',
+                success: function(res){
+                    if(res.code == -1){
+                        vm.$message({
+                            message: res.message,
+                            type: 'error',
+                            duration: 2000
+                        });
+                    }else{
+                        vm.getDayDetail()
+                    }
+                }
+            })
+
+
+            // this.$http({
+            //     method: 'post',
+            //     url: '/tripnote/scheduletrip/sort/doUpdate',
+            //     data: {
+            //         sorts: JSON.stringify({"sorts":_changeSort}),
+            //     }
+            // })
+            // .then((res)=>{
+            //     if(res.data.code == -1){
+            //         vm.$message({
+            //             message: res.data.message,
+            //             type: 'error',
+            //             duration: 2000
+            //         });
+            //     }else{
+            //         this.getDayDetail()
+            //     }
+            // })
+        },
+
+
+        changeScheduleSort(){
+            $.ajax({
+                method: 'POST',
+                url: '/tripnote/scheduletrip/sort/doUpdate',
+                data: JSON.stringify({"sorts":[{"scheduletripId":380,"sort":3}]}),
+                contentType: 'application/json'
+            })
+        },
+        // calculateScheduleNum(item, index){
+        //     if(item.type != 7){
+        //         this.scheduleNum++
+        //         // console.log(this.scheduleNum)
+
+        //         return index
+        //     }else{
+        //         return -1
+        //     }
+        // },
+        scheduleListTopSet(){
+            $('#ScheduleList').css({'top': $('#DayCityList').outerHeight()})
+        },
+        addCityBoxAction(){
+            this.addCityBoxVisible = true
+            setTimeout(function(){
+                $('#ScheduleList').css({'top': $('#DayCityList').outerHeight()})
+            }, 300)
+        },
+        addCityLeave(){
+            if(!this.addCityBoxVisible){
+                this.addCityVisible = false
+            }
+        },
+        queryCitySearch(queryString, cb) {
+            var vm = this
+            this.tableDataLoading = true
+            this.$http({
+                method: 'POST',
+                url: '/city/doSearch',
+                data: {
+                    pageNo: 1,
+                    pageSize: 100,
+                    nameCn: queryString
+                }
+            })
+            .then((res)=>{
+                vm.tableDataLoading = false
+                if(res.data.code == -1){
+                    this.$message({
+                        message: res.data.message,
+                        type: 'error',
+                        duration: 2000
+                    });
+                }else{
+                    var _data = []
+
+                    for (var i = 0; i < res.data.data.length; i++) {
+                        var _item = res.data.data[i]
+                        _item.value = res.data.data[i].nameCn
+                        _data.push(_item)
+                    }
+
+                    cb(_data)
+                }
+            })
+        },
+
+        addCitySelect(item){
+            if(this.dayInfo.citys.length == 0 || this.dayInfo.citys[this.dayInfo.citys.length-1].cityId != item.id){
+                Bus.$emit('addCityToDayOnce', item)
+            }
+            this.addCityBoxVisible = false
+        },
+
         poiTypeFormat(type){
             if(type == 1){
                 return '<i class="iconfont icon-canyin"></i>'
@@ -309,6 +546,20 @@ export default {
                 return '<i class="iconfont icon-chuangwei"></i>'
             }
         },
+
+        trafficFormat(type){
+            if(type == 1){
+                return '<i class="iconfont icon-feiji-big"></i>'
+            }else if(type == 2){
+                return '<i class="iconfont icon-huoche"></i>'
+            }else if(type == 3){
+                return '<i class="iconfont icon-lunchuang"></i>'
+            }else if(type == 4){
+                return '<i class="iconfont icon-gongjiaoche"></i>'
+            }
+        },
+
+
 
         trafficsTypeForamt(type){
             if(type == 1){
@@ -413,6 +664,7 @@ export default {
         },
 
         getDayDetail(){
+            var vm = this
             this.$http({
                 method: 'post',
                 url: '/tripnote/schedule/doDeail/' + this.dayId,
@@ -427,6 +679,31 @@ export default {
                 }else{
                     this.dayInfo = res.data.data
 
+                    var _trafficNum = 0
+
+                    var _dayTime = 0
+
+                    for (var i = 0; i < this.dayInfo.scheduletrips.length; i++) {
+                        if(this.dayInfo.scheduletrips[i].type == 7){
+                            _trafficNum++
+                        }
+                        this.dayInfo.scheduletrips[i]['num'] = i + 1 - _trafficNum
+
+                        var _time = this.dayInfo.scheduletrips[i].timeReference
+
+                        if(_time != 'null' && (_time+'').indexOf('小时') > -1){
+                            if(_time.substring(0,1) == "建"){
+                                _dayTime += parseInt(_time.substring(2,3))
+                            }else if(typeof parseInt(_time.substring(0,1)) == "number"){
+                                _dayTime += parseInt(_time.substring(0,1))
+                            }
+                        }
+                    }
+
+                    this.dayPercentTxt = _dayTime
+
+                    this.dayPercent = (_dayTime/24)*100
+
                     var _traffics = res.data.data.traffics
 
                     var _trafficsObj = {}
@@ -437,6 +714,10 @@ export default {
                     this.traffics = _trafficsObj
 
                     this.$store.dispatch('setDayInfo', res.data.data)
+
+                    setTimeout(function(){
+                        vm.scheduleListTopSet()
+                    }, 300)
                 }
             })
         },
@@ -467,17 +748,96 @@ export default {
             })
         },
 
-        delDayCity(){
-
+        delDayCity(cityId){
+            Bus.$emit('delDayCity', cityId)
         },
 
-
-
-
         delSchedule(item){
+            var vm = this
+            var _delSort = item.sort
             this.$http({
                 method: 'post',
                 url: '/tripnote/scheduletrip/doDelete/' + item.id,
+            })
+            .then((res)=>{
+                if(res.data.code == -1){
+                    this.$message({
+                        message: res.data.message,
+                        type: 'error',
+                        duration: 2000
+                    })
+                }else{
+                    var _data = []
+                    for (var i = 0; i < vm.dayInfo.scheduletrips.length; i++) {
+                        if(vm.dayInfo.scheduletrips[i].sort > _delSort){
+                            var _index = vm.dayInfo.scheduletrips[i].sort - 1
+                            _data.push({
+                                'sort': _index,
+                                'scheduletripId': vm.dayInfo.scheduletrips[i].id
+                            })
+                        }
+                    }
+
+                    $.ajax({
+                        method: 'POST',
+                        url: '/tripnote/scheduletrip/sort/doUpdate',
+                        data: JSON.stringify({"sorts":_data}),
+                        contentType: 'application/json',
+                        success: function(res){
+                            if(res.code == -1){
+                                vm.$message({
+                                    message: res.message,
+                                    type: 'error',
+                                    duration: 2000
+                                });
+                            }else{
+                                vm.$message({
+                                    message: '删除成功！',
+                                    type: 'success',
+                                    duration: 2000
+                                })
+                                vm.getDayDetail()
+
+                                vm.$router.push({ path: '/route/' + vm.$route.params.routeId + '/day/' + vm.$route.params.dayId + '/schedule'})
+
+                                vm.$store.dispatch('setDayPoiEditActive', false)
+                                // vm.$store.dispatch('setDayScheduleActive', false)
+                            }
+                        }
+                    })
+
+                    // this.$http({
+                    //     method: 'post',
+                    //     url: '/tripnote/scheduletrip/sort/doUpdate',
+                    //     data: JSON.stringify({"sorts":_data}),
+                    // })
+                    // .then((res)=>{
+                    //     if(res.data.code == -1){
+                    //         this.$message({
+                    //             message: res.data.message,
+                    //             type: 'error',
+                    //             duration: 2000
+                    //         });
+                    //     }else{
+                    //         this.$message({
+                    //             message: '删除成功！',
+                    //             type: 'success',
+                    //             duration: 2000
+                    //         })
+                    //         this.getDayDetail()
+                    //     }
+                    // })
+                }
+            })
+        },
+
+        delScheduleCar(item){
+            this.$http({
+                method: 'post',
+                url: '/tripnote/schedule/rent/doDelete/' + this.dayId,
+                data: {
+                    rentId: item.id
+                }
             })
             .then((res)=>{
                 if(res.data.code == -1){
@@ -512,7 +872,6 @@ export default {
 
 
         delScheduleTraffic(id){
-
             this.$http({
                 method: 'post',
                 url: '/tripnote/scheduletraffic/doDelete/' + id,
@@ -527,10 +886,17 @@ export default {
                 }else{
                     this.getDayDetail()
 
+                    Bus.$emit('refreshTraffic', true)
+
+                    // this.$router.push({ path: '/route/' + this.$route.params.routeId + '/day/' + this.$route.params.dayId + '/traffic/' + this.$route.params.poiStartId + '/' + this.$route.params.poiEndId})
                 }
             })
         }
     },
+
+    destroyed(){
+        Bus.$off('refreshSchedule')
+    }
 }
 </script>
 <style lang="less" scope>
@@ -550,14 +916,18 @@ export default {
         padding-bottom: 30px;
         text-align: center;
         .icon{
-            width: 75px;
-            height: 75px;
-            margin: 100px auto 20px;
-            background: url(../../assets/images/icon_point.png);
+            width: 70px;
+            height: 70px;
+            margin: 100px auto 15px;
+            background: url(../../assets/images/icon_null.png);
         }
         p{
             margin-bottom: 40px;
-            color: #DADFE3;
+            color: #637a8c;
+            font-size: 14px;
+            a{
+                color: #0079f5;
+            }
         }
         .el-button{
             width: 150px;
@@ -572,48 +942,85 @@ export default {
 
 .dayCityList{
     min-height: 51px;
-    padding: 0 15px;
+    padding: 10px 15px;
     border-bottom: 1px solid #EAEDF1;
-    line-height: 50px;
-    .item{
-        float: left;
-        .cityName{
+    line-height: 32px;
+    .cityList{
+        .item{
             float: left;
-            position: relative;
-            font-size: 14px;
-            .delCity{
-                display: none;
-                position: absolute;
-                right: -5px;
-                top: -12px;
-                i{
-                    font-size: 14px;
-                    color: #F56C6C;
-                    &:hover{
-                        color: red;
+            .cityName{
+                float: left;
+                position: relative;
+                font-size: 14px;
+                .delCity{
+                    display: none;
+                    position: absolute;
+                    right: -7px;
+                    top: -14px;
+                    cursor: pointer;
+                    i{
+                        font-size: 16px;
+                        color: #F56C6C;
+                        &:hover{
+                            color: red;
+                        }
+                    }
+                }
+                &.init{
+                    padding: 0 5px;
+                    border: 1px dashed #ccc;
+                }
+                &:hover{
+                    .delCity{
+                        display: block;
                     }
                 }
             }
-            &.init{
+            .arrow{
+                float: left;
                 padding: 0 5px;
-                border: 1px dashed #ccc;
             }
-            &:hover{
-                .delCity{
-                    display: block;
+            &:last-child{
+                .arrow{
+                    display: none;
                 }
             }
         }
+    }
+    .addCity{
+        float: left;
+        color: #999;
+        font-size: 14px;
+        &:hover{
+            color: #555;
+        }
+        i{
+            margin-left: 10px;
+            font-size: 14px;
+        }
+    }
+    .addCityCon{
+        float: left;
         .arrow{
             float: left;
             padding: 0 5px;
         }
-        &:last-child{
-            .arrow{
-                display: none;
-            }
+        .citySelect{
+            float: left;
         }
+        .el-input__icon{
+            display: none;
+        }
+        .el-input__inner{
+            width: 85px;
+            padding-left: 5px;
+            border: 0;
+            font-size: 13px;
+            color: #637a8c;
+        }
+
     }
+    
 }
 .scheduleList{
     position: absolute;
@@ -708,6 +1115,17 @@ export default {
                         font-size: 24px;
                     }
                 }
+                .noCar{
+                    background: #EBEDF1;
+                    color: #23a16d;
+                    i{
+                        font-size: 24px;
+                    }
+                }
+                .noTraffic{
+                    // margin-top: 40px;
+                    background: #23a16d url(../../assets/images/icon_traffic.png) center center no-repeat;
+                }
                 .con{
                     margin-left: 48px;
                     cursor: pointer;
@@ -716,13 +1134,82 @@ export default {
                         i{
                             color: #23a16d;
                         }
+                        label{
+                            color: #a0abb3;
+                        }
                     }
                     .titEn{
                         padding: 5px 0;
-                        color: #777;
+                        color: #a0abb3;
                     }
                     .price{
                         padding: 5px 0;
+                    }
+
+                    &.trafficInfo{
+                        position: relative;
+                        &:before{
+                            content: '';
+                            position: absolute;
+                            left: 6px;
+                            top: 17px;
+                            bottom: 32px;
+                            width: 0;
+                            border-left: 1px dashed #DBE0E3;
+                        }
+                        .startPoint{
+                            i{
+                                float: left;
+                                width: 13px;
+                                height: 13px;
+                                margin-top: 4px;
+                                border-radius: 100%;
+                                border: 2px solid #23a16d;
+                            }
+                            .city{
+                                margin-left: 20px;
+                                // font-size: 13px;
+                            }
+                            .point{
+                                margin-left: 20px;
+                                color: #a0abb3;
+                            }
+                        }
+                        .type{
+                            position: relative;
+                            z-index: 1;
+                            margin: 15px 40px 15px 0;
+                            .icon{
+                                float: left;
+                                i{
+                                    background: #fff;
+                                    color: #23a16d;
+                                }
+                            }
+                            .model{
+                                display: block;
+                                margin-left: 20px;
+                            }
+                            
+                        }
+                        .endPoint{
+                            i{
+                                float: left;
+                                width: 13px;
+                                height: 13px;
+                                margin-top: 4px;
+                                border-radius: 100%;
+                                border: 2px solid #FA574B;
+                            }
+                            .city{
+                                margin-left: 20px;
+                                // font-size: 13px;
+                            }
+                            .point{
+                                margin-left: 20px;
+                                color: #a0abb3;
+                            }
+                        }
                     }
                 }
                 .del{
@@ -775,6 +1262,7 @@ export default {
             &:before{
                 content: '';
                 position: absolute;
+                z-index: 10;
                 top: 0;
                 left: 0;
                 right: 0;
@@ -783,6 +1271,21 @@ export default {
             }
         }
         
+    }
+}
+
+.dayPercent{
+    float: right;
+    position: relative;
+    margin: 12px;
+    .dayPercentTxt{
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
     }
 }
 

@@ -31,7 +31,7 @@
                     <li v-for="(item, index) in countryList" @click="showCityList(item.id, item.nameCn, item.lat, item.lon)" v-if="countryName==''">
                         <div class="con">
                             <div class="icon">
-                                <img :src="getFlag(item.code)">
+                                <img :src="getFlag(item.nameCn)">
                             </div>
                             <div class="name" :title="item.nameCn">{{item.nameCn}}</div>
                             <div class="moreLink">
@@ -69,6 +69,7 @@
                 <el-pagination
                     v-if="countryName!='' && keywords == ''"
                     @current-change="handleCurrentChange"
+                    :current-page.sync="pageNo"
                     :page-size="25"
                     class="cityPager"
                     layout="prev, pager, next"
@@ -76,9 +77,7 @@
                 </el-pagination>
             </div>
         </div>
-        <div class="googleMap" id="map">
-            
-        </div>
+        <div class="googleMap" id="map"></div>
     </div>
 </template>
 
@@ -153,8 +152,9 @@ export default {
         initMap(){
             var vm = this
             this.map = new google.maps.Map(document.getElementById('map'), {
-                center: {lat: 39.920000, lng: 116.460000},
-                zoom: 2
+                // center: {lat: 39.920000, lng: 116.460000},
+                zoom: 2,
+                minZoom: 2,
             })
 
             google.maps.event.addListener(this.map, "click",function(event){
@@ -164,12 +164,12 @@ export default {
             google.maps.event.addListener(this.map, "bounds_changed",function(event){
                 // console.log('边界改变')
 
-                var mapLatLngBounds = vm.map.getBounds();
+                // var mapLatLngBounds = vm.map.getBounds();
 
-                var maxX = mapLatLngBounds.getNorthEast().lng();
-                var maxY = mapLatLngBounds.getNorthEast().lat();
-                var minX = mapLatLngBounds.getSouthWest().lng();
-                var minY = mapLatLngBounds.getSouthWest().lat();
+                // var maxX = mapLatLngBounds.getNorthEast().lng();
+                // var maxY = mapLatLngBounds.getNorthEast().lat();
+                // var minX = mapLatLngBounds.getSouthWest().lng();
+                // var minY = mapLatLngBounds.getSouthWest().lat();
 
                 // console.log(maxX)
                 // console.log(maxY)
@@ -185,21 +185,37 @@ export default {
 
             var flightPlanCoordinates = []
 
+            var latlngbounds = new google.maps.LatLngBounds();
+
             for (var i = 0; i < this.cityInfo.length; i++) {
                 flightPlanCoordinates.push({
-                    lat: parseFloat(this.cityInfo[i].lat.toFixed(2)),
-                    lng: parseFloat(this.cityInfo[i].lon.toFixed(2))
+                    lat: parseFloat(this.cityInfo[i].lat),
+                    lng: parseFloat(this.cityInfo[i].lon)
                 })
+
+                var latlng = new google.maps.LatLng(parseFloat(this.cityInfo[i].lat), parseFloat(this.cityInfo[i].lon));
+                latlngbounds.extend(latlng);
             }
+
             this.chainPloyline = new google.maps.Polyline({
                 path: flightPlanCoordinates,
-                geodesic: true,
-                strokeColor: '#4F5A61',
+                // geodesic: true,
+                strokeColor: '#FA574B',
                 strokeOpacity: 1.0,
-                strokeWeight: 1.5
+                strokeWeight: 2,
+                // icons: [{
+                //     icon: {path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW},
+                //     offset: '100%'
+                // }]
             });
 
             this.chainPloyline.setMap(this.map);
+
+            this.map.fitBounds(latlngbounds);
+
+            
+
+            
 
             this.mapCityMarker(this.cityInfo, 'chain')
         },
@@ -404,7 +420,7 @@ export default {
                 val = 'CN'
             }
             if(val){
-                return require('../../assets/images/flag/' + val.toLowerCase() + '.png')
+                return require('../../assets/images/flags/' + val + '.png')
             }else{
                 return require('../../assets/images/flag/cn.png')
                 // return require('../../assets/images/flag/zh.png')
@@ -455,7 +471,7 @@ export default {
             this.getCityList()
         },
 
-        getCityList(){
+        getCityList(val){
             this.listLoading = true
             var _data = {
                 countryId: this.countryId,
@@ -464,6 +480,7 @@ export default {
             }
             if(this.keywords != ''){
                 this.countryName = '-'
+                delete _data.countryId
                 _data['nameCn'] = this.keywords
                 _data.pageSize = 1000
             }
@@ -497,7 +514,6 @@ export default {
                         this.gotoCountryMap()
                     }
                     this.listLoading = false
-
                 }
             })
         },
@@ -801,7 +817,7 @@ export default {
 .mapMarker{
     width: 10px;
     height: 10px;
-    background: #FA574B;
+    background: #777;
     border-radius: 100%;
     opacity: 0.8;
     &:hover{
@@ -811,9 +827,10 @@ export default {
         opacity: 1;
     }
     &.chain{
+        position: relative;
         z-index: 1;
         opacity: 1;
-        background: red;
+        background: #FA574B;
     }
     cursor: pointer;
 }

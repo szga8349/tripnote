@@ -1,9 +1,9 @@
 <template>
     <div class="wrap">
-        <main-nav></main-nav>
+        <main-nav :user="user"></main-nav>
         <div class="mainCon">
-            <main-header></main-header>
-            <router-view></router-view>
+            <main-header :user="user"></main-header>
+            <router-view :user="user"></router-view>
         </div>
     </div>
 </template>
@@ -14,6 +14,28 @@ export default{
     components: {
         MainNav,
         MainHeader
+    },
+    data(){
+      return {
+        user: {}
+      }
+    },
+    created(){
+        this.getUserDetail()
+    },
+    methods: {
+        getUserDetail(){
+            this.$http({
+                method: 'post',
+                url: '/user/doDetail',
+                // data: {
+                //     indexdates: JSON.stringify({"indexdates":_data}),
+                // }
+            })
+            .then((res)=>{
+                this.user = res.data.data
+            })
+        },
     }
 }
 </script>

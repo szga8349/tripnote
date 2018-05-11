@@ -1,24 +1,20 @@
 import Vue from 'vue';
 import App from './App';
 
-
 import axios from 'axios'
 
-axios.defaults.transformRequest = [function (data) {
-    // Do whatever you want to transform the data
-    let ret = ''
-    for (let it in data) {
-        ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
-    }
-    return ret
-}];
-
 // http请求拦截器
+import qs from 'qs'
 axios.interceptors.request.use(config => {
-    if(config.method == 'GET'){
+    if (config.method == 'GET') {
         config.url = config.url.indexOf('?') > 0 ? config.url + '&clearCache=' + new Date().valueOf() : config.url + '?clearCache=' + new Date().valueOf()
     }
-
+    if (config.method == "post") {
+        if (!config.headers['Content-Type']) {
+            config.data = qs.stringify(config.data);
+            config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+        }
+    }
     return config
 }, error => {
     return Promise.reject(error)
@@ -26,15 +22,65 @@ axios.interceptors.request.use(config => {
 
 // http响应拦截器
 axios.interceptors.response.use(data => {
-    if(data.data['code'] && data.data['code'] == -2){
+    if (data.data['code'] && data.data['code'] == -2) {
         window.location.href = '/login'
     }
     return data
-}, error => {
-    return Promise.reject(error)
+}, err => {
+    if (err && err.response) {
+        switch (err.response.status) {
+            case 400:
+                err.message = '请求错误'
+                break
+
+            case 401:
+                err.message = '未授权，请登录'
+                break
+
+            case 403:
+                err.message = '拒绝访问'
+                break
+
+            case 404:
+                err.message = `请求地址出错: ${err.response.config.url}`
+                break
+
+            case 408:
+                err.message = '请求超时'
+                break
+
+            case 500:
+                err.message = '服务器内部错误'
+                break
+
+            case 501:
+                err.message = '服务未实现'
+                break
+
+            case 502:
+                err.message = '网关错误'
+                break
+
+            case 503:
+                err.message = '服务不可用'
+                break
+
+            case 504:
+                err.message = '网关超时'
+                break
+
+            case 505:
+                err.message = 'HTTP版本不受支持'
+                break
+
+            default:
+        }
+    }
+    return Promise.reject(err)
 })
 
 Vue.prototype.$http = axios
+
 
 
 import VueI18n from 'vue-i18n'
@@ -68,8 +114,8 @@ import components from 'components/common';
 // import Plugins from './plugins'
 
 import {
-  cnContent,
-  enContent
+    cnContent,
+    enContent
 } from 'locale/international.js'
 
 
@@ -85,147 +131,42 @@ require('froala-editor/css/froala_style.min.css')
 import VueFroala from 'vue-froala-wysiwyg'
 Vue.use(VueFroala)
 
-
-// Vue.use(VueResource)
-// Vue.use(VueHighcharts, { Highcharts })
-
 Vue.use(directive)
 Vue.use(VueI18n)
 Vue.use(components)
-// Vue.use(Plugins)
 
 import router from './router'
 // import Setting from './components/Setting';
 // import My from './components/My';
 
 window.onbeforeunload = function() {
-  window.sessionStorage.clear();
+    window.sessionStorage.clear();
 }; //页面刷新
 
-// router.beforeEach((to, from, next) => {
-//   const user = window.sessionStorage.getItem('username');
-//   window.scrollTo(0, 0);
-//   if (!user) {
-//     Vue.http.post('/authenticate', {}, {
-//       emulateJSON: true
-//     }).then(function(res) {
-//       if (res.body.statusCode == 200) {
-//         const _user = res.body.message;
-//         store.dispatch('setUsername', _user.userName);
-//         window.sessionStorage.setItem('username', _user.userName);
-
-//         store.dispatch('setUserInfo', _user)
-//         window.sessionStorage.setItem('userInfo', _user)
-//       } else {
-//         store.dispatch('setUsername', "");
-//         window.sessionStorage.removeItem('username');
-//         window.sessionStorage.setItem('userInfo', {})
-//         window.location.href = "/login";
-//       }
-//     })
-//     next();
-//   } else {
-//     next();
-//   }
-// });
-
-// Vue.http.post('/authenticate', {}, {
-//   emulateJSON: true
-// }).then(function(res) {
-//   if (res.body.statusCode == 200) {
-//     const _user = res.body.message;
-//     store.dispatch('setUsername', _user.userName);
-//     window.sessionStorage.setItem('username', _user.userName);
-
-//     store.dispatch('setUserInfo', _user)
-//     window.sessionStorage.setItem('userInfo', _user)
-//   } else {
-//     store.dispatch('setUsername', "");
-//     window.sessionStorage.removeItem('username');
-//     window.sessionStorage.setItem('userInfo')
-//     window.location.href = "/login";
-//   }
-// })
-
-
-
-
-
-// Vue.http.interceptors.push((request, next) => {
-//   if(request.method == 'GET'){
-//     request.url = request.url.indexOf('?') > 0 ? request.url + '&clearCache=' + new Date().valueOf() : request.url + '?clearCache=' + new Date().valueOf()
-//   }
-
-//   next((response) => {
-//     const returnResponse = response.body;
-//     const code = returnResponse.statusCode || returnResponse.return_code;
-//     if (code && code === 407) {
-//       store.dispatch('setUsername', "");
-//       window.sessionStorage.removeItem('username');
-//       window.location.href = "/login";
-//       return response;
-//     }
-//   });
-// });
 
 //international
 const locales = {
-  en: {
-    content: enContent.content
-  },
-  'zh-CN': {
-    content: cnContent.content
-  }
+    en: {
+        content: enContent.content
+    },
+    'zh-CN': {
+        content: cnContent.content
+    }
 };
 // set locales
 
 
 Vue.config.lang = 'zh-CN'
 Object.keys(locales).forEach(function(lang) {
-  Vue.locale(lang, locales[lang])
+    Vue.locale(lang, locales[lang])
 })
 
-// const cookie = document.cookie.split(';')
-// let lang
-// cookie.forEach(val=>{
-//   let arr = val.split('=')
-//   let name = arr[0].replace(/^\s/, '')
-//   if(name === 'lang'){
-//     lang = arr[1]
-//   }
-// })
+Vue.use(Element, {
+    locale: langZh
+})
 
-//Vue.config.silent = true;
-// Vue.http.get('lang?'+new Date().getTime())
-//         .then(res=>{
-//           return res.body.message
-//         })
-//         .then(message=>{
-//           if(message){
-//             lang = /zh/i.test(message.lang) ? 'zh' : 'en'
-//           }else{
-//             lang = navigator.language || navigator.browserLanguage
-//           }
-//           /^zh/.test(lang) ? Vue.use(Element, {locale: langZh}) : Vue.use(Element, {locale: langEn})
-//           return lang
-//         })
-//         .then(lang=>{
-//           window.localStorage.setItem('lang', lang)
-//           var vm = new Vue({
-//             router,
-//             store,
-//             render: h => h(App)
-//           }).$mount('#App');
-//         })
-//         .catch(err=>{
-//           console.error(err);
-//           return Promise.reject()
-//         })
-
-window.localStorage.setItem('lang', 'zh')
-Vue.use(Element, {locale: langZh})
 var vm = new Vue({
-  router,
-  store,
-  render: h => h(App)
+    router,
+    store,
+    render: h => h(App)
 }).$mount('#App');

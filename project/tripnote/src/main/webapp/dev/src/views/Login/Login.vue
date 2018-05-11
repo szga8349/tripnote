@@ -91,7 +91,6 @@ export default {
             regUsername: '',
             regPhone: '',
             regSmsCode: '',
-            regSmsCode1: '',
             regPwd: '',
             loginUsername: '',
             loginPhone: '',
@@ -109,6 +108,8 @@ export default {
             regPwdError: false,
             regPwdErrorVisible: false,
             regPwdErrorInfo: false,
+
+            countdownTimer: '',
 
 
             loginPhoneError: false,
@@ -134,7 +135,22 @@ export default {
             loginSilderInit: 'loginSilderInit',
         }),
     },
+
+    watch: {
+        type(val){
+            if(val == 'findPwd' || val == 'reg'){
+                clearInterval(this.countdownTimer)
+                this.getSmsCodeTxt = '获取验证码'
+            }
+        }
+    },
     created(){
+        var _lastUser = this.getCookie('lastUser')
+        if(_lastUser){
+            this.loginPhone = _lastUser
+            this.loginPwd = this.getCookie('user_' + _lastUser)
+            this.rememberPwd = true
+        }
     },
 	mounted() {
         var img1 = this.bg_1
@@ -177,6 +193,43 @@ export default {
         })
 	},
 	methods: {
+        // 设置cookie
+        setCookie: function (cname, cvalue, exdays) {
+            var d = new Date();
+            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+            var expires = "expires=" + d.toUTCString();
+            document.cookie = cname + "=" + cvalue + "; " + expires;
+        },
+
+        // 获取cookie
+        getCookie: function (cname) {
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1);
+                if (c.indexOf(name) != -1) return c.substring(name.length, c.length);
+            }
+            return "";
+        },
+
+        //清除cookie
+        clearCookie: function () {
+            this.setCookie("username", "", -1);
+        },
+
+        checkCookie: function () {
+            var user = this.getCookie("username");
+            if (user != "") {
+                alert("Welcome again " + user);
+            } else {
+                user = prompt("Please enter your name:", "");
+                if (user != "" && user != null) {
+                    this.setCookie("username", user, 365);
+                }
+            }
+        },
+
         clearRegPhoneError(){
             this.regPhoneError = false
             this.regPhoneError0Visible = false
@@ -220,7 +273,7 @@ export default {
             }
         },
 
-        checkLoginPhone(){
+        checkLoginPhone(type){
             this.loginPhoneError = false
             this.loginPhoneErrorVisible = false
 
@@ -237,6 +290,11 @@ export default {
                 this.loginPhoneErrorVisible = true
                 this.loginPhoneErrorInfo = '手机号码格式不正确！'
                 return false
+            }
+
+            if(!type && this.getCookie('user_'+this.loginPhone)){
+                this.loginPwd = this.getCookie('user_'+this.loginPhone)
+                this.rememberPwd = true
             }
             return true
         },
@@ -267,12 +325,11 @@ export default {
         countdown(){
             var _time = 60
             var vm = this
-            var _countdownTimer;
             vm.getSmsCodeTxt = _time-- + 's'
-            _countdownTimer = setInterval(function(){
+            vm.countdownTimer = setInterval(function(){
                 vm.getSmsCodeTxt = _time-- + 's'
                 if(_time == 0){
-                    clearInterval(_countdownTimer)
+                    clearInterval(vm.countdownTimer)
                     vm.getSmsCodeTxt = '获取验证码'
                     vm.getSmsCodeAbled = true
                 }
@@ -314,16 +371,23 @@ export default {
                     }else{
                          this.$http({
                             method: 'POST',
-                            url: '/userLogin/sendSmsCode',
+                            url: '/userLogin/sendRegisterCode',
                             data: {
-                                loginName: this.regPhone,
+                                phoneNo: this.regPhone,
                             }
                         })
                         .then((res)=>{
+                            this.getSmsCodeAbled = true
                             if(res.data.code == 1){
-                                vm.regSmsCode1 = res.data.data
+                                // vm.regSmsCode1 = res.data.data
                                 vm.getSmsCodeAbled = false
                                 this.countdown()
+                            }else{
+                                vm.$message({
+                                    message: res.data.data,
+                                    type: 'error',
+                                    duration: 2000
+                                });
                             }
                         })
                     }
@@ -331,14 +395,14 @@ export default {
             }else{
                 this.$http({
                     method: 'POST',
-                    url: '/userLogin/sendSmsCode',
+                    url: '/userLogin/sendResetCode',
                     data: {
-                        loginName: this.regPhone,
+                        phoneNo: this.regPhone,
                     }
                 })
                 .then((res)=>{
                     if(res.data.code == 1){
-                        vm.regSmsCode1 = res.data.data
+                        // vm.regSmsCode1 = res.data.data
                         vm.getSmsCodeAbled = false
                         this.countdown()
                     }
@@ -408,7 +472,7 @@ export default {
                 data: {
                     loginName: this.regPhone,
                     loginPasswd: this.regPwd,
-                    smsCode: this.regSmsCode1,
+                    smsCode: this.regSmsCode,
                 }
             })
             .then((res)=>{
@@ -450,7 +514,7 @@ export default {
                 data: {
                     loginName: this.regPhone,
                     loginPasswd: this.regPwd,
-                    smsCode: this.regSmsCode1,
+                    smsCode: this.regSmsCode,
                 }
             })
             .then((res)=>{
@@ -475,7 +539,7 @@ export default {
             if(!this.submitAble){
                 return
             }
-            const _checkPhone = this.checkLoginPhone()
+            const _checkPhone = this.checkLoginPhone('login')
             const _checkPwd = this.checkLoginPwd()
 
             if(!_checkPhone || !_checkPwd){
@@ -509,12 +573,19 @@ export default {
                 
                 if(res.data.code == 1 || res.data.code == 2){
                     vm.$message({
-                        message: '恭喜你，登录成功！',
+                        message: '登录成功！',
                         type: 'success',
                         duration: 2000
                     });
+                    if(this.rememberPwd){
+                        this.setCookie("user_"+ this.loginPhone, this.loginPwd, 365);
+                        this.setCookie("lastUser", this.loginPhone, 365);
+                    }else{
+                        this.setCookie("user_"+ this.loginPhone, '', -1);
+                    }
+                    this.setCookie("username", this.loginPhone, 365);
+
                     vm.$router.push({path: 'main'})
-                    // vm.type = 'login'
                 }else{
                     vm.$message({
                         message: res.data.message,

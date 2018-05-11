@@ -1,8 +1,7 @@
 <template>
     <div class="routeCreate">
         <div class="topBar">
-            <router-link to="/main/route" tag="a" class="backBtn">
-            </router-link>
+            <a href="javascript:;" class="backBtn" @click="backList"></a>
             <div class="typeSel">
                 <div class="templateName">{{routeName}}</div>
             </div>
@@ -11,7 +10,7 @@
                 <ul>
                     <li>
                         <i class="icon0"></i>
-                        <p>线路模板</p>
+                        <p>线路模板<span class="el-icon-caret-bottom"></span></p>
                         <div class="list">
                             <div class="item" @click="goImport">导入线路模板</div>
                             <div class="item" @click="goExport">导出线路模板</div>
@@ -34,11 +33,11 @@
             </div>
         </div>
 
-        <div class="columnBox dayList" :class="{setDayScheduleActive: setDayScheduleActive, setDayPoiEditActive: setDayPoiEditActive}">
+        <div class="columnBox dayList" @mouseenter="setBtnActive=true" @mouseleave="setBtnActive=false" :class="{setDayScheduleActive: setDayScheduleActive, setDayPoiEditActive: setDayPoiEditActive}">
             <div class="header">
                 <div class="tit"><i class="iconfont icon-luxian"></i>行程路线</div>
                 <div class="opts">
-                    <a href="javascript:;" @click="setRouteLine" v-if="!setRouteLineActive" class="actionBtn">
+                    <a href="javascript:;" @click="setRouteLine" v-if="!setRouteLineActive" class="actionBtn" :class="{active: setBtnActive}">
                         <i class="iconfont icon-bianji-blue"></i>
                         <span>安排路线</span>
                     </a>
@@ -51,7 +50,12 @@
                     <router-link :to="{path: '/route/' + routeId + '/intro'}" tag="li" class="summary" v-if="!setRouteLineActive && !setDayScheduleActive">
                         线路总览
                     </router-link>
-
+                </ul>
+                
+                <draggable element="ul" :list="scheduleInfo" :options="{dragClass: 'dayDragging'}" @end="dragEnd">
+                    <!-- <li v-for="(element, index) in list1"  >
+                        {{element.name}} {{index}}
+                    </li> -->
                     <li v-for="(value, index) in scheduleInfo" @click="toDayDetail(value)" :class="{active: daySel==value.id}">
                         <div class="day" :class="{noCity: value.citys.length==0}">D{{value.indexdate}}</div>
                         <div class="date" v-if="!setRouteLineActive">{{formatDateWeek(startDate, index)}}</div>
@@ -59,7 +63,7 @@
                             <div class="item" v-for="(item, index) in value.citys">
                                 <span class="cityName" :class="{init: !item.scheduleId}">
                                     {{item.nameCn}}
-                                    <span class="delCity" @click="delDayCity(item.id)" v-if="item.scheduleId">
+                                    <span class="delCity" @click="delDayCity(item.id)" v-if="setRouteLineActive && item.scheduleId">
                                         <i class="iconfont icon-shanchu1"></i>
                                     </span>
                                 </span>
@@ -80,7 +84,9 @@
                         <i class="el-icon-circle-plus-outline"></i>
                         添加一天
                     </li>
-
+                </draggable>
+                
+                <ul>
                     <router-link :to="{path: '/route/' + routeId + '/remarks'}" tag="li" class="summary" v-if="!setRouteLineActive && !setDayScheduleActive">
                         行程备注
                     </router-link>
@@ -107,9 +113,30 @@
             </div>
         </el-dialog>
 
-        <el-dialog title="完善定制信息" :visible.sync="dialogBaseInfoVisible" width="600px">
-            <el-form ref="form" :model="form" label-width="70px" class="formAdd">
-                <el-form-item label="名称:">
+        <!-- <el-dialog title="提示" :visible.sync="dialogChangeInfoTip" width="450px">
+            <div class="delTipCon">
+                <p>当前选择的天数小于之前设定的天数</p>
+                <p class="colorRed">您安排的这天所有的行程都会删除！</p>
+            </div>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click.native="dialogDelDayTip = false">取消</el-button>
+                <el-button type="primary" @click.native="delRouteDay">确定</el-button>
+            </div>
+        </el-dialog> -->
+
+        <el-dialog title="提示" :visible.sync="backListConfirmVisible" width="450px">
+            <div class="delTipCon">
+                <p>您确定要退出编辑吗？</p>
+            </div>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click.native="backListConfirmVisible = false">取消</el-button>
+                <el-button type="primary" @click.native="backListConfirmSubmit">确定</el-button>
+            </div>
+        </el-dialog>
+
+        <el-dialog title="完善行程信息" :visible.sync="dialogBaseInfoVisible" width="600px">
+            <el-form ref="form" :model="form" :rules="rules" label-width="80px" class="formAdd">
+                <el-form-item label="名称:" required prop="title">
                     <el-input v-model="form.title"></el-input>
                 </el-form-item>
                 <el-form-item label="行程封面:">
@@ -128,7 +155,7 @@
 
                 </el-form-item>
 
-              <el-form-item label="行程时段:">
+              <el-form-item label="行程时段:" required prop="dateRange">
                 <el-col :span="10">
                     <el-date-picker
                         :picker-options="pickerOptions"
@@ -151,13 +178,29 @@
 
                   <el-form-item label="出发城市:">
                     <el-col :span="10">
-                      <el-input v-model="form.startCity"></el-input>
+                      <el-autocomplete
+                            v-model="form.startCity"
+                            class="citySel"
+                            prefix-icon="el-icon-search"
+                            :fetch-suggestions="queryCitySearch"
+                            placeholder=""
+                            :trigger-on-focus="false"
+                            @select="cityStartSelect"
+                        ></el-autocomplete>
                     </el-col>
                     <el-col class="line" :span="4">
                         <span class="label">返回城市:</span>
                     </el-col>
                     <el-col :span="10">
-                      <el-input v-model="form.destination"></el-input>
+                      <el-autocomplete
+                            v-model="form.destination"
+                            class="citySel"
+                            prefix-icon="el-icon-search"
+                            :fetch-suggestions="queryCitySearch"
+                            placeholder=""
+                            :trigger-on-focus="false"
+                            @select="cityEndSelect"
+                        ></el-autocomplete>
                     </el-col>
                   </el-form-item>
 
@@ -197,7 +240,7 @@
 
             <div slot="footer" class="dialog-footer">
                 <el-button @click.native="dialogBaseInfoVisible = false">取 消</el-button>
-                <el-button :disabled="isDisable" type="primary" @click.native="saveRouteInfo()">保 存</el-button>
+                <el-button :disabled="isDisable" type="primary" @click.native="saveRouteInfo">保 存</el-button>
             </div>
         </el-dialog>
     </div>
@@ -210,13 +253,17 @@ import moment from 'moment'
 
 import SetCity from './RouteSetCity'
 
+import draggable from 'vuedraggable'
+
 export default {
     components: {
-        SetCity
+        SetCity,
+        draggable
     },
     mixins: [ FormatDateWeek ],
     data() {
         return {
+            setBtnActive: false,
             dialogAddVisible: false,
             routeName: '',
             scheduleInfo: [],
@@ -246,6 +293,7 @@ export default {
                 personList: [],
                 startCity: ''
             },
+            backListConfirmVisible: false
 
             // daySel: ''
         }
@@ -306,6 +354,14 @@ export default {
         Bus.$on('addCityToDayReduce', function(item){
             vm.addCityToDayReduce(item)
         })
+
+        Bus.$on('addCityToDayOnce', function(item){
+            vm.addCityToDayOnce(item)
+        })
+
+        Bus.$on('delDayCity', function(cityId){
+            vm.delDayCity(cityId)
+        })
     },
 
     watch: {
@@ -317,6 +373,15 @@ export default {
     },
 
     methods: {
+
+        backList(){
+            this.backListConfirmVisible = true
+        },
+
+        backListConfirmSubmit(){
+            this.$router.push({path: '/main/route'})
+        },
+
         goImport(){
             this.$router.push({path: '/route/' + this.routeId + '/importTemplate'})
         },
@@ -336,7 +401,8 @@ export default {
         saveRouteInfo(){
             var _custom = []
             for (var i = 0; i < this.form.personList.length; i++) {
-                if(this.form.personList[i].type == 'done'){
+                // if(this.form.personList[i].type == 'done'){
+                if(this.form.personList[i].name != '' && this.form.personList[i].phone != ''){
                     _custom.push({
                         name: this.form.personList[i].name,
                         phone: this.form.personList[i].phone,
@@ -373,9 +439,145 @@ export default {
                         duration: 2000
                     });
                     this.dialogBaseInfoVisible = false
+
+                    if(this.routeInfo.days < this.form.days){
+                        this.addSchedule()
+                    }else{
+                        this.removeSchedule()
+                    }
                 }
             })
         },
+
+        addSchedule(){
+            var _data = []
+
+            for (var i = 0; i < this.form.days - this.routeInfo.days; i++) {
+                _data.push({
+                    indexdate: this.routeInfo.days + i + 1
+                })
+            }
+
+            this.$http({
+                method: 'POST',
+                url: '/tripnote/schedule/doAddIndexdate/' + this.routeId,
+                data:{
+                    indexdates: JSON.stringify({"indexdates":_data}),
+                }
+            })
+            .then((res)=>{
+                if(res.data.code == -1){
+                    this.$message({
+                        message: res.data.message,
+                        type: 'error',
+                        duration: 2000
+                    });
+                }else{
+                    var _scheduleId = res.data.data[res.data.data.length - 1]
+                    this.addDayCity(_scheduleId)
+                }
+            })
+        },
+
+        addDayCity(scheduleId){
+            if(
+                this.form.startCity != '' && 
+                (
+                    this.routeInfo.dayInfo[0].citys.length == 0 ||
+                    (this.routeInfo.dayInfo[0].citys.length > 0 && this.routeInfo.dayInfo[0].citys[0].nameCn != this.form.startCity) 
+                )
+
+            ){
+                var _url = '/tripnote/schedulecity/doAdd'
+
+                if(this.routeInfo.dayInfo[0].citys.length > 0){
+                    _url = '/tripnote/schedulecity/doAddFrist'
+                }
+
+                this.$http({
+                    method: 'POST',
+                    url: _url,
+                    data:{
+                        cityId: this.form.cityStartId,
+                        scheduleId: this.routeInfo.dayInfo[0].id
+                    }
+                })
+                .then((res)=>{
+                    if(res.data.code == -1){
+                        this.$message({
+                            message: res.data.message,
+                            type: 'error',
+                            duration: 2000
+                        });
+                    }
+                })
+            }
+
+            if(this.form.destination != '' && scheduleId){
+                this.$http({
+                    method: 'POST',
+                    url: '/tripnote/schedulecity/doAdd',
+                    data:{
+                        cityId: this.form.cityEndId,
+                        scheduleId: scheduleId
+                    }
+                })
+                .then((res)=>{
+                    if(res.data.code == -1){
+                        this.$message({
+                            message: res.data.message,
+                            type: 'error',
+                            duration: 2000
+                        });
+                    }
+                })
+            }
+
+            // var vm  = this
+            // setTimeout(function(){
+            //     vm.$router.go({path: '/route/' + vm.routeId})
+            // }, 1000)
+
+        },
+
+        removeSchedule(){
+            var _diff = this.routeInfo.days - this.form.days
+            var _ids = []
+            var _len = this.routeInfo.dayInfo.length
+
+            for (var i = 0; i < _diff; i++) {
+                _ids.push(this.routeInfo.dayInfo[_len-i-1].id)
+            }
+
+
+            var vm = this
+            $.ajax({
+                url: '/tripnote/schedule/batch/doDelete',
+                data: JSON.stringify({
+                    ids: _ids
+                }),
+                type: 'post',
+                contentType: 'application/json',
+                success: function(res){
+                    if(res.code == -1){
+                        vm.$message({
+                            message: res.message,
+                            type: 'error',
+                            duration: 2000
+                        });
+                    }else{
+                        var _scheduleLast = vm.routeInfo.dayInfo[vm.routeInfo.dayInfo.length - 1 - _diff]
+
+                        if(_scheduleLast.citys.length > 0 && _scheduleLast.citys[_scheduleLast.citys.length - 1].nameName != vm.form.destination){
+                            vm.addDayCity(_scheduleLast.id)
+                        }else{
+                            vm.addDayCity()
+                        }
+                    }
+                }
+            })
+        },
+
 
         showBaseInfo(){
             this.dialogBaseInfoVisible = true
@@ -385,7 +587,8 @@ export default {
             this.form.personList.push({
                 name: '',
                 phone: '',
-                type: 'edit'
+                type: 'edit',
+
             })
         },
         addPersonItem(item){
@@ -405,6 +608,104 @@ export default {
                 this.$router.push({path: '/route/' + this.routeId + '/day/' + item.id})
             }
             
+        },
+
+        addCityToDayOnce(item){
+            var _nextScheduleId = ''
+            var _thisDayIndex = ''
+            var _nextCitys = []
+
+            for (var i = 0; i < this.scheduleInfo.length; i++) {
+                if(this.scheduleInfo[i].id == this.dayId){
+                    _thisDayIndex = this.scheduleInfo[i].indexdate
+                }
+            }
+            if(_thisDayIndex + 1 <= this.scheduleInfo.length){
+                // if(this.scheduleInfo[_thisDayIndex].citys.length > 0){
+                    _nextScheduleId = this.scheduleInfo[_thisDayIndex].id
+                    _nextCitys = this.scheduleInfo[_thisDayIndex].citys
+                // }
+            }
+
+
+            this.$http({
+                method: 'post',
+                url: '/tripnote/schedulecity/doAdd',
+                data:{
+                    cityId: item.id,
+                    scheduleId: this.dayId
+                }
+            })
+            .then((res)=>{
+                if(res.data.code == -1){
+                    this.$message({
+                        message: res.data.message,
+                        type: 'error',
+                        duration: 2000
+                    })
+                }else{
+                    if(_nextScheduleId != ''){
+                        this.$http({
+                            method: 'post',
+                            url: '/tripnote/schedulecity/doAddFrist',
+                            data:{
+                                cityId: item.id,
+                                scheduleId: _nextScheduleId
+                            }
+                        })
+                        .then((res)=>{
+                            if(res.data.code == -1){
+                                this.$message({
+                                    message: res.data.message,
+                                    type: 'error',
+                                    duration: 2000
+                                })
+                            }else{
+                                this.getRouteInfo()
+                            }
+                        })
+
+                        if(_nextCitys.length == 1){
+                            this.$http({
+                                method: 'post',
+                                url: '/tripnote/schedule/doDeail/' + _nextScheduleId,
+                            })
+                            .then((res)=>{
+                                if(res.data.code == -1){
+                                    this.$message({
+                                        message: res.data.message,
+                                        type: 'error',
+                                        duration: 2000
+                                    })
+                                }else{
+                                    if(res.data.data.rents.length == 0 && res.data.data.scheduleHotels.length == 0 && res.data.data.scheduletrips.length == 0){
+                                        
+                                        this.$http({
+                                            method: 'post',
+                                            url: '/tripnote/schedulecity/doDelete/' + _nextCitys[0].id,
+                                        })
+                                        .then((res)=>{
+                                            if(res.data.code == -1){
+                                                this.$message({
+                                                    message: res.data.message,
+                                                    type: 'error',
+                                                    duration: 2000
+                                                });
+                                            }
+                                        })
+                                    }
+                                }
+                            })
+                        }
+
+
+
+                        
+                    }else{
+                        this.getRouteInfo()
+                    }
+                }
+            })
         },
 
         addCityToDayInit(item){
@@ -501,6 +802,50 @@ export default {
             }
         },
 
+        queryCitySearch(queryString, cb) {
+            var vm = this
+            this.tableDataLoading = true
+            this.$http({
+                method: 'POST',
+                url: '/city/doSearch',
+                data: {
+                    pageNo: 1,
+                    pageSize: 100,
+                    nameCn: queryString
+                }
+            })
+            .then((res)=>{
+                vm.tableDataLoading = false
+                if(res.data.code == -1){
+                    this.$message({
+                        message: res.data.message,
+                        type: 'error',
+                        duration: 2000
+                    });
+                }else{
+                    var _data = []
+
+                    for (var i = 0; i < res.data.data.length; i++) {
+                        var _item = res.data.data[i]
+                        _item.value = res.data.data[i].nameCn
+                        _data.push(_item)
+                    }
+
+                    cb(_data)
+                }
+            })
+        },
+
+        cityStartSelect(item){
+            this.form.cityStartId = item.id
+            this.form.startCity = item.nameCn
+        },
+
+        cityEndSelect(item){
+            this.form.cityEndId = item.id
+            this.form.destination = item.nameCn
+        },
+
         // 减少一天
         addCityToDayReduce(item){
             // 插入数组元素
@@ -529,7 +874,8 @@ export default {
 
         // 添加当天的城市
         async addToDaySubmit(item){
-            // console.log(item)
+
+            console.log(item)
 
             // console.log('addDayPrevCity', this.addDayPrevCity)
             // console.log(this.addDayInsertDay)
@@ -660,6 +1006,43 @@ export default {
             }
         },
 
+        dragEnd(data){
+            var _newIndex = data.newIndex
+            var _oldIndex = data.oldIndex
+
+            console.log('new', _newIndex)
+            console.log('old', _oldIndex)
+
+            var _changeSort = []
+
+            for (var i = 0; i < this.routeInfo.dayInfo.length; i++) {
+                if(this.routeInfo.dayInfo[i].indexdate != i+1){
+                    _changeSort.push({
+                        scheduleid: this.routeInfo.dayInfo[i].id,
+                        indexdate: i+1
+                    })
+                }
+            }
+
+            this.$http({
+                method: 'post',
+                url: '/tripnote/schedule/doUpdateIndexDate',
+                data: {
+                    indexdates: JSON.stringify({"indexdates":_changeSort}),
+                }
+            })
+            .then((res)=>{
+                if(res.data.code == -1){
+                    vm.$message({
+                        message: res.data.message,
+                        type: 'error',
+                        duration: 2000
+                    });
+                }else{
+                    this.getRouteInfo()
+                }
+            })
+        },
 
         setRouteLine(){
             // this.setRouteLineActive = !this.setRouteLineActive
@@ -683,11 +1066,14 @@ export default {
                     this.scheduleInfo = res.data.data.ttripNoteSchedules
 
                     this.startDate = res.data.data.startDate
+                    var _days = res.data.data.days
 
                     var _routeInfo = $.extend({}, this.routeInfo, {
                         intro: res.data.data.introduction,
                         remarks: res.data.data.remarks,
-                        dayInfo: this.scheduleInfo
+                        dayInfo: this.scheduleInfo,
+                        startDate: this.startDate,
+                        days: _days
                     })
 
                     Object.assign(this.$data.form, res.data.data)
@@ -695,6 +1081,8 @@ export default {
                     this.form.dateRange = [new Date(this.form.startDate), new Date(this.form.endDate)]
 
                     this.$store.dispatch('setRouteInfo', _routeInfo)
+
+                    Bus.$emit('refreshSchedule', true)
 
                     var _cityList = []
 
@@ -876,6 +1264,10 @@ export default {
 
         Bus.$off('addCityToDayReduce')
 
+        Bus.$off('addCityToDayOnce')
+        
+        Bus.$off('delDayCity')
+
 
         this.$store.dispatch('setRouteLineActive', false)
         this.$store.dispatch('setDayScheduleActive', false)
@@ -887,7 +1279,7 @@ export default {
 .routeCreate{
     .topBar{
         height: 60px;
-        background: #fff;
+        background: #253744;
         box-shadow: 0 3px 10px rgba(0,0,0,.04);
         .backBtn{
             float: left;
@@ -895,7 +1287,7 @@ export default {
             height: 24px;
             margin-top: 18px;
             background: url(../../assets/images/icon_back.png) center center no-repeat;
-            border-right: 1px solid #DADEE5;
+            border-right: 1px solid #4a5e6d;
         }
         .typeSel{
             float: left;
@@ -927,38 +1319,39 @@ export default {
                 float: left;
                 margin-left: 10px;
                 font-size: 16px;
+                color: #cde0ed;
             }
         }
         .optBtns{
             float: right;
             li{
                 position: relative;
-                z-index: 2;
+                z-index: 103;
                 float: left;
                 width: 90px;
                 height: 60px;
-                border-left: 1px solid #E6E9EF;
+                border-left: 1px solid #334959;
                 cursor: pointer;
                 &:hover{
+                    background: #101c24;
                     .list{
                         display: block;
                     }
-                    background: #F7F8F9;
-                    p{
-                        color: #23a16d;
-                    }
+                    // p{
+                    //     color: #23a16d;
+                    // }
                     i{
                         &.icon0{
-                            background-position: -30px -90px;
+                            background-position: 0px -90px;
                         }
                         &.icon1{
-                            background-position: -30px 0;
+                            background-position: 0px 0;
                         }
                         &.icon2{
-                            background-position: -30px -30px;
+                            background-position: 0px -30px;
                         }
                         &.icon3{
-                            background-position: -30px -60px;
+                            background-position: 0px -60px;
                         }
                     }
                 }
@@ -966,7 +1359,7 @@ export default {
                     display: none;
                     position: absolute;
                     top: 60px;
-                    left: 0;
+                    right: 0;
                     width: 112px;
                     padding: 12px 0;
                     background: #fff;
@@ -994,33 +1387,21 @@ export default {
                     height: 30px;
                     background: url(../../assets/images/icon_route_opts.png);
                     &.icon0{
-                        background-position: 0 -90px;
-                        &:hover{
-                            background-position: -30px -90px;
-                        }
+                        background-position: -30px -90px;
                     }
                     &.icon1{
-                        background-position: 0 0;
-                        &:hover{
-                            background-position: -30px 0;
-                        }
+                        background-position: -30px 0;
                     }
                     &.icon2{
-                        background-position: 0 -30px;
-                        &:hover{
-                            background-position: -30px -30px;
-                        }
+                        background-position: -30px -30px;
                     }
                     &.icon3{
-                        background-position: 0 -60px;
-                        &:hover{
-                            background-position: -30px -60px;
-                        }
+                        background-position: -30px -60px;
                     }
                 }
 
                 p{
-                    color: #AAB1BB;
+                    color: #a9d1e4;
                     text-align: center;
                 }
             }
@@ -1140,12 +1521,36 @@ export default {
                 border-bottom: 1px solid #EBEEF2;
                 color: #666;
                 cursor: pointer;
+                &.dayDragging{
+                    background: red;
+                }
+                &.sortable-ghost{
+                    background: #23a16d;
+                }
+                // .day{
+                //     float: left;
+                //     line-height: 36px;
+                //     font-size: 36px;
+
+                //     &.noCity{
+                //         color: #C8D0D5;
+                //     }
+                // }
                 .day{
                     float: left;
+                    width: 36px;
+                    height: 36px;
                     line-height: 36px;
-                    font-size: 36px;
+                    font-size: 20px;
+                    text-align: center;
+                    background: #C3D1DD;
+                    border-radius: 18px;
+                    color: #fff;
+                    
                     &.noCity{
-                        color: #C8D0D5;
+                        // background: #C3D1DD;
+                        // color: #C8D0D5;
+                        // opacity: 0.6;
                     }
                 }
                 .date{
@@ -1166,10 +1571,10 @@ export default {
                             .delCity{
                                 display: none;
                                 position: absolute;
-                                right: -5px;
-                                top: -12px;
+                                right: -7px;
+                                top: -14px;
                                 i{
-                                    font-size: 14px;
+                                    font-size: 16px;
                                     color: #F56C6C;
                                     &:hover{
                                         color: red;
@@ -1241,7 +1646,8 @@ export default {
                 &.active{
                     background: #F7F8F9;
                     .day{
-                        color: #23a16d;
+                        background: #23a16d;
+                        color: #fff;
                     }
                 }
                 &:hover{
@@ -1305,13 +1711,13 @@ export default {
 }
 .routePic{
     float: left;
-    width: 100px;
-    height: 100px;
+    width: 160px;
+    height: 90px;
     background-size: cover;
     background-position: center;
     border: 1px solid #e2e2e2;
 }
 .uploadRoutePic{
-    margin-left: 110px;
+    margin-left: 175px;
 }
 </style>
