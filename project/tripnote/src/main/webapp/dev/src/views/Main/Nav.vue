@@ -3,17 +3,17 @@
         <div class="logo"></div>
         <div class="user">
             <div class="avatar">
-                <img src="../../assets/images/avatar.png">
+                <div class="pic" :style="{backgroundImage: `url(${imgFormat(user.imageurl)})`}"></div>
             </div>
-            <p class="name">Danior</p>
-            <p class="phone">13800138000</p>
+            <p class="name">{{user.realName ? user.realName : user.loginName}}</p>
+            <!-- <p class="phone">{{user.phone}}</p> -->
         </div>
 
         <ul>
             <router-link tag="li" v-for="value in mainNav" :to="value.route">
                 <i :class="`icon ${value.icon}`"></i>
                 <span class="name">{{value.name}}</span>
-                <span class="num" v-if="typeof value.count != 'undefined'">{{value.count}}</span>
+                <!-- <span class="num" v-if="typeof value.count != 'undefined'">{{value.count}}</span> -->
             </router-link>
         </ul>
     </div>
@@ -23,8 +23,12 @@ import Vue from 'vue'
 export default{
     name: 'MainNav',
     avatarImg: './images/avatar.png',
+    props: {
+        user: Object
+    },
     data(){
         return {
+            username: '',
             mainNav: [
                 {
                     name: '我的定制',
@@ -51,12 +55,12 @@ export default{
                 {
                     name: '客户管理库',
                     icon: 'icon5',
-                    route: {name: 'user'}
+                    route: {name: 'customer'}
                 },
                 {
                     name: '我的收藏库',
                     icon: 'icon6',
-                    route: {name: 'fav'}
+                    route: {name: 'collection'}
                 },
             ]
         }
@@ -68,9 +72,15 @@ export default{
       
     },
     created(){
-      // this.testSourceAuthority()
     },
     methods: {
+        imgFormat(imgurl){
+            if(imgurl){
+                return imgurl
+            }else{
+                return require('../../assets/images/avatar.png')
+            }
+        },
       // async testSourceAuthority(){
       //   const res = await this.$http.get('/space/init');
       //   const {statusCode, message} = res.body;
@@ -106,19 +116,26 @@ export default{
             height: 98px;
             margin: 0 auto;
             border-radius: 100%;
+            .pic{
+                width: 98px;
+                height: 98px;
+                background-size: cover;
+                background-position: center;
+                border-radius: 100%;
+            }
         }
         .name{
-            margin-top: 5px;
+            margin-top: 10px;
             font-size: 16px;
             color: #c1cfe0;
-            font-weight: bold;
+            // font-weight: bold;
         }
         .phone{
             color: #576773;
         }
     }
     ul{
-        margin-top: 12px;
+        margin-top: 20px;
         padding: 10px 0 12px;
         border-top: 1px solid #161E25;
         border-bottom: 1px solid #161E25;

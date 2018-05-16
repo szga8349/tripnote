@@ -24,6 +24,13 @@
                     <label>退房时间：</label>{{checkOuTime}}
                 </div>
 
+                <div class="hotelRemark">
+                    <label>备注：</label>
+                    <div class="text">
+                    {{remark}}
+                    </div>
+                </div>
+
                 <div class="des">
                     {{addressInstrations}}
                 </div>
@@ -185,6 +192,7 @@ export default {
             imageurl: '',
             checkInTime: '',
             checkOuTime: '',
+            remark: '',
 
             poiTypeOpts:[
                 {
@@ -514,7 +522,7 @@ export default {
             }
             this.chainPloyline = new google.maps.Polyline({
                 path: flightPlanCoordinates,
-                geodesic: true,
+                // geodesic: true,
                 strokeColor: '#4F5A61',
                 strokeOpacity: 1.0,
                 strokeWeight: 1.5
@@ -937,6 +945,19 @@ export default {
                 }
             }
         }
+        .hotelRemark{
+            margin: 15px 0;
+            label{
+                float: left;
+                color: #a0abb3;
+                &:last-child{
+                    margin-left: 50px;
+                }
+            }
+            .text{
+                margin-left: 60px; 
+            }
+        }
         .title{
             margin-top: 10px;
             h2{
@@ -1007,6 +1028,7 @@ export default {
     }
 }
 .mapTrafficMarker{
+    position: relative;
     width: 20px;
     height: 20px;
     background: #23a16d;

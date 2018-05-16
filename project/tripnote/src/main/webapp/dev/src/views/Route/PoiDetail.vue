@@ -501,7 +501,8 @@ export default {
                 url: '/tripnote/scheduletrip/poi/doAdd',
                 data: {
                     scheduleId: this.dayId,
-                    sourceId: this.poiId
+                    sourceId: this.poiId,
+                    sort: this.dayInfo.scheduletrips.length + 1
                 }
             })
             .then((res)=>{

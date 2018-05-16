@@ -74,7 +74,7 @@ input::-ms-clear,input::-ms-reveal{
  input,select{ outline: none;}
 
 
-a {color: #00699d;}
+a {color: #555;}
 a.active{ color: #0F81DA; }
 ul,li,ol{ list-style: none; margin-bottom: 0; }
 .table-bordered > thead > tr > th, .table-bordered > thead > tr > td{ border-bottom: 0; }
@@ -257,7 +257,8 @@ textarea{resize: none;}
         display: none;
         font-size: 13px;
     }
-    &:hover{
+    &:hover,
+    &.active{
         padding: 0 12px;
         background-color: #23a16d;
         color: #fff;
@@ -274,9 +275,11 @@ textarea{resize: none;}
 .notes{
     position: absolute;
     left: 300px;
-    right: 15px;
+    right: 20px;
     top: 80px;
     bottom: 20px;
+    min-height: 380px;
+    height: 50%;
     
     .content{
         // position: relative;
@@ -285,6 +288,27 @@ textarea{resize: none;}
         padding: 10px 15px;
         line-height: 24px;
         font-size: 14px;
+    }
+    .dataNull{
+        position: relative;
+        z-index: 1;
+        padding: 100px 0;
+        .icon{
+            display: block;
+            width: 70px;
+            height: 70px;
+            margin: 0 auto;
+            background: url(../../assets/images/icon_null.png);
+        }
+        p{
+            margin-top: 15px;
+            font-size: 14px;
+            color: #637a8c;
+            text-align: center;
+            a{
+                color: #0079f5;
+            }
+        }
     }
 }
 
@@ -318,7 +342,7 @@ a[href="https://www.froala.com/wysiwyg-editor?k=u"] {
 }
 
 .noDataTip{
-    margin: 100px 0;
+    margin: 80px 0 ;
     text-align: center;
     font-size: 14px;
     color: #a0abb3;
@@ -328,6 +352,4 @@ a[href="https://www.froala.com/wysiwyg-editor?k=u"] {
         font-size: 16px;
     }
 }
-
-
 

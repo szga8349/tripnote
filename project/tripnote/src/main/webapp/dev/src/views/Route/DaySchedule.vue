@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="columnBox dayScheduleSet">
+        <div class="columnBox dayScheduleSet" :class="{cityNull: cityNull}">
             <div class="header">
                 <div class="tabs">
                     <ul>
@@ -12,6 +12,7 @@
                             <i class="iconfont icon-filter" v-if="poiType!=0" @click="changePoiType(0)"></i>
                             
                             <div class="list" :class="{show:poiTypeListVisible}" @mouseover="poiTypeListShow" @mouseleave="poiTypeListVisible=false">
+                                <div class="item" :class="{active: poiType==0}" @click="changePoiType(0)"><i class="iconfont icon-all"></i>全部</div>
                                 <div class="item" :class="{active: poiType==1}" @click="changePoiType(1)"><i class="iconfont icon-canyin"></i>餐饮</div>
                                 <div class="item" :class="{active: poiType==2}" @click="changePoiType(2)"><i class="iconfont icon-travel"></i>游览</div>
                                 <div class="item" :class="{active: poiType==3}" @click="changePoiType(3)"><i class="iconfont icon-gouwu"></i>购物</div>
@@ -42,7 +43,7 @@
                             v-model="keywords"
                             class="keywords"
                             :class="{active:keywordsActive}"
-                            placeholder="搜索 POI"
+                            :placeholder="searchPlaceholder"
                             prefix-icon="el-icon-search"
                             @focus="keywordsActive=true"
                             @change="searchPoi"
@@ -82,7 +83,7 @@
                     </div>
                 </div>
 
-                <div class="detail" v-if="hotelHas">
+                <div class="detail" v-if="hotelHas && tabActive!='traffic' && tabActive != 'rent'">
                     <div class="hotelPic" :style="{backgroundImage: `url(${imgFormat(hotelDetail.imageurl)})`}"></div>
                     <div class="hotelTit">
                         <i class="iconfont icon-chuangwei"></i>{{hotelDetail.nameCn}}
@@ -90,6 +91,10 @@
                     <div class="hotelCheckTime">
                         <label>入住时间：</label>{{hotelDetail.checkInTime}}
                         <label>退房时间：</label>{{hotelDetail.checkOuTime}}
+                    </div>
+                    <div class="hotelRemark">
+                        <label>备注：</label>
+                        <div class="text">{{hotelDetail.remark}}</div>
                     </div>
                 </div>
 
@@ -100,11 +105,11 @@
                         </div>
                     </div>
                     <div class="filterBox clearfix">
-                        <el-select value="2" placeholder="" class="customerSel">
+                        <el-select value="1" placeholder="" class="customerSel">
                             <el-option
-                                key="2"
+                                key="1"
                                 label="1个乘客"
-                                value="2">
+                                value="1">
                             </el-option>
                             <el-option
                                 key="2"
@@ -112,14 +117,32 @@
                                 value="2">
                             </el-option>
                             <el-option
-                                key="2"
+                                key="3"
                                 label="3个乘客"
-                                value="2">
+                                value="3">
                             </el-option>
                         </el-select>
-
+<!-- 
                         <el-input value="2018-02-06" placeholder="请输入内容" class="dateSel"></el-input>
                         <el-input value="08:00" placeholder="请输入内容" class="timeSel"></el-input>
+ -->
+
+                        <el-date-picker
+                                  v-model="sd"
+                                  type="date"
+                          placeholder="选择日期" class="dateSel">
+                        </el-date-picker>
+
+                        <el-time-select  
+                            v-model="st"
+                            class="timeSel"
+                          :picker-options="{
+                            start: '08:00',
+                            step: '01:00',
+                            end: '24:00'
+                          }"
+                          placeholder="选择时间">
+                        </el-time-select>
                         
                         <el-button icon="el-icon-search" round class="searchBtn">查询</el-button>
                     </div>
@@ -127,23 +150,64 @@
                     <div class="tabs">
                         <ul>
                             <li>
-                                <a href="javascript:;" :class="{active: trafficTabActive==1}" @click="trafficTabActive=1"><i class="iconfont icon-feiji-big"></i>飞机</a>
+                                <a href="javascript:;" :class="{active: trafficTabActive==1}" @click="trafficTabChange(1)"><i class="iconfont icon-feiji-big"></i>飞机</a>
                             </li>
                             <li>
-                                <a href="javascript:;" :class="{active: trafficTabActive==2}" @click="trafficTabActive=2"><i class="iconfont icon-huoche"></i>火车</a>
+                                <a href="javascript:;" :class="{active: trafficTabActive==2}" @click="trafficTabChange(2)"><i class="iconfont icon-huoche"></i>火车</a>
                             </li>
                             <li>
-                                <a href="javascript:;" :class="{active: trafficTabActive==3}" @click="trafficTabActive=3"><i class="iconfont icon-lunchuang"></i>渡船</a>
+                                <a href="javascript:;" :class="{active: trafficTabActive==3}" @click="trafficTabChange(3)"><i class="iconfont icon-lunchuang"></i>渡船</a>
                             </li>
                             <li>
-                                <a href="javascript:;" :class="{active: trafficTabActive==4}" @click="trafficTabActive=4"><i class="iconfont icon-gongjiaoche"></i>巴士</a>
+                                <a href="javascript:;" :class="{active: trafficTabActive==4}" @click="trafficTabChange(4)"><i class="iconfont icon-gongjiaoche"></i>巴士</a>
                             </li>
                         </ul>
                     </div>
 
                     <div class="trafficTabCon" v-if="trafficTabActive==1">
                         <ul>
-                            <li class="airplane clearfix">
+                            <li class="airplane clearfix" v-for="(item, index) in trafficDataList">
+                                <div class="airplaneName">
+                                    <div class="name">
+                                        <i class="iconPlane"></i>
+                                        {{item.nameCn}}
+                                    </div>
+                                    <div class="model">
+                                        <span>计划机型：{{item.model}}</span>
+                                    </div>
+                                </div>
+
+                                <div class="startPoint">
+                                    <p>{{formatTime(item.startTime)}}</p>
+                                    <p>{{item.startName}}</p>
+                                </div>
+
+                                <div class="arrow">
+                                    <i class="iconfont icon-jiantou02"></i>
+                                </div>
+
+                                <div class="endPoint">
+                                    <p>{{formatTime(item.endTime)}}</p>
+                                    <p>{{item.endName}}</p>
+                                </div>
+
+                                <div class="price">
+                                    ¥<strong>{{item.price}}</strong>
+                                </div>
+
+                                <!-- <div class="add">
+                                    <a href="javascript:;"><i class="el-icon-plus"></i></a>
+                                </div> -->
+                                <div class="opts">
+                                    <span class="add" @click.stop="addTrafficToSchedule(item)">
+                                        <i class="el-icon-plus"></i>
+                                    </span>
+                                    <span class="selected" v-if="poiSel.indexOf(item.id)>-1">
+                                        <i class="el-icon-check"></i>
+                                    </span>
+                                </div>
+                            </li>
+                            <!-- <li class="airplane clearfix">
                                 <div class="airplaneName">
                                     <div class="name">
                                         <i class="iconPlane"></i>
@@ -406,46 +470,56 @@
                                 <div class="add">
                                     <a href="javascript:;"><i class="el-icon-plus"></i></a>
                                 </div>
-                            </li>
-                            <li class="airplane clearfix">
-                                <div class="airplaneName">
-                                    <div class="name">
-                                        <i class="iconPlane"></i>
-                                        南方航空A3801
-                                    </div>
-                                    <div class="model">
-                                        <span>计划机型：32L(中型)</span>
-                                    </div>
-                                </div>
-
-                                <div class="startPoint">
-                                    <p>10:42</p>
-                                    <p>首都国际机场</p>
-                                </div>
-
-                                <div class="arrow">
-                                    <i class="iconfont icon-jiantou02"></i>
-                                </div>
-
-                                <div class="endPoint">
-                                    <p>11:50</p>
-                                    <p>东京国际机场</p>
-                                </div>
-
-                                <div class="price">
-                                    ¥<strong>1600</strong>
-                                </div>
-
-                                <div class="add">
-                                    <a href="javascript:;"><i class="el-icon-plus"></i></a>
-                                </div>
-                            </li>
+                            </li> -->
                         </ul>
                     </div>
 
                     <div class="trafficTabCon" v-if="trafficTabActive==2">
                         <ul>
-                            <li class="train clearfix">
+                            <li class="train clearfix" v-for="(item, index) in trafficDataList">
+                                <div class="no">
+                                    <div class="name">{{item.nameCn}}</div>
+                                    <div class="sel">
+                                        <div class="selected">
+                                            <span>经停站</span>
+                                            <i class="el-icon-caret-bottom"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="startPoint">
+                                    <p>{{formatTime(item.startTime)}}</p>
+                                    <p>{{item.startName}}</p>
+                                </div>
+
+                                <div class="arrow">
+                                    <i class="iconfont icon-jiantou02"></i>
+                                </div>
+
+                                <div class="endPoint">
+                                    <p>{{formatTime(item.startTime)}}</p>
+                                    <p>{{item.endName}}</p>
+                                </div>
+
+                                <div class="time">
+                                    {{item.timeConsume}}
+                                </div>
+
+                                <div class="price">
+                                    无实时价格
+                                </div>
+
+                                <div class="opts">
+                                    <span class="add" @click.stop="addTrafficToSchedule(item)">
+                                        <i class="el-icon-plus"></i>
+                                    </span>
+                                    <span class="selected" v-if="poiSel.indexOf(item.id)>-1">
+                                        <i class="el-icon-check"></i>
+                                    </span>
+                                </div>
+                            </li>
+
+                           <!--  <li class="train clearfix">
                                 <div class="no">
                                     <div class="name">G5280</div>
                                     <div class="sel">
@@ -481,235 +555,7 @@
                                 <div class="add">
                                     <a href="javascript:;"><i class="el-icon-plus"></i></a>
                                 </div>
-                            </li>
-
-                            <li class="train clearfix">
-                                <div class="no">
-                                    <div class="name">G5280</div>
-                                    <div class="sel">
-                                        <div class="selected">
-                                            <span>经停站</span>
-                                            <i class="el-icon-caret-bottom"></i>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="startPoint">
-                                    <p>10:42</p>
-                                    <p>乌鲁木齐</p>
-                                </div>
-
-                                <div class="arrow">
-                                    <i class="iconfont icon-jiantou02"></i>
-                                </div>
-
-                                <div class="endPoint">
-                                    <p>11:50</p>
-                                    <p>北京西</p>
-                                </div>
-
-                                <div class="time">
-                                    27小时30分
-                                </div>
-
-                                <div class="price">
-                                    无实时价格
-                                </div>
-
-                                <div class="add">
-                                    <a href="javascript:;"><i class="el-icon-plus"></i></a>
-                                </div>
-                            </li>
-
-                            <li class="train clearfix">
-                                <div class="no">
-                                    <div class="name">G5280</div>
-                                    <div class="sel">
-                                        <div class="selected">
-                                            <span>经停站</span>
-                                            <i class="el-icon-caret-bottom"></i>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="startPoint">
-                                    <p>10:42</p>
-                                    <p>乌鲁木齐</p>
-                                </div>
-
-                                <div class="arrow">
-                                    <i class="iconfont icon-jiantou02"></i>
-                                </div>
-
-                                <div class="endPoint">
-                                    <p>11:50</p>
-                                    <p>北京西</p>
-                                </div>
-
-                                <div class="time">
-                                    27小时30分
-                                </div>
-
-                                <div class="price">
-                                    无实时价格
-                                </div>
-
-                                <div class="add">
-                                    <a href="javascript:;"><i class="el-icon-plus"></i></a>
-                                </div>
-                            </li>
-
-                            <li class="train clearfix">
-                                <div class="no">
-                                    <div class="name">G5280</div>
-                                    <div class="sel">
-                                        <div class="selected">
-                                            <span>经停站</span>
-                                            <i class="el-icon-caret-bottom"></i>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="startPoint">
-                                    <p>10:42</p>
-                                    <p>乌鲁木齐</p>
-                                </div>
-
-                                <div class="arrow">
-                                    <i class="iconfont icon-jiantou02"></i>
-                                </div>
-
-                                <div class="endPoint">
-                                    <p>11:50</p>
-                                    <p>北京西</p>
-                                </div>
-
-                                <div class="time">
-                                    27小时30分
-                                </div>
-
-                                <div class="price">
-                                    无实时价格
-                                </div>
-
-                                <div class="add">
-                                    <a href="javascript:;"><i class="el-icon-plus"></i></a>
-                                </div>
-                            </li>
-
-                            <li class="train clearfix">
-                                <div class="no">
-                                    <div class="name">G5280</div>
-                                    <div class="sel">
-                                        <div class="selected">
-                                            <span>经停站</span>
-                                            <i class="el-icon-caret-bottom"></i>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="startPoint">
-                                    <p>10:42</p>
-                                    <p>乌鲁木齐</p>
-                                </div>
-
-                                <div class="arrow">
-                                    <i class="iconfont icon-jiantou02"></i>
-                                </div>
-
-                                <div class="endPoint">
-                                    <p>11:50</p>
-                                    <p>北京西</p>
-                                </div>
-
-                                <div class="time">
-                                    27小时30分
-                                </div>
-
-                                <div class="price">
-                                    无实时价格
-                                </div>
-
-                                <div class="add">
-                                    <a href="javascript:;"><i class="el-icon-plus"></i></a>
-                                </div>
-                            </li>
-
-                            <li class="train clearfix">
-                                <div class="no">
-                                    <div class="name">G5280</div>
-                                    <div class="sel">
-                                        <div class="selected">
-                                            <span>经停站</span>
-                                            <i class="el-icon-caret-bottom"></i>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="startPoint">
-                                    <p>10:42</p>
-                                    <p>乌鲁木齐</p>
-                                </div>
-
-                                <div class="arrow">
-                                    <i class="iconfont icon-jiantou02"></i>
-                                </div>
-
-                                <div class="endPoint">
-                                    <p>11:50</p>
-                                    <p>北京西</p>
-                                </div>
-
-                                <div class="time">
-                                    27小时30分
-                                </div>
-
-                                <div class="price">
-                                    无实时价格
-                                </div>
-
-                                <div class="add">
-                                    <a href="javascript:;"><i class="el-icon-plus"></i></a>
-                                </div>
-                            </li>
-
-                            <li class="train clearfix">
-                                <div class="no">
-                                    <div class="name">G5280</div>
-                                    <div class="sel">
-                                        <div class="selected">
-                                            <span>经停站</span>
-                                            <i class="el-icon-caret-bottom"></i>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="startPoint">
-                                    <p>10:42</p>
-                                    <p>乌鲁木齐</p>
-                                </div>
-
-                                <div class="arrow">
-                                    <i class="iconfont icon-jiantou02"></i>
-                                </div>
-
-                                <div class="endPoint">
-                                    <p>11:50</p>
-                                    <p>北京西</p>
-                                </div>
-
-                                <div class="time">
-                                    27小时30分
-                                </div>
-
-                                <div class="price">
-                                    无实时价格
-                                </div>
-
-                                <div class="add">
-                                    <a href="javascript:;"><i class="el-icon-plus"></i></a>
-                                </div>
-                            </li>
+                            </li> -->
 
                             
                         </ul>
@@ -717,7 +563,112 @@
 
                     <div class="trafficTabCon" v-if="trafficTabActive==3">
                         <ul>
-                            <li class="clearfix">
+                            <li class="clearfix" v-for="(item, index) in trafficDataList">
+                                <div class="no">
+                                    <div class="name">{{item.nameCn}}</div>
+                                    <div class="sel">
+                                        <div class="selected">
+                                            <span>选择仓位</span>
+                                            <i class="el-icon-caret-bottom"></i>
+                                        </div>
+                                        <div class="selOpts">
+                                            <div class="selOptHeader">
+                                                <div class="col1">仓位</div>
+                                                <div class="col2">说明</div>
+                                                <div class="col3">余票量</div>
+                                                <div class="col4">价格</div>
+                                            </div>
+                                            <div class="itemList">
+                                                <div class="col1">普通舱A区</div>
+                                                <div class="col2">大型告诉客轮、一层船头</div>
+                                                <div class="col3">128</div>
+                                                <div class="col4">¥180</div>
+                                                <div class="col5">
+                                                    <el-radio v-model="radio" label="1"></el-radio>
+                                                </div>
+                                            </div>
+                                            <div class="itemList">
+                                                <div class="col1">普通舱A区</div>
+                                                <div class="col2">大型告诉客轮、一层船头</div>
+                                                <div class="col3">128</div>
+                                                <div class="col4">¥180</div>
+                                                <div class="col5">
+                                                    <el-radio v-model="radio" label="2"></el-radio>
+                                                </div>
+                                            </div>
+                                            <div class="itemList">
+                                                <div class="col1">普通舱A区</div>
+                                                <div class="col2">大型告诉客轮、一层船头</div>
+                                                <div class="col3">128</div>
+                                                <div class="col4">¥180</div>
+                                                <div class="col5">
+                                                    <el-radio v-model="radio" label="3"></el-radio>
+                                                </div>
+                                            </div>
+                                            <div class="itemList">
+                                                <div class="col1">普通舱A区</div>
+                                                <div class="col2">大型告诉客轮、一层船头</div>
+                                                <div class="col3">128</div>
+                                                <div class="col4">¥180</div>
+                                                <div class="col5">
+                                                    <el-radio v-model="radio" label="4"></el-radio>
+                                                </div>
+                                            </div>
+                                            <div class="itemList">
+                                                <div class="col1">普通舱A区</div>
+                                                <div class="col2">大型告诉客轮、一层船头</div>
+                                                <div class="col3">128</div>
+                                                <div class="col4">¥180</div>
+                                                <div class="col5">
+                                                    <el-radio v-model="radio" label="5"></el-radio>
+                                                </div>
+                                            </div>
+                                            <div class="itemList">
+                                                <div class="col1">普通舱A区</div>
+                                                <div class="col2">大型告诉客轮、一层船头</div>
+                                                <div class="col3">128</div>
+                                                <div class="col4">¥180</div>
+                                                <div class="col5">
+                                                    <el-radio v-model="radio" label="6"></el-radio>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="startPoint">
+                                    <p>{{formatTime(item.startTime)}}</p>
+                                    <p>{{item.startName}}</p>
+                                </div>
+
+                                <div class="arrow">
+                                    <i class="iconfont icon-jiantou02"></i>
+                                </div>
+
+                                <div class="endPoint">
+                                    <p>{{formatTime(item.endTime)}}</p>
+                                    <p>{{item.endName}}</p>
+                                </div>
+
+                                <div class="time">
+                                    {{item.timeConsume}}
+                                </div>
+
+                                <div class="price">
+                                    ¥<strong>{{item.price}}</strong>起
+                                </div>
+
+                                <div class="opts">
+                                    <span class="add" @click.stop="addTrafficToSchedule(item)">
+                                        <i class="el-icon-plus"></i>
+                                    </span>
+                                    <span class="selected" v-if="poiSel.indexOf(item.id)>-1">
+                                        <i class="el-icon-check"></i>
+                                    </span>
+                                </div>
+                            </li>
+
+                            <!-- <li class="clearfix">
                                 <div class="no">
                                     <div class="name">北游</div>
                                     <div class="sel">
@@ -815,613 +766,47 @@
                                 <div class="add">
                                     <a href="javascript:;"><i class="el-icon-plus"></i></a>
                                 </div>
-                            </li>
+                            </li> -->
 
-                            <li class="clearfix">
-                                <div class="no">
-                                    <div class="name">北游</div>
-                                    <div class="sel">
-                                        <div class="selected">
-                                            <span>选择仓位</span>
-                                            <i class="el-icon-caret-bottom"></i>
-                                        </div>
-                                        <div class="selOpts">
-                                            <div class="selOptHeader">
-                                                <div class="col1">仓位</div>
-                                                <div class="col2">说明</div>
-                                                <div class="col3">余票量</div>
-                                                <div class="col4">价格</div>
-                                            </div>
-                                            <div class="itemList">
-                                                <div class="col1">普通舱A区</div>
-                                                <div class="col2">大型告诉客轮、一层船头</div>
-                                                <div class="col3">128</div>
-                                                <div class="col4">¥180</div>
-                                                <div class="col5">
-                                                    <el-radio v-model="radio" label="1"></el-radio>
-                                                </div>
-                                            </div>
-                                            <div class="itemList">
-                                                <div class="col1">普通舱A区</div>
-                                                <div class="col2">大型告诉客轮、一层船头</div>
-                                                <div class="col3">128</div>
-                                                <div class="col4">¥180</div>
-                                                <div class="col5">
-                                                    <el-radio v-model="radio" label="1"></el-radio>
-                                                </div>
-                                            </div>
-                                            <div class="itemList">
-                                                <div class="col1">普通舱A区</div>
-                                                <div class="col2">大型告诉客轮、一层船头</div>
-                                                <div class="col3">128</div>
-                                                <div class="col4">¥180</div>
-                                                <div class="col5">
-                                                    <el-radio v-model="radio" label="1"></el-radio>
-                                                </div>
-                                            </div>
-                                            <div class="itemList">
-                                                <div class="col1">普通舱A区</div>
-                                                <div class="col2">大型告诉客轮、一层船头</div>
-                                                <div class="col3">128</div>
-                                                <div class="col4">¥180</div>
-                                                <div class="col5">
-                                                    <el-radio v-model="radio" label="1"></el-radio>
-                                                </div>
-                                            </div>
-                                            <div class="itemList">
-                                                <div class="col1">普通舱A区</div>
-                                                <div class="col2">大型告诉客轮、一层船头</div>
-                                                <div class="col3">128</div>
-                                                <div class="col4">¥180</div>
-                                                <div class="col5">
-                                                    <el-radio v-model="radio" label="1"></el-radio>
-                                                </div>
-                                            </div>
-                                            <div class="itemList">
-                                                <div class="col1">普通舱A区</div>
-                                                <div class="col2">大型告诉客轮、一层船头</div>
-                                                <div class="col3">128</div>
-                                                <div class="col4">¥180</div>
-                                                <div class="col5">
-                                                    <el-radio v-model="radio" label="1"></el-radio>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="startPoint">
-                                    <p>10:42</p>
-                                    <p>北海国籍客运港码头</p>
-                                </div>
-
-                                <div class="arrow">
-                                    <i class="iconfont icon-jiantou02"></i>
-                                </div>
-
-                                <div class="endPoint">
-                                    <p>11:50</p>
-                                    <p>涠洲岛西角码头</p>
-                                </div>
-
-                                <div class="time">
-                                    1时10分
-                                </div>
-
-                                <div class="price">
-                                    ¥<strong>150</strong>起
-                                </div>
-
-                                <div class="add">
-                                    <a href="javascript:;"><i class="el-icon-plus"></i></a>
-                                </div>
-                            </li>
-
-                            <li class="clearfix">
-                                <div class="no">
-                                    <div class="name">北游</div>
-                                    <div class="sel">
-                                        <div class="selected">
-                                            <span>选择仓位</span>
-                                            <i class="el-icon-caret-bottom"></i>
-                                        </div>
-                                        <div class="selOpts">
-                                            <div class="selOptHeader">
-                                                <div class="col1">仓位</div>
-                                                <div class="col2">说明</div>
-                                                <div class="col3">余票量</div>
-                                                <div class="col4">价格</div>
-                                            </div>
-                                            <div class="itemList">
-                                                <div class="col1">普通舱A区</div>
-                                                <div class="col2">大型告诉客轮、一层船头</div>
-                                                <div class="col3">128</div>
-                                                <div class="col4">¥180</div>
-                                                <div class="col5">
-                                                    <el-radio v-model="radio" label="1"></el-radio>
-                                                </div>
-                                            </div>
-                                            <div class="itemList">
-                                                <div class="col1">普通舱A区</div>
-                                                <div class="col2">大型告诉客轮、一层船头</div>
-                                                <div class="col3">128</div>
-                                                <div class="col4">¥180</div>
-                                                <div class="col5">
-                                                    <el-radio v-model="radio" label="1"></el-radio>
-                                                </div>
-                                            </div>
-                                            <div class="itemList">
-                                                <div class="col1">普通舱A区</div>
-                                                <div class="col2">大型告诉客轮、一层船头</div>
-                                                <div class="col3">128</div>
-                                                <div class="col4">¥180</div>
-                                                <div class="col5">
-                                                    <el-radio v-model="radio" label="1"></el-radio>
-                                                </div>
-                                            </div>
-                                            <div class="itemList">
-                                                <div class="col1">普通舱A区</div>
-                                                <div class="col2">大型告诉客轮、一层船头</div>
-                                                <div class="col3">128</div>
-                                                <div class="col4">¥180</div>
-                                                <div class="col5">
-                                                    <el-radio v-model="radio" label="1"></el-radio>
-                                                </div>
-                                            </div>
-                                            <div class="itemList">
-                                                <div class="col1">普通舱A区</div>
-                                                <div class="col2">大型告诉客轮、一层船头</div>
-                                                <div class="col3">128</div>
-                                                <div class="col4">¥180</div>
-                                                <div class="col5">
-                                                    <el-radio v-model="radio" label="1"></el-radio>
-                                                </div>
-                                            </div>
-                                            <div class="itemList">
-                                                <div class="col1">普通舱A区</div>
-                                                <div class="col2">大型告诉客轮、一层船头</div>
-                                                <div class="col3">128</div>
-                                                <div class="col4">¥180</div>
-                                                <div class="col5">
-                                                    <el-radio v-model="radio" label="1"></el-radio>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="startPoint">
-                                    <p>10:42</p>
-                                    <p>北海国籍客运港码头</p>
-                                </div>
-
-                                <div class="arrow">
-                                    <i class="iconfont icon-jiantou02"></i>
-                                </div>
-
-                                <div class="endPoint">
-                                    <p>11:50</p>
-                                    <p>涠洲岛西角码头</p>
-                                </div>
-
-                                <div class="time">
-                                    1时10分
-                                </div>
-
-                                <div class="price">
-                                    ¥<strong>150</strong>起
-                                </div>
-
-                                <div class="add">
-                                    <a href="javascript:;"><i class="el-icon-plus"></i></a>
-                                </div>
-                            </li>
-
-                            <li class="clearfix">
-                                <div class="no">
-                                    <div class="name">北游</div>
-                                    <div class="sel">
-                                        <div class="selected">
-                                            <span>选择仓位</span>
-                                            <i class="el-icon-caret-bottom"></i>
-                                        </div>
-                                        <div class="selOpts">
-                                            <div class="selOptHeader">
-                                                <div class="col1">仓位</div>
-                                                <div class="col2">说明</div>
-                                                <div class="col3">余票量</div>
-                                                <div class="col4">价格</div>
-                                            </div>
-                                            <div class="itemList">
-                                                <div class="col1">普通舱A区</div>
-                                                <div class="col2">大型告诉客轮、一层船头</div>
-                                                <div class="col3">128</div>
-                                                <div class="col4">¥180</div>
-                                                <div class="col5">
-                                                    <el-radio v-model="radio" label="1"></el-radio>
-                                                </div>
-                                            </div>
-                                            <div class="itemList">
-                                                <div class="col1">普通舱A区</div>
-                                                <div class="col2">大型告诉客轮、一层船头</div>
-                                                <div class="col3">128</div>
-                                                <div class="col4">¥180</div>
-                                                <div class="col5">
-                                                    <el-radio v-model="radio" label="1"></el-radio>
-                                                </div>
-                                            </div>
-                                            <div class="itemList">
-                                                <div class="col1">普通舱A区</div>
-                                                <div class="col2">大型告诉客轮、一层船头</div>
-                                                <div class="col3">128</div>
-                                                <div class="col4">¥180</div>
-                                                <div class="col5">
-                                                    <el-radio v-model="radio" label="1"></el-radio>
-                                                </div>
-                                            </div>
-                                            <div class="itemList">
-                                                <div class="col1">普通舱A区</div>
-                                                <div class="col2">大型告诉客轮、一层船头</div>
-                                                <div class="col3">128</div>
-                                                <div class="col4">¥180</div>
-                                                <div class="col5">
-                                                    <el-radio v-model="radio" label="1"></el-radio>
-                                                </div>
-                                            </div>
-                                            <div class="itemList">
-                                                <div class="col1">普通舱A区</div>
-                                                <div class="col2">大型告诉客轮、一层船头</div>
-                                                <div class="col3">128</div>
-                                                <div class="col4">¥180</div>
-                                                <div class="col5">
-                                                    <el-radio v-model="radio" label="1"></el-radio>
-                                                </div>
-                                            </div>
-                                            <div class="itemList">
-                                                <div class="col1">普通舱A区</div>
-                                                <div class="col2">大型告诉客轮、一层船头</div>
-                                                <div class="col3">128</div>
-                                                <div class="col4">¥180</div>
-                                                <div class="col5">
-                                                    <el-radio v-model="radio" label="1"></el-radio>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="startPoint">
-                                    <p>10:42</p>
-                                    <p>北海国籍客运港码头</p>
-                                </div>
-
-                                <div class="arrow">
-                                    <i class="iconfont icon-jiantou02"></i>
-                                </div>
-
-                                <div class="endPoint">
-                                    <p>11:50</p>
-                                    <p>涠洲岛西角码头</p>
-                                </div>
-
-                                <div class="time">
-                                    1时10分
-                                </div>
-
-                                <div class="price">
-                                    ¥<strong>150</strong>起
-                                </div>
-
-                                <div class="add">
-                                    <a href="javascript:;"><i class="el-icon-plus"></i></a>
-                                </div>
-                            </li>
-
-                            <li class="clearfix">
-                                <div class="no">
-                                    <div class="name">北游</div>
-                                    <div class="sel">
-                                        <div class="selected">
-                                            <span>选择仓位</span>
-                                            <i class="el-icon-caret-bottom"></i>
-                                        </div>
-                                        <div class="selOpts">
-                                            <div class="selOptHeader">
-                                                <div class="col1">仓位</div>
-                                                <div class="col2">说明</div>
-                                                <div class="col3">余票量</div>
-                                                <div class="col4">价格</div>
-                                            </div>
-                                            <div class="itemList">
-                                                <div class="col1">普通舱A区</div>
-                                                <div class="col2">大型告诉客轮、一层船头</div>
-                                                <div class="col3">128</div>
-                                                <div class="col4">¥180</div>
-                                                <div class="col5">
-                                                    <el-radio v-model="radio" label="1"></el-radio>
-                                                </div>
-                                            </div>
-                                            <div class="itemList">
-                                                <div class="col1">普通舱A区</div>
-                                                <div class="col2">大型告诉客轮、一层船头</div>
-                                                <div class="col3">128</div>
-                                                <div class="col4">¥180</div>
-                                                <div class="col5">
-                                                    <el-radio v-model="radio" label="1"></el-radio>
-                                                </div>
-                                            </div>
-                                            <div class="itemList">
-                                                <div class="col1">普通舱A区</div>
-                                                <div class="col2">大型告诉客轮、一层船头</div>
-                                                <div class="col3">128</div>
-                                                <div class="col4">¥180</div>
-                                                <div class="col5">
-                                                    <el-radio v-model="radio" label="1"></el-radio>
-                                                </div>
-                                            </div>
-                                            <div class="itemList">
-                                                <div class="col1">普通舱A区</div>
-                                                <div class="col2">大型告诉客轮、一层船头</div>
-                                                <div class="col3">128</div>
-                                                <div class="col4">¥180</div>
-                                                <div class="col5">
-                                                    <el-radio v-model="radio" label="1"></el-radio>
-                                                </div>
-                                            </div>
-                                            <div class="itemList">
-                                                <div class="col1">普通舱A区</div>
-                                                <div class="col2">大型告诉客轮、一层船头</div>
-                                                <div class="col3">128</div>
-                                                <div class="col4">¥180</div>
-                                                <div class="col5">
-                                                    <el-radio v-model="radio" label="1"></el-radio>
-                                                </div>
-                                            </div>
-                                            <div class="itemList">
-                                                <div class="col1">普通舱A区</div>
-                                                <div class="col2">大型告诉客轮、一层船头</div>
-                                                <div class="col3">128</div>
-                                                <div class="col4">¥180</div>
-                                                <div class="col5">
-                                                    <el-radio v-model="radio" label="1"></el-radio>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="startPoint">
-                                    <p>10:42</p>
-                                    <p>北海国籍客运港码头</p>
-                                </div>
-
-                                <div class="arrow">
-                                    <i class="iconfont icon-jiantou02"></i>
-                                </div>
-
-                                <div class="endPoint">
-                                    <p>11:50</p>
-                                    <p>涠洲岛西角码头</p>
-                                </div>
-
-                                <div class="time">
-                                    1时10分
-                                </div>
-
-                                <div class="price">
-                                    ¥<strong>150</strong>起
-                                </div>
-
-                                <div class="add">
-                                    <a href="javascript:;"><i class="el-icon-plus"></i></a>
-                                </div>
-                            </li>
-
-                            <li class="clearfix">
-                                <div class="no">
-                                    <div class="name">北游</div>
-                                    <div class="sel">
-                                        <div class="selected">
-                                            <span>选择仓位</span>
-                                            <i class="el-icon-caret-bottom"></i>
-                                        </div>
-                                        <div class="selOpts">
-                                            <div class="selOptHeader">
-                                                <div class="col1">仓位</div>
-                                                <div class="col2">说明</div>
-                                                <div class="col3">余票量</div>
-                                                <div class="col4">价格</div>
-                                            </div>
-                                            <div class="itemList">
-                                                <div class="col1">普通舱A区</div>
-                                                <div class="col2">大型告诉客轮、一层船头</div>
-                                                <div class="col3">128</div>
-                                                <div class="col4">¥180</div>
-                                                <div class="col5">
-                                                    <el-radio v-model="radio" label="1"></el-radio>
-                                                </div>
-                                            </div>
-                                            <div class="itemList">
-                                                <div class="col1">普通舱A区</div>
-                                                <div class="col2">大型告诉客轮、一层船头</div>
-                                                <div class="col3">128</div>
-                                                <div class="col4">¥180</div>
-                                                <div class="col5">
-                                                    <el-radio v-model="radio" label="1"></el-radio>
-                                                </div>
-                                            </div>
-                                            <div class="itemList">
-                                                <div class="col1">普通舱A区</div>
-                                                <div class="col2">大型告诉客轮、一层船头</div>
-                                                <div class="col3">128</div>
-                                                <div class="col4">¥180</div>
-                                                <div class="col5">
-                                                    <el-radio v-model="radio" label="1"></el-radio>
-                                                </div>
-                                            </div>
-                                            <div class="itemList">
-                                                <div class="col1">普通舱A区</div>
-                                                <div class="col2">大型告诉客轮、一层船头</div>
-                                                <div class="col3">128</div>
-                                                <div class="col4">¥180</div>
-                                                <div class="col5">
-                                                    <el-radio v-model="radio" label="1"></el-radio>
-                                                </div>
-                                            </div>
-                                            <div class="itemList">
-                                                <div class="col1">普通舱A区</div>
-                                                <div class="col2">大型告诉客轮、一层船头</div>
-                                                <div class="col3">128</div>
-                                                <div class="col4">¥180</div>
-                                                <div class="col5">
-                                                    <el-radio v-model="radio" label="1"></el-radio>
-                                                </div>
-                                            </div>
-                                            <div class="itemList">
-                                                <div class="col1">普通舱A区</div>
-                                                <div class="col2">大型告诉客轮、一层船头</div>
-                                                <div class="col3">128</div>
-                                                <div class="col4">¥180</div>
-                                                <div class="col5">
-                                                    <el-radio v-model="radio" label="1"></el-radio>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="startPoint">
-                                    <p>10:42</p>
-                                    <p>北海国籍客运港码头</p>
-                                </div>
-
-                                <div class="arrow">
-                                    <i class="iconfont icon-jiantou02"></i>
-                                </div>
-
-                                <div class="endPoint">
-                                    <p>11:50</p>
-                                    <p>涠洲岛西角码头</p>
-                                </div>
-
-                                <div class="time">
-                                    1时10分
-                                </div>
-
-                                <div class="price">
-                                    ¥<strong>150</strong>起
-                                </div>
-
-                                <div class="add">
-                                    <a href="javascript:;"><i class="el-icon-plus"></i></a>
-                                </div>
-                            </li>
-
-                            <li class="clearfix">
-                                <div class="no">
-                                    <div class="name">北游</div>
-                                    <div class="sel">
-                                        <div class="selected">
-                                            <span>选择仓位</span>
-                                            <i class="el-icon-caret-bottom"></i>
-                                        </div>
-                                        <div class="selOpts">
-                                            <div class="selOptHeader">
-                                                <div class="col1">仓位</div>
-                                                <div class="col2">说明</div>
-                                                <div class="col3">余票量</div>
-                                                <div class="col4">价格</div>
-                                            </div>
-                                            <div class="itemList">
-                                                <div class="col1">普通舱A区</div>
-                                                <div class="col2">大型告诉客轮、一层船头</div>
-                                                <div class="col3">128</div>
-                                                <div class="col4">¥180</div>
-                                                <div class="col5">
-                                                    <el-radio v-model="radio" label="1"></el-radio>
-                                                </div>
-                                            </div>
-                                            <div class="itemList">
-                                                <div class="col1">普通舱A区</div>
-                                                <div class="col2">大型告诉客轮、一层船头</div>
-                                                <div class="col3">128</div>
-                                                <div class="col4">¥180</div>
-                                                <div class="col5">
-                                                    <el-radio v-model="radio" label="1"></el-radio>
-                                                </div>
-                                            </div>
-                                            <div class="itemList">
-                                                <div class="col1">普通舱A区</div>
-                                                <div class="col2">大型告诉客轮、一层船头</div>
-                                                <div class="col3">128</div>
-                                                <div class="col4">¥180</div>
-                                                <div class="col5">
-                                                    <el-radio v-model="radio" label="1"></el-radio>
-                                                </div>
-                                            </div>
-                                            <div class="itemList">
-                                                <div class="col1">普通舱A区</div>
-                                                <div class="col2">大型告诉客轮、一层船头</div>
-                                                <div class="col3">128</div>
-                                                <div class="col4">¥180</div>
-                                                <div class="col5">
-                                                    <el-radio v-model="radio" label="1"></el-radio>
-                                                </div>
-                                            </div>
-                                            <div class="itemList">
-                                                <div class="col1">普通舱A区</div>
-                                                <div class="col2">大型告诉客轮、一层船头</div>
-                                                <div class="col3">128</div>
-                                                <div class="col4">¥180</div>
-                                                <div class="col5">
-                                                    <el-radio v-model="radio" label="1"></el-radio>
-                                                </div>
-                                            </div>
-                                            <div class="itemList">
-                                                <div class="col1">普通舱A区</div>
-                                                <div class="col2">大型告诉客轮、一层船头</div>
-                                                <div class="col3">128</div>
-                                                <div class="col4">¥180</div>
-                                                <div class="col5">
-                                                    <el-radio v-model="radio" label="1"></el-radio>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="startPoint">
-                                    <p>10:42</p>
-                                    <p>北海国籍客运港码头</p>
-                                </div>
-
-                                <div class="arrow">
-                                    <i class="iconfont icon-jiantou02"></i>
-                                </div>
-
-                                <div class="endPoint">
-                                    <p>11:50</p>
-                                    <p>涠洲岛西角码头</p>
-                                </div>
-
-                                <div class="time">
-                                    1时10分
-                                </div>
-
-                                <div class="price">
-                                    ¥<strong>150</strong>起
-                                </div>
-
-                                <div class="add">
-                                    <a href="javascript:;"><i class="el-icon-plus"></i></a>
-                                </div>
-                            </li>
                         </ul>
                     </div>
 
                     <div class="trafficTabCon" v-if="trafficTabActive==4">
                         <ul>
-                            <li class="bus clearfix">
+                            <li class="bus clearfix" v-for="(item, index) in trafficDataList">
+                                <div class="startPoint">
+                                    <p>{{formatTime(item.startTime)}}</p>
+                                    <p>{{item.startName}}</p>
+                                </div>
+
+                                <div class="arrow">
+                                    <i class="iconfont icon-jiantou02"></i>
+                                </div>
+
+                                <div class="endPoint">
+                                    <p>{{formatTime(item.endTime)}}</p>
+                                    <p>{{item.endName}}</p>
+                                </div>
+
+                                <div class="time">
+                                    {{item.timeConsume}}
+                                </div>
+
+                                <div class="price">
+                                    无实时价格
+                                </div>
+
+                                <div class="opts">
+                                    <span class="add" @click.stop="addTrafficToSchedule(item)">
+                                        <i class="el-icon-plus"></i>
+                                    </span>
+                                    <span class="selected" v-if="poiSel.indexOf(item.id)>-1">
+                                        <i class="el-icon-check"></i>
+                                    </span>
+                                </div>
+                            </li>
+
+                            <!-- <li class="bus clearfix">
                                 <div class="startPoint">
                                     <p>10:42</p>
                                     <p>乌鲁木齐城北客运站</p>
@@ -1447,177 +832,7 @@
                                 <div class="add">
                                     <a href="javascript:;"><i class="el-icon-plus"></i></a>
                                 </div>
-                            </li>
-
-                            <li class="bus clearfix">
-                                <div class="startPoint">
-                                    <p>10:42</p>
-                                    <p>乌鲁木齐城北客运站</p>
-                                </div>
-
-                                <div class="arrow">
-                                    <i class="iconfont icon-jiantou02"></i>
-                                </div>
-
-                                <div class="endPoint">
-                                    <p>11:50</p>
-                                    <p>北京西客运站</p>
-                                </div>
-
-                                <div class="time">
-                                    27小时30分
-                                </div>
-
-                                <div class="price">
-                                    无实时价格
-                                </div>
-
-                                <div class="add">
-                                    <a href="javascript:;"><i class="el-icon-plus"></i></a>
-                                </div>
-                            </li>
-
-                            <li class="bus clearfix">
-                                <div class="startPoint">
-                                    <p>10:42</p>
-                                    <p>乌鲁木齐城北客运站</p>
-                                </div>
-
-                                <div class="arrow">
-                                    <i class="iconfont icon-jiantou02"></i>
-                                </div>
-
-                                <div class="endPoint">
-                                    <p>11:50</p>
-                                    <p>北京西客运站</p>
-                                </div>
-
-                                <div class="time">
-                                    27小时30分
-                                </div>
-
-                                <div class="price">
-                                    无实时价格
-                                </div>
-
-                                <div class="add">
-                                    <a href="javascript:;"><i class="el-icon-plus"></i></a>
-                                </div>
-                            </li>
-
-                            <li class="bus clearfix">
-                                <div class="startPoint">
-                                    <p>10:42</p>
-                                    <p>乌鲁木齐城北客运站</p>
-                                </div>
-
-                                <div class="arrow">
-                                    <i class="iconfont icon-jiantou02"></i>
-                                </div>
-
-                                <div class="endPoint">
-                                    <p>11:50</p>
-                                    <p>北京西客运站</p>
-                                </div>
-
-                                <div class="time">
-                                    27小时30分
-                                </div>
-
-                                <div class="price">
-                                    无实时价格
-                                </div>
-
-                                <div class="add">
-                                    <a href="javascript:;"><i class="el-icon-plus"></i></a>
-                                </div>
-                            </li>
-
-                            <li class="bus clearfix">
-                                <div class="startPoint">
-                                    <p>10:42</p>
-                                    <p>乌鲁木齐城北客运站</p>
-                                </div>
-
-                                <div class="arrow">
-                                    <i class="iconfont icon-jiantou02"></i>
-                                </div>
-
-                                <div class="endPoint">
-                                    <p>11:50</p>
-                                    <p>北京西客运站</p>
-                                </div>
-
-                                <div class="time">
-                                    27小时30分
-                                </div>
-
-                                <div class="price">
-                                    无实时价格
-                                </div>
-
-                                <div class="add">
-                                    <a href="javascript:;"><i class="el-icon-plus"></i></a>
-                                </div>
-                            </li>
-
-                            <li class="bus clearfix">
-                                <div class="startPoint">
-                                    <p>10:42</p>
-                                    <p>乌鲁木齐城北客运站</p>
-                                </div>
-
-                                <div class="arrow">
-                                    <i class="iconfont icon-jiantou02"></i>
-                                </div>
-
-                                <div class="endPoint">
-                                    <p>11:50</p>
-                                    <p>北京西客运站</p>
-                                </div>
-
-                                <div class="time">
-                                    27小时30分
-                                </div>
-
-                                <div class="price">
-                                    无实时价格
-                                </div>
-
-                                <div class="add">
-                                    <a href="javascript:;"><i class="el-icon-plus"></i></a>
-                                </div>
-                            </li>
-
-                            <li class="bus clearfix">
-                                <div class="startPoint">
-                                    <p>10:42</p>
-                                    <p>乌鲁木齐城北客运站</p>
-                                </div>
-
-                                <div class="arrow">
-                                    <i class="iconfont icon-jiantou02"></i>
-                                </div>
-
-                                <div class="endPoint">
-                                    <p>11:50</p>
-                                    <p>北京西客运站</p>
-                                </div>
-
-                                <div class="time">
-                                    27小时30分
-                                </div>
-
-                                <div class="price">
-                                    无实时价格
-                                </div>
-
-                                <div class="add">
-                                    <a href="javascript:;"><i class="el-icon-plus"></i></a>
-                                </div>
-                            </li>
-
-                            
+                            </li> -->
                             
                         </ul>
                     </div>
@@ -1634,86 +849,50 @@
                         <div class="searchOpt">
                             <div class="item">
                                 <label>取车</label>
-                                <el-input value="2018-02-06" placeholder="乌鲁木齐机场" class="pointSel"></el-input>
-                                <el-select value="2" placeholder="" class="dateSel">
-                                    <el-option
-                                        key="2"
-                                        label="2018-01-01"
-                                        value="2">
-                                    </el-option>
-                                    <el-option
-                                        key="2"
-                                        label="2018-01-02"
-                                        value="2">
-                                    </el-option>
-                                    <el-option
-                                        key="2"
-                                        label="2018-01-03"
-                                        value="2">
-                                    </el-option>
-                                </el-select>
-                                <el-select value="2" placeholder="" class="timeSel">
-                                    <el-option
-                                        key="2"
-                                        label="08:00"
-                                        value="2">
-                                    </el-option>
-                                    <el-option
-                                        key="2"
-                                        label="09:00"
-                                        value="2">
-                                    </el-option>
-                                    <el-option
-                                        key="2"
-                                        label="09:30"
-                                        value="2">
-                                    </el-option>
-                                </el-select>
+                                <el-input placeholder="请输入取车地点" class="pointSel"></el-input>
+                                <el-date-picker
+                                  v-model="sd"
+                                  type="date"
+                                  placeholder="选择日期" class="dateSel">
+                                </el-date-picker>
+
+                                <el-time-select  
+                                    v-model="st"
+                                    class="timeSel"
+                                  :picker-options="{
+                                    start: '08:00',
+                                    step: '01:00',
+                                    end: '24:00'
+                                  }"
+                                  placeholder="选择时间">
+                                </el-time-select>
+
                             </div>
                             <div class="item">
                                 <label>还车</label>
-                                <el-input value="2018-02-06" placeholder="乌鲁木齐机场" class="pointSel"></el-input>
-                                <el-select value="2" placeholder="" class="dateSel">
-                                    <el-option
-                                        key="2"
-                                        label="2018-01-01"
-                                        value="2">
-                                    </el-option>
-                                    <el-option
-                                        key="2"
-                                        label="2018-01-02"
-                                        value="2">
-                                    </el-option>
-                                    <el-option
-                                        key="2"
-                                        label="2018-01-03"
-                                        value="2">
-                                    </el-option>
-                                </el-select>
-                                <el-select value="2" placeholder="" class="timeSel">
-                                    <el-option
-                                        key="2"
-                                        label="08:00"
-                                        value="2">
-                                    </el-option>
-                                    <el-option
-                                        key="2"
-                                        label="09:00"
-                                        value="2">
-                                    </el-option>
-                                    <el-option
-                                        key="2"
-                                        label="09:30"
-                                        value="2">
-                                    </el-option>
-                                </el-select>
+                                <el-input placeholder="请输入还车地点" class="pointSel"></el-input>
+                                <el-date-picker
+                                  v-model="ed"
+                                  type="date"
+                                  placeholder="选择日期" class="dateSel">
+                                </el-date-picker>
+
+                                <el-time-select  
+                                    v-model="et"
+                                    class="timeSel"
+                                  :picker-options="{
+                                    start: '08:00',
+                                    step: '01:00',
+                                    end: '24:00'
+                                  }"
+                                  placeholder="选择时间">
+                                </el-time-select>
                             </div>
                         </div>
                         <div class="searchBtnWrap">
                             <p>共3天</p>
                             <el-button icon="el-icon-search" round class="searchBtn">查询</el-button>
                         </div>
-
                     </div>
 
                     <div class="filterList">
@@ -1766,7 +945,37 @@
 
                     <div class="rentCon">
                         <ul>
-                            <li class="clearfix">
+                            <li class="clearfix" v-for="(item, index) in rentDataList">
+                                <!-- <div class="pic">
+                                    <img src="http://pic.ctrip.com/car_isd/vi/online/123.jpg">
+                                </div> -->
+                                <div class="pic" :style="{backgroundImage: `url(${carImgFormat(item.imageurl)})`}"></div>
+
+                                <div class="name">
+                                    <div class="tit">
+                                        {{item.nameCn}}<span>或同组车型</span>
+                                    </div>
+                                    <p>{{item.model}}&nbsp;&nbsp;|&nbsp;&nbsp;{{item.pedestal}}座&nbsp;&nbsp;|&nbsp;&nbsp;{{item.doors}}门&nbsp;&nbsp;|&nbsp;&nbsp;{{item.suitcases}}行李箱</p>
+                                </div>
+
+                                <div class="price">
+                                    ¥<strong>{{item.price}}</strong>起
+                                </div>
+
+                                <!-- <div class="add">
+                                    <a href="javascript:;"><i class="el-icon-plus"></i></a>
+                                </div> -->
+
+                                <div class="opts">
+                                    <span class="add" @click.stop="addCarToSchedule(item)" v-if="carSel.indexOf(item.id)==-1">
+                                        <i class="el-icon-plus"></i>
+                                    </span>
+                                    <span class="selected" v-if="carSel.indexOf(item.id)>-1">
+                                        <i class="el-icon-check"></i>
+                                    </span>
+                                </div>
+                            </li>
+                            <!-- <li class="clearfix">
                                 <div class="pic">
                                     <img src="http://pic.ctrip.com/car_isd/vi/online/123.jpg">
                                 </div>
@@ -1925,27 +1134,7 @@
                                 <div class="add">
                                     <a href="javascript:;"><i class="el-icon-plus"></i></a>
                                 </div>
-                            </li>
-                            <li class="clearfix">
-                                <div class="pic">
-                                    <img src="http://pic.ctrip.com/car_isd/vi/online/123.jpg">
-                                </div>
-
-                                <div class="name">
-                                    <div class="tit">
-                                        斯柯达明锐<span>或同组车型</span>
-                                    </div>
-                                    <p>自动挡&nbsp;&nbsp;|&nbsp;&nbsp;4座&nbsp;&nbsp;|&nbsp;&nbsp;4门&nbsp;&nbsp;|&nbsp;&nbsp;3行李箱&nbsp;&nbsp;|&nbsp;&nbsp;<a href="">查看更多<i class="el-icon-caret-bottom"></i></a> </p>
-                                </div>
-
-                                <div class="price">
-                                    ¥<strong>150</strong>起
-                                </div>
-
-                                <div class="add">
-                                    <a href="javascript:;"><i class="el-icon-plus"></i></a>
-                                </div>
-                            </li>
+                            </li> -->
                         </ul>
                     </div>
                 </div>
@@ -1972,6 +1161,7 @@
                         <el-option
                             v-for="(item, index) in routeInfo.dayInfo"
                             :label="'第' + (index+1) + '天'"
+                            :disabled="isDisable(item)"
                             :value="index">
                         </el-option>
                     </el-select>
@@ -1981,9 +1171,19 @@
                         <el-option
                             v-for="(item, index) in routeInfo.dayInfo"
                             :label="'第' + (index+1) + '天'"
+                            :disabled="isDisable(item)"
                             :value="index">
                         </el-option>
                     </el-select>
+                </div>
+                <div class="daySel">
+                    <label>备注</label>
+                    <el-input
+                        type="textarea"
+                        :rows="3"
+                        placeholder="备注"
+                        v-model="hotelRemark">
+                    </el-input>
                 </div>
             </div>
             <span slot="footer" class="dialog-footer">
@@ -1993,6 +1193,16 @@
             </span>
         </el-dialog>
 
+        <el-dialog title="提示" :visible.sync="addToScheduleConfirmVisible" width="450px">
+            <div class="delTipCon">
+                <p>今天的行程里面已经添加过，您确定要继续添加吗？</p>
+            </div>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click.native="addToScheduleConfirmVisible = false">取消</el-button>
+                <el-button type="primary" @click.native="addToScheduleAction">确定</el-button>
+            </div>
+        </el-dialog>
+
     </div>
 </template>
 
@@ -2000,13 +1210,24 @@
 import {mapState} from 'vuex'
 import Bus from 'utils/bus'
 
+import { FormatTime, FormatDateDay } from 'mixins/common'
+
+import moment from 'moment'
+
 export default {
+    mixins: [ FormatTime, FormatDateDay  ],
     data() {
         return {
+            sd: '',
+            st: '',
+            ed: '',
+            et: '',
             map: '',
             tabActive: 'poi',
             poiDataList: [],
             poiCityList: [],
+
+            cityNull: false,
 
             cityList: [],
             citySel: '',
@@ -2024,6 +1245,8 @@ export default {
             pageSize: 8,
 
             poiSel: [],
+            airplaneSel: [],
+            carSel: [],
             loadingMore: false,
             loadMoreAble: false,
 
@@ -2039,12 +1262,24 @@ export default {
             hotelNameEn: '',
             hotelStartDay: '',
             hotelEndDay: '',
+            hotelRemark: '',
 
             hotelHas: false,
 
             trafficTabActive: 1,
 
-            hotelDetail: {}
+            hotelDetail: {},
+
+            searchPlaceholder: '搜索 POI',
+
+            trafficDataList: [],
+            rentDataList: [],
+            radio: 1,
+
+            addToScheduleConfirmVisible: false,
+            addToScheduleItem: '',
+
+            nowDay: '',
         }
     },
     
@@ -2059,17 +1294,43 @@ export default {
         dayInfo(val){
             if(val){
                 this.cityList = val.citys
-                this.citySel = val.citys[0].nameCn
-                this.citySelId = val.citys[0].cityId
+                if(this.cityList.length == 0){
+                    this.cityNull = true
+                }else{
+                    this.cityNull = false
+                }
+                // if(this.citySel == ''){
+                    this.citySel = val.citys[0] ? val.citys[0].nameCn : ''
+                    this.citySelId = val.citys[0] ? val.citys[0].cityId : ''
+                // }
+                
 
                 this.pageNo = 1
+                this.poiSel = []
+                this.carSel = []
 
                 for (var i = 0; i < this.dayInfo.scheduletrips.length; i++) {
                     this.poiSel.push(this.dayInfo.scheduletrips[i].poiId)
                 }
-
+                for (var i = 0; i < this.dayInfo.rents.length; i++) {
+                    this.carSel.push(this.dayInfo.rents[i].id)
+                }
+                
                 this.initMap()
                 this.getPoiData()
+
+                this.getNowDay()
+            }
+        },
+        tabActive(val){
+            if(val == 'poi'){
+                this.searchPlaceholder = '搜索 POI'
+            }else if(val == 'product'){
+                this.searchPlaceholder = '搜索 产品'
+            }else if(val == 'hotel'){
+                this.searchPlaceholder = '搜索 酒店'
+            }else{
+                this.searchPlaceholder = '搜索'
             }
         }
     },
@@ -2083,20 +1344,30 @@ export default {
             this.citySel = this.dayInfo.citys[0].nameCn
             this.citySelId = this.dayInfo.citys[0].cityId
 
+            this.poiSel = []
+            this.carSel = []
+
             for (var i = 0; i < this.dayInfo.scheduletrips.length; i++) {
                 this.poiSel.push(this.dayInfo.scheduletrips.poiId)
             }
+            for (var i = 0; i < this.dayInfo.rents.length; i++) {
+                this.carSel.push(this.dayInfo.rents[i].id)
+            }
 
-            
             this.getPoiData()
+
+            this.getNowDay()
+
+            console.log(this.nowDay)
         }
     },
     mounted(){
         this.$nextTick(() => {
-            this.initMap()
+            // this.initMap()
 
             var vm = this
             $('#PoiList').on('scroll', function(){
+                console.log(123)
                 if(vm.loadingMore || !vm.loadMoreAble){
                     return
                 }
@@ -2111,6 +1382,11 @@ export default {
                     vm.getPoiData('more')
                 }
             })
+
+
+            // $(document).on('click', function(){
+            //     alert(123)
+            // })
         })
     },
 
@@ -2128,9 +1404,32 @@ export default {
 
                 return this.$route.params.dayId
             // }
+        },
+        dayIndex(){
+            for (var i = 0; i < this.routeInfo.dayInfo.length; i++) {
+                if(this.routeInfo.dayInfo[i].id == this.dayId){
+                    return this.routeInfo.dayInfo[i].indexdate
+                }
+            }
         }
     },
     methods: {
+        getNowDay(){
+            this.sd = this.formatDateDay(this.routeInfo.startDate, this.dayInfo.indexdate - 1)
+            this.ed = this.formatDateDay(this.routeInfo.startDate, this.dayInfo.indexdate - 1)
+        },
+        trafficTabChange(type){
+            this.trafficTabActive = type
+            this.getTrafficData()
+        },
+
+        isDisable(item){
+            if(item.indexdate < this.dayIndex){
+                return true
+            }else{
+                return false
+            }
+        },
         poiTypeListHide(){
             var vm = this
             this.poiTypeListVisibleTimer = setTimeout(function(){
@@ -2164,6 +1463,13 @@ export default {
                 return require('../../assets/images/route_pic_blank.png')
             }
         },
+        carImgFormat(imgurl){
+            if(imgurl){
+                return imgurl
+            }else{
+                return require('../../assets/images/route_pic_blank.png')
+            }
+        },
 
         changePoiType(val){
             this.poiTypeListVisible = false
@@ -2183,46 +1489,102 @@ export default {
         },
 
         initMap(){
-            var _pointList = this.dayInfo.scheduletrips
+            var _pointList = []
+            var _trafficList = []
 
-            console.log(_pointList)
-            if(_pointList.length == 0){
-                return
+            console.log(this.dayInfo.scheduletrips)
+
+            for (var i = 0; i < this.dayInfo.scheduletrips.length; i++) {
+                if(this.dayInfo.scheduletrips[i].type != 7){
+                    _pointList.push(this.dayInfo.scheduletrips[i])
+                }else{
+                    _trafficList.push(this.dayInfo.scheduletrips[i])
+                }
             }
 
-            this.map = new google.maps.Map(document.getElementById('ScheduleMap'), {
-                center: {lat: _pointList[0].lat, lng: _pointList[0].lon},
-                zoom: 12
-            })
 
-            this.chainPloyline && this.chainPloyline.setMap(null);
-
-            var flightPlanCoordinates = []
-
-            for (var i = 0; i < _pointList.length; i++) {
-                flightPlanCoordinates.push({
-                    lat: _pointList[i].lat,
-                    lng: _pointList[i].lon
+            if(_pointList.length > 0){
+                this.map = new google.maps.Map(document.getElementById('ScheduleMap'), {
+                    center: {lat: _pointList[0].lat, lng: _pointList[0].lon},
+                    zoom: 10
                 })
+
+                this.chainPloyline && this.chainPloyline.setMap(null);
+
+                var flightPlanCoordinates = []
+
+                for (var i = 0; i < _pointList.length; i++) {
+                    flightPlanCoordinates.push({
+                        lat: _pointList[i].lat,
+                        lng: _pointList[i].lon
+                    })
+                }
+                this.chainPloyline = new google.maps.Polyline({
+                    path: flightPlanCoordinates,
+                    // geodesic: true,
+                    strokeColor: '#23a16d',
+                    strokeOpacity: 1.0,
+                    strokeWeight: 2
+                });
+
+                this.chainPloyline.setMap(this.map);
+
+                this.mapPoiMarker(_pointList)
             }
-            this.chainPloyline = new google.maps.Polyline({
-                path: flightPlanCoordinates,
-                geodesic: true,
-                strokeColor: '#4F5A61',
-                strokeOpacity: 1.0,
-                strokeWeight: 1.5
-            });
 
-            this.chainPloyline.setMap(this.map);
+            if(_trafficList.length > 0){
+                if(this.map == ''){
+                    this.map = new google.maps.Map(document.getElementById('ScheduleMap'), {
+                        center: {lat: 39.920000, lng: 116.460000},
+                        zoom: 10
+                    })
+                }
 
-            this.mapTrafficMarker(_pointList)
+                var lineSymbol = {
+                    path: 'M 0,-1 0,1',
+                    strokeOpacity: 1,
+                    scale: 3
+                }
+                
+
+                this.chainTrafficPloyline && this.chainTrafficPloyline.setMap(null);
+
+                for (var i = 0; i < _trafficList.length; i++) {
+                    var flightPlanCoordinates = []
+
+                    flightPlanCoordinates.push({
+                        lat: _trafficList[i].startLat,
+                        lng: _trafficList[i].startLon
+                    })
+                    flightPlanCoordinates.push({
+                        lat: _trafficList[i].endLat,
+                        lng: _trafficList[i].endLon
+                    })
+                    this.chainTrafficPloyline = new google.maps.Polyline({
+                        path: flightPlanCoordinates,
+                        // geodesic: true,
+                        strokeColor: '#23a16d',
+                        strokeOpacity: 0,
+                        strokeWeight: 2,
+                        icons: [{
+                            icon: lineSymbol,
+                            offset: '0',
+                            repeat: '20px'
+                        }]
+                    });
+
+                    this.chainTrafficPloyline.setMap(this.map);
+                    this.mapTrafficMarker(_trafficList[i])
+                }
+                
+            }
         },
 
-        mapTrafficMarker(data){
+        mapPoiMarker(data){
             var vm = this
-            for (var i = 0; i < this.cityMarker.length; i++) {
-                this.cityMarker[i].setMap(null);
-            }
+            // for (var i = 0; i < this.cityMarker.length; i++) {
+            //     this.cityMarker[i].setMap(null);
+            // }
             
             var _txtArr = []
 
@@ -2270,9 +1632,91 @@ export default {
             }
         },
 
+        trafficFormat(type){
+            if(type == 1){
+                return '<i class="iconfont icon-feiji-big"></i>'
+            }else if(type == 2){
+                return '<i class="iconfont icon-huoche"></i>'
+            }else if(type == 3){
+                return '<i class="iconfont icon-lunchuang"></i>'
+            }else if(type == 4){
+                return '<i class="iconfont icon-gongjiaoche"></i>'
+            }
+        },
+
+
+        mapTrafficMarker(trafficData){
+            var vm = this
+            // for (var i = 0; i < this.trafficMarker.length; i++) {
+            //     this.trafficMarker[i].setMap(null);
+            // }
+            
+            var _txtArr = []
+
+            var data = [{
+                nameCn: trafficData.startName,
+                lat: trafficData.startLat,
+                lon: trafficData.startLon,
+                type: trafficData.traffictype
+            },{
+                nameCn: trafficData.endName,
+                lat: trafficData.endLat,
+                lon: trafficData.endLon,
+                type: trafficData.traffictype
+            }]
+
+            for (var i = 0; i < data.length; i++) {
+                var div = document.createElement('DIV');
+                div.innerHTML = '<div class="mapTrafficLineMarker">' + this.trafficFormat(data[i].type) + '</div>';
+
+                var marker = new RichMarker({
+                    map: this.map,
+                    position: new google.maps.LatLng(data[i].lat, data[i].lon),
+                    draggable: false,
+                    flat: true,
+                    anchor: RichMarkerPosition.MIDDLE,
+                    content: div
+                });
+
+                var _infobox
+
+                // _txtArr.push(data[i].nameCn)
+
+                google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {
+                    return function() {
+                        _infobox = new InfoBubble({
+                            borderWidth: 0,
+                            borderRadius: 0,
+                            backgroundColor: '#22A98E',
+                            disableAutoPan: true,
+                            hideCloseButton: true,
+                            arrowSize: 8,
+                            minWidth: 180,
+                            maxWidth: 180,
+                            minHeight: 38,
+                            // maxHeight: 38,
+                            padding: 0,
+                            content: '<div class="mapMarkerTxt"><div class="tit">'+_txtArr[i]+'</div></div>',
+                        })
+
+                        _infobox.open(this.map, marker);
+                    }
+                })(marker, i));
+
+                google.maps.event.addListener(marker, 'mouseout', function() {
+                    _infobox.close()
+                })
+            }
+        },
+
         setMapMarker(type){
             var vm = this
-            var data = this.poiDataList
+            var data = []
+            for (var i = 0; i < this.poiDataList.length; i++) {
+                if(this.poiDataList[i].type != 7){
+                    data.push(this.poiDataList[i])
+                }
+            }
 
             if(type == 'more'){
                 if(data.length == 0){
@@ -2291,7 +1735,7 @@ export default {
                 if(this.map == ''){
                     this.map = new google.maps.Map(document.getElementById('ScheduleMap'), {
                         center: {lat: data[0].lat, lng: data[0].lon},
-                        zoom: 12
+                        zoom: 10
                     })
                 }
             }
@@ -2341,7 +1785,7 @@ export default {
                     google.maps.event.addListener(marker, 'click', (function(marker, i) {
                         return function() {
                             window.addToSchedule = function(){
-                                vm.addToSchedule(data[i].id)
+                                vm.addToSchedule(data[i])
                             }
 
                             if(!_infoBubble[i].has){
@@ -2386,21 +1830,21 @@ export default {
             this.citySel = item.nameCn
             this.citySelId = item.cityId
 
+            if(this.map == ''){
+                this.initMap()
+            }else{
+                this.map.setCenter({lat: item.lat, lng: item.lon})
+                this.map.setZoom(10)
+            }
+
             this.pageNo = 1
-            this.getPoiData()
-        },
-
-        changeTabs(tab) {
-            this.pageNo = 1
-            this.tabActive = tab
-
-
-            if(tab == 'product' || tab == 'poi' || tab == 'traffic' || tab == 'rent'){
+            var tab = this.tabActive
+            
+            if(tab == 'product' || tab == 'poi'){
                 this.hotelHas = false
                 this.getPoiData()
-            }
-            if(tab == 'hotel'){
-                if(this.dayInfo.scheduleHotels.length > 0){
+            }else if(tab == 'hotel'){
+                if(this.dayInfo.scheduleHotels.length > 1){
                     this.hotelHas = true
                     this.getHotelData()
                 }else{
@@ -2408,8 +1852,34 @@ export default {
                     this.getPoiHotelData()
                 }
                 // this.getPoiHotelData()
+            }else if(tab == 'traffic'){
+                this.getTrafficData()
+            }else if(tab == 'rent'){
+                this.getRentData()
             }
+        },
 
+        changeTabs(tab) {
+            this.pageNo = 1
+            this.tabActive = tab
+
+            if(tab == 'product' || tab == 'poi'){
+                this.hotelHas = false
+                this.getPoiData()
+            }else if(tab == 'hotel'){
+                if(this.dayInfo.scheduleHotels.length > 1){
+                    this.hotelHas = true
+                    this.getHotelData()
+                }else{
+                    this.hotelHas = false
+                    this.getPoiHotelData()
+                }
+                // this.getPoiHotelData()
+            }else if(tab == 'traffic'){
+                this.getTrafficData()
+            }else if(tab == 'rent'){
+                this.getRentData()
+            }
         },
 
         getPoiData(type){
@@ -2446,12 +1916,12 @@ export default {
                     })
                 }else{
                     if(type == 'more'){
-                        this.poiDataList = this.poiDataList.concat(res.data.data)
+                        this.poiDataList = this.poiDataList.concat(res.data.data.data)
                     }else{
-                        this.poiDataList = res.data.data
+                        this.poiDataList = res.data.data.data
                     }
 
-                    if(res.data.data.length == this.pageSize){
+                    if(Math.ceil(res.data.data.total/this.pageSize) > this.pageNo){
                         this.loadMoreAble = true
                     }else{
                         this.loadMoreAble = false
@@ -2503,6 +1973,93 @@ export default {
             })
         },
 
+        getTrafficData(type){
+            // var _data = {
+            //     cityId: this.citySelId,
+            //     pageSize: this.pageSize,
+            //     pageNo: this.pageNo
+            // }
+            // if(this.keywords != ''){
+            //     _data['name'] = this.keywords
+            // }
+
+            this.$http({
+                method: 'post',
+                url: '/traffic/doSearch',
+                data: {
+                    trafficType: this.trafficTabActive
+                }
+            })
+            .then((res)=>{
+                this.loadingMore = false
+                if(res.data.code == -1){
+                    this.$message({
+                        message: res.data.message,
+                        type: 'error',
+                        duration: 2000
+                    })
+                }else{
+                    this.trafficDataList = res.data.data.data
+                    // console.log(res.data)
+                    // if(type == 'more'){
+                    //     this.poiDataList = this.poiDataList.concat(res.data.data)
+                    // }else{
+                    //     this.poiDataList = res.data.data
+                    // }
+
+                    // if(res.data.data.length == this.pageSize){
+                    //     this.loadMoreAble = true
+                    // }else{
+                    //     this.loadMoreAble = false
+                    // }
+
+                    // this.setMapMarker(type)
+                }
+            })
+        },
+
+        getRentData(type){
+            // var _data = {
+            //     cityId: this.citySelId,
+            //     pageSize: this.pageSize,
+            //     pageNo: this.pageNo
+            // }
+            // if(this.keywords != ''){
+            //     _data['name'] = this.keywords
+            // }
+
+            this.$http({
+                method: 'post',
+                url: '/rent/doSearch',
+                // data: _data
+            })
+            .then((res)=>{
+                this.loadingMore = false
+                if(res.data.code == -1){
+                    this.$message({
+                        message: res.data.message,
+                        type: 'error',
+                        duration: 2000
+                    })
+                }else{
+                    this.rentDataList = res.data.data.data
+                    // if(type == 'more'){
+                    //     this.poiDataList = this.poiDataList.concat(res.data.data)
+                    // }else{
+                    //     this.poiDataList = res.data.data
+                    // }
+
+                    // if(res.data.data.length == this.pageSize){
+                    //     this.loadMoreAble = true
+                    // }else{
+                    //     this.loadMoreAble = false
+                    // }
+
+                    // this.setMapMarker(type)
+                }
+            })
+        },
+
 
         getHotelData(){
             var _hotelId = this.dayInfo.scheduleHotels[0].id
@@ -2526,21 +2083,29 @@ export default {
 
 
         addToSchedule(item){
-            console.log(item)
+            this.addToScheduleItem = item
+            if(this.poiSel.indexOf(item.id)>-1){
+                this.addToScheduleConfirmVisible = true
+            }else{
+                this.addToScheduleAction()
+            }
+        },
 
+        addToScheduleAction(){
+            var item = this.addToScheduleItem
             if(item.type == 6){
                 this.hotelId = item.id
                 this.hotelNameCn = item.nameCn
                 this.hotelNameEn = item.nameEn
                 this.addHotelDialogVisible = true
-
             }else{
                 this.$http({
                     method: 'post',
                     url: '/tripnote/scheduletrip/poi/doAdd',
                     data: {
                         scheduleId: this.dayId,
-                        sourceId: item.id
+                        sourceId: item.id,
+                        sort: this.dayInfo.scheduletrips.length + 1
                     }
                 })
                 .then((res)=>{
@@ -2551,10 +2116,56 @@ export default {
                             duration: 2000
                         })
                     }else{
+                        this.addToScheduleConfirmVisible = false
                         Bus.$emit('refreshSchedule', true)
                     }
                 })
             }
+        },
+
+        addTrafficToSchedule(item){
+            this.$http({
+                method: 'post',
+                url: '/tripnote/scheduletrip/traffic/doAdd',
+                data: {
+                    scheduleId: this.dayId,
+                    sourceId: item.id,
+                    sort: this.dayInfo.scheduletrips.length + 1
+                }
+            })
+            .then((res)=>{
+                if(res.data.code == -1){
+                    this.$message({
+                        message: res.data.message,
+                        type: 'error',
+                        duration: 2000
+                    })
+                }else{
+                    Bus.$emit('refreshSchedule', true)
+                }
+            })
+        },
+
+        addCarToSchedule(item){
+            this.$http({
+                method: 'post',
+                url: '/tripnote/scheduletrip/rent/doAdd',
+                data: {
+                    scheduleId: this.dayId,
+                    sourceId: item.id
+                }
+            })
+            .then((res)=>{
+                if(res.data.code == -1){
+                    this.$message({
+                        message: res.data.message,
+                        type: 'error',
+                        duration: 2000
+                    })
+                }else{
+                    Bus.$emit('refreshSchedule', true)
+                }
+            })
         },
 
 
@@ -2596,7 +2207,8 @@ export default {
                 data: JSON.stringify({
                     "checkIn": 'D'+ (this.hotelStartDay + 1),
                     "checkOut": 'D'+ (this.hotelEndDay + 1),
-                    "scheduleHotels": _scheduleHotels
+                    "scheduleHotels": _scheduleHotels,
+                    remark: this.hotelRemark
                 }),
                 contentType: 'application/json',
                 success: function(res){
@@ -2609,6 +2221,13 @@ export default {
                     }else{
                         Bus.$emit('refreshSchedule', true)
                         vm.addHotelDialogVisible = false
+
+                        setTimeout(function(){
+                            vm.hotelHas = true
+                            vm.getHotelData()
+                        }, 500)
+
+                        
                     }
                 }
             })
@@ -2644,6 +2263,7 @@ export default {
         },
 
         getDayDetail(){
+            console.log(2)
             this.$http({
                 method: 'post',
                 url: '/tripnote/schedule/doDeail/' + this.dayId,
@@ -2719,6 +2339,15 @@ export default {
     transition: all .3s ease;
     &.active{
         left: 180px;
+    }
+    &.cityNull{
+        .tabs,
+        .detail{
+            display: none;
+        }
+        .googleMap{
+            left: 0;
+        }
     }
     .header{
         .tabs{
@@ -3047,6 +2676,19 @@ export default {
                 }
             }
         }
+        .hotelRemark{
+            margin: 15px;
+            label{
+                float: left;
+                color: #a0abb3;
+                &:last-child{
+                    margin-left: 50px;
+                }
+            }
+            .text{
+                margin-left: 60px; 
+            }
+        }
     }
 
     .googleMap{
@@ -3107,6 +2749,7 @@ export default {
                 float: left;
                 width: 110px;
                 margin-right: 10px;
+                
             }
             .searchBtn{
                 float: right;
@@ -3154,6 +2797,7 @@ export default {
                 padding: 0 15px 15px;
             }
             li{
+                position: relative;
                 margin-top: 20px;
                 padding: 10px 0 10px 15px;
                 border: 1px solid #EAEDF1;
@@ -3269,7 +2913,7 @@ export default {
 
                 .startPoint{
                     float: left;
-                    width: 110px;
+                    width: 90px;
                     margin-top: 4px;
                     margin-left: 20px;
                     line-height: 22px;
@@ -3349,34 +2993,107 @@ export default {
                         color: #23a16d;
                     }
                 }
-                .add{
-                    float: right;
-                    width: 60px;
+                .opts{
+                    position: absolute;
+                    top: 50%;
+                    right: 10px;
+                    margin-top: -26px;
+                    width: 52px;
                     height: 52px;
-                    line-height: 52px;
-                    border-left: 1px solid #EAEDF1;
-
-                    a{
+                    line-height: 30px;
+                    cursor: pointer;
+                    border-left: 1px solid #eaedf1;
+                    span{
                         display: block;
-                        height: 28px;
                         width: 28px;
-                        margin: 12px auto;
-                        border: 2px solid #23a16d;
-                        color: #23a16d;
-                        line-height: 30px;
-                        border-radius: 100%;
-                        text-align: center;
-                        line-height: 26px;
-                        &:hover{
-                            background: #23a16d;;
-                            color: #fff;
+                        height: 28px;
+                        margin: 12px 0 0 15px;
+                        // i{
+                        //     opacity: 0.8;
+                        //     font-size: 28px;
+                        //     color: #23a16d;
+                        // }
+                        // &:hover{
+                        //     i{
+                        //         opacity: 1;
+                        //     }
+                        // }
+                        &.add{
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            z-index: 2;
+                            height: 28px;
+                            width: 28px;
+                            border: 2px solid #23a16d;
+                            color: #23a16d;
+                            line-height: 30px;
+                            border-radius: 100%;
+                            text-align: center;
+                            line-height: 26px;
+                            &:hover{
+                                background: #23a16d;;
+                                color: #fff;
+                            }
+                            i{
+                                font-size: 16px;
+                                font-weight: bold;
+                            }
                         }
-                        i{
-                            font-size: 16px;
-                            font-weight: bold;
+                        &.selected{
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            width: 28px;
+                            height: 28px;
+                            background: #23a16d;
+                            z-index: 3;
+                            border-radius: 100%;
+                            text-align: center;
+                            line-height: 30px;
+                            i{
+                                font-size: 16px;
+                                font-weight: bold;
+                                color: #fff;
+                            }
+                        }
+                    }
+                    &:hover{
+                        span{
+                            &.selected{
+                                display: none;
+                            }
                         }
                     }
                 }
+                // .add{
+                //     float: right;
+                //     width: 60px;
+                //     height: 52px;
+                //     line-height: 52px;
+                //     border-left: 1px solid #EAEDF1;
+
+                //     a{
+                //         display: block;
+                //         height: 28px;
+                //         width: 28px;
+                //         margin: 12px auto;
+                //         border: 2px solid #23a16d;
+                //         color: #23a16d;
+                //         line-height: 30px;
+                //         border-radius: 100%;
+                //         text-align: center;
+                //         line-height: 26px;
+                //         &:hover{
+                //             background: #23a16d;;
+                //             color: #fff;
+                //         }
+                //         i{
+                //             font-size: 16px;
+                //             font-weight: bold;
+                //         }
+                //     }
+                // }
             }
         }
     }
@@ -3431,17 +3148,23 @@ export default {
                     }
                     .pointSel{
                         float: left;
-                        width: 165px;
+                        width: 150px;
                     }
                     .dateSel{
                         float: left;
-                        width: 110px;
+                        width: 130px;
                         margin-left: 10px;
                     }
                     .timeSel{
                         float: left;
                         width: 75px;
                         margin-left: -1px;
+                        .el-input__inner{
+                            padding: 0 5px !important;
+                        }
+                        .el-input__prefix{
+                            display: none !important;
+                        }
                     }
                 }
             }
@@ -3505,12 +3228,16 @@ export default {
                 padding: 0 15px 15px;
             }
             li{
+                position: relative;
                 margin-top: 20px;
                 padding: 10px 0 10px 15px;
                 border: 1px solid #EAEDF1;
                 .pic{
                     float: left;
-                    width: 120px;
+                    width: 100px;
+                    height: 75px;
+                    background-size: cover;
+                    background-position: center;
                     img{
                         display: block;
                         width: 100px;
@@ -3521,6 +3248,7 @@ export default {
                     float: left;
                     width: 260px;
                     margin-top: 5px;
+                    margin-left: 15px;
                     .tit{
                         line-height: 32px;
                         font-size: 16px;
@@ -3547,33 +3275,106 @@ export default {
                         color: #23a16d;
                     }
                 }
-                .add{
-                    float: right;
+                .opts{
+                    position: absolute;
+                    top: 50%;
+                    right: 10px;
+                    margin-top: -37px;
                     width: 60px;
-                    height: 70px;
-                    line-height: 70px;
-                    border-left: 1px solid #EAEDF1;
-                    a{
+                    height: 75px;
+                    line-height: 30px;
+                    border-left: 1px solid #eaedf1;
+                    span{
                         display: block;
-                        height: 28px;
                         width: 28px;
-                        margin: 22px auto;
-                        border: 2px solid #23a16d;
-                        color: #23a16d;
-                        line-height: 30px;
-                        border-radius: 100%;
-                        text-align: center;
-                        line-height: 26px;
-                        &:hover{
-                            background: #23a16d;;
-                            color: #fff;
+                        height: 28px;
+                        margin: 22px 0 0 20px;
+                        // i{
+                        //     opacity: 0.8;
+                        //     font-size: 28px;
+                        //     color: #23a16d;
+                        // }
+                        // &:hover{
+                        //     i{
+                        //         opacity: 1;
+                        //     }
+                        // }
+                        &.add{
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            z-index: 2;
+                            height: 28px;
+                            width: 28px;
+                            border: 2px solid #23a16d;
+                            color: #23a16d;
+                            line-height: 30px;
+                            border-radius: 100%;
+                            text-align: center;
+                            line-height: 26px;
+                            cursor: pointer;
+                            &:hover{
+                                background: #23a16d;;
+                                color: #fff;
+                            }
+                            i{
+                                font-size: 16px;
+                                font-weight: bold;
+                            }
                         }
-                        i{
-                            font-size: 16px;
-                            font-weight: bold;
+                        &.selected{
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            width: 28px;
+                            height: 28px;
+                            background: #23a16d;
+                            z-index: 3;
+                            border-radius: 100%;
+                            text-align: center;
+                            line-height: 30px;
+                            i{
+                                font-size: 16px;
+                                font-weight: bold;
+                                color: #fff;
+                            }
                         }
                     }
+                    // &:hover{
+                    //     span{
+                    //         &.selected{
+                    //             display: none;
+                    //         }
+                    //     }
+                    // }
                 }
+                // .add{
+                //     float: right;
+                //     width: 60px;
+                //     height: 70px;
+                //     line-height: 70px;
+                //     border-left: 1px solid #EAEDF1;
+                //     a{
+                //         display: block;
+                //         height: 28px;
+                //         width: 28px;
+                //         margin: 22px auto;
+                //         border: 2px solid #23a16d;
+                //         color: #23a16d;
+                //         line-height: 30px;
+                //         border-radius: 100%;
+                //         text-align: center;
+                //         line-height: 26px;
+                //         &:hover{
+                //             background: #23a16d;;
+                //             color: #fff;
+                //         }
+                //         i{
+                //             font-size: 16px;
+                //             font-weight: bold;
+                //         }
+                //     }
+                // }
             }
         }
     }
@@ -3582,7 +3383,7 @@ export default {
 .mapSchedulePoiMarker{
     width: 10px;
     height: 10px;
-    background: #FA574B;
+    background: #777;
     border-radius: 100%;
     opacity: 0.8;
     &:hover{
@@ -3617,7 +3418,7 @@ export default {
     }
     .daySel{
         overflow: hidden;
-        margin: 15px 0 30px;
+        margin: 15px 0;
         label{
             float: left;
             width: 40px;
@@ -3628,7 +3429,28 @@ export default {
             float: left;
             margin-right: 30px;
         }
+        .el-textarea{
+            float: left;
+            width: 414px;
+            margin-right: 30px;
+        }
     }
+}
+
+.mapTrafficLineMarker{
+    position: relative;
+    z-index: 100;
+    width: 28px;
+    height: 28px;
+    background: #23a16d;
+    border-radius: 100%;
+    // margin-top: -20px;
+    // background: url(../../assets/images/poi_marker.png);
+    text-align: center;
+    line-height: 28px;
+    font-size: 14px;
+    color: #fff;
+    text-align: center;
 }
 
 

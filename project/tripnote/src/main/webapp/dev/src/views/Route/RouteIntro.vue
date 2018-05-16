@@ -1,11 +1,11 @@
 <template>
     <div>
         <!-- <div class="columnWrap notes" v-if="!setRouteLineActive"> -->
-            <div class="columnBox notes" v-if="!setRouteLineActive">
+            <div class="columnBox notes" @mouseenter="setBtnActive=true" @mouseleave="setBtnActive=false" v-if="!setRouteLineActive">
                 <div class="header">
                     <div class="tit"><i class="iconfont icon-wenjian"></i>行程介绍</div>
                     <div class="opts">
-                        <a href="javascript:;" @click="isEdit=true" v-if="!isEdit" class="actionBtn">
+                        <a href="javascript:;" @click="isEdit=true" v-if="!isEdit" class="actionBtn" :class="{active: setBtnActive}">
                             <i class="iconfont icon-bianji-blue"></i>
                             <span>编辑</span>
                         </a>
@@ -20,6 +20,10 @@
                 <div class="content" v-if="!isEdit" v-html="routeInfo.intro"></div>
                 <div class="content" v-if="isEdit">
                     <froala :tag="'textarea'" :config="config" v-model="routeInfo.intro"></froala>
+                </div>
+                <div class="dataNull" v-if="!isEdit && !routeInfo.intro">
+                    <i class="icon"></i>
+                    <p>暂时还没有行程介绍，开始 <a href="javascript:;" @click="isEdit=true">添加</a> 吧！</p>
                 </div>
             </div>
 
@@ -48,6 +52,7 @@ import VueFroala from 'vue-froala-wysiwyg';
 export default {
     data() {
         return {
+            setBtnActive: false,
             showMap: false,
             googleMap: '',
             markerImg: require('../../assets/images/markers.png'),
@@ -68,7 +73,7 @@ export default {
                         // response = JSON.parse(response);
                     },
                 },
-                // heightMin: 300,
+                heightMin: 255,
                 // heightMax: 500,
                 charCounterCount: false,
                 quickInsertTags: [],

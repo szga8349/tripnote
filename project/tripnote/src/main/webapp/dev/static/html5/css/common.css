@@ -1,14 +1,491 @@
-/*! normalize.css v3.0.2 | MIT License | git.io/normalize */
-html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section,summary{display:block}audio,canvas,progress,video{display:inline-block;vertical-align:baseline}audio:not([controls]){display:none;height:0}[hidden],template{display:none}a{background-color:transparent}a:active,a:hover{outline:0}abbr[title]{border-bottom:1px dotted}b,strong{font-weight:bold}dfn{font-style:italic}h1{font-size:2em;margin:.67em 0}mark{background:#ff0;color:#000}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sup{top:-0.5em}sub{bottom:-0.25em}img{border:0}svg:not(:root){overflow:hidden}figure{margin:1em 40px}hr{-moz-box-sizing:content-box;box-sizing:content-box;height:0}pre{overflow:auto}code,kbd,pre,samp{font-family:monospace,monospace;font-size:1em}button,input,optgroup,select,textarea{color:inherit;font:inherit;margin:0}button{overflow:visible}button,select{text-transform:none}button,html input[type="button"],input[type="reset"],input[type="submit"]{-webkit-appearance:button;cursor:pointer}button[disabled],html input[disabled]{cursor:default}button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}input{line-height:normal}input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0}input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-outer-spin-button{height:auto}input[type="search"]{-webkit-appearance:textfield;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box}input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit-search-decoration{-webkit-appearance:none}fieldset{border:1px solid #c0c0c0;margin:0 2px;padding:.35em .625em .75em}legend{border:0;padding:0}textarea{overflow:auto}optgroup{font-weight:bold}table{border-collapse:collapse;border-spacing:0}td,th{padding:0}
-
-/*! HTML5 Boilerplate v5.0.0 | MIT License | http://h5bp.com/ */
-html{color:#222;font-size:1em;line-height:1.4}::-moz-selection{background:#b3d4fc;text-shadow:none}::selection{background:#b3d4fc;text-shadow:none}hr{display:block;height:1px;border:0;border-top:1px solid #ccc;margin:1em 0;padding:0}audio,canvas,iframe,img,svg,video{vertical-align:middle}fieldset{border:0;margin:0;padding:0}textarea{resize:vertical}.browserupgrade{margin:.2em 0;background:#ccc;color:#000;padding:.2em 0}.hidden{display:none!important;visibility:hidden}.visuallyhidden{border:0;clip:rect(0 0 0 0);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px}.visuallyhidden.focusable:active,.visuallyhidden.focusable:focus{clip:auto;height:auto;margin:0;overflow:visible;position:static;width:auto}.invisible{visibility:hidden}.clearfix:before,.clearfix:after{content:" ";display:table}.clearfix:after{clear:both}@media print{*,*:before,*:after{background:transparent!important;color:#000!important;box-shadow:none!important;text-shadow:none!important}a,a:visited{text-decoration:underline}a[href]:after{content:" (" attr(href) ")"}abbr[title]:after{content:" (" attr(title) ")"}a[href^="#"]:after,a[href^="javascript:"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100%!important}p,h2,h3{orphans:3;widows:3}h2,h3{page-break-after:avoid}}
-
-html{
-    line-height: 1.5;
-    font-size: 12px;
-    color: #555;
+* {
+  margin: 0;
+  padding: 0;
 }
-body{
-    
+
+ul,
+li {
+  list-style: none;
+}
+
+html {
+  line-height: 1.5;
+  font-size: 12px;
+  color: #555;
+  font-family: microsoft yahei;
+  -webkit-overflow-scrolling: touch;
+}
+
+html,
+body {
+  position: relative;
+  height: 100%;
+  /*max-width: 800px;*/
+}
+
+body {
+  /*font-family: Helvetica Neue, Helvetica, Arial, sans-serif;*/
+  font-size: 14px;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: #333;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+.swiper-container {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  box-sizing: border-box;
+  height: 100%;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.cover {
+  text-align: center;
+}
+
+.cover .picWrap {
+  position: relative;
+  height: 50%;
+  width: 100%;
+  background: url(../images/bg_map.png) #314a8a no-repeat center center;
+  background-size: 100% 100%;
+}
+
+.cover .picWrap .pic {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  height: 200px;
+  margin: -100px 0 0 -100px;
+}
+
+.cover .picWrap .pic img {
+  width: 100%;
+  height: 100%;
+}
+
+.cover .picWrap .copyright {
+  position: absolute;
+  bottom: 5px;
+  width: 100%;
+  line-height: 30px;
+  color: #fff;
+  text-align: center;
+}
+
+.cover h1 {
+  margin-top: 30px;
+  font-size: 30px;
+  font-weight: normal;
+}
+
+.cover .date {
+  font-size: 16px;
+  color: #afbac7;
+}
+
+.cover .user {
+  font-size: 13px;
+  color: #afbac7;
+}
+
+.cover .tapTips {
+  position: absolute;
+  bottom: 60px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 13px;
+  color: #afbac7;
+}
+
+.pointer {
+  position: absolute;
+  height: 3.8rem;
+  bottom: 0;
+  width: 100%;
+}
+
+.pointer p {
+  animation: anima-pointer 1.5s infinite;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  margin-left: -1.4rem;
+  height: 2.8rem;
+  width: 2.8rem;
+}
+
+.cover .tipsTxt {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  width: 300px;
+  margin-left: -150px;
+  border-top: 1px solid #E8EEF1;
+  text-align: center;
+}
+
+.cover .tipsTxt span {
+  display: block;
+  position: relative;
+  width: 130px;
+  margin: -10px auto;
+  background: #fff;
+  line-height: 20px;
+  color: #afbac7
+}
+
+@keyframes anima-pointer {
+  0% {
+    opacity: 0.3;
+    bottom: 0
+  }
+  100% {
+    opacity: 1;
+    bottom: 10px;
+  }
+}
+
+.tripMenu .btn {
+  position: fixed;
+  right: 10px;
+  bottom: 10px;
+  z-index: 11;
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  background: #fff;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, .3);
+  line-height: 50px;
+  text-align: center;
+}
+
+.tripMenu .btn i {
+  font-size: 18px;
+}
+
+.tripMenu .btn i.icon-close {
+  display: none;
+}
+
+.tripMenu .btn.show i.icon-menu {
+  display: none;
+}
+
+.tripMenu .btn.show i.icon-close {
+  display: block;
+}
+
+.tripMenu .menuMask {
+  display: none;
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, .8);
+}
+
+.tripMenu .menuBox {
+  display: none;
+  position: absolute;
+  z-index: 10;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0 15px 70px;
+  background: #fff;
+  transition: all .3s ease;
+}
+
+.tripMenu.show .menuMask,
+.tripMenu.show .menuBox {
+  display: block;
+}
+
+.tripMenu .menuBox .title {
+  line-height: 65px;
+  font-size: 18px;
+  text-align: center;
+  border-bottom: 1px solid #F0F0F0;
+}
+
+.tripMenu .pageType {
+  margin: 20px 0 30px;
+  text-align: center;
+}
+
+.tripMenu .pageType a {
+  display: inline-block;
+  width: 30%;
+  height: 50px;
+  margin: 0 5%;
+  border: 1px solid #BFCAD1;
+  line-height: 50px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.tripMenu .dayTitle {
+  position: relative;
+  margin-top: 10px;
+  border-top: 1px solid #F0F0F0;
+}
+
+.tripMenu .dayTitle span {
+  display: block;
+  position: relative;
+  width: 80px;
+  margin: -10px auto 0;
+  background: #fff;
+  line-height: 20px;
+  color: #AFBDC4;
+  text-align: center;
+}
+
+.tripMenu .dayList {
+  padding: 5px 0 15px;
+  border-bottom: 1px solid #F0F0F0;
+}
+
+.tripMenu .dayList a {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  margin: 10px 6px;
+  line-height: 40px;
+  border: 1px solid #BFCAD1;
+  text-align: center;
+}
+
+.summary {
+  overflow-y: auto;
+}
+
+.summary .map {
+  width: 100%;
+  height: 300px;
+}
+
+.summary .dayList {
+  margin: 15px;
+}
+
+.summary .dayList li {
+  overflow: hidden;
+  clear: both;
+  padding: 15px 5px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.summary .dayList li .no {
+  float: left;
+  font-size: 16px;
+  color: #23a16d;
+}
+
+.summary .dayList li .citys {
+  margin-left: 50px;
+  margin-right: 80px;
+}
+.summary .dayList li .citys .iconfont{
+  vertical-align: middle;
+}
+
+.summary .dayList li .date {
+  float: right;
+  color: #afbac7;
+  font-size: 12px;
+}
+
+.intro {
+  padding: 15px;
+}
+
+.introTitle {
+  line-height: 28px;
+  font-size: 20px;
+  color: #23a16d;
+  font-weight: bold;
+}
+
+.introCon {
+  margin: 5px 0 10px;
+  line-height: 28px;
+}
+
+.remark {
+  padding: 15px;
+}
+
+.remarkTitle {
+  line-height: 28px;
+  font-size: 20px;
+  color: #23a16d;
+  font-weight: bold;
+}
+
+.remarkCon {
+  margin: 5px 0 10px;
+  line-height: 28px;
+}
+
+.routeDay {
+  padding: 10px 15px;
+}
+
+.routeDay .dayTitle .no {
+  float: left;
+  line-height: 40px;
+  font-weight: bold;
+  font-size: 20px;
+  color: #23a16d;
+}
+
+.routeDay .dayTitle .citys {
+  margin-left: 50px;
+  line-height: 44px;
+  font-size: 14px;
+}
+
+.routeDay .dayTitle .citys {
+  margin-left: 50px;
+  line-height: 44px;
+  font-size: 14px;
+}
+
+.routeDay .scheduleList .item{
+  margin: 10px 0 20px;
+}
+
+.routeDay .scheduleList .item .tit{
+  overflow: hidden;
+}
+.routeDay .scheduleList .item .tit .no{
+  float: left;
+  width: 32px;
+  height: 32px;
+  background: #23a16d;
+  color: #fff;
+  line-height: 32px;
+  text-align: center;
+  border-radius: 32px;
+}
+.routeDay .scheduleList .item .tit .no.noHotel{
+  background: none;
+  color: #23a16d;
+}
+.routeDay .scheduleList .item .tit .name{
+  margin-left: 42px;
+  line-height: 32px;
+  font-size: 16px;
+}
+.routeDay .scheduleList .item .baseInfo{
+  overflow: hidden;
+  margin: 10px 0;
+}
+.routeDay .scheduleList .item .baseInfo p{
+  float: left;
+  margin-right: 10px;
+}
+.routeDay .scheduleList .item .baseInfo label{
+  color: #afbac7;
+}
+.routeDay .scheduleList .item .poiInfo .pic{
+  width: 100%;
+}
+.routeDay .scheduleList .item .poiInfo .pic img{
+  width: 100%;
+}
+.routeDay .scheduleList .item .poiInfo .text{
+  margin-top: 10px;
+}
+
+.routeDay .scheduleList .item .poiInfo .text{
+  margin-top: 10px;
+}
+
+.routeDay .scheduleList .item .poiInfo ul{
+  margin-top: 15px;
+}
+
+.routeDay .scheduleList .item .poiInfo li{
+  position: relative;
+  padding: 3px 0;
+}
+.routeDay .scheduleList .item .poiInfo i{
+  float: left;
+  margin-left: 4px;
+  background: #fff;
+  font-size: 18px;
+}
+.routeDay .scheduleList .item .poiInfo li{
+  overflow: hidden;
+}
+.routeDay .scheduleList .item .poiInfo label{
+  float: left;
+  width: 60px;
+  text-align: right;
+  color: #999;
+}
+.routeDay .scheduleList .item .poiInfo .txt{
+  margin-left: 70px;
+}
+
+.routeDay .scheduleList .triffic{
+  position: relative;
+  padding: 30px 0;
+}
+.routeDay .scheduleList .triffic:before{
+  position: absolute;
+  top: 0;
+  height: 30px;
+  content: '';
+  left: 50px;
+  border-right: 1px solid #afbac7;
+}
+.routeDay .scheduleList .triffic:after{
+  position: absolute;
+  bottom: 0;
+  height: 30px;
+  content: '';
+  left: 50px;
+  border-right: 1px solid #afbac7;
+}
+.routeDay .scheduleList .triffic i{
+  float: left;
+  font-size: 20px;
+}
+.routeDay .scheduleList .triffic .info{
+  margin-left: 30px;
+}
+.routeDay .scheduleList .triffic .info p.detail{
+  color: #afbac7;
+}
+
+
+.mapMarker{
+  width: 6px;
+  height: 6px;
+  border-radius: 6px;
+  position: relative;
+  z-index: 1;
+  opacity: 0.75;
+  background: #FA574B;
 }

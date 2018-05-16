@@ -1,18 +1,28 @@
 <template>
     <div class="mainHeader">
-        <div class="toggle"></div>
-        <div class="searchBox">
+        <!-- <div class="toggle"></div> -->
+        <div class="searchBox" :class="{mainRoutePage: !mainRoutePage}">
             <i class="iconMapPoint"></i>
-            <i class="el-icon-caret-bottom"></i>
-            <input type="text" class="keywords" placeholder="搜索关键字">
-            <a href="javascript:;" class="btnSearch"></a>
+            <el-autocomplete
+                class="cityKeywords"
+                v-model="headerSearchCityName"
+                :fetch-suggestions="queryCitySearch"
+                placeholder="相关目的地"
+                :trigger-on-focus="false"
+                @select="geoCitySelect"
+            ></el-autocomplete>
+
+            <i class="el-icon-search"></i>
+            <input type="text" class="keywords" placeholder="搜索关键字" v-model="headerSearchKeyword">
+
+            <a href="javascript:;" class="btnSearch" @click="headerSearchSubmit"></a>
         </div>
         
         <div class="optsBox">
-            <div class="changeLanguage">
+            <!-- <div class="changeLanguage">
                 English
                 <i class="el-icon-caret-bottom"></i>
-            </div>
+            </div> -->
 
             <div class="msg">
                 <span class="num">3</span>
@@ -20,17 +30,19 @@
 
             <div class="user">
                 <div class="name">
-                    <span class="tit">Danior</span>
+                    <span class="tit">{{user.realName ? user.realName : user.loginName}}</span>
                     <i class="el-icon-caret-bottom"></i>
                     <div class="menu">
                         <ul>
-                            <li><i class="iconfont icon-zhanghaoshezhi"></i>账号设置</li>
+                            <router-link :to="{path: '/setting/info'}" tag="li">
+                                <i class="iconfont icon-zhanghaoshezhi"></i>账号设置
+                            </router-link>
                             <li @click="logout"><i class="iconfont icon-tuichu"></i>退出账号</li>
                         </ul>
                     </div>
                 </div>
                 <div class="avatar">
-                    <img src="../../assets/images/avatar.png" width="42px" height="42px">
+                    <div class="pic" :style="{backgroundImage: `url(${imgFormat(user.imageurl)})`}"></div>
                 </div>
             </div>
         </div>
@@ -38,27 +50,65 @@
 </template>
 <script>
   import Vue from 'vue'
+  import {mapState} from 'vuex'
+  import Bus from 'utils/bus'
+  
   export default{
     name: 'MainHeader',
+    props: {
+        user: Object
+    },
     data(){
-      return {
-        
-      }
+        return {
+            mainRoutePage: false,
+            headerSearchKeyword: '',
+            headerSearchCityName: '',
+            headerSearchCity: '',
+        }
     },
     computed: {
       
     },
     watch: {
-      
+      // 如果路由有变化，会再次执行该方法
+      "$route": "clearSearchKeyword"
     },
     created(){
-      // this.testSourceAuthority()
+        var vm = this
+        Bus.$on('setMainRoutePage', function(item){
+            vm.mainRoutePage = item
+        })
+    },
+    computed: {
     },
     methods: {
+        clearSearchKeyword(){
+            this.headerSearchKeyword = ''
+            this.headerSearchCityName = ''
+            this.headerSearchCity = ''
+        },
+
+        headerSearchSubmit(){
+            var _routeName = this.$route.name
+            if(_routeName == 'route'){
+                Bus.$emit('headerSearchRoute', this.headerSearchKeyword, this.headerSearchCity)
+            }else if(_routeName == 'template'){
+                Bus.$emit('headerSearchTemplate', this.headerSearchKeyword, this.headerSearchCity)
+            }else if(_routeName == 'poi'){
+                Bus.$emit('headerSearchPoi', this.headerSearchKeyword)
+            }else if(_routeName == 'res'){
+                Bus.$emit('headerSearchRes', this.headerSearchKeyword)
+            }else if(_routeName == 'customer'){
+                Bus.$emit('headerSearchCustomer', this.headerSearchKeyword)
+            }else if(_routeName == 'collection'){
+                Bus.$emit('headerSearchCollection', this.headerSearchKeyword)
+            }
+        },
+
         logout(){
             this.$http({
                 method: 'POST',
-                url: '/tripnote/login/logout'
+                url: '/userLogin/logout'
             })
             .then((res)=>{
                 if(res.data.code != 1){
@@ -71,22 +121,61 @@
                     this.$router.push({name: 'Login'})
                 }
             })
-        }
-      // async testSourceAuthority(){
-      //   const res = await this.$http.get('/space/init');
-      //   const {statusCode, message} = res.body;
-      //   if (statusCode === 200) {
-      //     if (message.roleLevel !== 0 || message.projectList.length !== 0) {
-      //       this.mainNav.push({
-      //         name: this.$t("content.nav.cckj"),
-      //         icon: 'icon8',
-      //         route: {name: 'Source'}
-      //       });
-      //       message.roleLevel === 1 && message.projectList.unshift({id: '', name: this.$t('content.header.qb')});
-      //       this.$store.dispatch('sourceUserMessage', message);
-      //     }
-      //   }
-      // }
+        },
+
+        imgFormat(imgurl){
+            if(imgurl){
+                return imgurl
+            }else{
+                return require('../../assets/images/avatar.png')
+            }
+        },
+
+
+        queryCitySearch(queryString, cb) {
+            var vm = this
+            this.tableDataLoading = true
+            this.$http({
+                method: 'POST',
+                url: '/city/doSearch',
+                data: {
+                    pageNo: 1,
+                    pageSize: 100,
+                    nameCn: queryString
+                }
+            })
+            .then((res)=>{
+                vm.tableDataLoading = false
+                if(res.data.code == -1){
+                    this.$message({
+                        message: res.data.message,
+                        type: 'error',
+                        duration: 2000
+                    });
+                }else{
+                    var _data = []
+
+                    for (var i = 0; i < res.data.data.length; i++) {
+                        var _item = res.data.data[i]
+                        _item.value = res.data.data[i].nameCn
+                        _data.push(_item)
+                    }
+
+                    cb(_data)
+                }
+            })
+        },
+
+        geoCitySelect(item){
+            this.headerSearchCity = item.id
+            this.headerSearchCityName = item.nameCn
+            // this.form.lat = item.lat
+            // this.form.lon = item.lon
+        },
+    },
+
+    destroyed(){
+        Bus.$off('setMainRoutePage')
     }
   }
 </script>
@@ -105,12 +194,22 @@
     }
     .searchBox{
         float: left;
-        width: 270px;
+        width: 370px;
         height: 36px;
         margin-top: 12px;
         margin-left: 18px;
         background: #EDF1F2;
         border-radius: 18px;
+        &.mainRoutePage{
+            width: 250px;
+            .iconMapPoint,
+            .cityKeywords{
+                display: none;
+            }
+            .keywords{
+                border-left: 0;
+            }
+        }
         .iconMapPoint{
             float: left;
             width: 16px;
@@ -118,19 +217,39 @@
             margin: 9px 0 0 15px;
             background: url(../../assets/images/icon_map_point.png);
         }
-        .el-icon-caret-bottom{
+
+        .el-icon-search{
+            display: none;
             float: left;
-            margin: 12px 0 0 5px;
+            margin: 10px 0 0 5px;
             color: #9FA5B0;
+            font-size: 16px;
+        }
+
+        .cityKeywords{ 
+            float: left;
+            margin-left: 10px;
+            .el-input__inner{
+                width: 100px;
+                height: 36px;
+                padding: 0;
+                background: none;
+                border: 0;
+                line-height: 36px;
+                font-size: 13px;
+            }
         }
         .keywords{ 
             float: left;
-            width: 170px;
-            height: 36px;
+            width: 175px;
+            height: 24px;
             margin-left: 10px;
             background: none;
             border: 0;
-            line-height: 36px;
+            margin-top: 6px;
+            padding-left: 8px;
+            border-left: 1px solid #ddd;
+            line-height: 24px;
             font-size: 13px;
         }
         .btnSearch{
@@ -211,8 +330,12 @@
             height: 42px;
             margin-left: 10px;
             margin-top: 9px;
-            img{
-                display: block;
+            .pic{
+                width: 45px;
+                height: 45px;
+                background-size: cover;
+                background-position: center;
+                border-radius: 100%;
             }
         }
     }

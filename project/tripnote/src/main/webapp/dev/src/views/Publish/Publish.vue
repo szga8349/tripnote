@@ -22,7 +22,7 @@
 
             <div class="types">
                 <ul>
-                    <li>
+                    <li @click="exportPDF">
                         <div class="icon">
                             <img src="../../assets/images/pdf.png">
                             <p>PDF</p>
@@ -79,13 +79,13 @@
 import {mapState} from 'vuex'
 import { FormatDateWeek } from 'mixins/common'
 import Bus from 'utils/bus'
+import FileSaver from 'file-saver'
 
 export default {
     data() {
         return {
             title: '',
             dialogHtmlVisible: false,
-            url: 'http://www.tripnote.com/trip/share/ew342dde1341'
         }
     },
 
@@ -100,6 +100,9 @@ export default {
         routeId(){
             return this.$route.params.routeId
         },
+        url(){
+            return window.location.origin+ '/static/html5/index.html?id=' + this.routeId
+        }
     },
     created(){
         this.getRouteInfo()
@@ -109,6 +112,33 @@ export default {
     },
 
     methods: {
+        exportPDF(){
+            var form = $("<form>");//定义form表单,通过表单发送请求
+            form.attr("style","display:none");//设置为不显示
+            form.attr("target","");
+            form.attr("method","get");//设置请求类型  
+            form.attr("action", '/tripnote/common/export/' + this.routeId);//设置请求路径
+            $("body").append(form);//添加表单到页面(body)中
+            form.submit();//表单提交
+        },
+
+        // exportPDF(){
+        //     this.$http({
+        //         method: 'get',
+        //         url: '/tripnote/common/export/' + this.routeId,
+        //     }).then((res)=>{
+        //         if(res.data.code == -1){
+        //             this.$message({
+        //                 message: res.data.message,
+        //                 type: 'error',
+        //                 duration: 2000
+        //             });
+        //         }else{
+        //             var blob = new Blob([res.data], {type: "application/pdf"});
+        //             FileSaver.saveAs(blob, "aaa.pdf");
+        //         }
+        //     })
+        // },
         getRouteInfo(){
             this.$http({
                 method: 'get',
@@ -140,7 +170,7 @@ export default {
 .publishPage{
     .topBar{
         height: 60px;
-        background: #fff;
+        background: #253744;
         box-shadow: 0 3px 10px rgba(0,0,0,.04);
         .backBtn{
             float: left;
@@ -148,7 +178,7 @@ export default {
             height: 24px;
             margin-top: 18px;
             background: url(../../assets/images/icon_back.png) center center no-repeat;
-            border-right: 1px solid #DADEE5;
+            border-right: 1px solid #4a5e6d;
         }
         .typeSel{
             float: left;
@@ -180,6 +210,7 @@ export default {
                 float: left;
                 margin-left: 10px;
                 font-size: 16px;
+                color: #cde0ed;
             }
         }
         .stepInfo{
@@ -249,11 +280,11 @@ export default {
             float: right;
             height: 60px;
             padding: 0 35px;
-            border-left: 1px solid #DADEE5;
+            border-left: 1px solid #ddd;
             a{
                 display: block;
                 line-height: 60px;
-                color: #555;
+                color: #fff;
                 &:hover{
                     color: #23a16d;
                 }

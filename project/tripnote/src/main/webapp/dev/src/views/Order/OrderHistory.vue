@@ -350,7 +350,7 @@ export default {
 .orderHistory{
     .topBar{
         height: 60px;
-        background: #fff;
+        background: #253744;
         box-shadow: 0 3px 10px rgba(0,0,0,.04);
         .backBtn{
             float: left;
@@ -358,7 +358,7 @@ export default {
             height: 24px;
             margin-top: 18px;
             background: url(../../assets/images/icon_back.png) center center no-repeat;
-            border-right: 1px solid #DADEE5;
+            border-right: 1px solid #4a5e6d;
         }
         .typeSel{
             float: left;
@@ -390,6 +390,7 @@ export default {
                 float: left;
                 margin-left: 10px;
                 font-size: 16px;
+                color: #cde0ed;
             }
         }
         .optBtns{

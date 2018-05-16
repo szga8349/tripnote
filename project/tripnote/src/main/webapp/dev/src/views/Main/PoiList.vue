@@ -5,7 +5,7 @@
             <div class="commonTit">
                 <h2>我的POI库</h2>
                 <div class="rightOpts">
-                    <Select class="poiTypeFilter" :opts="filterOptsList" :sel="filterOptsSel" nameAlias="name" idAlias="id" align="right"></Select>
+                    <Select class="poiTypeFilter" @changeOpt="changeFilterType" :opts="filterOptsList" :sel="filterOptsSel" nameAlias="name" idAlias="id" align="right"></Select>
                     <el-button type="primary" icon="el-icon-plus" @click="newPoi">新建POI</el-button>
                 </div>
             </div>
@@ -14,7 +14,7 @@
                 <div class="mainPoiList">
                     <ul class="tableList">
                         <li v-for="(item, index) in poiList">
-                            <div class="inside">
+                            <div class="inside" @click="poiDetail(item, 'my')">
                                 <div class="pic">
                                     <div class="img" :style="{backgroundImage: `url(${imgFormat(item.imageurl)})`}"></div>
                                 </div>
@@ -26,7 +26,17 @@
                                     <div class="subTit">{{item.nameEn}}</div>
                                     <el-tooltip placement="bottom">
                                         <div slot="content">删除</div>
-                                        <a href="javascript:;" @click.stop="delConfirm(item)" class="del"><i class="el-icon-delete"></i></a>
+                                        <a href="javascript:;" @click.stop="delConfirm(item.id)" class="del"><i class="el-icon-delete"></i></a>
+                                    </el-tooltip>
+
+                                    <el-tooltip placement="bottom" v-if="collectList.indexOf(item.id) == -1">
+                                        <div slot="content">收藏</div>
+                                        <a href="javascript:;" @click.stop="collectItem(item)" class="collect" ><i class="el-icon-star-off"></i></a>
+                                    </el-tooltip>
+
+                                    <el-tooltip placement="bottom" v-if="collectList.indexOf(item.id) > -1">
+                                        <div slot="content">取消收藏</div>
+                                        <a href="javascript:;" @click.stop="collectItem(item)" class="collect" ><i class="el-icon-star-on"></i></a>
                                     </el-tooltip>
                                 </div>
                             </div>
@@ -34,6 +44,7 @@
                     </ul>
 
                     <el-pagination
+                        v-if="poiList.length > 0"
                         background
                         @current-change="handleCurrentChange"
                         :current-page.sync="pageNo"
@@ -43,133 +54,262 @@
                     </el-pagination>
                 </div>
 
-                <div v-if="!tableDataLoading && poiList.length == 0" class="addNewRouteTip">
-                    <div class="pic" @click="dialogAddVisible = true">
-                        <div class="icon"></div>
-                        <div class="txt">新建定制</div>
-                    </div>
-                    <p>您还没有POI，请新建POI</p>
+                <div class="noDataTip" v-if="!tableDataLoading && poiList.length == 0">
+                    <i class="iconfont icon-point-out"></i>没有相关数据！
+                </div>
+            </div>
+        </div>
+
+        <div class="commonBox">
+            <div class="commonTit">
+                <h2>系统POI库</h2>
+                <div class="rightOpts">
+                    <Select class="poiTypeFilter" @changeOpt="changeFilterTypeSys" :opts="filterOptsList" :sel="filterOptsSel" nameAlias="name" idAlias="id" align="right"></Select>
                 </div>
             </div>
 
-            <el-dialog title="新建POI" :visible.sync="dialogAddVisible" width="600px">
-                <el-form ref="form" :model="form" label-width="70px" class="formAdd">
-                    <el-form-item label="中文名称:">
-                        <el-input v-model="form.nameCn"></el-input>
-                    </el-form-item>
+            <div class="commonCon">
+                <div class="mainPoiList">
+                    <ul class="tableList">
+                        <li v-for="(item, index) in poiListSys">
+                            <div class="inside" @click="poiDetail(item, 'sys')">
+                                <div class="pic">
+                                    <div class="img" :style="{backgroundImage: `url(${imgFormat(item.imageurl)})`}"></div>
+                                </div>
+                                <div class="info">
+                                    <div class="tit">
+                                        <span v-html="poiTypeFormat(item.type)"></span>
+                                        {{item.nameCn}}
+                                    </div>
+                                    <div class="subTit">{{item.nameEn}}</div>
+                                    <el-tooltip placement="bottom" v-if="collectList.indexOf(item.id) == -1">
+                                        <div slot="content">收藏</div>
+                                        <a href="javascript:;" @click.stop="collectItem(item)" class="collect sys" ><i class="el-icon-star-off"></i></a>
+                                    </el-tooltip>
 
-                    <el-form-item label="英文名称:">
-                        <el-input v-model="form.nameEn"></el-input>
-                    </el-form-item>
+                                    <el-tooltip placement="bottom" v-if="collectList.indexOf(item.id) > -1">
+                                        <div slot="content">取消收藏</div>
+                                        <a href="javascript:;" @click.stop="collectItem(item)" class="collect sys" ><i class="el-icon-star-on"></i></a>
+                                    </el-tooltip>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
 
-                    <el-form-item label="图片:">
-                        <div class="routePic" :style="{backgroundImage: `url(${routeImgFormat(form.imageurl)})`}"></div>
-                        <el-upload
-                            class="uploadRoutePic"
-                            action="/tripnote/common/upload/poi/image"
-                            :on-preview="handlePreview"
-                            :on-remove="handleRemove"
-                            :show-file-list="false"
-                            :on-success="handleAvatarSuccess"
-                            >
-                            <el-button size="small" type="primary">点击上传</el-button>
-                            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-                        </el-upload>
-                    </el-form-item>
-
-                    <el-form-item label="类型:">
-                        <el-select v-model="form.type" placeholder="请选择">
-                            <el-option
-                                v-for="item in poiType"
-                                :key="item.value"
-                                :label="item.label"
-                                :value="item.value">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-
-
-                    <el-form-item label="其他语言:">
-                        <el-input v-model="form.lang"></el-input>
-                    </el-form-item>
-
-                    <el-form-item label="地理位置:">
-                        <div class="geoInfo">
-                           <!--  <el-input
-                                placeholder="请输入地点名称"
-                                prefix-icon="el-icon-search"
-                                v-model="geoKeyword">
-                            </el-input> -->
-
-                            <el-autocomplete
-                                class="geoKeyword"
-                                prefix-icon="el-icon-search"
-                                v-model="geoKeyword"
-                                :fetch-suggestions="queryGeoSearch"
-                                placeholder="请输入地点名称"
-                                :trigger-on-focus="false"
-                                @select="geoSelect"
-                            ></el-autocomplete>
-                            <div class="geoMap" id="GeoMap"></div>
-                        </div>
-                    </el-form-item>
-
-                    <el-form-item label="地址:">
-                        <el-input v-model="form.address"></el-input>
-                    </el-form-item>
-
-                    <el-form-item label="所在城市:">
-                        <el-autocomplete
-                            style="width: 100%"
-                            v-model="form.cityName"
-                            prefix-icon="el-icon-search"
-                            :fetch-suggestions="queryCitySearch"
-                            placeholder="请输入所在城市"
-                            :trigger-on-focus="false"
-                            @select="geoCitySelect"
-                        ></el-autocomplete>
-                    </el-form-item>
-
-                    <el-form-item label="电话:">
-                        <el-input v-model="form.phone"></el-input>
-                    </el-form-item>
-
-                    <el-form-item label="网址:">
-                        <el-input v-model="form.url"></el-input>
-                    </el-form-item>
-
-                    <el-form-item label="开放时间:">
-                        <el-input v-model="form.openTime"></el-input>
-                    </el-form-item>
-
-                    <el-form-item label="用时参考:">
-                        <el-input v-model="form.timeReference"></el-input>
-                    </el-form-item>
-
-                    <el-form-item label="交通指引:">
-                        <el-input
-                            type="textarea"
-                            :rows="3"
-                            v-model="form.trafficInstructions">
-                        </el-input>
-                    </el-form-item>
-
-                    <el-form-item label="地点简介:">
-                        <el-input
-                            type="textarea"
-                            :rows="3"
-                            v-model="form.guide">
-                        </el-input>
-                    </el-form-item>
-
-                </el-form>
-
-                <div slot="footer" class="dialog-footer">
-                    <el-button @click.native="dialogAddVisible = false">取 消</el-button>
-                    <el-button :disabled="isDisable" type="primary" @click.native="addPoiSubmit">新 建</el-button>
+                    <el-pagination
+                        v-if="poiListSys.length > 0"
+                        background
+                        @current-change="handleCurrentChangeSys"
+                        :current-page.sync="pageNoSys"
+                        :page-size="8"
+                        layout="total, prev, pager, next"
+                        :total="totalSys">
+                    </el-pagination>
                 </div>
-            </el-dialog>
+
+                <div class="noDataTip" v-if="!tableDataLoadingSys && poiListSys.length == 0">
+                    <i class="iconfont icon-point-out"></i>没有相关数据！
+                </div>
+            </div>
         </div>
+
+        <el-dialog :title="dialogPoiTit()" :visible.sync="dialogAddVisible" width="700px" top="20px">
+          <!--   <div class="collectBtn">
+                <el-button type="primary" icon="el-icon-star-on">收藏</el-button>
+            </div>
+ -->
+            <el-form ref="form" :model="form" :rules="rules" label-width="80px" class="formAdd">
+                <el-form-item label="中文名称:" required prop="nameCn">
+                    <el-input v-model="form.nameCn"></el-input>
+                </el-form-item>
+
+                <el-form-item label="英文名称:">
+                    <el-input v-model="form.nameEn"></el-input>
+                </el-form-item>
+
+                <el-form-item label="图片:">
+                    <div class="routePic" :style="{backgroundImage: `url(${routeImgFormat(form.imageurl)})`}"></div>
+                    <el-upload
+                        class="uploadRoutePic"
+                        action="/tripnote/common/upload/poi/image"
+                        :on-preview="handlePreview"
+                        :on-remove="handleRemove"
+                        :show-file-list="false"
+                        :on-success="handleAvatarSuccess"
+                        >
+                        <el-button size="small" type="primary">点击上传</el-button>
+                        <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                    </el-upload>
+                </el-form-item>
+
+                <el-form-item label="类型:" required prop="type">
+                    <el-select v-model="form.type" placeholder="请选择">
+                        <el-option
+                            v-for="item in poiType"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+
+
+                <el-form-item label="其他语言:">
+                    <el-input v-model="form.lang"></el-input>
+                </el-form-item>
+
+                <el-form-item label="地理位置:">
+                    <div class="geoInfo">
+                       <!--  <el-input
+                            placeholder="请输入地点名称"
+                            prefix-icon="el-icon-search"
+                            v-model="geoKeyword">
+                        </el-input> -->
+
+                        <el-autocomplete
+                            class="geoKeyword"
+                            prefix-icon="el-icon-search"
+                            v-model="geoKeyword"
+                            :fetch-suggestions="queryGeoSearch"
+                            placeholder="请输入地点名称"
+                            :trigger-on-focus="false"
+                            @select="geoSelect"
+                        ></el-autocomplete>
+                        <div class="geoMap" id="GeoMap"></div>
+                    </div>
+                </el-form-item>
+
+                <el-form-item label="地址:">
+                    <el-input v-model="form.address"></el-input>
+                </el-form-item>
+
+                <el-form-item label="所在城市:">
+                    <el-autocomplete
+                        style="width: 100%"
+                        v-model="form.cityname"
+                        prefix-icon="el-icon-search"
+                        :fetch-suggestions="queryCitySearch"
+                        placeholder="请输入所在城市"
+                        :trigger-on-focus="false"
+                        @select="geoCitySelect"
+                    ></el-autocomplete>
+                </el-form-item>
+
+                <el-form-item label="供应商:">
+                    <el-input v-model="form.supplier"></el-input>
+                </el-form-item>
+
+                <el-form-item label="电话:">
+                    <el-input v-model="form.phone"></el-input>
+                </el-form-item>
+
+                <el-form-item label="网址:">
+                    <el-input v-model="form.url"></el-input>
+                </el-form-item>
+
+                <el-form-item label="开放时间:">
+                    <el-input v-model="form.openTime"></el-input>
+                </el-form-item>
+
+                <el-form-item label="用时参考:">
+                    <el-input v-model="form.timeReference"></el-input>
+                </el-form-item>
+
+                <el-form-item label="交通指引:">
+                    <el-input
+                        type="textarea"
+                        :rows="3"
+                        v-model="form.trafficInstructions">
+                    </el-input>
+                </el-form-item>
+
+                <el-form-item label="实用指南:">
+                    <el-input
+                        type="textarea"
+                        :rows="3"
+                        v-model="form.guide">
+                    </el-input>
+                </el-form-item>
+
+                <el-form-item label="地点简介:">
+                    <el-input
+                        type="textarea"
+                        :rows="3"
+                        v-model="form.addressInstrations">
+                    </el-input>
+                </el-form-item>
+            </el-form>
+
+            <div slot="footer" class="dialog-footer">
+                <el-button @click.native="dialogAddVisible = false">取消</el-button>
+                <el-button :disabled="isDisable" type="primary" @click.native="addPoiSubmit('form')">提交</el-button>
+            </div>
+        </el-dialog>
+
+        <el-dialog title="POI详情" :visible.sync="dialogDetailVisible" width="700px" top="20px">
+            <div class="poiDetailImg" :style="{backgroundImage: `url(${imgFormat(form.imageurl)})`}"></div>
+            <el-form ref="form" :model="form" label-width="70px" class="poiDetailForm">
+                <el-form-item label="中文名称:">
+                    {{form.nameCn}}
+                </el-form-item>
+
+                <el-form-item label="英文名称:">
+                    {{form.nameEn}}
+                </el-form-item>
+
+                <el-form-item label="类型:">
+                    <span class="poiType" v-html="poiTypeFormat(form.type)"></span>
+                </el-form-item>
+
+                <el-form-item label="其他语言:">
+                    {{form.lang}}
+                </el-form-item>
+
+                <el-form-item label="地址:">
+                    {{form.address}}
+                </el-form-item>
+
+                <el-form-item label="所在城市:">
+                    {{form.cityname}}
+                </el-form-item>
+
+                <el-form-item label="供应商:">
+                    {{form.supplier}}
+                </el-form-item>
+
+                <el-form-item label="电话:">
+                    {{form.phone}}
+                </el-form-item>
+
+                <el-form-item label="网址:">
+                    {{form.url}}
+                </el-form-item>
+
+                <el-form-item label="开放时间:">
+                    {{form.openTime}}
+                </el-form-item>
+
+                <el-form-item label="用时参考:">
+                    {{form.timeReference}}
+                </el-form-item>
+
+                <el-form-item label="交通指引:">
+                    {{form.trafficInstructions}}
+                </el-form-item>
+
+                <el-form-item label="实用指南:">
+                    {{form.guide}}
+                </el-form-item>
+
+                <el-form-item label="地点简介:">
+                    {{form.addressInstrations}}
+                </el-form-item>
+            </el-form>
+
+            <div slot="footer" class="dialog-footer">
+                <el-button @click.native="dialogDetailVisible = false">关闭</el-button>
+            </div>
+        </el-dialog>
 
         <el-dialog title="提示" :visible.sync="dialogDelTip" width="450px">
             <div class="delTipCon">
@@ -185,6 +325,7 @@
 <script>
 import moment from 'moment'
 import { FormatTime } from 'mixins/common'
+import Bus from 'utils/bus'
 
 export default {
     mixins: [ FormatTime ],
@@ -224,15 +365,35 @@ export default {
                 name: '娱乐'
             }],
 
+            rules: {
+              nameCn: [
+                { required: true, message: '请输入中文名称', trigger: 'blur' },
+              ],
+              type: [
+                { required: true, message: '请选择类型', trigger: 'blur' },
+              ]
+            },
+
             filterOptsSel: '全部',
+            filterOptsSelId: -1,
 
             tableData: [],
             tableDataLoading: true,
             pageNo: 1,
             pageSize: 8,
             total: 0,
+            poiList: [],
 
-            cityName: '',
+            filterOptsSelSys: '全部',
+            filterOptsSelIdSys: -1,
+
+            tableDataSys: [],
+            tableDataLoadingSys: true,
+            pageNoSys: 1,
+            pageSizeSys: 8,
+            totalSys: 0,
+
+            poiListSys: [],
 
             poiType: [{
                 label: '餐饮',
@@ -256,7 +417,7 @@ export default {
                 lon: '',
                 address: '',
                 cityId: [],
-                cityName: '',
+                cityname: '',
                 price: '',
                 phone: '',
                 url: '',
@@ -265,22 +426,113 @@ export default {
                 phone: '',
                 timeReference: '',
                 trafficInstructions: '',
+                addressInstrations: '',
+                supplier: '',
                 guide: '',
             },
             dialogAddVisible: false,
+            dialogDetailVisible: false,
             templateVisible: false,
             routeId: '',
             delPOIId: '',
             sortField: 'create_time',
             sortType: -1,
 
-            poiList: []
+            poiStatus: 'add',
+            searchKeyword: '',
+            collectList: [],
+            collectObj: {}
         }
     },
     created(){
-        this.getPoiList()
+        this.getCollectionList()
+
+        Bus.$emit('setMainRoutePage', false)
+
+        var vm = this
+
+        Bus.$on('headerSearchPoi', function(keywords){
+            vm.searchKeyword = keywords
+            
+            vm.getPoiList()
+            vm.getPoiListSys()
+        })
     },
     methods: {
+        getCollectionList(){
+            this.$http({
+                method: 'POST',
+                url: '/user/collection/doSearch',
+            })
+            .then((res)=>{
+                var collectList = []
+                var collectObj = {}
+
+                for (var i = 0; i < res.data.data.data.length; i++) {
+                    if(res.data.data.data[i].type == 1){
+                        collectList.push(res.data.data.data[i].cid)
+                        collectObj[res.data.data.data[i].cid] = res.data.data.data[i].id
+                    }
+                }
+                this.collectList = collectList
+                this.collectObj = collectObj
+
+                this.getPoiList()
+                this.getPoiListSys()
+            })
+        },
+
+        dialogPoiTit(){
+            if(this.poiStatus == 'add'){
+                return '添加POI'
+            }else if(this.poiStatus == 'edit'){
+                return '编辑POI'
+            }else if(this.poiStatus == 'sys'){
+                return 'POI详情'
+            }
+        },
+
+        poiDetail(item, type){
+            if(type == 'sys'){
+                this.poiStatus = 'sys'
+                this.dialogDetailVisible = true
+            }else{
+                this.poiStatus = 'edit'
+                this.dialogAddVisible = true
+            }
+
+            this.$http({
+                method: 'POST',
+                url: '/poi/doDetail/' + item.id,
+            })
+            .then((res)=>{
+                if(res.data.code == -1){
+                    this.$message({
+                        message: res.data.message,
+                        type: 'error',
+                        duration: 2000
+                    });
+                }else{
+                    this.form = res.data.data
+                }
+            })
+        },
+
+        changeFilterType(item){
+            this.filterOptsSel = item.name
+            this.filterOptsSelId = item.id
+
+            this.getPoiList()
+        },
+
+        changeFilterTypeSys(item){
+            this.filterOptsSelSys = item.name
+            this.filterOptsSelIdSys = item.id
+
+            this.getPoiListSys()
+        },
+
+
         mapInit(){
             var vm = this
             if(this.map == ''){
@@ -302,15 +554,16 @@ export default {
             geocoder.geocode({'address': this.geoKeyword}, function(results, status) {  
                 if (status == google.maps.GeocoderStatus.OK) {
                     if (results.length == 1) {
-                        console.log(" 地址为：" + results[0].formatted_address)
-                        console.log(" id为：" + results[0].place_id)
-                        console.log(" id为：" + results[0].geometry.location)
-                        console.log(results[0].geometry.location)
-
+                        console.log('one')
                         vm.map.setCenter(results[0].geometry.location)
                         vm.map.setZoom(15)
 
+                        vm.form.lat = results[0].geometry.location.lat()
+                        vm.form.lon = results[0].geometry.location.lng()
                         vm.form.address = results[0].formatted_address
+
+                        console.log('lat', vm.form.lat)
+                        console.log('lon', vm.form.lon)
 
                         var _marker = new google.maps.Marker({
                             map: vm.map,
@@ -324,7 +577,8 @@ export default {
                             geocoder.geocode({'location': event.latLng}, function(results, status) {  
                                 if (status == google.maps.GeocoderStatus.OK) {
                                     if (results[0]) {
-                                        console.log(" 地址为：" + results[0].formatted_address)
+                                        vm.form.lat = results[0].geometry.location.lat()
+                                        vm.form.lon = results[0].geometry.location.lng()
 
                                         vm.form.address = results[0].formatted_address
                                     }
@@ -338,8 +592,6 @@ export default {
                         for (var i = 0; i < results.length; i++) {
                             results[i].value = results[i].formatted_address
                         }
-
-                        console.log(results)
                         cb(results)
                     }
                 } else {
@@ -385,16 +637,52 @@ export default {
 
         geoCitySelect(item){
             this.form.cityId = item.id
-            this.form.cityName = item.nameCn
-            this.form.lat = item.lat
-            this.form.lon = item.lon
-
-            console.log(item)
+            this.form.cityname = item.nameCn
+            // this.form.lat = item.lat
+            // this.form.lon = item.lon
         },
 
 
         geoSelect(item) {
-            console.log(item);
+            var vm = this
+            var geocoder = new google.maps.Geocoder()
+            geocoder.geocode({'placeId': item.place_id}, function(results, status) {  
+                if (status == google.maps.GeocoderStatus.OK) {
+                    if (results.length == 1) {
+                        console.log('two')
+                        vm.map.setCenter(results[0].geometry.location)
+                        vm.map.setZoom(15)
+
+                        vm.form.lat = results[0].geometry.location.lat()
+                        vm.form.lon = results[0].geometry.location.lng()
+                        vm.form.address = results[0].formatted_address
+
+                        var _marker = new google.maps.Marker({
+                            map: vm.map,
+                            // icon: icon,
+                            // title: place.name,
+                            position: results[0].geometry.location,
+                            draggable: true,
+                        })
+
+                        google.maps.event.addListener(_marker, 'dragend', function(event) {
+                            geocoder.geocode({'location': event.latLng}, function(results, status) {  
+                                if (status == google.maps.GeocoderStatus.OK) {
+                                    if (results[0]) {
+                                        vm.form.lat = results[0].geometry.location.lat()
+                                        vm.form.lon = results[0].geometry.location.lng()
+
+                                        vm.form.address = results[0].formatted_address
+                                    }
+                                }
+                            })
+                            vm.map.panTo(event.latLng)
+                        })
+                    }
+                } else {
+                    
+                }
+            });
         },
 
         poiTypeFormat(type){
@@ -431,7 +719,7 @@ export default {
                 lon: '',
                 address: '',
                 cityId: [],
-                cityName: '',
+                cityname: '',
                 price: '',
                 phone: '',
                 url: '',
@@ -440,18 +728,11 @@ export default {
                 phone: '',
                 timeReference: '',
                 trafficInstructions: '',
+                addressInstrations: '',
+                supplier: '',
                 guide: '',
             }
             this.mapInit()
-        },
-
-
-        sortChange(column, prop, order){
-            if(column.prop){
-                this.sortField = column.prop
-                this.sortType = column.order == 'ascending' ? 1 : -1
-                this.getRouteList()
-            }
         },
 
         rowClick(row, event, column){
@@ -480,13 +761,22 @@ export default {
         getPoiList(){
             var vm = this
             this.tableDataLoading = true
+
+            var _data = {
+                pageNo: this.pageNo,
+                pageSize: this.pageSize,
+                isMy: true,
+                name: this.searchKeyword
+            }
+
+            if(this.filterOptsSelId != -1){
+                _data['type'] = this.filterOptsSelId
+            }
+
             this.$http({
                 method: 'POST',
                 url: '/poi/doSearch',
-                data: {
-                    pageNo: this.pageNo,
-                    pageSize: this.pageSize
-                }
+                data: _data
             })
             .then((res)=>{
                 vm.tableDataLoading = false
@@ -503,9 +793,50 @@ export default {
             })
         },
 
+        // 获取POI列表
+        getPoiListSys(){
+            var vm = this
+            this.tableDataLoadingSys = true
+
+            var _data = {
+                pageNo: this.pageNoSys,
+                pageSize: this.pageSizeSys,
+                isMy: false,
+                name: this.searchKeyword
+            }
+
+            if(this.filterOptsSelIdSys != -1){
+                _data['type'] = this.filterOptsSelIdSys
+            }
+
+            this.$http({
+                method: 'POST',
+                url: '/poi/doSearch',
+                data: _data
+            })
+            .then((res)=>{
+                vm.tableDataLoadingSys = false
+                if(res.data.code == -1){
+                    this.$message({
+                        message: res.data.message,
+                        type: 'error',
+                        duration: 2000
+                    });
+                }else{
+                    this.poiListSys = res.data.data.data
+                    this.totalSys = res.data.data.total
+                }
+            })
+        },
+
         handleCurrentChange(val){
             this.pageNo = val
             this.getPoiList()
+        },
+
+        handleCurrentChangeSys(val){
+            this.pageNoSys = val
+            this.getPoiListSys()
         },
 
         formatter(row, column) {
@@ -525,24 +856,34 @@ export default {
             this.form.personList.splice(index, 1)
         },
 
-        addPoiSubmit(){
-            this.$http({
-                method: 'POST',
-                url: '/poi/doAdd',
-                data: this.form
-            })
-            .then((res)=>{
-                if(res.data.code == -1){
-                    this.$message({
-                        message: res.data.message,
-                        type: 'error',
-                        duration: 2000
-                    });
-                }else{
-                    this.dialogAddVisible = false
-                    this.getPoiList()
-                }
-            })
+        addPoiSubmit(formName) {
+            this.$refs[formName].validate((valid) => {
+              if (valid) {
+                var _url = this.poiStatus == 'add' ? '/poi/doAdd' : '/poi/doUpdate/' + this.form.id
+                delete this.form.price
+                this.$http({
+                    method: 'POST',
+                    url: _url,
+                    data: this.form
+                })
+                .then((res)=>{
+                    if(res.data.code == -1){
+                        this.$message({
+                            message: res.data.message,
+                            type: 'error',
+                            duration: 2000
+                        });
+                    }else{
+                        this.dialogAddVisible = false
+                        this.getPoiList()
+                    }
+                })
+              } else {
+                console.log('error submit!!');
+                return false;
+              }
+            });
+            
         },
 
         delConfirm(id){
@@ -574,6 +915,67 @@ export default {
             })
         },
 
+        collectItem(item){
+            if(this.collectList.indexOf(item.id) == -1){
+                this.$http({
+                    method: 'POST',
+                    url: '/user/collection/doAdd',
+                    data: {
+                        cid: item.id,
+                        name: item.nameCn,
+                        imageUrl: item.imageurl,
+                        type: 1,
+                        url: '/poi/doDetail/' + item.id,
+                        apiUrl: '/poi/doDetail/' + item.id,
+                    }
+                })
+                .then((res)=>{
+                    if(res.data.code == -1){
+                        this.$message({
+                            message: res.data.message,
+                            type: 'error',
+                            duration: 2000
+                        })
+                    }else{
+                        this.dialogDelTip = false
+                        this.$message({
+                            message: '添加成功！',
+                            type: 'success',
+                            duration: 2000
+                        })
+                        this.collectList.push(item.id)
+                        this.collectObj[item.id] = res.data.data
+                    }
+                })
+            }else{
+                var _collectId = this.collectObj[item.id]
+                this.$http({
+                    method: 'POST',
+                    url: '/user/collection/doDelete/' + _collectId,
+                })
+                .then((res)=>{
+                    if(res.data.code == -1){
+                        this.$message({
+                            message: res.data.message,
+                            type: 'error',
+                            duration: 2000
+                        })
+                    }else{
+                        this.dialogDelTip = false
+                        this.$message({
+                            message: '取消收藏成功！',
+                            type: 'success',
+                            duration: 2000
+                        })
+                        this.collectList.splice(this.collectList.indexOf(item.id), 1)
+                        delete this.collectObj[item.id]
+                    }
+                })
+            }
+            
+        },
+
+
         handleAvatarSuccess(res, file) {
             this.form.imageurl = res.link
         },
@@ -586,6 +988,10 @@ export default {
             }
         },
     },
+
+    destroyed(){
+        Bus.$off('headerSearchPoi')
+    }
 }
 </script>
 <style lang="less" scope>
@@ -595,7 +1001,6 @@ export default {
 }
 
 .mainPoiList{
-
     .tableList{
         overflow: hidden;
         margin-right: -30px;
@@ -604,12 +1009,18 @@ export default {
             width: 25%;
             margin-bottom: 30px;
             .inside{
+                cursor: pointer;
                 margin-right: 30px;
+                border: 1px solid #eee;
+                &:hover{
+                    border-color: #e2e2e2;
+                }
                 .pic{
                     overflow: hidden;
                     .img{
                         width: 100%;
-                        height: 100px;
+                        height: 0;
+                        padding-bottom: 56.25%;
                         background-size: cover;
                         background-position: center;
                         transition: all 0.3s;
@@ -620,9 +1031,8 @@ export default {
                 }
                 .info{
                     position: relative;
+                    height: 64px;
                     padding: 10px;
-                    border: 1px solid #e2e2e2;
-                    border-top: 0;
                     .tit{
                         width: 100%;
                         overflow: hidden;
@@ -654,6 +1064,24 @@ export default {
                             color: #555;
                         }
                     }
+                    .collect{
+                        position: absolute;
+                        bottom: 10px;
+                        right: 35px;
+                        color: #a0abb3;
+                        i{
+                            font-size: 16px;
+                            &.el-icon-star-on{
+                                color: #E6A23C;
+                            }
+                        }
+                        &:hover{
+                            color: #555;
+                        }
+                        &.sys{
+                            right: 10px;
+                        }
+                    }
                 }
                 
             }
@@ -679,4 +1107,26 @@ export default {
         height: 300px;
     }
 }
+.poiDetailImg{
+    width: 100%;
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+}
+.poiDetailForm{
+    margin-top: 20px;
+    .poiType{
+        color: #23a16d;
+    }
+    .el-form-item__label{
+        color: #999;
+    }
+    .el-form-item{
+        margin-bottom: 8px;
+    }
+}
+// .collectBtn{
+//     position: relative;
+//     top: -40px;
+// }
 </style>

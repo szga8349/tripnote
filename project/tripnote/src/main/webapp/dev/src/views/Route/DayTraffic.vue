@@ -239,6 +239,7 @@ export default {
             startPointInfo: {},
             endPointInfo: {},
             trafficType: 1,
+            trafficGuide: '',
             // trafficTypeName: '公交方案',
 
             distance: '',
@@ -431,6 +432,12 @@ export default {
         }else{
             this.editStatus = true
         }
+
+        var vm = this
+        Bus.$on('refreshTraffic', function(item){
+            vm.routeSummary = true
+            vm.editStatus = true
+        })
     },
 
     mounted(){
@@ -526,7 +533,7 @@ export default {
             }
             this.chainPloyline = new google.maps.Polyline({
                 path: flightPlanCoordinates,
-                geodesic: true,
+                // geodesic: true,
                 strokeColor: '#23a16d',
                 strokeOpacity: 1.0,
                 strokeWeight: 1.5
@@ -730,12 +737,17 @@ export default {
                 });
             }
 
-            console.log('startPointInfo', this.startPointInfo)
-            console.log('endPointInfo', this.endPointInfo)
+            // console.log('startPointInfo', this.startPointInfo)
+            // console.log('endPointInfo', this.endPointInfo)
+
+            var _startLat = this.startPointInfo.type == 7 ? this.startPointInfo.endLat : this.startPointInfo.lat
+            var _startLon = this.startPointInfo.type == 7 ? this.startPointInfo.endLon : this.startPointInfo.lon
+            var _endLat = this.endPointInfo.type == 7 ? this.endPointInfo.startLat : this.endPointInfo.lat
+            var _endLon = this.endPointInfo.type == 7 ? this.endPointInfo.startLon : this.endPointInfo.lon
 
             directionsService.route({
-                origin: new google.maps.LatLng(this.startPointInfo.lat, this.startPointInfo.lon),
-                destination: new google.maps.LatLng(this.endPointInfo.lat, this.endPointInfo.lon),
+                origin: new google.maps.LatLng(_startLat, _startLon),
+                destination: new google.maps.LatLng(_endLat, _endLon),
                 travelMode: vm.trafficTypeFormat(this.trafficType)
             }, function(response, status) {
                 if(response.routes[0]){
@@ -777,7 +789,8 @@ export default {
                     endScheduleType: this.endType,
                     distance: this.distance,
                     spendTime: this.duration,
-                    trafficType: this.trafficType
+                    trafficType: this.trafficType,
+                    trafficGuide: JSON.stringify(this.routeSteps)
                 }
             })
             .then((res)=>{
@@ -824,13 +837,16 @@ export default {
                 }
             })
         }
-
-
     },
+
+    destroyed(){
+        Bus.$off('refreshTraffic')
+    }
 }
 </script>
 <style lang="less" scope>
 .trafficBox{
+    z-index: 10;
     left: 620px;
     top: 80px;
     bottom: 20px;
@@ -1096,6 +1112,7 @@ export default {
     }
 }
 .mapTrafficMarker{
+    position: relative;
     z-index: 100;
     width: 28px;
     height: 41px;

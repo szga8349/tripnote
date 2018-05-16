@@ -30,6 +30,18 @@ const FormatDateWeek = {
   }
 }
 
+const FormatDateDay = {
+  methods: {
+    formatDateDay(timestamp, index) {
+      if (!timestamp) {
+        return '';
+      } else {
+        return moment(timestamp).add(index, 'days').format("YYYY-MM-DD")
+      }
+    }
+  }
+}
+
 
 
 
@@ -395,4 +407,5 @@ export {
     SelectRender,
     ToThousand,
     reStructureTreeData,
+    FormatDateDay
 };
