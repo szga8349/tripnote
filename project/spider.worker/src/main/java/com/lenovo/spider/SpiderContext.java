@@ -37,7 +37,7 @@ import cn.hutool.core.util.StrUtil;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.utils.UrlUtils;
 
-public class SpiderContextNew {
+public class SpiderContext {
 
 	/**
 	 * 记录活动的spider，方便程序kill时持久化ip，重启后可以继续使用ip
@@ -61,7 +61,7 @@ public class SpiderContextNew {
 		// 注册退出Hook
 		registerShutdownHook();
 		// 每秒打印爬虫状态
-		ThreadPool.scheduleAtFixedRate(SpiderContextNew::printSpiderStatus, 1, 1, TimeUnit.MINUTES);
+		ThreadPool.scheduleAtFixedRate(SpiderContext::printSpiderStatus, 1, 1, TimeUnit.MINUTES);
 		// 尝试循环启动Spider
 		loopTryStartSpider();
 	}
@@ -325,7 +325,7 @@ public class SpiderContextNew {
 		}
 
 		// 每次获取ip的数量
-		List<IpInfo> ips = getIpInfos();//ConfigInterface.getIp(siteInfo, 1);
+		List<IpInfo> ips = ConfigInterface.getIp(siteInfo, 1);
 		if (CollUtil.isEmpty(ips)) {
 			Boolean workWithoutProxy = Boolean.valueOf(Config.get("workWithoutProxy"));
 
@@ -485,11 +485,11 @@ public class SpiderContextNew {
 	}
 
 	public static void removeSpider(RichSpider spider) {
-		SpiderContextNew.spiders.remove(spider);
+		SpiderContext.spiders.remove(spider);
 	}
 
 	public static void addSpider(RichSpider spider) {
-		SpiderContextNew.spiders.add(spider);
+		SpiderContext.spiders.add(spider);
 	}
 
 	public static int spiderCount() {

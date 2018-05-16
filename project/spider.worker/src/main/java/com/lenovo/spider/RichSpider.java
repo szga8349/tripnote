@@ -1,5 +1,6 @@
 package com.lenovo.spider;
 
+import com.lenovo.exception.NetException;
 import com.lenovo.spider.common.IPCount;
 import com.lenovo.spider.interfaces.ConfigInterface;
 import com.lenovo.spider.util.ConvertUtil;
@@ -76,7 +77,7 @@ public class RichSpider extends Spider {
         this.ip = ip;
         this.urls = urls;
         this.exceptionHandles = exceptionHandles;
-        SpiderContextNew.addSpider(this);
+        SpiderContext.addSpider(this);
     }
 
     @Override
@@ -104,7 +105,19 @@ public class RichSpider extends Spider {
             //检查ip是否过期
             if (ip != null && ip.getDeadline() != null
                     && System.currentTimeMillis() > DateUtil.parse(ip.getDeadline()).getTime()) {
-                stop();
+            	try {
+        			List<IpInfo> ipinfos = ConfigInterface.getIp(this.ip.getSite(), 1);
+        			if(ipinfos!=null && !ipinfos.isEmpty()){
+        				ip = ipinfos.get(0);
+        				logger.info("obtain ip proxy to use",ip);
+        			}
+        			else{
+        				logger.error("can't obtain ip proxy to use");
+        			}
+				} catch (NetException e1) {
+					e1.printStackTrace();
+					logger.error("can obtain ip error",e1.fillInStackTrace());
+				}
                 continue;
             }
 
@@ -119,15 +132,29 @@ public class RichSpider extends Spider {
                 } catch (InterruptedException e) {
                 }
             } else {
-
                 //Spider中下面的语句是提交到线程池处理的，我没有提交到线程池
                 //方便处理完再到redis拿链接，避免拿链接的速度太快，处理跟不上导致线程池堆积
                 try {
                     pageCount.incrementAndGet();
-                    SpiderContextNew.increTotalCount(getSite().getDomain());
+                    SpiderContext.increTotalCount(getSite().getDomain());
                     processRequest(request);
                     onSuccess(request);
                 } catch (Exception e) {
+                	if(e instanceof org.openqa.selenium.WebDriverException){//代理IP被封后 重新获取代理IP信息 然后在做爬取操作
+                		try {
+                			List<IpInfo> ipinfos = ConfigInterface.getIp(this.ip.getSite(), 1);
+                			if(ipinfos!=null && !ipinfos.isEmpty()){
+                				ip = ipinfos.get(0);
+                				logger.info("obtain ip proxy to use",ip);
+                			}
+                			else{
+                				logger.error("can't obtain ip proxy to use");
+                			}
+						} catch (NetException e1) {
+							e1.printStackTrace();
+							logger.error("can obtain ip error",e1.fillInStackTrace());
+						}
+                	}
                     onError(request);
                     logger.error("process request error: {}, url:{}", ip, request.getUrl(), e);
                 }
@@ -218,7 +245,7 @@ public class RichSpider extends Spider {
                     }
                     pageExceptionLogger.info("url:{}, spider:{}", request.getUrl(), toString());
                     ConfigInterface.setIpSleeping(ip, 12);
-                    SpiderContextNew.increFailCount(getSite().getDomain());
+                    SpiderContext.increFailCount(getSite().getDomain());
                     stop();
                     return;
                 }
@@ -246,7 +273,7 @@ public class RichSpider extends Spider {
             //如果页面状态码不对，则保存当前url并关闭爬虫
             forceAddReqeust(request);
             failCount++;
-            SpiderContextNew.increFailCount(getSite().getDomain());
+            SpiderContext.increFailCount(getSite().getDomain());
         }
         sleep(site.getSleepTime());
         return;
@@ -260,7 +287,7 @@ public class RichSpider extends Spider {
         logger.warn("downloader fail,url:{},{}", request.getUrl(), ip.toString());
         forceAddReqeust(request);
         failCount++;
-        SpiderContextNew.increFailCount(getSite().getDomain());
+        SpiderContext.increFailCount(getSite().getDomain());
     }
 
     @Override
@@ -269,7 +296,7 @@ public class RichSpider extends Spider {
         //保存当前url并关闭爬虫
         forceAddReqeust(request);
         failCount++;
-        SpiderContextNew.increFailCount(getSite().getDomain());
+        SpiderContext.increFailCount(getSite().getDomain());
         sleep(site.getSleepTime());
     }
 
@@ -296,7 +323,7 @@ public class RichSpider extends Spider {
         if (seleniumDownloader != null) {
             seleniumDownloader.close(); //关闭浏览器内核
         }
-        SpiderContextNew.removeSpider(this);
+        SpiderContext.removeSpider(this);
         super.stop();
     }
 
