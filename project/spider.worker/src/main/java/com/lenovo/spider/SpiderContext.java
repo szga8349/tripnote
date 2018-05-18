@@ -189,7 +189,7 @@ public class SpiderContext {
 				//info.setNextPageType(false);
 				info.setHasNextPage(false);
 				info.setType(2);
-				info.setSort(1d);
+				info.setSort(2d);
 				info.setUrl("https?://www\\.mafengwo\\.cn/hotel/\\d+.html");
 				urls.add(info);
 				
@@ -227,7 +227,7 @@ public class SpiderContext {
 				info.setNextPageType(1);
 				info.setHasNextPage(false);
 				info.setType(2);
-				info.setSort(2d);
+				info.setSort(1d);
 				info.setNextPageLocator("//div[@class='page-hotel']/a[@class='ti _j_pageitem prev']");
 				info.setUrl("https?://www\\.mafengwo\\.cn/jd/\\d+/gonglve.html");
 				urls.add(info);
@@ -239,7 +239,7 @@ public class SpiderContext {
 				info.setNextPageType(1);
 				info.setHasNextPage(false);
 				info.setType(2);
-				info.setSort(2d);
+				info.setSort(1d);
 				info.setNextPageLocator("//div[@class='page-hotel']/a[@class='ti _j_pageitem prev']");
 				info.setUrl("https?://www\\.mafengwo\\.cn/cy/\\d+/gonglve.html");
 				urls.add(info);
@@ -251,7 +251,7 @@ public class SpiderContext {
 				info.setNextPageType(1);
 				info.setHasNextPage(false);
 				info.setType(2);
-				info.setSort(2d);
+				info.setSort(1d);
 				info.setNextPageLocator("//div[@class='page-hotel']/a[@class='ti _j_pageitem prev']");
 				info.setUrl("https?://www\\.mafengwo\\.cn/yl/\\d+/gonglve.html");
 				urls.add(info);
@@ -263,7 +263,7 @@ public class SpiderContext {
 				info.setNextPageType(1);
 				info.setHasNextPage(false);
 				info.setType(2);
-				info.setSort(2d);
+				info.setSort(1d);
 				info.setNextPageLocator("//div[@class='page-hotel']/a[@class='ti _j_pageitem prev']");
 				info.setUrl("https?://www\\.mafengwo\\.cn/gw/\\d+/gonglve.html");
 				urls.add(info);
@@ -290,14 +290,15 @@ public class SpiderContext {
 		return siteUrlInfos.get(id);
 	}
 	
-	private static List<IpInfo> getIpInfos(){
+	private static List<IpInfo> getIpInfos(SiteInfo siteInfo){
 		List<IpInfo> ipinfos = new ArrayList<>();
 		IpInfo ip = new IpInfo();
-		/*ip.setDeadline("2018-05-03 11:09:04");
+		ip.setDeadline("2018-05-18 11:09:04");
         ip.setIp("114.239.201.167");
         ip.setPort("4317");
+        ip.setSite(siteInfo);
 		ipinfos.add(ip);
-		ip = new IpInfo();
+		/*ip = new IpInfo();
 		ip.setDeadline("2018-05-03 11:43:02");
         ip.setIp("1.70.119.0");
         ip.setPort("4387");
@@ -305,8 +306,8 @@ public class SpiderContext {
 		IpInfo ip = new IpInfo();
 		ip.setDeadline("2018-05-03 12:49:11");
         ip.setIp("115.223.212.175");
-        ip.setPort("9000");*/
-		ipinfos.add(ip);
+        ip.setPort("9000");
+		ipinfos.add(ip);*/
 		return ipinfos;
 	}
 
@@ -325,7 +326,7 @@ public class SpiderContext {
 		}
 
 		// 每次获取ip的数量
-		List<IpInfo> ips = ConfigInterface.getIp(siteInfo, 1);
+		List<IpInfo> ips = getIpInfos(siteInfo);//ConfigInterface.getIp(siteInfo, 1);//getIpInfos();//
 		if (CollUtil.isEmpty(ips)) {
 			Boolean workWithoutProxy = Boolean.valueOf(Config.get("workWithoutProxy"));
 

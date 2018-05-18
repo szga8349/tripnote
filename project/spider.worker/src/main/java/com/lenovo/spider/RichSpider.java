@@ -1,18 +1,33 @@
 package com.lenovo.spider;
 
-import com.lenovo.exception.NetException;
+import static com.lenovo.spider.util.PageUtils.trimHtml;
+
+import java.io.Closeable;
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.concurrent.atomic.AtomicLong;
+
+import org.apache.commons.lang3.SerializationUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.WebDriverException;
+
+import com.lenovo.exception.LocateException;
 import com.lenovo.spider.common.IPCount;
 import com.lenovo.spider.interfaces.ConfigInterface;
 import com.lenovo.spider.util.ConvertUtil;
 import com.lenovo.spider.util.DateUtil;
 import com.lenovo.spider.util.LogUtil;
 import com.lenovo.spider.util.Statistics;
+import com.lenovo.spider.vo.AuthInfo;
+import com.lenovo.spider.vo.AuthLocator;
 import com.lenovo.spider.vo.IpInfo;
 import com.lenovo.spider.vo.PageHandle;
 import com.lenovo.spider.vo.UrlInfo;
-import org.apache.commons.lang3.SerializationUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.Logger;
+
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Request;
 import us.codecraft.webmagic.Spider;
@@ -23,16 +38,6 @@ import us.codecraft.webmagic.pipeline.Pipeline;
 import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.proxy.Proxy;
 import us.codecraft.webmagic.proxy.SimpleProxyProvider;
-
-import java.io.Closeable;
-import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.concurrent.atomic.AtomicLong;
-
-import static com.lenovo.spider.util.PageUtils.trimHtml;
 
 /**
  * 爬虫
@@ -105,19 +110,7 @@ public class RichSpider extends Spider {
             //检查ip是否过期
             if (ip != null && ip.getDeadline() != null
                     && System.currentTimeMillis() > DateUtil.parse(ip.getDeadline()).getTime()) {
-            	try {
-        			List<IpInfo> ipinfos = ConfigInterface.getIp(this.ip.getSite(), 1);
-        			if(ipinfos!=null && !ipinfos.isEmpty()){
-        				ip = ipinfos.get(0);
-        				logger.info("obtain ip proxy to use",ip);
-        			}
-        			else{
-        				logger.error("can't obtain ip proxy to use");
-        			}
-				} catch (NetException e1) {
-					e1.printStackTrace();
-					logger.error("can obtain ip error",e1.fillInStackTrace());
-				}
+            	reSetProxyIP(null);
                 continue;
             }
 
@@ -141,21 +134,8 @@ public class RichSpider extends Spider {
                     onSuccess(request);
                 } catch (Exception e) {
                 	if(e instanceof org.openqa.selenium.WebDriverException){//代理IP被封后 重新获取代理IP信息 然后在做爬取操作
-                		try {
-                			List<IpInfo> ipinfos = ConfigInterface.getIp(this.ip.getSite(), 1);
-                			if(ipinfos!=null && !ipinfos.isEmpty()){
-                				ip = ipinfos.get(0);
-                				logger.info("obtain ip proxy to use",ip);
-                			}
-                			else{
-                				logger.error("can't obtain ip proxy to use");
-                			}
-						} catch (NetException e1) {
-							e1.printStackTrace();
-							logger.error("can obtain ip error",e1.fillInStackTrace());
-						}
+                		reSetProxyIP(request);
                 	}
-                    onError(request);
                     logger.error("process request error: {}, url:{}", ip, request.getUrl(), e);
                 }
             }
@@ -167,7 +147,37 @@ public class RichSpider extends Spider {
         }
         logger.info("Spider {} closed! {} pages downloaded.", getUUID(), pageCount.get());
     }
-
+   public void reSetProxyIP(Request request){
+	   try {
+			List<IpInfo> ipinfos = ConfigInterface.getIp(this.ip.getSite(), 1);
+			if(ipinfos!=null && !ipinfos.isEmpty()){
+				ip = ipinfos.get(0);
+				logger.info("obtain ip proxy to use",ip);
+				if(seleniumDownloader!=null){
+					AuthInfo authInfo = seleniumDownloader.authInfo;
+					AuthLocator locator = seleniumDownloader.locator;
+					seleniumDownloader.close();
+					seleniumDownloader = null;
+					setDownloader(this,this.urls,authInfo,locator);
+				}else{
+					setDownloader(this,this.urls,null,null);
+				}
+			}
+			else{
+				logger.error("can't obtain ip proxy to use");
+			}
+			if(request!=null){//请求不为空 处理请求
+				 processRequest(request);
+                 onSuccess(request);
+			}
+		} catch (Exception e1) {
+			if(e1 instanceof  WebDriverException){//出现查找出来的IP代理 不能用 继续寻找下一个代理IP
+				reSetProxyIP(request);
+			}
+			e1.printStackTrace();
+			logger.error("can obtain ip error",e1.fillInStackTrace());
+		}
+   }
     //此方法没做修改
     protected void checkRunningStat() {
         while (true) {
@@ -191,7 +201,16 @@ public class RichSpider extends Spider {
             }
         }
     }
-
+    private static void setDownloader(RichSpider spider, List<UrlInfo> urls, AuthInfo left,AuthLocator right)
+			throws LocateException {
+		for (UrlInfo url : urls) {
+			if (url.getType() == 1 && spider.getHttpClientDownloader() == null) { // WebMagic
+				spider.setHttpClientDownloader(new EnhanceErrorProcessHttpDownloader());
+			} else if (url.getType() == 2 && spider.getSeleniumDownloader() == null) { // Selenium
+				spider.setSeleniumDownloader(new SeleniumDownloader(spider, left, right));
+			}
+		}
+	}
     /**
      * 判断使用哪种下载器
      *
@@ -229,6 +248,10 @@ public class RichSpider extends Spider {
             page = downloader.download(request, this);
         }
         if (!StringUtils.isBlank(page.getRawText())) {
+        	
+        	if(org.apache.commons.lang.StringUtils.indexOf(page.getRawText(), "Can't access chrome://theme/IDR_ERROR_NETWORK_GENERIC from an untrusted")>0){
+        		throw new WebDriverException("proxy Ip can't open url");
+        	}
             //检测是否异常
             for (PageHandle handler : exceptionHandles) {
                 int count = 0;
@@ -298,6 +321,7 @@ public class RichSpider extends Spider {
         failCount++;
         SpiderContext.increFailCount(getSite().getDomain());
         sleep(site.getSleepTime());
+       
     }
 
     //没做修改

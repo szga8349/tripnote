@@ -18,7 +18,6 @@ import com.lenovo.spider.vo.IpInfo;
 
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Request;
-import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Task;
 import us.codecraft.webmagic.downloader.Downloader;
 import us.codecraft.webmagic.selector.PlainText;
@@ -64,9 +63,9 @@ public class SeleniumDownloader implements Downloader, Closeable {
 
     @Override
     public Page download(Request request, Task task) {
-
+/*
         WebDriver.Options manage = webDriver.manage();
-        Site site = task.getSite();
+        Site site = task.getSite();*/
 //        if (site.getCookies() != null) {
 //            for (Map.Entry<String, String> cookieEntry : site.getCookies().entrySet()) {
 //                Cookie cookie = new Cookie(cookieEntry.getKey(), cookieEntry.getValue());
@@ -76,7 +75,7 @@ public class SeleniumDownloader implements Downloader, Closeable {
 
         logger.info("downloading page " + request.getUrl());
         webDriver.get(request.getUrl());
-        sleep(site.getSleepTime());
+        //sleep(site.getSleepTime());
 
         Object domEvent = request.getExtra(Constant.DOM_EVENT);
         if (domEvent != null && domEvent instanceof DomEvent) {
