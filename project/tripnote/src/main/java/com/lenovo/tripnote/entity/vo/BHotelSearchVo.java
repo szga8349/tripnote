@@ -16,4 +16,6 @@ public class BHotelSearchVo extends PageInfoVo{
     
     
     private Integer cityId;
+    
+    private String supplier;
 }

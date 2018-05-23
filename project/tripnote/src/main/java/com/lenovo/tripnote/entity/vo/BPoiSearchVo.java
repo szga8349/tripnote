@@ -20,4 +20,6 @@ public class BPoiSearchVo extends PageInfoVo{
      * 默认不设置 查询自己和系统所有的 true查询个人的 false查询系统的
      */
     private Boolean isMy ;
+    
+    private String supplier;
 }

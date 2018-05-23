@@ -62,9 +62,28 @@ public class BHotelServiceImpl implements BHotelService {
 		if (vo.getCityId() != null) {
 			c.andCityIdEqualTo(vo.getCityId());
 		}
+		if (vo.getSupplier() != null) {
+			c.andSupplierEqualTo(vo.getSupplier());
+		}
 		Integer offset = (vo.getPageNo() - 1 < 0 ? 0 : (vo.getPageNo() - 1)) * vo.getPageSize();
 		RowBounds rowRounds = new RowBounds(offset, vo.getPageSize());
 		return bHotelMapper.selectByExampleAndPage(example, rowRounds);
+	}
+	
+	@Override
+	public Integer searchHotelCount(BHotelSearchVo vo) {
+		BHotelExample example = new BHotelExample();
+		Criteria c = example.createCriteria();
+		if (vo.getNameCn() != null) {
+			c.andNameCnLike("%" + vo.getNameCn() + "%");
+		}
+		if (vo.getCityId() != null) {
+			c.andCityIdEqualTo(vo.getCityId());
+		}
+		if (vo.getSupplier() != null) {
+			c.andSupplierEqualTo(vo.getSupplier());
+		}
+		return bHotelMapper.countByExample(example);
 	}
 
 }
