@@ -21,6 +21,7 @@ import com.lenovo.tripnote.entity.vo.BPoiVo;
 import com.lenovo.tripnote.entity.vo.PageResultVo;
 import com.lenovo.tripnote.service.BHotelService;
 import com.lenovo.tripnote.service.BPoiService;
+import com.lenovo.tripnote.service.BSpiderService;
 import com.lenovo.tripnote.vo.Result;
 import com.lenovo.tripnote.vo.ResultVo;
 
@@ -35,6 +36,9 @@ public class BSpiderController {
 	private BHotelService bHotelService;
 	@Resource
 	private BPoiService bPoiService;
+	@Resource
+	private BSpiderService  bSpiderService;
+	
 	@RequestMapping(value = "/hotel/doSearch")
 	public @ResponseBody ResultVo searchHotel(BHotelSearchVo search) throws IllegalAccessException, InvocationTargetException{
 		ResultVo vo = new ResultVo();
@@ -79,7 +83,7 @@ public class BSpiderController {
 		BeanUtils.copyProperties(t, tripnoteScheduleVo);
 		t.setId(Integer.valueOf(id));
 		vo.setCode(Result.SUCESSFUL);
-		bHotelService.update(t);
+		bSpiderService.updateBHotel(t);
 		return vo;
 	}
 	@RequestMapping(value = "/poi/doUpdate/{id}")
@@ -89,7 +93,7 @@ public class BSpiderController {
 		BPoi t = new BPoi();
 		BeanUtils.copyProperties(t, bpoiVo);
 		t.setId(Integer.valueOf(id));
-		bPoiService.update(t);
+		bSpiderService.updatePoi(t);
 		return vo;
 	}
 
