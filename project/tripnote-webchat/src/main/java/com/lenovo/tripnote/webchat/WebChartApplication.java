@@ -13,10 +13,10 @@ public class WebChartApplication {
     public static void main(String[] args) {
         SpringApplication.run(WebChartApplication.class, args);
     }
-    /**
+   /* *//**
      * it's for set http url auto change to https
-     */
-  /*  @Bean
+     *//*
+    @Bean
     public EmbeddedServletContainerFactory servletContainer(){
         TomcatEmbeddedServletContainerFactory tomcat=new TomcatEmbeddedServletContainerFactory(){
             @Override
@@ -41,6 +41,6 @@ public class WebChartApplication {
         connector.setSecure(false);
         connector.setRedirectPort(8443);
         return connector;
-    }
-*/
+    }*/
+
 }

@@ -1,5 +1,10 @@
 server:
-  port: 8080
+  port: 80
+  #ssl:
+    #key-store: tomcat.keystore
+    #key-store-type: JKS
+    #key-alias: tomcat
+    #key-store-password: tomcat
 logging:
   level:
     com.lenovo.tripnote.webchat.mapper: DEBUG 
