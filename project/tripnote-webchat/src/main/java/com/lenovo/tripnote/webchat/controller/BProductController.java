@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lenovo.tripnote.webchat.entity.BProduct;
 import com.lenovo.tripnote.webchat.entity.vo.BProductSearchVo;
+import com.lenovo.tripnote.webchat.entity.vo.BProductUpdateStatusVo;
 import com.lenovo.tripnote.webchat.entity.vo.BProductVo;
 import com.lenovo.tripnote.webchat.service.BProductService;
 import com.lenovo.tripnote.webchat.vo.BatchVo;
@@ -93,6 +94,14 @@ public class BProductController {
 		ResultVo vo = new ResultVo();
 		vo.setCode(Result.SUCESSFUL);
 		vo.setData(bProductService.detail(Integer.valueOf(id)));
+		return vo;
+	}
+	@RequestMapping(value = "/status/doDetail")
+	@ResponseBody
+	public ResultVo doStatusDetail(@RequestBody BProductUpdateStatusVo statuses) {
+		ResultVo vo = new ResultVo();
+		vo.setCode(Result.SUCESSFUL);
+		bProductService.updateStatusBatch(statuses);
 		return vo;
 	}
 

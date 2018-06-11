@@ -19,6 +19,8 @@ import com.lenovo.tripnote.webchat.entity.vo.BProductCollageVo;
 import com.lenovo.tripnote.webchat.entity.vo.BProductDetailVo;
 import com.lenovo.tripnote.webchat.entity.vo.BProductResultVo;
 import com.lenovo.tripnote.webchat.entity.vo.BProductSearchVo;
+import com.lenovo.tripnote.webchat.entity.vo.BProductStatusVo;
+import com.lenovo.tripnote.webchat.entity.vo.BProductUpdateStatusVo;
 import com.lenovo.tripnote.webchat.entity.vo.BProductVo;
 import com.lenovo.tripnote.webchat.mapper.BProductCollageMapper;
 import com.lenovo.tripnote.webchat.mapper.BProductImageMapper;
@@ -130,6 +132,19 @@ public class BProductServiceImpl implements BProductService {
 		    detail.setCollages(bProductOrderCollageMapper.detail(valueOf));
 		}
 		return detail;
+	}
+	@Override
+	@Transactional
+	public void updateStatusBatch(BProductUpdateStatusVo statuses) {
+		if(statuses!=null && statuses.getStatuses()!=null){
+			for(BProductStatusVo status:statuses.getStatuses()){
+				BProduct product =new BProduct();
+				product.setId(status.getId());
+				product.setStatus(status.getStatus());
+				product.setLastUpdateTime(new Date());
+				bProductMapper.updateByPrimaryKeySelective(product);
+			}
+		}
 	}
 	
 }
