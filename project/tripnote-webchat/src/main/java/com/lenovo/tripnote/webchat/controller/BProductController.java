@@ -96,7 +96,7 @@ public class BProductController {
 		vo.setData(bProductService.detail(Integer.valueOf(id)));
 		return vo;
 	}
-	@RequestMapping(value = "/status/doDetail")
+	@RequestMapping(value = "/status/doUpdate")
 	@ResponseBody
 	public ResultVo doStatusDetail(@RequestBody BProductUpdateStatusVo statuses) {
 		ResultVo vo = new ResultVo();
