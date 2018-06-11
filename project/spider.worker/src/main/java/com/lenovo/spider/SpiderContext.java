@@ -87,12 +87,21 @@ public class SpiderContext {
 		siteInfo.setCrawlerable(1);
 		siteInfo.setId(1l);
 		infos.add(siteInfo);*/
-		siteInfo = new SiteInfo();
+	/*	siteInfo = new SiteInfo();
 		siteInfo.setAuthType(1);
 		siteInfo.setDomainName("http://www.mafengwo.cn/mdd/");
 		siteInfo.setCrawlerable(1);
 		siteInfo.setId(2l);
+		infos.add(siteInfo);*/
+		
+		//猫途鹰景点
+		siteInfo = new SiteInfo();
+		siteInfo.setAuthType(1);
+		siteInfo.setDomainName("https://www.tripadvisor.cn/Jingdian");
+		siteInfo.setCrawlerable(1);
+		siteInfo.setId(3l);
 		infos.add(siteInfo);
+		
 		return infos;
 	}
 
@@ -261,7 +270,7 @@ public class SpiderContext {
 				info.setAnalyzePage(false);
 				info.setSavePage(false);
 				info.setNextPageType(1);
-				info.setHasNextPage(false);
+				info.setHasNextPage(true);
 				info.setType(2);
 				info.setSort(1d);
 				info.setNextPageLocator("//div[@class='page-hotel']/a[@class='ti _j_pageitem prev']");
@@ -280,6 +289,45 @@ public class SpiderContext {
 				info.setUrl("https?://www\\.mafengwo\\.cn/travel-scenic-spot/mafengwo/\\d+.html");
 				urls.add(info);
 			  }
+			  break;
+			case 3:{
+				 //分析酒店详细信息
+				UrlInfo info = new UrlInfo();
+				// 页面是否分析
+				info.setId(10l);  //景点详情
+				info.setAnalyzePage(true);
+				info.setSavePage(false);
+				//info.setNextPageType(false);
+				info.setHasNextPage(false);
+				info.setType(2);
+				info.setSort(0d);
+				info.setUrl("https?://www\\.tripadvisor\\.cn/Attraction_Review-.*.html");
+				urls.add(info);
+				
+				info = new UrlInfo();
+				// 页面是否分析
+				info.setId(11l);  //景点详情
+				info.setAnalyzePage(false);
+				info.setSavePage(false);
+				//info.setNextPageType(false);
+				info.setHasNextPage(false);
+				info.setType(2);
+				info.setSort(1d);
+				info.setUrl("https?://www\\.tripadvisor\\.cn/Attraction-g\\d+.*.html");
+				urls.add(info);
+				
+				info = new UrlInfo();
+				// 页面是否分析
+				info.setId(12l);  //景点详情
+				info.setAnalyzePage(false);
+				info.setSavePage(false);
+				//info.setNextPageType(false);
+				info.setHasNextPage(false);
+				info.setType(2);
+				info.setSort(2d);
+				info.setUrl("https?://www\\.tripadvisor\\.cn/TravelersChoice-Attractions-.*");
+				urls.add(info);
+			    }
 				break;
 			default:
 				break;
@@ -292,12 +340,12 @@ public class SpiderContext {
 	
 	private static List<IpInfo> getIpInfos(SiteInfo siteInfo){
 		List<IpInfo> ipinfos = new ArrayList<>();
-		IpInfo ip = new IpInfo();
+		/*IpInfo ip = new IpInfo();
 		ip.setDeadline("2018-05-18 11:09:04");
         ip.setIp("114.239.201.167");
         ip.setPort("4317");
         ip.setSite(siteInfo);
-		ipinfos.add(ip);
+		ipinfos.add(ip);*/
 		/*ip = new IpInfo();
 		ip.setDeadline("2018-05-03 11:43:02");
         ip.setIp("1.70.119.0");

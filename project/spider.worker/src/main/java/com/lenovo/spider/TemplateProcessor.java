@@ -24,6 +24,7 @@ import com.lenovo.spider.model.MaFengWoPoiCyModel;
 import com.lenovo.spider.model.MaFengWoPoiGwModel;
 import com.lenovo.spider.model.MaFengWoPoiJdModel;
 import com.lenovo.spider.model.MaFengWoPoiYlModel;
+import com.lenovo.spider.model.TripadvisorPoiModel;
 import com.lenovo.spider.selenium.EventType;
 import com.lenovo.spider.util.LogUtil;
 import com.lenovo.spider.util.ModelUtils;
@@ -117,6 +118,11 @@ public class TemplateProcessor implements PageProcessor {
     		template.put(9l, ModelUtils.getUrlTemPlate(MaFengWoPoiYlModel.class));
     		
     	}
+    	{   
+    		//猫途鹰景点详情解析模板
+    		template.put(10l, ModelUtils.getUrlTemPlate(TripadvisorPoiModel.class));
+    		
+    	}
     	return template;
     }
 
@@ -154,6 +160,7 @@ public class TemplateProcessor implements PageProcessor {
                     // 解析网页
                 	String parent = (String)page.getRequest().getExtra(Constant.parentKey);
                 	int poiType = UrlType.getPoiType(parent);
+                	System.out.println(page.getHtml().toString());
                     JSONObject data = ItemExtractor.extract(page.getHtml(), templates.get(url.getId()+poiType), new JSONObject());
                     if (MapUtils.isNotEmpty(data)) {
                     	if(parent!=null){
