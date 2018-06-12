@@ -2,6 +2,8 @@ package com.lenovo.tripnote.webchat.entity;
 
 import java.util.Date;
 
+import com.lenovo.tripnote.webchat.convert.IDEncryption;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,6 +17,7 @@ public class BAccount {
      * b_account.id
      * @ibatorgenerated 2018-06-04 14:44:40
      */
+	@IDEncryption
     private Integer id;
 
     /**

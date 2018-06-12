@@ -2,6 +2,8 @@ package com.lenovo.tripnote.webchat.entity;
 
 import java.util.Date;
 
+import com.lenovo.tripnote.webchat.convert.IDEncryption;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,6 +15,7 @@ public class BProduct {
      * b_product.id (主键ID)
      * @ibatorgenerated 2018-06-07 16:43:43
      */
+	@IDEncryption
     private Integer id;
 
     /**

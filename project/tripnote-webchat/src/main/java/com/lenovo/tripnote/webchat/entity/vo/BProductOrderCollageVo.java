@@ -1,5 +1,7 @@
 package com.lenovo.tripnote.webchat.entity.vo;
 
+import com.lenovo.tripnote.webchat.convert.IDEncryption;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,12 +14,14 @@ public class BProductOrderCollageVo {
      * b_product_order_collage.product_collage_id (产品对应的拼团类型ID)
      * @ibatorgenerated 2018-06-07 13:48:24
      */
+	@IDEncryption
     private Integer productCollageId;
 
     /**
      * b_product_order_collage.product_id (拼团产品ID)
      * @ibatorgenerated 2018-06-07 13:48:24
      */
+	@IDEncryption
     private Integer productId;
 
     /**

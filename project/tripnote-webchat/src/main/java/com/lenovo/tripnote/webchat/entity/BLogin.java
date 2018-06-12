@@ -2,6 +2,8 @@ package com.lenovo.tripnote.webchat.entity;
 
 import java.util.Date;
 
+import com.lenovo.tripnote.webchat.convert.IDEncryption;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,6 +16,7 @@ public class BLogin  {
      * b_login.loginid
      * @ibatorgenerated 2018-06-04 14:44:41
      */
+	@IDEncryption
     private Integer loginid;
 
     /**

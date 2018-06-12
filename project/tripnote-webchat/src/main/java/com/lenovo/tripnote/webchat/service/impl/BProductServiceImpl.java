@@ -28,6 +28,7 @@ import com.lenovo.tripnote.webchat.mapper.BProductMapper;
 import com.lenovo.tripnote.webchat.mapper.BProductOrderCollageMapper;
 import com.lenovo.tripnote.webchat.service.BProductService;
 import com.lenovo.tripnote.webchat.vo.BatchVo;
+import com.lenovo.tripnote.webchat.vo.IDVo;
 import com.lenovo.tripnote.webchat.vo.ResultPageInfo;
 import com.lenovo.tripnote.webchat.vo.TokenVo;
 
@@ -120,8 +121,8 @@ public class BProductServiceImpl implements BProductService {
 	@Transactional
 	public void deleteBatch(BatchVo batchVo) {
 		if(batchVo.getIds()!=null){
-			for(Integer id:batchVo.getIds()){
-				bProductMapper.deleteByPrimaryKey(id);
+			for(IDVo id:batchVo.getIds()){
+				bProductMapper.deleteByPrimaryKey(id.getId());
 			}
 		}
 	}

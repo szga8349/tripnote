@@ -2,6 +2,8 @@ package com.lenovo.tripnote.webchat.entity;
 
 import java.util.Date;
 
+import com.lenovo.tripnote.webchat.convert.IDEncryption;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,12 +16,14 @@ public class BProductOrderCollage {
      * b_product_order_collage.id (订单拼团主键ID)
      * @ibatorgenerated 2018-06-07 13:48:24
      */
+	@IDEncryption
     private Integer id;
 
     /**
      * b_product_order_collage.collage_user_id (参与拼团用户ID)
      * @ibatorgenerated 2018-06-07 13:48:24
      */
+	@IDEncryption
     private Integer collageUserId;
 
     /**
@@ -32,12 +36,14 @@ public class BProductOrderCollage {
      * b_product_order_collage.product_collage_id (产品对应的拼团类型ID)
      * @ibatorgenerated 2018-06-07 13:48:24
      */
+    @IDEncryption
     private Integer productCollageId;
 
     /**
      * b_product_order_collage.product_id (拼团产品ID)
      * @ibatorgenerated 2018-06-07 13:48:24
      */
+    @IDEncryption
     private Integer productId;
 
     /**
@@ -50,6 +56,7 @@ public class BProductOrderCollage {
      * b_product_order_collage.create_user_id
      * @ibatorgenerated 2018-06-07 13:48:24
      */
+    @IDEncryption
     private Integer createUserId;
 
     /**
@@ -68,5 +75,6 @@ public class BProductOrderCollage {
      * b_product_order_collage.collage_id (拼团主键ID)
      * @ibatorgenerated 2018-06-07 13:48:24
      */
+    @IDEncryption
     private Integer collageId;
 }

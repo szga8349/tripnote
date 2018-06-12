@@ -12,6 +12,8 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.lenovo.tripnote.webchat.utils.Bash64Utils;
+
 /**使用面向aop 对传入PathVariable 为ID由字符串类型转换成整型数据  后续实现
  * @author shijy2
  *
@@ -37,7 +39,8 @@ public class IDConvertAop {
 				{
 					Annotation annotation = parameterAnnotations[p][0]; 
 					if (annotation != null && annotation instanceof PathVariable) {
-						// do someting
+						    String s = Bash64Utils.deBase64(args[p].toString());
+						    args[p] = s;
 					}
 				}
 
