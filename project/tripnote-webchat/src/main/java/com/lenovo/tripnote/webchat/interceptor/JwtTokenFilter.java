@@ -41,7 +41,17 @@ public class JwtTokenFilter extends GenericFilterBean {
 
             // Check the authorization, check if the token is started by "Bearer "
             if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-                throw new ServletException("Missing or invalid Authorization header");
+            	JSONObject result = new JSONObject();
+      			response.setHeader("Content-type", "application/json;charset=UTF-8");
+      			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+      			OutputStream ps = response.getOutputStream();
+      			 //throw new ServletException("Token Expire");
+     			// 这句话的意思，使得放入流的数据是utf8格式
+     			result.put("code", "-1");
+            	result.put("message","Missing or invalid Authorization header");//throw new ServletException("");
+     			ps.write(result.toString().getBytes("UTF-8"));
+     			ps.close();
+                return ;
             }
 
             // Then get the JWT token from authorization
@@ -64,6 +74,7 @@ public class JwtTokenFilter extends GenericFilterBean {
       			 //throw new ServletException("Token Expire");
      			// 这句话的意思，使得放入流的数据是utf8格式
      			result.put("code", "-1");
+     			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             	if(e instanceof ExpiredJwtException){
          			result.put("message","Token Expire");
             	}else if(e instanceof SignatureException){
