@@ -1,5 +1,7 @@
 package com.lenovo.tripnote.webchat.vo;
 
+import com.lenovo.tripnote.webchat.convert.ResultIDEncryption;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,6 +27,7 @@ public class ResultVo {
 	/**
 	 * 返回 结果对象信息
 	 */
+	@ResultIDEncryption
 	private Object data;
 
 }
