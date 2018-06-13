@@ -13,7 +13,7 @@ import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
 import org.springframework.core.ParameterNameDiscoverer;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import com.lenovo.tripnote.webchat.utils.Bash64Utils;
+import com.lenovo.tripnote.webchat.utils.EncryptionUtils;
 
 /**
  * 使用面向aop 对传入PathVariable 为ID由字符串类型转换成整型数据 后续实现
@@ -52,7 +52,7 @@ public class IDConvertAop {
 					{
 						Annotation annotation = parameterAnnotations[p][0];
 						if (annotation != null && annotation instanceof PathVariable) {
-							String s = Bash64Utils.deBase64(args[p].toString());
+							String s = EncryptionUtils.deEncryption(args[p].toString());
 							args[p] = s;
 						}
 					}

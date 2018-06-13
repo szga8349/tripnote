@@ -6,7 +6,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import com.lenovo.tripnote.webchat.utils.Bash64Utils;
+import com.lenovo.tripnote.webchat.utils.EncryptionUtils;
 
 public class ResultIDEncryptionSerializer extends JsonSerializer<Object> {
 
@@ -14,7 +14,7 @@ public class ResultIDEncryptionSerializer extends JsonSerializer<Object> {
 	public void serialize(Object value, JsonGenerator jgen, SerializerProvider provider)
 			throws IOException, JsonProcessingException {
 		if (value instanceof Integer) {
-			jgen.writeString(Bash64Utils.enBase64(value.toString()));
+			jgen.writeString(EncryptionUtils.encryption(value.toString()));
 		} else {
 			jgen.writeObject(value);
 		}
