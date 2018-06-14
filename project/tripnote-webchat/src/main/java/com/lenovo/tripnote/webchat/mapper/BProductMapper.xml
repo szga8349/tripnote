@@ -206,6 +206,10 @@
     <if test="record.status != null" >
         and status = #{record.status,jdbcType=INTEGER}
      </if>
+     <if test="record.name != null" >
+        and name like #{record.name,jdbcType=VARCHAR}
+     </if>
+     order by bp.create_time desc
  </select>
   
   <select id="detail" resultMap="DetailResultMap" parameterType="java.lang.Integer" >

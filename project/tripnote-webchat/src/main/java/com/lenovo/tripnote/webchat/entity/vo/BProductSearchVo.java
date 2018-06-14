@@ -14,5 +14,7 @@ public class BProductSearchVo extends PageInfo{
 	private Integer userId;
 	
 	private Integer status;
+	
+    private String name;
 
 }

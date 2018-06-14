@@ -85,6 +85,9 @@ public class BProductController {
 		TokenVo token = (TokenVo) request.getAttribute("token");
 		searchVo.setUserId(token.getUserId());
 		vo.setCode(Result.SUCESSFUL);
+		if(searchVo.getName()!=null){
+			searchVo.setName("%"+searchVo.getName()+"%");
+		}
 		vo.setData(bProductService.searchProduct(searchVo));
 		return vo;
 	}
