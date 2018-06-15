@@ -119,4 +119,11 @@ public interface BProductOrderCollageMapper {
 	 * @return
 	 */
 	List<BProductOrderCollageDetailVo> listUser(Integer id);
+	
+
+	/**产品对应的拼团信息
+	 * @param valueOf
+	 * @return
+	 */
+	List<BProductOrderCollageDetailVo> listCollage(Integer valueOf);
 }

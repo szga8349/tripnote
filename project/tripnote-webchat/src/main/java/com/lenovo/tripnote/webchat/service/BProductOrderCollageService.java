@@ -21,5 +21,13 @@ public interface BProductOrderCollageService extends IDbService<BProductOrderCol
 	 * @return
 	 */
 	List<BProductOrderCollageDetailVo> listUser(Integer valueOf);
+	
+	
+
+	/**产品对应的拼团
+	 * @param valueOf
+	 * @return
+	 */
+	List<BProductOrderCollageDetailVo> listCollage(Integer valueOf);
 
 }

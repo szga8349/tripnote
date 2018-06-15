@@ -73,4 +73,10 @@ public class BProductOrderCollageServiceImpl implements BProductOrderCollageServ
 		return bProductOrderCollageMapper.listUser(valueOf);
 	}
 
+	@Override
+	public List<BProductOrderCollageDetailVo> listCollage(Integer valueOf) {
+	
+		return bProductOrderCollageMapper.listCollage(valueOf);
+	}
+
 }

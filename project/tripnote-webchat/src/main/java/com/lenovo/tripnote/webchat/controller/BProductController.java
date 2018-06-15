@@ -17,6 +17,7 @@ import com.lenovo.tripnote.webchat.entity.BProduct;
 import com.lenovo.tripnote.webchat.entity.vo.BProductSearchVo;
 import com.lenovo.tripnote.webchat.entity.vo.BProductUpdateStatusVo;
 import com.lenovo.tripnote.webchat.entity.vo.BProductVo;
+import com.lenovo.tripnote.webchat.service.BProductOrderCollageService;
 import com.lenovo.tripnote.webchat.service.BProductService;
 import com.lenovo.tripnote.webchat.vo.BatchVo;
 import com.lenovo.tripnote.webchat.vo.Result;
@@ -35,6 +36,8 @@ import lombok.extern.log4j.Log4j;
 public class BProductController {
 	@Resource
 	private BProductService bProductService;
+	@Resource
+	private BProductOrderCollageService bProductOrderCollageService;
 
 	@RequestMapping(value = "/doAdd")
 	@ResponseBody
@@ -108,5 +111,15 @@ public class BProductController {
 		bProductService.updateStatusBatch(statuses);
 		return vo;
 	}
+	
+	@RequestMapping(value = "/collage/{id}")
+	@ResponseBody
+	public ResultVo doListCollage(@PathVariable String id) {
+		ResultVo vo = new ResultVo();
+		vo.setCode(Result.SUCESSFUL);
+		vo.setData(bProductOrderCollageService.listCollage(Integer.valueOf(id)));
+		return vo;
+	}
+
 
 }
