@@ -1,41 +1,60 @@
 package com.lenovo.tripnote.webchat.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.lenovo.tripnote.webchat.entity.BProductCollage;
-import com.lenovo.tripnote.webchat.mapper.BProductCollageMapper;
-import com.lenovo.tripnote.webchat.service.BProductCollageService;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.lenovo.tripnote.webchat.entity.BProductOrder;
+import com.lenovo.tripnote.webchat.entity.vo.BProductOrderResultVo;
+import com.lenovo.tripnote.webchat.entity.vo.BProductOrderSearchVo;
+import com.lenovo.tripnote.webchat.mapper.BProductOrderMapper;
+import com.lenovo.tripnote.webchat.service.BProductOrderService;
+import com.lenovo.tripnote.webchat.vo.ResultPageInfo;
 @Service
-public class BProductOrderServiceImpl implements BProductCollageService{
+public class BProductOrderServiceImpl implements BProductOrderService{
     @Resource
-    private BProductCollageMapper bProductCollageMapper;
+    private BProductOrderMapper bProductOrderMapper;
 	@Override
 	@Transactional
-	public int insert(BProductCollage t) {
-		return bProductCollageMapper.insertSelective(t);
+	public int insert(BProductOrder t) {
+		return bProductOrderMapper.insertSelective(t);
 	}
 
 	@Override
 	@Transactional
-	public BProductCollage update(BProductCollage t) {
-		this.bProductCollageMapper.updateByPrimaryKeySelective(t);
+	public BProductOrder update(BProductOrder t) {
+		this.bProductOrderMapper.updateByPrimaryKeySelective(t);
 		return t;
 	}
 
 	@Override
-	public BProductCollage getByKey(Integer id) {
+	public BProductOrder getByKey(Integer id) {
 		// TODO Auto-generated method stub
-		return this.bProductCollageMapper.selectByPrimaryKey(id);
+		return this.bProductOrderMapper.selectByPrimaryKey(id);
 	}
 
 	@Override
 	@Transactional
 	public int deleteBykey(Integer id) {
 		// TODO Auto-generated method stub
-		return this.bProductCollageMapper.deleteByPrimaryKey(id);
+		return this.bProductOrderMapper.deleteByPrimaryKey(id);
+	}
+
+	@Override
+	public ResultPageInfo search(BProductOrderSearchVo search) {
+		ResultPageInfo pageInfo = new ResultPageInfo();
+		pageInfo.setPageNum(search.getPageNum());
+		pageInfo.setPageSize(search.getPageSize());
+		Page<BProductOrderResultVo> page = PageHelper.startPage(search.getPageNum(), search.getPageSize());
+		List<BProductOrderResultVo> list = bProductOrderMapper.search(search);
+		pageInfo.setTotal(page.getTotal());
+		pageInfo.setData(list);
+		return pageInfo;
 	}
 
 }

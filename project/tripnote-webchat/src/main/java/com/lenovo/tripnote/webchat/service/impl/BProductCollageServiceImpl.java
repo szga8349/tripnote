@@ -5,28 +5,28 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.lenovo.tripnote.webchat.entity.BProductOrder;
-import com.lenovo.tripnote.webchat.mapper.BProductOrderMapper;
-import com.lenovo.tripnote.webchat.service.BProductOrderService;
+import com.lenovo.tripnote.webchat.entity.BProductCollage;
+import com.lenovo.tripnote.webchat.mapper.BProductCollageMapper;
+import com.lenovo.tripnote.webchat.service.BProductCollageService;
 @Service
-public class BProductCollageServiceImpl implements BProductOrderService{
+public class BProductCollageServiceImpl implements BProductCollageService{
     @Resource
-    private BProductOrderMapper bProductOrderMapper;
+    private BProductCollageMapper bProductOrderMapper;
 	@Override
 	@Transactional
-	public int insert(BProductOrder t) {
+	public int insert(BProductCollage t) {
 		return bProductOrderMapper.insertSelective(t);
 	}
 
 	@Override
 	@Transactional
-	public BProductOrder update(BProductOrder t) {
+	public BProductCollage update(BProductCollage t) {
 		this.bProductOrderMapper.updateByPrimaryKeySelective(t);
 		return t;
 	}
 
 	@Override
-	public BProductOrder getByKey(Integer id) {
+	public BProductCollage getByKey(Integer id) {
 		// TODO Auto-generated method stub
 		return this.bProductOrderMapper.selectByPrimaryKey(id);
 	}

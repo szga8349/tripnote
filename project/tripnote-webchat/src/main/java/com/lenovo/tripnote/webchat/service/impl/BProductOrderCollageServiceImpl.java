@@ -1,6 +1,7 @@
 package com.lenovo.tripnote.webchat.service.impl;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -62,6 +63,7 @@ public class BProductOrderCollageServiceImpl implements BProductOrderCollageServ
 		bProduct.setCollageUserId(token.getUserId());
 		bProduct.setCollageUserName(token.getUserLoginName());
 		bProduct.setCollageId(old.getCollageId());
+		bProduct.setCreateTime(new Date());
 		return 0;
 	}
 
