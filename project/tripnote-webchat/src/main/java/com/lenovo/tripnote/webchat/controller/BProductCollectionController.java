@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lenovo.tripnote.webchat.entity.BProductCollection;
+import com.lenovo.tripnote.webchat.entity.vo.BProductCollectionSearchVo;
 import com.lenovo.tripnote.webchat.entity.vo.BProductCollectionVo;
 import com.lenovo.tripnote.webchat.service.BProductCollectionService;
 import com.lenovo.tripnote.webchat.vo.Result;
@@ -69,6 +70,17 @@ public class BProductCollectionController {
 	public ResultVo doDelete(@PathVariable String id) {
 		ResultVo vo = new ResultVo();
 		bProductCollectionService.deleteBykey(Integer.valueOf(id));
+		vo.setCode(Result.SUCESSFUL);
+		return vo;
+	}
+	
+	@RequestMapping(value = "/doMy")
+	@ResponseBody
+	public ResultVo doSearch(HttpServletRequest request,BProductCollectionSearchVo search) {
+		ResultVo vo = new ResultVo();
+		TokenVo token = (TokenVo) request.getAttribute("token");
+		search.setUserId(token.getUserId());
+		vo.setData(bProductCollectionService.search(search));
 		vo.setCode(Result.SUCESSFUL);
 		return vo;
 	}

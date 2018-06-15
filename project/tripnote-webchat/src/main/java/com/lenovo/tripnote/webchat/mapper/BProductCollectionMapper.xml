@@ -9,6 +9,32 @@
     <result column="collection_create_time" property="collectionCreateTime" jdbcType="TIMESTAMP" />
     <result column="collection_remark" property="collectionRemark" jdbcType="VARCHAR" />
   </resultMap>
+  
+  <resultMap id="SearchResultMap" type="com.lenovo.tripnote.webchat.entity.vo.BProductCollectionResultVo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="collection_product_id" property="collectionProductId" jdbcType="INTEGER" />
+    <result column="collection_user_id" property="collectionUserId" jdbcType="INTEGER" />
+    <result column="collection_user_name" property="collectionUserName" jdbcType="VARCHAR" />
+    <result column="collection_create_time" property="collectionCreateTime" jdbcType="TIMESTAMP" />
+    <result column="collection_remark" property="collectionRemark" jdbcType="VARCHAR" />
+  
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="user_date" property="userDate" jdbcType="DATE" />
+    <result column="price_type" property="priceType" jdbcType="INTEGER" />
+    <result column="product_count" property="productCount" jdbcType="INTEGER" />
+    <result column="discount_price" property="discountPrice" jdbcType="REAL" />
+    <result column="raw_price" property="rawPrice" jdbcType="REAL" />
+    <result column="limit_time" property="limitTime" jdbcType="INTEGER" />
+    <result column="commission" property="commission" jdbcType="REAL" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="image_url" property="imageUrl" jdbcType="VARCHAR" />
+    <result column="create_user_name" property="createUserName" jdbcType="VARCHAR" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="last_update_time" property="lastUpdateTime" jdbcType="TIMESTAMP" />
+    
+  </resultMap>
+  
   <sql id="Base_Column_List" >
     id, collection_product_id, collection_user_id, collection_user_name, collection_create_time, 
     collection_remark
@@ -99,6 +125,20 @@
       order by ${orderByClause}
     </if>
   </select>
+  
+  
+   <select id="search" resultMap="SearchResultMap" parameterType="com.lenovo.tripnote.webchat.entity.vo.BProductCollectionSearchVo" >
+     select
+      bpc.id, bpc.collection_product_id, bpc.collection_user_id, bpc.collection_user_name, bpc.collection_create_time, bpc.collection_remark,
+      bp.`name`, bp.user_date, bp.price_type, bp.product_count, bp.discount_price, bp.raw_price, bp.limit_time, 
+      bp.commission, bp.`status`, bp.image_url, bp.create_user_name, bp.create_user_id,bp.create_time, bp.last_update_time,bp.introduction
+      from b_product_collection bpc,b_product bp where bpc.collection_product_id = bp.id 
+      <if test="record.name != null" >
+        and bp.name like #{record.name,jdbcType=VARCHAR}
+     </if>
+     order by bpc.collection_create_time desc
+  </select>
+  
   <delete id="deleteByExample" parameterType="com.lenovo.tripnote.webchat.entity.BProductCollectionExample" >
     delete from b_product_collection
     <if test="_parameter != null" >
