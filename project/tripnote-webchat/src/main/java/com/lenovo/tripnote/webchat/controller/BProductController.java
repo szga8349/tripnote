@@ -78,17 +78,18 @@ public class BProductController {
 		vo.setCode(Result.SUCESSFUL);
 		return vo;
 	}
-	@RequestMapping(value = "/doMy")
+	@RequestMapping(value = "/doSearch")
 	@ResponseBody
 	public ResultVo myProduct(HttpServletRequest request,BProductSearchVo searchVo) {
 		ResultVo vo = new ResultVo();
 		TokenVo token = (TokenVo) request.getAttribute("token");
-		searchVo.setUserId(token.getUserId());
-		vo.setCode(Result.SUCESSFUL);
+		if(searchVo.getIsMy())
+			searchVo.setUserId(token.getUserId());
 		if(searchVo.getName()!=null){
 			searchVo.setName("%"+searchVo.getName()+"%");
 		}
 		vo.setData(bProductService.searchProduct(searchVo));
+		vo.setCode(Result.SUCESSFUL);
 		return vo;
 	}
 	@RequestMapping(value = "/doDetail/{id}")

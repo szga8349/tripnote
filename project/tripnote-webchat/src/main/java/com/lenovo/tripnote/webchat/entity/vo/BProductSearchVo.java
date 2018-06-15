@@ -16,5 +16,7 @@ public class BProductSearchVo extends PageInfo{
 	private Integer status;
 	
     private String name;
+    
+    private Boolean isMy = false;
 
 }
