@@ -7,5 +7,7 @@ import com.lenovo.tripnote.webchat.vo.ResultPageInfo;
 public interface BProductOrderService extends IDbService<BProductOrder> {
 
 	ResultPageInfo search(BProductOrderSearchVo search);
+	
+	ResultPageInfo searchCustomer(BProductOrderSearchVo search);
 
 }

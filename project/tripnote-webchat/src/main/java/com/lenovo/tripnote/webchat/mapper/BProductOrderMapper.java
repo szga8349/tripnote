@@ -2,6 +2,7 @@ package com.lenovo.tripnote.webchat.mapper;
 
 import com.lenovo.tripnote.webchat.entity.BProductOrder;
 import com.lenovo.tripnote.webchat.entity.BProductOrderExample;
+import com.lenovo.tripnote.webchat.entity.vo.BProductCustomerOrderResultVo;
 import com.lenovo.tripnote.webchat.entity.vo.BProductOrderResultVo;
 import com.lenovo.tripnote.webchat.entity.vo.BProductOrderSearchVo;
 
@@ -108,4 +109,6 @@ public interface BProductOrderMapper {
     int updateByPrimaryKey(BProductOrder record);
 
 	List<BProductOrderResultVo> search(@Param("record")BProductOrderSearchVo search);
+
+	List<BProductCustomerOrderResultVo> searchCustomer(@Param("record") BProductOrderSearchVo search);
 }

@@ -73,9 +73,14 @@ public class BProductOrderController {
 		return vo;
 	}
 	
+	/**我的订单
+	 * @param request
+	 * @param search
+	 * @return
+	 */
 	@RequestMapping(value = "/doMy")
 	@ResponseBody
-	public ResultVo doSearch(HttpServletRequest request,BProductOrderSearchVo search) {
+	public ResultVo doMy(HttpServletRequest request,BProductOrderSearchVo search) {
 		ResultVo vo = new ResultVo();
 		TokenVo token = (TokenVo) request.getAttribute("token");
 		search.setUserId(token.getUserId());
@@ -86,5 +91,25 @@ public class BProductOrderController {
 		vo.setCode(Result.SUCESSFUL);
 		return vo;
 	}
+
+	/**我的客户订单 指发布产品对应的订单
+	 * @param request
+	 * @param search
+	 * @return
+	 */
+	@RequestMapping(value = "/customer/doMy")
+	@ResponseBody
+	public ResultVo doCustomer(HttpServletRequest request,BProductOrderSearchVo search) {
+		ResultVo vo = new ResultVo();
+		TokenVo token = (TokenVo) request.getAttribute("token");
+		search.setUserId(token.getUserId());
+		if(search.getName()!=null){
+			search.setName("%"+search.getName()+"%");
+		}
+		vo.setData(bProductOrderService.searchCustomer(search));
+		vo.setCode(Result.SUCESSFUL);
+		return vo;
+	}
+
 
 }
