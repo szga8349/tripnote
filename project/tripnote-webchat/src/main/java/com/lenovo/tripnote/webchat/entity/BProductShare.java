@@ -49,5 +49,5 @@ public class BProductShare  {
      * b_product_share.parent_share_id (分享父节点ID,没有父节点设置为0)
      * @ibatorgenerated 2018-06-14 18:44:28
      */
-    private Integer parentShareId;
+    private Integer parentShareId = 0;
 }
