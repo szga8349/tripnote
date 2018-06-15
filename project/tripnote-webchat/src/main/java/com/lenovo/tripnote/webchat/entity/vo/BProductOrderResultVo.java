@@ -2,6 +2,7 @@ package com.lenovo.tripnote.webchat.entity.vo;
 
 import java.util.Date;
 
+import com.lenovo.tripnote.webchat.convert.IDEncryption;
 import com.lenovo.tripnote.webchat.entity.BProduct;
 
 import lombok.Getter;
@@ -23,4 +24,10 @@ public class BProductOrderResultVo extends BProduct{
      * @ibatorgenerated 2018-06-06 17:42:48
      */
     private Date orderCreateTime;
+    
+    /**
+     * 订单ID
+     */
+    @IDEncryption
+    private Integer orderId;
 }

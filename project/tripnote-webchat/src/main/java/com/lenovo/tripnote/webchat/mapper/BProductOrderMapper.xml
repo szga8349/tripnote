@@ -29,6 +29,7 @@
     <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
     <result column="orderStatus" property="orderStatus" jdbcType="INTEGER" />
     <result column="orderCreateTime" property="orderCreateTime" jdbcType="TIMESTAMP" />
+    <result column="orderId" property="orderId" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, `status`, product_id, create_user_id, create_user_name, create_time
@@ -122,14 +123,14 @@
   
    <select id="search" resultMap="SearchResultMap" parameterType="com.lenovo.tripnote.webchat.entity.vo.BProductOrderSearchVo" >
       select 
-      tmp.id,`name`, user_date, price_type, product_count, discount_price, raw_price, limit_time, 
+      bp.id,tmp.id as orderId,`name`, user_date, price_type, product_count, discount_price, raw_price, limit_time, 
       commission, 
       <choose>  
           <when test="record.priceType==null">tmp.status</when>  
           <when test="record.priceType==2">tmp.collage_status</when>
           <when test="record.priceType!=2">tmp.status</when>
      </choose>
-       as `status`,image_url, 
+       as orderStatus,bp.status,image_url, 
       tmp.create_user_name, tmp.create_user_id, tmp.create_time,       
       last_update_time,introduction
       from b_product bp,
