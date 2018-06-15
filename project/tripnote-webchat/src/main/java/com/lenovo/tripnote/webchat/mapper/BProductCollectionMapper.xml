@@ -133,6 +133,10 @@
       bp.`name`, bp.user_date, bp.price_type, bp.product_count, bp.discount_price, bp.raw_price, bp.limit_time, 
       bp.commission, bp.`status`, bp.image_url, bp.create_user_name, bp.create_user_id,bp.create_time, bp.last_update_time,bp.introduction
       from b_product_collection bpc,b_product bp where bpc.collection_product_id = bp.id 
+  
+      <if test="record.userId != null" >
+        and bpc.collection_user_id = #{record.userId,jdbcType=INTEGER}
+     </if>
       <if test="record.name != null" >
         and bp.name like #{record.name,jdbcType=VARCHAR}
      </if>
