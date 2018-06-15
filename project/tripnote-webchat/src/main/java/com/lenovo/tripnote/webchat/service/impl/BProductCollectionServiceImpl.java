@@ -11,7 +11,6 @@ import com.github.pagehelper.PageHelper;
 import com.lenovo.tripnote.webchat.entity.BProductCollection;
 import com.lenovo.tripnote.webchat.entity.vo.BProductCollectionResultVo;
 import com.lenovo.tripnote.webchat.entity.vo.BProductCollectionSearchVo;
-import com.lenovo.tripnote.webchat.entity.vo.BProductResultVo;
 import com.lenovo.tripnote.webchat.mapper.BProductCollectionMapper;
 import com.lenovo.tripnote.webchat.service.BProductCollectionService;
 import com.lenovo.tripnote.webchat.vo.ResultPageInfo;
@@ -45,7 +44,7 @@ public class BProductCollectionServiceImpl implements BProductCollectionService{
 		ResultPageInfo pageInfo = new ResultPageInfo();
 		pageInfo.setPageNum(search.getPageNum());
 		pageInfo.setPageSize(search.getPageSize());
-		Page<BProductResultVo> page = PageHelper.startPage(search.getPageNum(), search.getPageSize());
+		Page<BProductCollectionResultVo> page = PageHelper.startPage(search.getPageNum(), search.getPageSize());
 		List<BProductCollectionResultVo> list =  this.bProductCollectionMapper.search(search);
 		pageInfo.setTotal(page.getTotal());
 		pageInfo.setData(list);

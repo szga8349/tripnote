@@ -2,6 +2,9 @@ package com.lenovo.tripnote.webchat.mapper;
 
 import com.lenovo.tripnote.webchat.entity.BProductShare;
 import com.lenovo.tripnote.webchat.entity.BProductShareExample;
+import com.lenovo.tripnote.webchat.entity.vo.BProductShareResultVo;
+import com.lenovo.tripnote.webchat.entity.vo.BProductShareSearchVo;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
@@ -103,4 +106,7 @@ public interface BProductShareMapper {
      * @ibatorgenerated 2018-06-14 18:44:28
      */
     int updateByPrimaryKey(BProductShare record);
+    
+
+	List<BProductShareResultVo> search(@Param("record")BProductShareSearchVo search);
 }

@@ -10,6 +10,28 @@
     <result column="share_level" property="shareLevel" jdbcType="INTEGER" />
     <result column="parent_share_id" property="parentShareId" jdbcType="INTEGER" />
   </resultMap>
+  
+  <resultMap id="SearchResultMap" type="com.lenovo.tripnote.webchat.entity.vo.BProductShareResultVo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="user_date" property="userDate" jdbcType="DATE" />
+    <result column="price_type" property="priceType" jdbcType="INTEGER" />
+    <result column="product_count" property="productCount" jdbcType="INTEGER" />
+    <result column="discount_price" property="discountPrice" jdbcType="REAL" />
+    <result column="raw_price" property="rawPrice" jdbcType="REAL" />
+    <result column="limit_time" property="limitTime" jdbcType="INTEGER" />
+    <result column="commission" property="commission" jdbcType="REAL" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="image_url" property="imageUrl" jdbcType="VARCHAR" />
+    <result column="create_user_name" property="createUserName" jdbcType="VARCHAR" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="last_update_time" property="lastUpdateTime" jdbcType="TIMESTAMP" />
+    <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
+    <result column="purchaseNumber" property="purchaseNumber" jdbcType="INTEGER" />
+    <result column="shareProfit" property="shareProfit" jdbcType="INTEGER" />
+  </resultMap>
+  
   <sql id="Base_Column_List" >
     id, product_id, share_user_id, share_user_name, share_time, share_level, parent_share_id
   </sql>
@@ -99,6 +121,22 @@
       order by ${orderByClause}
     </if>
   </select>
+ 
+   <select id="search" resultMap="SearchResultMap" parameterType="com.lenovo.tripnote.webchat.entity.vo.BProductShareSearchVo" >
+      select case price_type when 2 then (select count(1) from b_product_order_collage bpoc where bpoc.product_id=pp.product_id) else (select count(1) from b_product_order bpo where bpo.product_id=pp.product_id) end  as shareProfit,
+      pp.countID  as purchaseNumber,
+      id, `name`, user_date, price_type, product_count, discount_price, raw_price, limit_time, 
+      commission, `status`, image_url, create_user_name, create_user_id, create_time, last_update_time,introduction
+      from (select count(*) as countID,product_id from b_product_share  
+      <if test="record.userId != null" >
+        where share_user_id = #{record.userId,jdbcType=INTEGER}
+      </if>
+     group by product_id order by share_time desc) pp,b_product bp where pp.product_id = bp.id 
+        <if test="record.name != null" >
+         and bp.name like #{record.name,jdbcType=VARCHAR}
+       </if>
+  </select>
+  
   <delete id="deleteByExample" parameterType="com.lenovo.tripnote.webchat.entity.BProductShareExample" >
     delete from b_product_share
     <if test="_parameter != null" >
