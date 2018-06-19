@@ -1,16 +1,19 @@
 package com.lenovo.tripnote.webchat.controller;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -20,6 +23,7 @@ import com.lenovo.tripnote.webchat.entity.BLogin;
 import com.lenovo.tripnote.webchat.service.BAccountService;
 import com.lenovo.tripnote.webchat.sms.ISmsSender;
 import com.lenovo.tripnote.webchat.utils.RandomUtils;
+import com.lenovo.tripnote.webchat.vo.AutoLoginInfo;
 import com.lenovo.tripnote.webchat.vo.LoginInfoVo;
 import com.lenovo.tripnote.webchat.vo.RegisterVo;
 import com.lenovo.tripnote.webchat.vo.Result;
@@ -95,6 +99,58 @@ public class BAccountController {
         vo.setData(jwtToken);
         return vo;
     }
+    @ResponseBody
+    @RequestMapping(value = "/auto/doLogin")
+    public ResultVo doAutoLogin(HttpServletRequest request,@RequestBody AutoLoginInfo info){
+    	ResultVo vo = new ResultVo();
+    	BAccount account = bAccountService.getAutoToken(info.getLoginToken(), info.getAutoLogin());
+    	if(account==null){
+    		//vo.setCode(Result.FAUL);
+    		vo.setMessage("登录名不存在");
+    		BAccount newAccount = new BAccount();
+    		try {
+				BeanUtils.copyProperties(newAccount, info);
+			} catch (IllegalAccessException | InvocationTargetException e) {
+				e.printStackTrace();
+			}
+    		bAccountService.insert(newAccount);
+    		account = newAccount;
+    	}
+    	BLogin oldLogin = bAccountService.getByAccountID(Long.valueOf(account.getId()));
+		if (oldLogin != null) {// 在其它客户端已经登录 返回状态给正在登录的客户端
+			vo.setCode(Result.REPEAT);
+			vo.setMessage(oldLogin.getDevice());
+			oldLogin.setDevice(info.getDevice());
+			oldLogin.setLogintime(new Date());
+			oldLogin.setUserid(account.getId());
+			oldLogin.setLoginname(account.getLoginName());
+			oldLogin.setLoginip(request.getRemoteHost());
+			bAccountService.update(oldLogin);
+		} else {
+			BLogin record = new BLogin();
+			record.setDevice(info.getDevice());
+			record.setLogintime(new Date());
+			record.setUserid(account.getId());
+			record.setLoginname(account.getLoginName());
+			record.setLoginip(request.getRemoteHost());
+			record.setStatus(1);
+			vo.setCode(Result.SUCESSFUL);
+			bAccountService.insert(record);
+			System.out.println(record);
+		}
+		Claims arg0 = new DefaultClaims();
+	    arg0.put(Result.USERID, account.getId());
+	    arg0.put(Result.USER_LOGINNAME, info.getLoginName());
+		// Create Twt token
+	    Date date = new Date();
+	    Date ex = (Date) date.clone();
+	    ex.setTime(date.getTime()+expiration*1000);
+        String jwtToken = Jwts.builder().setClaims(arg0).setIssuedAt(date).setExpiration(ex)
+                .signWith(SignatureAlgorithm.HS256, "secretkey").compact();
+        vo.setData(jwtToken);
+        return vo;
+    }
+    
     @RequestMapping(value = "/sendRegisterCode")
 	public @ResponseBody ResultVo doSendRegisterSMS(HttpServletRequest request, String phoneNo) {
 		SmsCodeVo smsCodeVO = new SmsCodeVo();

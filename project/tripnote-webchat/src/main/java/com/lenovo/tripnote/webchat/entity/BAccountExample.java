@@ -8,25 +8,25 @@ import java.util.List;
 public class BAccountExample {
     /**
      * 主键字段
-     * @ibatorgenerated 2018-06-04 14:44:40
+     * @ibatorgenerated 2018-06-19 16:22:08
      */
     protected String pk_name = "id";
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-06-04 14:44:40
+     * @ibatorgenerated 2018-06-19 16:22:08
      */
     protected String orderByClause;
 
     /**
      * 去重复
-     * @ibatorgenerated 2018-06-04 14:44:40
+     * @ibatorgenerated 2018-06-19 16:22:08
      */
     protected boolean distinct;
 
     /**
      * 条件集
-     * @ibatorgenerated 2018-06-04 14:44:40
+     * @ibatorgenerated 2018-06-19 16:22:08
      */
     protected List<Criteria> oredCriteria;
 
@@ -44,7 +44,7 @@ public class BAccountExample {
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-06-04 14:44:40
+     * @ibatorgenerated 2018-06-19 16:22:08
      */
     public void setOrderByClause(String orderByClause) {
         this.orderByClause = orderByClause;
@@ -56,7 +56,7 @@ public class BAccountExample {
 
     /**
      * 设置去重复
-     * @ibatorgenerated 2018-06-04 14:44:40
+     * @ibatorgenerated 2018-06-19 16:22:08
      */
     public void setDistinct(boolean distinct) {
         this.distinct = distinct;
@@ -82,7 +82,7 @@ public class BAccountExample {
 
     /**
      * 条件查询要先创建Criteria
-     * @ibatorgenerated 2018-06-04 14:44:40
+     * @ibatorgenerated 2018-06-19 16:22:08
      */
     public Criteria createCriteria() {
         Criteria criteria = createCriteriaInternal();
@@ -106,7 +106,7 @@ public class BAccountExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-06-04 14:44:40
+     * @ibatorgenerated 2018-06-19 16:22:08
      */
     protected abstract static class GeneratedCriteria {
         protected List<Criterion> criteria;
@@ -1404,11 +1404,141 @@ public class BAccountExample {
             addCriterion("occupation not between", value1, value2, "occupation");
             return (Criteria) this;
         }
+
+        public Criteria andAutoLoginIsNull() {
+            addCriterion("auto_login is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAutoLoginIsNotNull() {
+            addCriterion("auto_login is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAutoLoginEqualTo(Integer value) {
+            addCriterion("auto_login =", value, "autoLogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andAutoLoginNotEqualTo(Integer value) {
+            addCriterion("auto_login <>", value, "autoLogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andAutoLoginGreaterThan(Integer value) {
+            addCriterion("auto_login >", value, "autoLogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andAutoLoginGreaterThanOrEqualTo(Integer value) {
+            addCriterion("auto_login >=", value, "autoLogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andAutoLoginLessThan(Integer value) {
+            addCriterion("auto_login <", value, "autoLogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andAutoLoginLessThanOrEqualTo(Integer value) {
+            addCriterion("auto_login <=", value, "autoLogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andAutoLoginIn(List<Integer> values) {
+            addCriterion("auto_login in", values, "autoLogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andAutoLoginNotIn(List<Integer> values) {
+            addCriterion("auto_login not in", values, "autoLogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andAutoLoginBetween(Integer value1, Integer value2) {
+            addCriterion("auto_login between", value1, value2, "autoLogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andAutoLoginNotBetween(Integer value1, Integer value2) {
+            addCriterion("auto_login not between", value1, value2, "autoLogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTokenIsNull() {
+            addCriterion("login_token is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTokenIsNotNull() {
+            addCriterion("login_token is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTokenEqualTo(String value) {
+            addCriterion("login_token =", value, "loginToken");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTokenNotEqualTo(String value) {
+            addCriterion("login_token <>", value, "loginToken");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTokenGreaterThan(String value) {
+            addCriterion("login_token >", value, "loginToken");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTokenGreaterThanOrEqualTo(String value) {
+            addCriterion("login_token >=", value, "loginToken");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTokenLessThan(String value) {
+            addCriterion("login_token <", value, "loginToken");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTokenLessThanOrEqualTo(String value) {
+            addCriterion("login_token <=", value, "loginToken");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTokenLike(String value) {
+            addCriterion("login_token like", value, "loginToken");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTokenNotLike(String value) {
+            addCriterion("login_token not like", value, "loginToken");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTokenIn(List<String> values) {
+            addCriterion("login_token in", values, "loginToken");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTokenNotIn(List<String> values) {
+            addCriterion("login_token not in", values, "loginToken");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTokenBetween(String value1, String value2) {
+            addCriterion("login_token between", value1, value2, "loginToken");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTokenNotBetween(String value1, String value2) {
+            addCriterion("login_token not between", value1, value2, "loginToken");
+            return (Criteria) this;
+        }
     }
 
     /**
      * b_account
-     * @ibatorgenerated do_not_delete_during_merge 2018-06-04 14:44:40
+     * @ibatorgenerated do_not_delete_during_merge 2018-06-19 16:22:08
      */
     public static class Criteria extends GeneratedCriteria {
 
@@ -1420,7 +1550,7 @@ public class BAccountExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-06-04 14:44:40
+     * @ibatorgenerated 2018-06-19 16:22:08
      */
     public static class Criterion {
         private String condition;

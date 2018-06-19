@@ -1,11 +1,15 @@
 package com.lenovo.tripnote.webchat.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lenovo.tripnote.webchat.entity.BAccount;
+import com.lenovo.tripnote.webchat.entity.BAccountExample;
+import com.lenovo.tripnote.webchat.entity.BAccountExample.Criteria;
 import com.lenovo.tripnote.webchat.entity.BLogin;
 import com.lenovo.tripnote.webchat.entity.vo.BAccountDetailVo;
 import com.lenovo.tripnote.webchat.mapper.BAccountMapper;
@@ -71,6 +75,19 @@ public class BAccountServiceImpl implements BAccountService {
 	public BAccountDetailVo getDetail(Integer id) {
 		// TODO Auto-generated method stub
 		return this.bAccountMapper.getDetail(id);
+	}
+
+	@Override
+	public BAccount getAutoToken(String token, Integer autoType) {
+		BAccountExample example = new BAccountExample();
+		Criteria cri = example.createCriteria();
+		cri.andLoginTokenEqualTo(token);
+		cri.andAutoLoginEqualTo(autoType);
+		List<BAccount> list  = bAccountMapper.selectByExample(example);
+		if(list!=null && !list.isEmpty()){
+			return list.get(0);
+		}
+		return null;
 	}
 
 

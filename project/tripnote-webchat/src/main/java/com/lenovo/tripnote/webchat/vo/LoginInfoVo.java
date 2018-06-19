@@ -25,5 +25,5 @@ public class LoginInfoVo {
     /**
      * 设备名称  默认web端
      */
-    private String device = "tripNode Web";
+    private String device = "微信小程序";
 }

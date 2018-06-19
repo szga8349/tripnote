@@ -15,4 +15,7 @@ public interface BAccountService extends IDbService<BAccount> {
 	int update(BLogin userId);
 	
 	BAccountDetailVo getDetail(Integer valueOf);
+	
+	
+	BAccount getAutoToken(String token,Integer autoType);
 }
