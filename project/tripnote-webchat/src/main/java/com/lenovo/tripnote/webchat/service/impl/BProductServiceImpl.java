@@ -14,6 +14,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.lenovo.tripnote.webchat.entity.BProduct;
 import com.lenovo.tripnote.webchat.entity.BProductCollage;
+import com.lenovo.tripnote.webchat.entity.BProductCollageExample;
 import com.lenovo.tripnote.webchat.entity.BProductImage;
 import com.lenovo.tripnote.webchat.entity.vo.BProductCollageVo;
 import com.lenovo.tripnote.webchat.entity.vo.BProductDetailVo;
@@ -129,8 +130,11 @@ public class BProductServiceImpl implements BProductService {
 	@Override
 	public BProductDetailVo detail(Integer valueOf) {
 		BProductDetailVo detail =  bProductMapper.detail(valueOf);
-		if(detail!=null){
-		    detail.setCollages(bProductOrderCollageMapper.detail(valueOf));
+		if(detail!=null && detail.getPriceType()!=null && detail.getPriceType()==2){//团购
+		    detail.setOrderCollages(bProductOrderCollageMapper.detail(valueOf));
+		    BProductCollageExample example = new BProductCollageExample();
+		    example.createCriteria().andProductIdEqualTo(valueOf);
+			detail.setCollages(bProductCollageMapper.selectByExample(example));
 		}
 		return detail;
 	}

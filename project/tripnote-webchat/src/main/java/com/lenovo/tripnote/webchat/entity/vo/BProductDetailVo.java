@@ -3,6 +3,7 @@ package com.lenovo.tripnote.webchat.entity.vo;
 import java.util.List;
 
 import com.lenovo.tripnote.webchat.entity.BProduct;
+import com.lenovo.tripnote.webchat.entity.BProductCollage;
 import com.lenovo.tripnote.webchat.entity.BProductImage;
 
 import lombok.Getter;
@@ -16,5 +17,7 @@ public class BProductDetailVo extends BProduct {
 	
        private List<BProductImage> imageUrls;
        
-       private List<BProductOrderCollageDetailVo> collages;
+       private List<BProductOrderCollageDetailVo> orderCollages;
+       
+       private List<BProductCollage> collages;
 }
