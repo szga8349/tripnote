@@ -216,7 +216,7 @@
     select 
     bp.id, bp.`name`, bp.user_date, bp.price_type, bp.product_count, bp.discount_price, bp.raw_price, bp.limit_time, 
     bp.commission, bp.`status`, bp.image_url, bp.create_user_name, bp.create_user_id,bp.create_time,bp.last_update_time,bp.introduction,
-    bpi.id as bproduct_imageid,bpi.url as bproduct_image_url,bpi.product_id
+    bpi.id as bproduct_imageid,bpi.url as bproduct_image_url,bpi.product_id,case price_type when 2 then (select count(1) from b_product_order_collage bpoc where bpoc.product_id=bp.id and collage_id=0 and status = 1) else (select count(1) from b_product_order bpo where bpo.product_id=bp.id and status=1) end as soldCount
     from b_product bp
     left join b_product_image bpi on bpi.product_id=bp.id
     where bp.id = #{id,jdbcType=INTEGER} 
