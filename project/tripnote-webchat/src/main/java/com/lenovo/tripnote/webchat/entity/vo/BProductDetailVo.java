@@ -20,4 +20,9 @@ public class BProductDetailVo extends BProduct {
        private List<BProductOrderCollageDetailVo> orderCollages;
        
        private List<BProductCollage> collages;
+       
+       /**
+        * 已售数
+        */
+       public Integer soldCount;
 }
