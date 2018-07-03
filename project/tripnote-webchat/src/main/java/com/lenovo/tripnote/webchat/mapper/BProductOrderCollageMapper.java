@@ -106,12 +106,6 @@ public interface BProductOrderCollageMapper {
      */
     int updateByPrimaryKey(BProductOrderCollage record);
     
-    
-	/**产品对应有哪些拼团信息
-	 * @param id:产品ID
-	 * @return
-	 */
-	List<BProductOrderCollageDetailVo> detail(Integer id);
 	
 	
 	/**一个拼团里面包括那些人员信息

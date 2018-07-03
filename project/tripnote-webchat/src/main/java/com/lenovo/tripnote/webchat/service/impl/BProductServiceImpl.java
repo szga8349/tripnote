@@ -131,7 +131,7 @@ public class BProductServiceImpl implements BProductService {
 	public BProductDetailVo detail(Integer valueOf) {
 		BProductDetailVo detail =  bProductMapper.detail(valueOf);
 		if(detail!=null && detail.getPriceType()!=null && detail.getPriceType()==2){//团购
-		    detail.setOrderCollages(bProductOrderCollageMapper.detail(valueOf));
+		    detail.setOrderCollages(bProductOrderCollageMapper.listCollage(valueOf));
 		    BProductCollageExample example = new BProductCollageExample();
 		    example.createCriteria().andProductIdEqualTo(valueOf);
 			detail.setCollages(bProductCollageMapper.selectByExample(example));

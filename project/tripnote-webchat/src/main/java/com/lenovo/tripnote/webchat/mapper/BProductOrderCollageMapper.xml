@@ -96,13 +96,13 @@
   </sql>
   
     
-  <select id="detail" resultMap="DetailResultMap" parameterType="java.lang.Integer" >
+  <!-- <select id="detail" resultMap="DetailResultMap" parameterType="java.lang.Integer" >
      select bpc.people_num,bpc.collage_price,bpc.collage_limit_time,
      (bpc.collage_limit_time*3600 - TIMESTAMPDIFF(SECOND,bpoc.create_time,now())) as remainingTime,(select count(1) from  b_product_order_collage bp where bp.collage_id =bpoc.id or (bp.id=bpoc.id and bp.collage_id=0)) as peoplecount,
      bpoc.create_user_id,bpoc.create_user_name,bpoc.collage_status,bpoc.product_collage_id,bpoc.product_id,bpoc.id,bpoc.create_time,bpoc.collage_id,bpoc.collage_user_id,bpoc.collage_user_name
      from b_product_order_collage bpoc ,b_product_collage bpc where bpc.id=bpoc.product_collage_id and bpoc.collage_id = 0
      and bpoc.product_id = #{id,jdbcType=INTEGER} 
-  </select>
+  </select> -->
   
    <select id="listUser" resultMap="DetailResultMap" parameterType="java.lang.Integer" >
      select bpc.people_num,bpc.collage_price,bpc.collage_limit_time,
