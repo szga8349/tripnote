@@ -61,6 +61,7 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="last_update_time" property="lastUpdateTime" jdbcType="TIMESTAMP" />
     <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
+    <result column="collectionCount" property="collectionCount" jdbcType="INTEGER" />
     <collection property="imageUrls" javaType="java.util.List" ofType="com.lenovo.tripnote.webchat.entity.BProductImage">  
             <result column="bproduct_imageid" property="id" jdbcType="INTEGER" />
             <result column="bproduct_image_url" property="url" jdbcType="VARCHAR" />
@@ -216,7 +217,9 @@
     select 
     bp.id, bp.`name`, bp.user_date, bp.price_type, bp.product_count, bp.discount_price, bp.raw_price, bp.limit_time, 
     bp.commission, bp.`status`, bp.image_url, bp.create_user_name, bp.create_user_id,bp.create_time,bp.last_update_time,bp.introduction,
-    bpi.id as bproduct_imageid,bpi.url as bproduct_image_url,bpi.product_id,case price_type when 2 then (select count(1) from b_product_order_collage bpoc where bpoc.product_id=bp.id and collage_id=0 and status = 1) else (select count(1) from b_product_order bpo where bpo.product_id=bp.id and status=1) end as soldCount
+    bpi.id as bproduct_imageid,bpi.url as bproduct_image_url,bpi.product_id,
+    case price_type when 2 then (select count(1) from b_product_order_collage bpoc where bpoc.product_id=bp.id and collage_id=0 and status = 1) else (select count(1) from b_product_order bpo where bpo.product_id=bp.id and status=1) end as soldCount,
+    (select count(1) from b_product_collection bpc where bpc.collection_product_id = bp.id) as collectionCount
     from b_product bp
     left join b_product_image bpi on bpi.product_id=bp.id
     where bp.id = #{id,jdbcType=INTEGER} 

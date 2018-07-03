@@ -14,15 +14,20 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class BProductDetailVo extends BProduct {
-	
-       private List<BProductImage> imageUrls;
-       
-       private List<BProductOrderCollageDetailVo> orderCollages;
-       
-       private List<BProductCollage> collages;
-       
-       /**
-        * 已售数
-        */
-       public Integer soldCount;
+
+	private List<BProductImage> imageUrls;
+
+	private List<BProductOrderCollageDetailVo> orderCollages;
+
+	private List<BProductCollage> collages;
+
+	/**
+	 * 已售数
+	 */
+	public Integer soldCount;
+
+	/**
+	 * 已收藏数
+	 */
+	public Integer collectionCount;
 }
