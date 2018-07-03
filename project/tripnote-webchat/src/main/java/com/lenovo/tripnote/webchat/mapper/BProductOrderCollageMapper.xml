@@ -109,7 +109,7 @@
      (bpc.collage_limit_time*3600 - TIMESTAMPDIFF(SECOND,bpoc.create_time,now())) as remainingTime,(select count(1) from  b_product_order_collage bp where bp.collage_id =bpoc.id or (bp.id=bpoc.id and bp.collage_id=0)) as peoplecount,
      bpoc.create_user_id,bpoc.create_user_name,bpoc.collage_status,bpoc.product_collage_id,bpoc.product_id,bpoc.id,bpoc.create_time,bpoc.collage_id,bpoc.collage_user_id,bpoc.collage_user_name
      from b_product_order_collage bpoc left join b_product_collage bpc on bpc.id=bpoc.product_collage_id
-     where (bpoc.product_id = #{id,jdbcType=INTEGER}  or bpoc.collage_id=#{id,jdbcType=INTEGER}) order by bpoc.create_time desc
+     where (bpoc.id = #{id,jdbcType=INTEGER}  or bpoc.collage_id=#{id,jdbcType=INTEGER}) order by bpoc.create_time desc
   </select>
   
   
