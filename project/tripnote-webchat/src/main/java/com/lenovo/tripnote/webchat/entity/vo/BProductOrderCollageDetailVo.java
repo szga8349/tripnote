@@ -38,5 +38,10 @@ public class BProductOrderCollageDetailVo extends BProductOrderCollage{
      * 拼团剩余时间
      */
     private Integer remainingTime;
+    
+    /**
+     * 用户头像信息
+     */
+    private String userImageUrl;
 
 }
