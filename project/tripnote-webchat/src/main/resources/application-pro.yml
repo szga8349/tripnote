@@ -15,7 +15,7 @@ spring:
         static-locations: file:/root/tripnote/static
     datasource:
         name: test
-        url: jdbc:mysql://bj-cdb-k9r70q84.sql.tencentcdb.com:63264/tripnote_webchat
+        url: jdbc:mysql://cdb-j5iyo70m.cd.tencentcdb.com:10001/tripnote_webchat
         username: root
         password: lenovo_root
         # 使用druid数据源
