@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aliyuncs.exceptions.ClientException;
 import com.lenovo.tripnote.webchat.entity.BAccount;
 import com.lenovo.tripnote.webchat.entity.BLogin;
+import com.lenovo.tripnote.webchat.entity.vo.BAccountVo;
 import com.lenovo.tripnote.webchat.service.BAccountService;
 import com.lenovo.tripnote.webchat.sms.ISmsSender;
 import com.lenovo.tripnote.webchat.utils.RandomUtils;
@@ -244,6 +245,27 @@ public class BAccountController {
 		}
 		return vo;
 
+	}
+	@RequestMapping(value = "/token/doUpdate")
+	public @ResponseBody ResultVo update(HttpServletRequest request,@RequestBody BAccountVo bpoiVo)
+			throws IllegalAccessException, InvocationTargetException {
+		TokenVo token = (TokenVo)request.getAttribute(Result.TOKEN);
+		ResultVo vo = new ResultVo();
+		vo.setCode(Result.SUCESSFUL);
+		BAccount t = new BAccount();
+		BeanUtils.copyProperties(t, bpoiVo);
+		t.setId(token.getUserId());
+		bAccountService.update(t);
+		return vo;
+	}
+	@RequestMapping(value = "/token/doDetail")
+	public @ResponseBody ResultVo detail(HttpServletRequest request)
+			throws IllegalAccessException, InvocationTargetException {
+		TokenVo token = (TokenVo)request.getAttribute(Result.TOKEN);
+		ResultVo vo = new ResultVo();
+		vo.setCode(Result.SUCESSFUL);
+		vo.setData(bAccountService.getDetail(token.getUserId()));
+		return vo;
 	}
 
 }
