@@ -95,14 +95,14 @@ public class BProductController {
 		vo.setCode(Result.SUCESSFUL);
 		return vo;
 	}
-	@RequestMapping(value = "/doDetail/{id}")
+	/*@RequestMapping(value = "/doDetail/{id}")
 	@ResponseBody
 	public ResultVo doDetail(@PathVariable String id) {
 		ResultVo vo = new ResultVo();
 		vo.setCode(Result.SUCESSFUL);
 		vo.setData(bProductService.detail(Integer.valueOf(id)));
 		return vo;
-	}
+	}*/
 	@RequestMapping(value = "/status/doUpdate")
 	@ResponseBody
 	public ResultVo doStatusDetail(@RequestBody BProductUpdateStatusVo statuses) {

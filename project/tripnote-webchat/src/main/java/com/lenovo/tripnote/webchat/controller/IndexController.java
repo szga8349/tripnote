@@ -4,6 +4,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -25,6 +26,14 @@ public class IndexController {
 		}
 		vo.setData(bProductService.searchProduct(searchVo));
 		vo.setCode(Result.SUCESSFUL);
+		return vo;
+	}
+	@RequestMapping(value = "/product/doDetail/{id}")
+	@ResponseBody
+	public ResultVo doDetail(@PathVariable String id) {
+		ResultVo vo = new ResultVo();
+		vo.setCode(Result.SUCESSFUL);
+		vo.setData(bProductService.detail(Integer.valueOf(id)));
 		return vo;
 	}
 }
