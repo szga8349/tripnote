@@ -246,7 +246,7 @@ public class BAccountController {
 		return vo;
 
 	}
-	@RequestMapping(value = "/token/doUpdate")
+	@RequestMapping(value = "/token/user/doUpdate")
 	public @ResponseBody ResultVo update(HttpServletRequest request,@RequestBody BAccountVo bpoiVo)
 			throws IllegalAccessException, InvocationTargetException {
 		TokenVo token = (TokenVo)request.getAttribute(Result.TOKEN);
@@ -258,7 +258,7 @@ public class BAccountController {
 		bAccountService.update(t);
 		return vo;
 	}
-	@RequestMapping(value = "/token/doDetail")
+	@RequestMapping(value = "/token/user/doDetail")
 	public @ResponseBody ResultVo detail(HttpServletRequest request)
 			throws IllegalAccessException, InvocationTargetException {
 		TokenVo token = (TokenVo)request.getAttribute(Result.TOKEN);
