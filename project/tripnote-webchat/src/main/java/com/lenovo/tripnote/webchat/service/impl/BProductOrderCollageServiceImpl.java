@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.lenovo.tripnote.webchat.entity.BProductOrderCollage;
 import com.lenovo.tripnote.webchat.entity.vo.BProductOrderCollageDetailVo;
+import com.lenovo.tripnote.webchat.entity.vo.BProductOrderCollagedPartakeVo;
 import com.lenovo.tripnote.webchat.mapper.BProductOrderCollageMapper;
 import com.lenovo.tripnote.webchat.service.BProductOrderCollageService;
 import com.lenovo.tripnote.webchat.vo.TokenVo;
@@ -50,8 +51,8 @@ public class BProductOrderCollageServiceImpl implements BProductOrderCollageServ
 
 	@Override
 	@Transactional
-	public int insertCollage(Integer id, TokenVo token) {
-		BProductOrderCollage old = bProductOrderCollageMapper.selectByPrimaryKey(Integer.valueOf(id));
+	public int insertCollage(BProductOrderCollagedPartakeVo vo, TokenVo token) {
+		BProductOrderCollage old = bProductOrderCollageMapper.selectByPrimaryKey(vo.getOrderCollageId());
 		BProductOrderCollage bProduct = new BProductOrderCollage();
 		try {
 			BeanUtils.copyProperties(bProduct, old);
@@ -59,12 +60,13 @@ public class BProductOrderCollageServiceImpl implements BProductOrderCollageServ
 			e.printStackTrace();
 			log.error(e.getMessage(),e.fillInStackTrace());
 		}
+		bProduct.setDeposit(vo.getDeposit());
 		//把创建者作为拼团人
 		bProduct.setCollageUserId(token.getUserId());
 		bProduct.setCollageUserName(token.getUserLoginName());
 		bProduct.setCollageId(old.getCollageId());
 		bProduct.setCreateTime(new Date());
-		return 0;
+		return bProduct.getId();
 	}
 
 	@Override

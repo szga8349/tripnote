@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lenovo.tripnote.webchat.entity.BProductOrderCollage;
 import com.lenovo.tripnote.webchat.entity.vo.BProductOrderCollageVo;
+import com.lenovo.tripnote.webchat.entity.vo.BProductOrderCollagedPartakeVo;
 import com.lenovo.tripnote.webchat.entity.vo.BProductOrderVo;
 import com.lenovo.tripnote.webchat.service.BProductOrderCollageService;
 import com.lenovo.tripnote.webchat.vo.Result;
@@ -65,11 +66,12 @@ public class BProductOrderCollageController {
 	 */
 	@RequestMapping(value = "/{id}/doAdd")
 	@ResponseBody
-	public ResultVo doParticipateAdd(HttpServletRequest request,@PathVariable String id) {
+	public ResultVo doParticipateAdd(HttpServletRequest request,@PathVariable String id,@RequestBody BProductOrderCollagedPartakeVo partakVo) {
 		ResultVo vo = new ResultVo();
 		TokenVo token = (TokenVo) request.getAttribute("token");
 		vo.setCode(Result.SUCESSFUL);
-		vo.setData(bProductOrderCollageService.insertCollage(Integer.valueOf(id),token));
+		partakVo.setOrderCollageId(Integer.valueOf(id));
+		vo.setData(bProductOrderCollageService.insertCollage(partakVo,token));
 		return vo;
 	}
 	@RequestMapping(value = "/doUpdate/{id}")
