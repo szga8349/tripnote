@@ -29,4 +29,11 @@ public class BProductOrderCollageVo {
      * @ibatorgenerated 2018-06-07 13:48:24
      */
     private Integer collageStatus = 0;
+    
+    /**
+     * b_product_order_collage.deposit (付预定金)
+     * @ibatorgenerated 2018-07-09 16:50:59
+     */
+    private Float deposit;
+
 }

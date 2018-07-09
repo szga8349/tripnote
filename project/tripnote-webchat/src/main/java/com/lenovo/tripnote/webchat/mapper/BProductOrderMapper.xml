@@ -8,8 +8,14 @@
     <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
     <result column="create_user_name" property="createUserName" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="order_user_name" property="orderUserName" jdbcType="VARCHAR" />
+    <result column="order_user_phone" property="orderUserPhone" jdbcType="VARCHAR" />
+    <result column="place" property="place" jdbcType="VARCHAR" />
+    <result column="card_id" property="cardId" jdbcType="VARCHAR" />
+    <result column="use_date" property="useDate" jdbcType="DATE" />
+    <result column="other_info" property="otherInfo" jdbcType="VARCHAR" />
   </resultMap>
-  
+   
   <resultMap id="SearchResultMap" type="com.lenovo.tripnote.webchat.entity.vo.BProductOrderResultVo" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
@@ -52,9 +58,9 @@
     <result column="allPrice" property="allPrice" jdbcType="REAL" />
   </resultMap>
   
-  
   <sql id="Base_Column_List" >
-    id, `status`, product_id, create_user_id, create_user_name, create_time
+    id, `status`, product_id, create_user_id, create_user_name, create_time, order_user_name, 
+    order_user_phone, place, card_id, use_date, other_info
   </sql>
   <sql id="Example_Where_Clause" >
     <where >
@@ -114,35 +120,7 @@
       </foreach>
     </where>
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lenovo.tripnote.webchat.entity.BProductOrderExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from b_product_order
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByExampleAndPage" resultMap="BaseResultMap" parameterType="com.lenovo.tripnote.webchat.entity.BProductOrderExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from b_product_order
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  
+   
    <select id="search" resultMap="SearchResultMap" parameterType="com.lenovo.tripnote.webchat.entity.vo.BProductOrderSearchVo" >
       select 
       bp.id,tmp.id as orderId,`name`, user_date, price_type, product_count, discount_price, raw_price, limit_time, 
@@ -197,6 +175,35 @@
          order by orderNumber desc,bp.create_time desc
   </select>
   
+  
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lenovo.tripnote.webchat.entity.BProductOrderExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from b_product_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleAndPage" resultMap="BaseResultMap" parameterType="com.lenovo.tripnote.webchat.entity.BProductOrderExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from b_product_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
   <delete id="deleteByExample" parameterType="com.lenovo.tripnote.webchat.entity.BProductOrderExample" >
     delete from b_product_order
     <if test="_parameter != null" >
@@ -230,6 +237,24 @@
       <if test="record.createTime != null" >
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.orderUserName != null" >
+        order_user_name = #{record.orderUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderUserPhone != null" >
+        order_user_phone = #{record.orderUserPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.place != null" >
+        place = #{record.place,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardId != null" >
+        card_id = #{record.cardId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.useDate != null" >
+        use_date = #{record.useDate,jdbcType=DATE},
+      </if>
+      <if test="record.otherInfo != null" >
+        other_info = #{record.otherInfo,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -242,7 +267,13 @@
       product_id = #{record.productId,jdbcType=INTEGER},
       create_user_id = #{record.createUserId,jdbcType=INTEGER},
       create_user_name = #{record.createUserName,jdbcType=VARCHAR},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      order_user_name = #{record.orderUserName,jdbcType=VARCHAR},
+      order_user_phone = #{record.orderUserPhone,jdbcType=VARCHAR},
+      place = #{record.place,jdbcType=VARCHAR},
+      card_id = #{record.cardId,jdbcType=VARCHAR},
+      use_date = #{record.useDate,jdbcType=DATE},
+      other_info = #{record.otherInfo,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -259,9 +290,13 @@
   </delete>
   <insert id="insert" parameterType="com.lenovo.tripnote.webchat.entity.BProductOrder" useGeneratedKeys="true" keyProperty="id" >
     insert into b_product_order (`status`, product_id, create_user_id, 
-      create_user_name, create_time)
+      create_user_name, create_time, order_user_name, 
+      order_user_phone, place, card_id, 
+      use_date, other_info)
     values (#{status,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER}, #{createUserId,jdbcType=INTEGER}, 
-      #{createUserName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+      #{createUserName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{orderUserName,jdbcType=VARCHAR}, 
+      #{orderUserPhone,jdbcType=VARCHAR}, #{place,jdbcType=VARCHAR}, #{cardId,jdbcType=VARCHAR}, 
+      #{useDate,jdbcType=DATE}, #{otherInfo,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.lenovo.tripnote.webchat.entity.BProductOrder" useGeneratedKeys="true" keyProperty="id" >
     insert into b_product_order
@@ -271,6 +306,12 @@
       create_user_id,
       create_user_name,
       create_time,
+      order_user_name,
+      order_user_phone,
+      place,
+      card_id,
+      use_date,
+      other_info,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       #{status,jdbcType=INTEGER},
@@ -278,6 +319,12 @@
       #{createUserId,jdbcType=INTEGER},
       #{createUserName,jdbcType=VARCHAR},
       #{createTime,jdbcType=TIMESTAMP},
+      #{orderUserName,jdbcType=VARCHAR},
+      #{orderUserPhone,jdbcType=VARCHAR},
+      #{place,jdbcType=VARCHAR},
+      #{cardId,jdbcType=VARCHAR},
+      #{useDate,jdbcType=DATE},
+      #{otherInfo,jdbcType=VARCHAR},
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.lenovo.tripnote.webchat.entity.BProductOrder" >
@@ -298,6 +345,24 @@
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="orderUserName != null" >
+        order_user_name = #{orderUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderUserPhone != null" >
+        order_user_phone = #{orderUserPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="place != null" >
+        place = #{place,jdbcType=VARCHAR},
+      </if>
+      <if test="cardId != null" >
+        card_id = #{cardId,jdbcType=VARCHAR},
+      </if>
+      <if test="useDate != null" >
+        use_date = #{useDate,jdbcType=DATE},
+      </if>
+      <if test="otherInfo != null" >
+        other_info = #{otherInfo,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -307,7 +372,13 @@
       product_id = #{productId,jdbcType=INTEGER},
       create_user_id = #{createUserId,jdbcType=INTEGER},
       create_user_name = #{createUserName,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      order_user_name = #{orderUserName,jdbcType=VARCHAR},
+      order_user_phone = #{orderUserPhone,jdbcType=VARCHAR},
+      place = #{place,jdbcType=VARCHAR},
+      card_id = #{cardId,jdbcType=VARCHAR},
+      use_date = #{useDate,jdbcType=DATE},
+      other_info = #{otherInfo,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
