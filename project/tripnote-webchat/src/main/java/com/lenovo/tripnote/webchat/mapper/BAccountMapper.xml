@@ -41,6 +41,8 @@
     <result column="birthday" property="birthday" jdbcType="DATE" />
     <result column="language" property="language" jdbcType="VARCHAR" />
     <result column="occupation" property="occupation" jdbcType="VARCHAR" />
+    <result column="auto_login" property="autoLogin" jdbcType="INTEGER" />
+    <result column="login_token" property="loginToken" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, login_name, login_password, login_name_type, real_name, sex, account_type, `status`, 

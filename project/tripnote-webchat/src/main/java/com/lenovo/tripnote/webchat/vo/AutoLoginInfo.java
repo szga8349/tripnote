@@ -28,4 +28,9 @@ public class AutoLoginInfo {
     private String loginPassword;
     
     private String imageurl;
+    /**
+     * b_account.phone
+     * @ibatorgenerated 2018-06-19 16:22:08
+     */
+    private String phone;
 }

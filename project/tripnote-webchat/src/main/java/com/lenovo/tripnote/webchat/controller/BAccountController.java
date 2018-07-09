@@ -21,6 +21,7 @@ import com.aliyuncs.exceptions.ClientException;
 import com.lenovo.tripnote.webchat.entity.BAccount;
 import com.lenovo.tripnote.webchat.entity.BLogin;
 import com.lenovo.tripnote.webchat.entity.vo.BAccountVo;
+import com.lenovo.tripnote.webchat.entity.vo.BAutoResultVo;
 import com.lenovo.tripnote.webchat.service.BAccountService;
 import com.lenovo.tripnote.webchat.sms.ISmsSender;
 import com.lenovo.tripnote.webchat.utils.RandomUtils;
@@ -149,6 +150,13 @@ public class BAccountController {
         String jwtToken = Jwts.builder().setClaims(arg0).setIssuedAt(date).setExpiration(ex)
                 .signWith(SignatureAlgorithm.HS256, "secretkey").compact();
         vo.setData(jwtToken);
+        BAutoResultVo resultVo = new BAutoResultVo();
+        try {
+			BeanUtils.copyProperties(resultVo, account);
+		} catch (IllegalAccessException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+        resultVo.setToken(jwtToken);
         return vo;
     }
     

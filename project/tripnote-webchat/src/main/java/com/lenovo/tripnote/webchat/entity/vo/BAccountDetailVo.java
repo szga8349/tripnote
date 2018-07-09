@@ -106,4 +106,15 @@ public class BAccountDetailVo {
      * @ibatorgenerated 2018-04-13 16:53:24
      */
     private String occupation;
+    /**
+     * b_account.auto_login (第三方自动登录标识:-1:不自动登录(普通用户名密码登录),1:微信自动登录2:QQ自动登录)
+     * @ibatorgenerated 2018-06-19 16:22:08
+     */
+    private Integer autoLogin;
+
+    /**
+     * b_account.login_token (第三方自动登录标识token)
+     * @ibatorgenerated 2018-06-19 16:22:08
+     */
+    private String loginToken;
 }
