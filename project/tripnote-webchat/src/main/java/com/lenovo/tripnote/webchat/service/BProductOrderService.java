@@ -10,4 +10,10 @@ public interface BProductOrderService extends IDbService<BProductOrder> {
 	
 	ResultPageInfo searchCustomer(BProductOrderSearchVo search);
 
+	/**产品对应的普通订单 包括直购和限时单
+	 * @param valueOf
+	 * @return
+	 */
+	ResultPageInfo listByProduct(BProductOrderSearchVo valueOf);
+
 }

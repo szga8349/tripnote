@@ -4,7 +4,7 @@ import com.lenovo.tripnote.webchat.vo.PageInfo;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Setter;	
 
 @Setter
 @Getter
@@ -19,4 +19,10 @@ public class BProductOrderSearchVo extends PageInfo {
      * @ibatorgenerated 2018-06-07 16:43:43
      */
     private Integer priceType;
+    
+    /**
+     * 产品ID
+     */
+    private Integer productId;
+
 }

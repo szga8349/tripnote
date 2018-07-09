@@ -14,10 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lenovo.tripnote.webchat.entity.BProduct;
+import com.lenovo.tripnote.webchat.entity.vo.BProductOrderSearchVo;
 import com.lenovo.tripnote.webchat.entity.vo.BProductSearchVo;
 import com.lenovo.tripnote.webchat.entity.vo.BProductUpdateStatusVo;
 import com.lenovo.tripnote.webchat.entity.vo.BProductVo;
 import com.lenovo.tripnote.webchat.service.BProductOrderCollageService;
+import com.lenovo.tripnote.webchat.service.BProductOrderService;
 import com.lenovo.tripnote.webchat.service.BProductService;
 import com.lenovo.tripnote.webchat.vo.BatchVo;
 import com.lenovo.tripnote.webchat.vo.Result;
@@ -38,6 +40,8 @@ public class BProductController {
 	private BProductService bProductService;
 	@Resource
 	private BProductOrderCollageService bProductOrderCollageService;
+	@Resource
+	private BProductOrderService bProductOrderService;
 
 	@RequestMapping(value = "/doAdd")
 	@ResponseBody
@@ -118,6 +122,15 @@ public class BProductController {
 		ResultVo vo = new ResultVo();
 		vo.setCode(Result.SUCESSFUL);
 		vo.setData(bProductOrderCollageService.listCollage(Integer.valueOf(id)));
+		return vo;
+	}
+	@RequestMapping(value = "/order/{id}")
+	@ResponseBody
+	public ResultVo doListOrder(@PathVariable String id,BProductOrderSearchVo search) {
+		ResultVo vo = new ResultVo();
+		vo.setCode(Result.SUCESSFUL);
+		search.setProductId(Integer.valueOf(id));
+		vo.setData(bProductOrderService.listByProduct(search));
 		return vo;
 	}
 

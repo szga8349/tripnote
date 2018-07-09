@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.lenovo.tripnote.webchat.entity.BProductOrder;
+import com.lenovo.tripnote.webchat.entity.BProductOrderExample;
 import com.lenovo.tripnote.webchat.entity.vo.BProductCustomerOrderResultVo;
 import com.lenovo.tripnote.webchat.entity.vo.BProductOrderResultVo;
 import com.lenovo.tripnote.webchat.entity.vo.BProductOrderSearchVo;
@@ -65,6 +66,20 @@ public class BProductOrderServiceImpl implements BProductOrderService{
 		pageInfo.setPageSize(search.getPageSize());
 		Page<BProductCustomerOrderResultVo> page = PageHelper.startPage(search.getPageNum(), search.getPageSize());
 		List<BProductCustomerOrderResultVo> list = bProductOrderMapper.searchCustomer(search);
+		pageInfo.setTotal(page.getTotal());
+		pageInfo.setData(list);
+		return pageInfo;
+	}
+
+	@Override
+	public ResultPageInfo listByProduct(BProductOrderSearchVo search) {
+		ResultPageInfo pageInfo = new ResultPageInfo();
+		pageInfo.setPageNum(search.getPageNum());
+		pageInfo.setPageSize(search.getPageSize());
+		Page<BProductOrder> page = PageHelper.startPage(search.getPageNum(), search.getPageSize());
+		BProductOrderExample example = new BProductOrderExample();
+		example.createCriteria().andProductIdEqualTo(search.getProductId());
+		List<BProductOrder> list = bProductOrderMapper.selectByExample(example);
 		pageInfo.setTotal(page.getTotal());
 		pageInfo.setData(list);
 		return pageInfo;
