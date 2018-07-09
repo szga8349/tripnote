@@ -2,6 +2,7 @@ package com.lenovo.tripnote.webchat.entity;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.lenovo.tripnote.webchat.convert.IDEncryption;
 
 import lombok.Getter;
@@ -48,6 +49,7 @@ public class BProductOrder {
      * b_product_order.create_time (创建时间)
      * @ibatorgenerated 2018-07-09 16:50:58
      */
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
     /**

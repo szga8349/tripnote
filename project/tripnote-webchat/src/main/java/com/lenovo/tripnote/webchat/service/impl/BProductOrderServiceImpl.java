@@ -79,6 +79,7 @@ public class BProductOrderServiceImpl implements BProductOrderService{
 		Page<BProductOrder> page = PageHelper.startPage(search.getPageNum(), search.getPageSize());
 		BProductOrderExample example = new BProductOrderExample();
 		example.createCriteria().andProductIdEqualTo(search.getProductId());
+		example.setOrderByClause("status desc,create_time desc");
 		List<BProductOrder> list = bProductOrderMapper.selectByExample(example);
 		pageInfo.setTotal(page.getTotal());
 		pageInfo.setData(list);

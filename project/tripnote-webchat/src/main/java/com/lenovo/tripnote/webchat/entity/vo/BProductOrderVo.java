@@ -2,6 +2,7 @@ package com.lenovo.tripnote.webchat.entity.vo;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.lenovo.tripnote.webchat.convert.IDDeEncryption;
 
 import lombok.Getter;
@@ -53,6 +54,7 @@ public class BProductOrderVo {
      * b_product_order.use_date (使用日期)
      * @ibatorgenerated 2018-07-09 16:50:58
      */
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     private Date useDate;
 
     /**
