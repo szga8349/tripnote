@@ -149,7 +149,6 @@ public class BAccountController {
 	    ex.setTime(date.getTime()+expiration*1000);
         String jwtToken = Jwts.builder().setClaims(arg0).setIssuedAt(date).setExpiration(ex)
                 .signWith(SignatureAlgorithm.HS256, "secretkey").compact();
-        vo.setData(jwtToken);
         BAutoResultVo resultVo = new BAutoResultVo();
         try {
 			BeanUtils.copyProperties(resultVo, account);
@@ -157,6 +156,7 @@ public class BAccountController {
 			e.printStackTrace();
 		}
         resultVo.setToken(jwtToken);
+        vo.setData(resultVo);
         return vo;
     }
     
