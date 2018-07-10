@@ -3,6 +3,7 @@ package com.lenovo.tripnote.webchat.mapper;
 import com.lenovo.tripnote.webchat.entity.BProductOrder;
 import com.lenovo.tripnote.webchat.entity.BProductOrderExample;
 import com.lenovo.tripnote.webchat.entity.vo.BProductCustomerOrderResultVo;
+import com.lenovo.tripnote.webchat.entity.vo.BProductOrderDetailVo;
 import com.lenovo.tripnote.webchat.entity.vo.BProductOrderResultVo;
 import com.lenovo.tripnote.webchat.entity.vo.BProductOrderSearchVo;
 
@@ -118,4 +119,11 @@ public interface BProductOrderMapper {
 	 * @return
 	 */
 	Long searchCustomerTotal(@Param("record")BProductOrderSearchVo search);
+	
+
+	/**根据产品查询所有订单信息
+	 * @param search
+	 * @return
+	 */
+	List<BProductOrderDetailVo> listByProduct(@Param("record")BProductOrderSearchVo search);
 }
