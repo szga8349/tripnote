@@ -64,9 +64,10 @@ public class BProductOrderServiceImpl implements BProductOrderService{
 		ResultPageInfo pageInfo = new ResultPageInfo();
 		pageInfo.setPageNum(search.getPageNum());
 		pageInfo.setPageSize(search.getPageSize());
-		Page<BProductCustomerOrderResultVo> page = PageHelper.startPage(search.getPageNum(), search.getPageSize());
+		//Page<BProductCustomerOrderResultVo> page = PageHelper.startPage(search.getPageNum(), search.getPageSize());
+		Long total = bProductOrderMapper.searchCustomerTotal(search);
 		List<BProductCustomerOrderResultVo> list = bProductOrderMapper.searchCustomer(search);
-		pageInfo.setTotal(page.getTotal());
+		pageInfo.setTotal(total);
 		pageInfo.setData(list);
 		return pageInfo;
 	}

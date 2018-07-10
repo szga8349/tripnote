@@ -172,7 +172,21 @@
        <if test="record.priceType != null" >
          and bp.price_type = #{record.priceType,jdbcType=INTEGER}
        </if>
-         order by orderNumber desc,bp.create_time desc
+        having orderNumber > 0 order by orderNumber desc,bp.create_time desc
+  </select>
+  
+  <select id="searchCustomerTotal" resultType="java.lang.Long" parameterType="com.lenovo.tripnote.webchat.entity.vo.BProductOrderSearchVo" >
+      select count(1) from ( select 
+      case price_type when 2 then (select count(1) from b_product_order_collage bpoc where bpoc.product_id=bp.id) else (select count(1) from b_product_order bpo where bpo.product_id=bp.id) end as orderNumber
+      from b_product bp 
+      where bp.create_user_id = #{record.userId,jdbcType=INTEGER}
+      <if test="record.name != null" >
+         and bp.name like #{record.name,jdbcType=VARCHAR}
+       </if>
+       <if test="record.priceType != null" >
+         and bp.price_type = #{record.priceType,jdbcType=INTEGER}
+       </if>
+       having orderNumber > 0 ) t
   </select>
   
   

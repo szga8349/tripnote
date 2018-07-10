@@ -112,4 +112,10 @@ public interface BProductOrderMapper {
 	List<BProductOrderResultVo> search(@Param("record")BProductOrderSearchVo search);
 
 	List<BProductCustomerOrderResultVo> searchCustomer(@Param("record") BProductOrderSearchVo search);
+
+	/**查询我的产品订单总数
+	 * @param search
+	 * @return
+	 */
+	Long searchCustomerTotal(@Param("record")BProductOrderSearchVo search);
 }

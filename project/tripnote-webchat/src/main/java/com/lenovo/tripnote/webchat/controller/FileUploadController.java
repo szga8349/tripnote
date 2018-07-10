@@ -7,7 +7,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +21,7 @@ import com.lenovo.tripnote.webchat.vo.ResultVo;
 import com.lenovo.tripnote.webchat.vo.TokenVo;
 
 import lombok.extern.log4j.Log4j;
+import net.sf.json.JSONObject;
 
 
 @Controller
