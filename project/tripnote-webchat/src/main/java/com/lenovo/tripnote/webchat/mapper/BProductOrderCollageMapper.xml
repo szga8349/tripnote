@@ -38,6 +38,7 @@
     <result column="peoplecount" property="peoplecount" jdbcType="INTEGER" />
     <result column="remainingTime" property="remainingTime" jdbcType="INTEGER" />
     <result column="userImageUrl" property="userImageUrl" jdbcType="VARCHAR" />
+    <result column="collage_limit_time" property="collageLimitTime" jdbcType="INTEGER" />
   </resultMap>
   
   <sql id="Base_Column_List" >
