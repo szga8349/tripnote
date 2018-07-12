@@ -367,7 +367,7 @@
     delete from b_product
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.lenovo.tripnote.webchat.entity.BProductWithBLOBs" useGeneratedKeys="true" keyProperty="id" >
+  <insert id="insert" parameterType="com.lenovo.tripnote.webchat.entity.BProduct" useGeneratedKeys="true" keyProperty="id" >
     insert into b_product (`name`, user_date, price_type, 
       product_count, discount_price, raw_price, 
       limit_time, commission, `status`, 
@@ -383,7 +383,7 @@
       #{reservationNote,jdbcType=VARCHAR}, #{introduction,jdbcType=LONGVARCHAR}, #{guide,jdbcType=LONGVARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.lenovo.tripnote.webchat.entity.BProductWithBLOBs" useGeneratedKeys="true" keyProperty="id" >
+  <insert id="insertSelective" parameterType="com.lenovo.tripnote.webchat.entity.BProduct" useGeneratedKeys="true" keyProperty="id" >
     insert into b_product
     <trim prefix="(" suffix=")" suffixOverrides="," >
       `name`,
@@ -426,7 +426,7 @@
       #{guide,jdbcType=LONGVARCHAR},
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.lenovo.tripnote.webchat.entity.BProductWithBLOBs" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.lenovo.tripnote.webchat.entity.BProduct" >
     update b_product
     <set >
       <if test="name != null" >
@@ -486,7 +486,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lenovo.tripnote.webchat.entity.BProductWithBLOBs" >
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lenovo.tripnote.webchat.entity.BProduct" >
     update b_product
     set `name` = #{name,jdbcType=VARCHAR},
       user_date = #{userDate,jdbcType=DATE},
