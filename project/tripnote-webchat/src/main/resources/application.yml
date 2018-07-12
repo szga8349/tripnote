@@ -10,6 +10,6 @@ logging:
     com.lenovo.tripnote.webchat.mapper: DEBUG 
 spring:
   profiles: 
-    active: dev
+    active: pro
 
  
