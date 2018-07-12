@@ -33,4 +33,9 @@ public class AutoLoginInfo {
      * @ibatorgenerated 2018-06-19 16:22:08
      */
     private String phone;
+    /**
+     * b_account.account_type (0-admin,1-定制师, 2-用户)
+     * @ibatorgenerated 2018-03-29 15:38:39
+     */
+    private Integer accountType = 2;
 }
