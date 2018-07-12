@@ -90,4 +90,21 @@ public class BProductVo {
      */
     private List<BProductCollageVo> productCollages;
     
+    /**
+     * b_product.cost_description (费用说明)
+     * @ibatorgenerated 2018-07-12 15:38:19
+     */
+    private String costDescription;
+
+    /**
+     * b_product.reservation_note (预订须知)
+     * @ibatorgenerated 2018-07-12 15:38:19
+     */
+    private String reservationNote;
+    /**
+     * b_product.guide (实用指南)
+     * @ibatorgenerated 2018-07-12 15:38:19
+     */
+    private String guide;
+    
 }

@@ -8,25 +8,25 @@ import java.util.List;
 public class BProductExample {
     /**
      * 主键字段
-     * @ibatorgenerated 2018-06-07 16:43:43
+     * @ibatorgenerated 2018-07-12 15:38:19
      */
     protected String pk_name = "id";
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-06-07 16:43:43
+     * @ibatorgenerated 2018-07-12 15:38:19
      */
     protected String orderByClause;
 
     /**
      * 去重复
-     * @ibatorgenerated 2018-06-07 16:43:43
+     * @ibatorgenerated 2018-07-12 15:38:19
      */
     protected boolean distinct;
 
     /**
      * 条件集
-     * @ibatorgenerated 2018-06-07 16:43:43
+     * @ibatorgenerated 2018-07-12 15:38:19
      */
     protected List<Criteria> oredCriteria;
 
@@ -44,7 +44,7 @@ public class BProductExample {
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-06-07 16:43:43
+     * @ibatorgenerated 2018-07-12 15:38:19
      */
     public void setOrderByClause(String orderByClause) {
         this.orderByClause = orderByClause;
@@ -56,7 +56,7 @@ public class BProductExample {
 
     /**
      * 设置去重复
-     * @ibatorgenerated 2018-06-07 16:43:43
+     * @ibatorgenerated 2018-07-12 15:38:19
      */
     public void setDistinct(boolean distinct) {
         this.distinct = distinct;
@@ -82,7 +82,7 @@ public class BProductExample {
 
     /**
      * 条件查询要先创建Criteria
-     * @ibatorgenerated 2018-06-07 16:43:43
+     * @ibatorgenerated 2018-07-12 15:38:19
      */
     public Criteria createCriteria() {
         Criteria criteria = createCriteriaInternal();
@@ -106,7 +106,7 @@ public class BProductExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-06-07 16:43:43
+     * @ibatorgenerated 2018-07-12 15:38:19
      */
     protected abstract static class GeneratedCriteria {
         protected List<Criterion> criteria;
@@ -1104,11 +1104,151 @@ public class BProductExample {
             addCriterion("last_update_time not between", value1, value2, "lastUpdateTime");
             return (Criteria) this;
         }
+
+        public Criteria andCostDescriptionIsNull() {
+            addCriterion("cost_description is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCostDescriptionIsNotNull() {
+            addCriterion("cost_description is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCostDescriptionEqualTo(String value) {
+            addCriterion("cost_description =", value, "costDescription");
+            return (Criteria) this;
+        }
+
+        public Criteria andCostDescriptionNotEqualTo(String value) {
+            addCriterion("cost_description <>", value, "costDescription");
+            return (Criteria) this;
+        }
+
+        public Criteria andCostDescriptionGreaterThan(String value) {
+            addCriterion("cost_description >", value, "costDescription");
+            return (Criteria) this;
+        }
+
+        public Criteria andCostDescriptionGreaterThanOrEqualTo(String value) {
+            addCriterion("cost_description >=", value, "costDescription");
+            return (Criteria) this;
+        }
+
+        public Criteria andCostDescriptionLessThan(String value) {
+            addCriterion("cost_description <", value, "costDescription");
+            return (Criteria) this;
+        }
+
+        public Criteria andCostDescriptionLessThanOrEqualTo(String value) {
+            addCriterion("cost_description <=", value, "costDescription");
+            return (Criteria) this;
+        }
+
+        public Criteria andCostDescriptionLike(String value) {
+            addCriterion("cost_description like", value, "costDescription");
+            return (Criteria) this;
+        }
+
+        public Criteria andCostDescriptionNotLike(String value) {
+            addCriterion("cost_description not like", value, "costDescription");
+            return (Criteria) this;
+        }
+
+        public Criteria andCostDescriptionIn(List<String> values) {
+            addCriterion("cost_description in", values, "costDescription");
+            return (Criteria) this;
+        }
+
+        public Criteria andCostDescriptionNotIn(List<String> values) {
+            addCriterion("cost_description not in", values, "costDescription");
+            return (Criteria) this;
+        }
+
+        public Criteria andCostDescriptionBetween(String value1, String value2) {
+            addCriterion("cost_description between", value1, value2, "costDescription");
+            return (Criteria) this;
+        }
+
+        public Criteria andCostDescriptionNotBetween(String value1, String value2) {
+            addCriterion("cost_description not between", value1, value2, "costDescription");
+            return (Criteria) this;
+        }
+
+        public Criteria andReservationNoteIsNull() {
+            addCriterion("reservation_note is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReservationNoteIsNotNull() {
+            addCriterion("reservation_note is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReservationNoteEqualTo(String value) {
+            addCriterion("reservation_note =", value, "reservationNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andReservationNoteNotEqualTo(String value) {
+            addCriterion("reservation_note <>", value, "reservationNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andReservationNoteGreaterThan(String value) {
+            addCriterion("reservation_note >", value, "reservationNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andReservationNoteGreaterThanOrEqualTo(String value) {
+            addCriterion("reservation_note >=", value, "reservationNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andReservationNoteLessThan(String value) {
+            addCriterion("reservation_note <", value, "reservationNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andReservationNoteLessThanOrEqualTo(String value) {
+            addCriterion("reservation_note <=", value, "reservationNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andReservationNoteLike(String value) {
+            addCriterion("reservation_note like", value, "reservationNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andReservationNoteNotLike(String value) {
+            addCriterion("reservation_note not like", value, "reservationNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andReservationNoteIn(List<String> values) {
+            addCriterion("reservation_note in", values, "reservationNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andReservationNoteNotIn(List<String> values) {
+            addCriterion("reservation_note not in", values, "reservationNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andReservationNoteBetween(String value1, String value2) {
+            addCriterion("reservation_note between", value1, value2, "reservationNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andReservationNoteNotBetween(String value1, String value2) {
+            addCriterion("reservation_note not between", value1, value2, "reservationNote");
+            return (Criteria) this;
+        }
     }
 
     /**
      * b_product
-     * @ibatorgenerated do_not_delete_during_merge 2018-06-07 16:43:43
+     * @ibatorgenerated do_not_delete_during_merge 2018-07-12 15:38:19
      */
     public static class Criteria extends GeneratedCriteria {
 
@@ -1120,7 +1260,7 @@ public class BProductExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-06-07 16:43:43
+     * @ibatorgenerated 2018-07-12 15:38:19
      */
     public static class Criterion {
         private String condition;

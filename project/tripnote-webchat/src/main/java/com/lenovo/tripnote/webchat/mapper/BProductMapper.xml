@@ -17,13 +17,13 @@
     <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="last_update_time" property="lastUpdateTime" jdbcType="TIMESTAMP" />
-  </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.lenovo.tripnote.webchat.entity.BProduct" extends="BaseResultMap" >
+    <result column="cost_description" property="costDescription" jdbcType="VARCHAR" />
+    <result column="reservation_note" property="reservationNote" jdbcType="VARCHAR" />
     <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
+    <result column="guide" property="guide" jdbcType="LONGVARCHAR" />
   </resultMap>
   
-  
-   <resultMap id="SearchResultMap" type="com.lenovo.tripnote.webchat.entity.vo.BProductResultVo" >
+  <resultMap id="SearchResultMap" type="com.lenovo.tripnote.webchat.entity.vo.BProductResultVo" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="user_date" property="userDate" jdbcType="DATE" />
@@ -62,6 +62,7 @@
     <result column="last_update_time" property="lastUpdateTime" jdbcType="TIMESTAMP" />
     <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
     <result column="collectionCount" property="collectionCount" jdbcType="INTEGER" />
+    <result column="guide" property="guide" jdbcType="LONGVARCHAR" />
     <collection property="imageUrls" javaType="java.util.List" ofType="com.lenovo.tripnote.webchat.entity.BProductImage">  
             <result column="bproduct_imageid" property="id" jdbcType="INTEGER" />
             <result column="bproduct_image_url" property="url" jdbcType="VARCHAR" />
@@ -71,10 +72,11 @@
   
   <sql id="Base_Column_List" >
     id, `name`, user_date, price_type, product_count, discount_price, raw_price, limit_time, 
-    commission, `status`, image_url, create_user_name, create_user_id, create_time, last_update_time,introduction
+    commission, `status`, image_url, create_user_name, create_user_id, create_time, last_update_time, 
+    cost_description, reservation_note
   </sql>
   <sql id="Blob_Column_List" >
-    introduction
+    introduction, guide
   </sql>
   <sql id="Example_Where_Clause" >
     <where >
@@ -134,7 +136,39 @@
       </foreach>
     </where>
   </sql>
-  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.lenovo.tripnote.webchat.entity.BProductExample" >
+  
+   
+  <select id="searchProduct" resultMap="SearchResultMap" parameterType="com.lenovo.tripnote.webchat.entity.vo.BProductSearchVo" >
+    select case price_type when 2 then (select count(1) from b_product_order_collage bpoc where bpoc.product_id=bp.id and collage_id=0 and status = 1) else (select count(1) from b_product_order bpo where bpo.product_id=bp.id and status=1) end as soldCount,
+    case price_type when 2 then (select count(1) from b_product_order_collage bpoc where bpoc.product_id=bp.id and collage_id=0 and status = 0) else null end as collageCount,
+    <include refid="Base_Column_List" />
+    from b_product bp where 1=1
+    <if test="record.userId != null" >
+        and create_user_id = #{record.userId,jdbcType=INTEGER}
+    </if>
+    <if test="record.status != null" >
+        and status = #{record.status,jdbcType=INTEGER}
+     </if>
+     <if test="record.name != null" >
+        and name like #{record.name,jdbcType=VARCHAR}
+     </if>
+     order by bp.create_time desc
+ </select>
+  
+  <select id="detail" resultMap="DetailResultMap" parameterType="java.lang.Integer" >
+    select 
+    bp.id, bp.`name`, bp.user_date, bp.price_type, bp.product_count, bp.discount_price, bp.raw_price, bp.limit_time, bp.guide,
+    bp.commission, bp.`status`, bp.image_url, bp.create_user_name, bp.create_user_id,bp.create_time,bp.last_update_time,bp.introduction,
+    bpi.id as bproduct_imageid,bpi.url as bproduct_image_url,bpi.product_id,
+    case price_type when 2 then (select count(1) from b_product_order_collage bpoc where bpoc.product_id=bp.id and collage_id=0 and status = 1) else (select count(1) from b_product_order bpo where bpo.product_id=bp.id and status=1) end as soldCount,
+    (select count(1) from b_product_collection bpc where bpc.collection_product_id = bp.id) as collectionCount
+    from b_product bp
+    left join b_product_image bpi on bpi.product_id=bp.id
+    where bp.id = #{id,jdbcType=INTEGER} 
+  </select>
+  
+  
+  <select id="selectByExampleWithBLOBs" resultMap="BaseResultMap" parameterType="com.lenovo.tripnote.webchat.entity.BProductExample" >
     select
     <if test="distinct" >
       distinct
@@ -164,7 +198,7 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByExampleWithBLOBsAndPage" resultMap="ResultMapWithBLOBs" parameterType="com.lenovo.tripnote.webchat.entity.BProductExample" >
+  <select id="selectByExampleWithBLOBsAndPage" resultMap="BaseResultMap" parameterType="com.lenovo.tripnote.webchat.entity.BProductExample" >
     select
     <if test="distinct" >
       distinct
@@ -194,38 +228,6 @@
       order by ${orderByClause}
     </if>
   </select>
-  
-  
-  <select id="searchProduct" resultMap="SearchResultMap" parameterType="com.lenovo.tripnote.webchat.entity.vo.BProductSearchVo" >
-    select case price_type when 2 then (select count(1) from b_product_order_collage bpoc where bpoc.product_id=bp.id and collage_id=0 and status = 1) else (select count(1) from b_product_order bpo where bpo.product_id=bp.id and status=1) end as soldCount,
-    case price_type when 2 then (select count(1) from b_product_order_collage bpoc where bpoc.product_id=bp.id and collage_id=0 and status = 0) else null end as collageCount,
-    <include refid="Base_Column_List" />
-    from b_product bp where 1=1
-    <if test="record.userId != null" >
-        and create_user_id = #{record.userId,jdbcType=INTEGER}
-    </if>
-    <if test="record.status != null" >
-        and status = #{record.status,jdbcType=INTEGER}
-     </if>
-     <if test="record.name != null" >
-        and name like #{record.name,jdbcType=VARCHAR}
-     </if>
-     order by bp.create_time desc
- </select>
-  
-  <select id="detail" resultMap="DetailResultMap" parameterType="java.lang.Integer" >
-    select 
-    bp.id, bp.`name`, bp.user_date, bp.price_type, bp.product_count, bp.discount_price, bp.raw_price, bp.limit_time, 
-    bp.commission, bp.`status`, bp.image_url, bp.create_user_name, bp.create_user_id,bp.create_time,bp.last_update_time,bp.introduction,
-    bpi.id as bproduct_imageid,bpi.url as bproduct_image_url,bpi.product_id,
-    case price_type when 2 then (select count(1) from b_product_order_collage bpoc where bpoc.product_id=bp.id and collage_id=0 and status = 1) else (select count(1) from b_product_order bpo where bpo.product_id=bp.id and status=1) end as soldCount,
-    (select count(1) from b_product_collection bpc where bpc.collection_product_id = bp.id) as collectionCount
-    from b_product bp
-    left join b_product_image bpi on bpi.product_id=bp.id
-    where bp.id = #{id,jdbcType=INTEGER} 
-  </select>
-  
-  
   <delete id="deleteByExample" parameterType="com.lenovo.tripnote.webchat.entity.BProductExample" >
     delete from b_product
     <if test="_parameter != null" >
@@ -286,8 +288,17 @@
       <if test="record.lastUpdateTime != null" >
         last_update_time = #{record.lastUpdateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.costDescription != null" >
+        cost_description = #{record.costDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reservationNote != null" >
+        reservation_note = #{record.reservationNote,jdbcType=VARCHAR},
+      </if>
       <if test="record.introduction != null" >
         introduction = #{record.introduction,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.guide != null" >
+        guide = #{record.guide,jdbcType=LONGVARCHAR},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -311,7 +322,10 @@
       create_user_id = #{record.createUserId,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       last_update_time = #{record.lastUpdateTime,jdbcType=TIMESTAMP},
-      introduction = #{record.introduction,jdbcType=LONGVARCHAR}
+      cost_description = #{record.costDescription,jdbcType=VARCHAR},
+      reservation_note = #{record.reservationNote,jdbcType=VARCHAR},
+      introduction = #{record.introduction,jdbcType=LONGVARCHAR},
+      guide = #{record.guide,jdbcType=LONGVARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -332,12 +346,14 @@
       create_user_name = #{record.createUserName,jdbcType=VARCHAR},
       create_user_id = #{record.createUserId,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      last_update_time = #{record.lastUpdateTime,jdbcType=TIMESTAMP}
+      last_update_time = #{record.lastUpdateTime,jdbcType=TIMESTAMP},
+      cost_description = #{record.costDescription,jdbcType=VARCHAR},
+      reservation_note = #{record.reservationNote,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     ,
@@ -349,21 +365,23 @@
     delete from b_product
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.lenovo.tripnote.webchat.entity.BProduct" useGeneratedKeys="true" keyProperty="id" >
+  <insert id="insert" parameterType="com.lenovo.tripnote.webchat.entity.BProductWithBLOBs" useGeneratedKeys="true" keyProperty="id" >
     insert into b_product (`name`, user_date, price_type, 
       product_count, discount_price, raw_price, 
       limit_time, commission, `status`, 
       image_url, create_user_name, create_user_id, 
-      create_time, last_update_time, introduction
+      create_time, last_update_time, cost_description, 
+      reservation_note, introduction, guide
       )
     values (#{name,jdbcType=VARCHAR}, #{userDate,jdbcType=DATE}, #{priceType,jdbcType=INTEGER}, 
       #{productCount,jdbcType=INTEGER}, #{discountPrice,jdbcType=REAL}, #{rawPrice,jdbcType=REAL}, 
       #{limitTime,jdbcType=INTEGER}, #{commission,jdbcType=REAL}, #{status,jdbcType=INTEGER}, 
       #{imageUrl,jdbcType=VARCHAR}, #{createUserName,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{lastUpdateTime,jdbcType=TIMESTAMP}, #{introduction,jdbcType=LONGVARCHAR}
+      #{createTime,jdbcType=TIMESTAMP}, #{lastUpdateTime,jdbcType=TIMESTAMP}, #{costDescription,jdbcType=VARCHAR}, 
+      #{reservationNote,jdbcType=VARCHAR}, #{introduction,jdbcType=LONGVARCHAR}, #{guide,jdbcType=LONGVARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.lenovo.tripnote.webchat.entity.BProduct" useGeneratedKeys="true" keyProperty="id" >
+  <insert id="insertSelective" parameterType="com.lenovo.tripnote.webchat.entity.BProductWithBLOBs" useGeneratedKeys="true" keyProperty="id" >
     insert into b_product
     <trim prefix="(" suffix=")" suffixOverrides="," >
       `name`,
@@ -380,7 +398,10 @@
       create_user_id,
       create_time,
       last_update_time,
+      cost_description,
+      reservation_note,
       introduction,
+      guide,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       #{name,jdbcType=VARCHAR},
@@ -397,10 +418,13 @@
       #{createUserId,jdbcType=INTEGER},
       #{createTime,jdbcType=TIMESTAMP},
       #{lastUpdateTime,jdbcType=TIMESTAMP},
+      #{costDescription,jdbcType=VARCHAR},
+      #{reservationNote,jdbcType=VARCHAR},
       #{introduction,jdbcType=LONGVARCHAR},
+      #{guide,jdbcType=LONGVARCHAR},
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.lenovo.tripnote.webchat.entity.BProduct" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.lenovo.tripnote.webchat.entity.BProductWithBLOBs" >
     update b_product
     <set >
       <if test="name != null" >
@@ -445,13 +469,22 @@
       <if test="lastUpdateTime != null" >
         last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="costDescription != null" >
+        cost_description = #{costDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="reservationNote != null" >
+        reservation_note = #{reservationNote,jdbcType=VARCHAR},
+      </if>
       <if test="introduction != null" >
         introduction = #{introduction,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="guide != null" >
+        guide = #{guide,jdbcType=LONGVARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lenovo.tripnote.webchat.entity.BProduct" >
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lenovo.tripnote.webchat.entity.BProductWithBLOBs" >
     update b_product
     set `name` = #{name,jdbcType=VARCHAR},
       user_date = #{userDate,jdbcType=DATE},
@@ -467,7 +500,10 @@
       create_user_id = #{createUserId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
-      introduction = #{introduction,jdbcType=LONGVARCHAR}
+      cost_description = #{costDescription,jdbcType=VARCHAR},
+      reservation_note = #{reservationNote,jdbcType=VARCHAR},
+      introduction = #{introduction,jdbcType=LONGVARCHAR},
+      guide = #{guide,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.lenovo.tripnote.webchat.entity.BProduct" >
@@ -485,7 +521,9 @@
       create_user_name = #{createUserName,jdbcType=VARCHAR},
       create_user_id = #{createUserId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP}
+      last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
+      cost_description = #{costDescription,jdbcType=VARCHAR},
+      reservation_note = #{reservationNote,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
