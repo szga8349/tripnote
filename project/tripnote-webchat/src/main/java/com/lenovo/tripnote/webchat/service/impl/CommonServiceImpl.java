@@ -38,7 +38,7 @@ public class CommonServiceImpl implements CommonService {
 	private String imageUrl = "http://localhost:8080";
 
 	@Override
-	public String upload(TokenVo account, Map<String, MultipartFile> files, String model) {
+	public List<UploadFileVo> upload(TokenVo account, Map<String, MultipartFile> files, String model) {
 		List<UploadFileVo> uploadFiles = new ArrayList<UploadFileVo>();
 		UploadFileVo uploadfile = new UploadFileVo();
 		for (Entry<String, MultipartFile> entry : files.entrySet()) {
@@ -69,7 +69,7 @@ public class CommonServiceImpl implements CommonService {
 				uploadfile.setFileurl(imageUrl+model+"/"+account.getUserId()+"/"+newFile);
 				uploadfile.setFilename(out.getName());
 				uploadFiles.add(uploadfile);
-				break;
+				//break;
 			} catch (Exception e) {//多个文件上传时 如果有一个上传失败 即判定为失败
 				log.error("上传图片失败", e);
 				uploadFiles.clear();
@@ -84,7 +84,7 @@ public class CommonServiceImpl implements CommonService {
 				}
 			}
 		}
-		return uploadfile.getFileurl();
+		return uploadFiles;
 	}
 
 }

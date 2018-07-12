@@ -1,6 +1,7 @@
 package com.lenovo.tripnote.webchat.controller;
 
 import java.io.OutputStream;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -19,6 +20,7 @@ import com.lenovo.tripnote.webchat.service.CommonService;
 import com.lenovo.tripnote.webchat.vo.Result;
 import com.lenovo.tripnote.webchat.vo.ResultVo;
 import com.lenovo.tripnote.webchat.vo.TokenVo;
+import com.lenovo.tripnote.webchat.vo.UploadFileVo;
 
 import lombok.extern.log4j.Log4j;
 import net.sf.json.JSONObject;
@@ -41,7 +43,7 @@ public class FileUploadController {
 			}
 			Map<String, MultipartFile> files = multipartRequest.getFileMap();
 			vo.setCode(Result.SUCESSFUL);
-			String uploadurl = commonService.upload(token, files,model);
+			List<UploadFileVo> uploadurl = commonService.upload(token, files,model);
 			if(uploadurl!=null){//上传成功将url返回给客户端 按照客户端要求返回
 				JSONObject result = new JSONObject();
 				response.setContentType("application/json;charset=UTF-8");
