@@ -38,4 +38,11 @@ public class AutoLoginInfo {
      * @ibatorgenerated 2018-03-29 15:38:39
      */
     private Integer accountType = 2;
+    
+
+    /**
+     * b_account.real_name
+     * @ibatorgenerated 2018-06-19 16:22:08
+     */
+    private String realName;
 }
