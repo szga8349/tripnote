@@ -22,6 +22,7 @@ import com.lenovo.tripnote.webchat.entity.BAccount;
 import com.lenovo.tripnote.webchat.entity.BLogin;
 import com.lenovo.tripnote.webchat.entity.vo.BAccountVo;
 import com.lenovo.tripnote.webchat.entity.vo.BAutoResultVo;
+import com.lenovo.tripnote.webchat.entity.vo.PhoneLoginVo;
 import com.lenovo.tripnote.webchat.service.BAccountService;
 import com.lenovo.tripnote.webchat.sms.ISmsSender;
 import com.lenovo.tripnote.webchat.utils.RandomUtils;
@@ -160,6 +161,63 @@ public class BAccountController {
         return vo;
     }
     
+    @ResponseBody
+    @RequestMapping(value = "/phone/doLogin")
+    public ResultVo doPhoneLogin(HttpServletRequest request,@RequestBody PhoneLoginVo info){
+    	ResultVo vo = new ResultVo();
+    	SmsCodeVo smsCode = (SmsCodeVo) request.getSession().getAttribute("smscode");
+		if (smsCode != null && StringUtils.equals(info.getSmsCode(), smsCode.getSmsCode())) {// 验证码相同
+			BAccount account = bAccountService.getByUsernameOrPhone(info.getPhone());
+	    	if(account==null){
+	    		vo.setCode(Result.FAUL);
+	    		vo.setMessage("登录名不存在");
+	    		return vo;
+	    	}
+	    	BLogin oldLogin = bAccountService.getByAccountID(Long.valueOf(account.getId()));
+			if (oldLogin != null) {// 在其它客户端已经登录 返回状态给正在登录的客户端
+				vo.setCode(Result.REPEAT);
+				vo.setMessage(oldLogin.getDevice());
+				oldLogin.setDevice(info.getDevice());
+				oldLogin.setLogintime(new Date());
+				oldLogin.setUserid(account.getId());
+				oldLogin.setLoginname(account.getLoginName());
+				oldLogin.setLoginip(request.getRemoteHost());
+				bAccountService.update(oldLogin);
+			} else {
+				BLogin record = new BLogin();
+				record.setDevice(info.getDevice());
+				record.setLogintime(new Date());
+				record.setUserid(account.getId());
+				record.setLoginname(account.getLoginName());
+				record.setLoginip(request.getRemoteHost());
+				record.setStatus(1);
+				vo.setCode(Result.SUCESSFUL);
+				bAccountService.insert(record);
+			}
+			Claims arg0 = new DefaultClaims();
+		    arg0.put(Result.USERID, account.getId());
+		    arg0.put(Result.USER_LOGINNAME, info.getPhone());
+			// Create Twt token
+		    Date date = new Date();
+		    Date ex = (Date) date.clone();
+		    ex.setTime(date.getTime()+expiration*1000);
+	        String jwtToken = Jwts.builder().setClaims(arg0).setIssuedAt(date).setExpiration(ex)
+	                .signWith(SignatureAlgorithm.HS256, "secretkey").compact();
+	        BAutoResultVo resultVo = new BAutoResultVo();
+	        try {
+				BeanUtils.copyProperties(resultVo, account);
+			} catch (IllegalAccessException | InvocationTargetException e) {
+				e.printStackTrace();
+			}
+	        resultVo.setToken(jwtToken);
+	        vo.setData(resultVo);
+		}else{
+			vo.setCode(Result.FAUL);
+			vo.setMessage("验证码错误或过时");
+		}
+        return vo;
+    }
+    
     @RequestMapping(value = "/sendRegisterCode")
 	public @ResponseBody ResultVo doSendRegisterSMS(HttpServletRequest request, String phoneNo) {
 		SmsCodeVo smsCodeVO = new SmsCodeVo();
@@ -253,6 +311,24 @@ public class BAccountController {
 		}
 		return vo;
 
+	}
+	@RequestMapping(value = "/sendLoginCode")
+	public @ResponseBody ResultVo doSendLoginSMS(HttpServletRequest request, String phoneNo) {
+		SmsCodeVo smsCodeVO = new SmsCodeVo();
+		String code = RandomUtils.createRandomVcode();
+		smsCodeVO.setSendTime(new Date().getTime());
+		smsCodeVO.setSmsCode(code);
+		ResultVo vo = new ResultVo();
+		vo.setCode(Result.SUCESSFUL);
+		vo.setData(code);
+		try {
+			if (smsSender.sendLoginCode(phoneNo, code))// 发送验证码成功
+				request.getSession().setAttribute("smscode", smsCodeVO);
+		} catch (ClientException | IOException e) {
+			vo.setCode(Result.FAUL);
+			vo.setData(e.getMessage());
+		}
+		return vo;
 	}
 	@RequestMapping(value = "/token/user/doUpdate")
 	public @ResponseBody ResultVo update(HttpServletRequest request,@RequestBody BAccountVo bpoiVo)
