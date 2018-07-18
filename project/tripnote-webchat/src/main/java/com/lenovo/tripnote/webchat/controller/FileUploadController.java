@@ -25,16 +25,51 @@ import net.sf.json.JSONObject;
 
 
 @Controller
-@RequestMapping(value = "/token/upload")
 @Log4j
 public class FileUploadController {
     @Resource
     private CommonService commonService;
-	@RequestMapping(value = "/{model}/image", method = RequestMethod.POST)
-	public @ResponseBody void uploadImage(@PathVariable String model, HttpServletRequest request,HttpServletResponse response) {
+	@RequestMapping(value = "/token/upload/{model}/image", method = RequestMethod.POST)
+	public @ResponseBody void tokenUploadImage(@PathVariable String model, HttpServletRequest request,HttpServletResponse response) {
 		ResultVo vo = new ResultVo();
 		try {
 			TokenVo token = (TokenVo)request.getAttribute("token");
+			MultipartHttpServletRequest multipartRequest = null;
+			if(request instanceof MultipartHttpServletRequest){
+				 multipartRequest = (MultipartHttpServletRequest)request;
+			}
+			Map<String, MultipartFile> files = multipartRequest.getFileMap();
+			vo.setCode(Result.SUCESSFUL);
+			String uploadurl = commonService.upload(token, files,model);
+			if(uploadurl!=null){//上传成功将url返回给客户端 按照客户端要求返回
+				JSONObject result = new JSONObject();
+				response.setContentType("application/json;charset=UTF-8");
+				//response.setHeader("Content-type", "application/json;charset=UTF-8");
+				OutputStream ps = response.getOutputStream();
+				// 这句话的意思，使得放入流的数据是utf8格式
+				result.put("link",uploadurl);
+				ps.write(result.toString().getBytes("UTF-8"));
+				ps.close();
+			}else{
+				JSONObject result = new JSONObject();
+				response.setContentType("application/json;charset=UTF-8");
+				OutputStream ps = response.getOutputStream();
+				ps.write(result.toString().getBytes("UTF-8"));
+				ps.close();
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			vo.setCode(Result.FAUL);
+			vo.setMessage(e.getMessage());
+		}
+
+	}
+	@RequestMapping(value = "/upload/{model}/image", method = RequestMethod.POST)
+	public @ResponseBody void uploadImage(@PathVariable String model, HttpServletRequest request,HttpServletResponse response) {
+		ResultVo vo = new ResultVo();
+		try {
+			TokenVo token = new TokenVo();
+			token.setUserId(0);
 			MultipartHttpServletRequest multipartRequest = null;
 			if(request instanceof MultipartHttpServletRequest){
 				 multipartRequest = (MultipartHttpServletRequest)request;
