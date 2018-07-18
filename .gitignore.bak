@@ -1,7 +1,6 @@
 build/
 target/
 repos/
-project/tripnote-webchat/src/main/resources/conf/sms.properties
 project/tripnote/src/main/resources/conf/sms.properties
 project/spider.worker/data/
 project/spider.worker/log/
