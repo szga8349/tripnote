@@ -11,7 +11,7 @@ spring:
 
     resources:
         #设置静态页面路径 可以配置多一个 按照配置顺序依次查询
-        static-locations: file:/root/tripnote/static
+        static-locations: file:/root/tripnote/static, classpath:/static/
     datasource:
         name: product
         url: jdbc:mysql://172.27.0.8:3306/tripnote_webchat

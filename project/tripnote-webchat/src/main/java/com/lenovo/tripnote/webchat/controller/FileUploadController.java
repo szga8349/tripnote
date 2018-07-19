@@ -83,8 +83,11 @@ public class FileUploadController {
 				//response.setHeader("Content-type", "application/json;charset=UTF-8");
 				OutputStream ps = response.getOutputStream();
 				// 这句话的意思，使得放入流的数据是utf8格式
-				result.put("link",uploadurl);
-				ps.write(result.toString().getBytes("UTF-8"));
+				result.put("image_src",uploadurl);
+                JSONObject result1 = new JSONObject();
+                result1.put("data",result.toString());
+                result1.put("status", "success");
+				ps.write(result1.toString().getBytes("UTF-8"));
 				ps.close();
 			}else{
 				JSONObject result = new JSONObject();
