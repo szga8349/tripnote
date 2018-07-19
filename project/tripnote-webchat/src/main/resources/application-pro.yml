@@ -4,6 +4,9 @@ server:
     key-store: bjgxly.com.jks
     key-store-type: JKS
     key-store-password: j696g096v465pl
+  compression:
+    enabled: true
+  mime-types: application/json,application/xml,text/html,text/xml,text/plain,text/javascript,text/css,application/javascript
 logging:
   level:
     com.lenovo.tripnote.webchat.mapper: DEBUG 

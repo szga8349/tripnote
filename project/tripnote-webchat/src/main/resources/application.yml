@@ -5,6 +5,9 @@ server:
     #key-store-type: JKS
     #key-alias: tomcat
     #key-store-password: tomcat
+  compression:
+    enabled: true
+    mime-types: application/json,application/xml,text/html,text/xml,text/plain,text/javascript,text/css,application/javascript
 logging:
   level:
     com.lenovo.tripnote.webchat.mapper: DEBUG 
