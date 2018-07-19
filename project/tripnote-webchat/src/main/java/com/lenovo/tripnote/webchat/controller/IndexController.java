@@ -17,7 +17,7 @@ import com.lenovo.tripnote.webchat.vo.ResultVo;
 public class IndexController {
 	@Resource
 	private BProductService bProductService;
-	@RequestMapping(value = "/index")
+	@RequestMapping(value = "/index/product")
 	@ResponseBody
 	public ResultVo myProduct(HttpServletRequest request,BProductSearchVo searchVo) {
 		ResultVo vo = new ResultVo();
