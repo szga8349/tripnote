@@ -16,6 +16,7 @@ import com.lenovo.tripnote.webchat.entity.BProduct;
 import com.lenovo.tripnote.webchat.entity.BProductCollage;
 import com.lenovo.tripnote.webchat.entity.BProductCollageExample;
 import com.lenovo.tripnote.webchat.entity.BProductImage;
+import com.lenovo.tripnote.webchat.entity.BProductImageExample;
 import com.lenovo.tripnote.webchat.entity.vo.BProductCollageVo;
 import com.lenovo.tripnote.webchat.entity.vo.BProductDetailVo;
 import com.lenovo.tripnote.webchat.entity.vo.BProductResultVo;
@@ -60,14 +61,20 @@ public class BProductServiceImpl implements BProductService {
 
 	@Override
 	public BProduct getByKey(Integer id) {
-		
 		return this.bProductMapper.selectByPrimaryKey(id);
 	}
 
 	@Override
 	@Transactional
 	public int deleteBykey(Integer id) {
-		// TODO Auto-generated method stub
+		//删除关联图片
+		BProductImageExample example = new BProductImageExample();
+		example.createCriteria().andProductIdEqualTo(id);
+		bProductImageMapper.deleteByExample(example);
+		//删除关联的团购类型数据
+		BProductCollageExample collageExample = new BProductCollageExample();
+		collageExample.createCriteria().andProductIdEqualTo(id);
+		bProductCollageMapper.deleteByExample(collageExample);
 		return this.bProductMapper.deleteByPrimaryKey(id);
 	}
 
