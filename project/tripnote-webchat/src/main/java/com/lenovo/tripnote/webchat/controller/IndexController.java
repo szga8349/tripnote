@@ -24,6 +24,7 @@ public class IndexController {
 		if(searchVo.getName()!=null){
 			searchVo.setName("%"+searchVo.getName()+"%");
 		}
+		searchVo.setStatus(1);
 		vo.setData(bProductService.searchProduct(searchVo));
 		vo.setCode(Result.SUCESSFUL);
 		return vo;
