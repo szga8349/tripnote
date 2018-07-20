@@ -64,7 +64,7 @@ public class BProductOrderCollageServiceImpl implements BProductOrderCollageServ
 		//把创建者作为拼团人
 		bProduct.setCollageUserId(token.getUserId());
 		bProduct.setCollageUserName(token.getUserLoginName());
-		bProduct.setCollageId(old.getCollageId());
+		bProduct.setCollageId(old.getId());
 		bProduct.setCreateTime(new Date());
 		bProductOrderCollageMapper.insert(bProduct);
 		return bProduct.getId();
