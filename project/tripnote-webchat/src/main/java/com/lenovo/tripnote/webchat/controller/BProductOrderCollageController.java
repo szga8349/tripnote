@@ -66,10 +66,13 @@ public class BProductOrderCollageController {
 	 */
 	@RequestMapping(value = "/{id}/doAdd")
 	@ResponseBody
-	public ResultVo doParticipateAdd(HttpServletRequest request,@PathVariable String id,@RequestBody BProductOrderCollagedPartakeVo partakVo) {
+	public ResultVo doParticipateAdd(HttpServletRequest request,@PathVariable String id,@RequestBody(required=false) BProductOrderCollagedPartakeVo partakVo) {
 		ResultVo vo = new ResultVo();
 		TokenVo token = (TokenVo) request.getAttribute("token");
 		vo.setCode(Result.SUCESSFUL);
+		if(partakVo==null){
+			partakVo = new BProductOrderCollagedPartakeVo();
+		}
 		partakVo.setOrderCollageId(Integer.valueOf(id));
 		vo.setData(bProductOrderCollageService.insertCollage(partakVo,token));
 		return vo;
