@@ -66,6 +66,7 @@ public class BProductOrderCollageServiceImpl implements BProductOrderCollageServ
 		bProduct.setCollageUserName(token.getUserLoginName());
 		bProduct.setCollageId(old.getCollageId());
 		bProduct.setCreateTime(new Date());
+		bProductOrderCollageMapper.insert(bProduct);
 		return bProduct.getId();
 	}
 
