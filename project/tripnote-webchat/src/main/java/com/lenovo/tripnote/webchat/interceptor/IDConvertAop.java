@@ -47,7 +47,7 @@ public class IDConvertAop {
 				String[] parameters = parameterNameDiscoverer
 						.getParameterNames(clazz.getDeclaredMethod(method.getName(), method.getParameterTypes()));
 				for (int p = 0; p < parameters.length; p++) {
-					String parameter = parameters[0];
+					String parameter = parameters[p];
 					if ("id".equals(parameter) && parameterAnnotations[p].length > 0) // 如果存在注解. 并且参数为ID的方法 才会进行ID解码操作
 					{
 						Annotation annotation = parameterAnnotations[p][0];
