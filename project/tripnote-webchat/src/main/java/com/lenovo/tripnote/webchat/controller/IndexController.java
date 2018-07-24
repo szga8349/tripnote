@@ -29,7 +29,7 @@ public class IndexController {
 		vo.setCode(Result.SUCESSFUL);
 		return vo;
 	}
-	@RequestMapping(value = "/product/doDetail/{id}")
+	@RequestMapping(value = "/productDetail/doDetail/{id}")
 	@ResponseBody
 	public ResultVo doDetail(@PathVariable String id) {
 		ResultVo vo = new ResultVo();
