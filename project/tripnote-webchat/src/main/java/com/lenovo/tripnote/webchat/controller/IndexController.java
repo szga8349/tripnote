@@ -65,8 +65,7 @@ public class IndexController {
 		String url = "https://api.weixin.qq.com/sns/jscode2session?appid="+this.appid+"&secret="+this.secret+"&js_code="+code+"&grant_type=authorization_code";
 		try {
 			HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
-			URI url1;
-			url1 = new URI(url);
+			URI url1 = new URI(url);
 			ClientHttpResponse response = factory.createRequest(url1, HttpMethod.GET).execute();
 			 int status = response.getRawStatusCode();
 			if(status==HttpStatus.OK.value()){
@@ -82,8 +81,6 @@ public class IndexController {
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-			e.printStackTrace();
-		}catch (Exception e) {
 			e.printStackTrace();
 		}
 		return vo;

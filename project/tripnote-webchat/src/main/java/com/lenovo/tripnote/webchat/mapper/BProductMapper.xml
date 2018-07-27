@@ -156,6 +156,9 @@
      <if test="record.name != null" >
         and name like #{record.name,jdbcType=VARCHAR}
      </if>
+      <if test="record.priceType != null" >
+        and price_type = #{record.priceType,jdbcType=INTEGER}
+     </if>
      order by bp.create_time desc
  </select>
   

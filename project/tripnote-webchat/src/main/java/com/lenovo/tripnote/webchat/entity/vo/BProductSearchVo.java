@@ -18,5 +18,7 @@ public class BProductSearchVo extends PageInfo{
     private String name;
     
     private Boolean isMy = false;
+    
+    private Integer priceType;
 
 }
