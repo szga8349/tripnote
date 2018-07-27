@@ -312,6 +312,19 @@ public class BAccountController {
 		return vo;
 
 	}
+	
+	@RequestMapping(value = "/code/check")
+	public @ResponseBody ResultVo doCodeCheck(HttpServletRequest request, RegisterVo register) {
+		ResultVo vo = new ResultVo();
+		SmsCodeVo smsCode = (SmsCodeVo) request.getSession().getAttribute("smscode");
+		if (smsCode != null && StringUtils.equals(register.getSmsCode(), smsCode.getSmsCode())) {// 验证码相同
+			vo.setCode(Result.SUCESSFUL);
+		} else {
+			vo.setCode(Result.FAUL);
+			vo.setMessage("验证码错误或过时");
+		}
+		return vo;
+	}
 	@RequestMapping(value = "/sendLoginCode")
 	public @ResponseBody ResultVo doSendLoginSMS(HttpServletRequest request, String phoneNo) {
 		SmsCodeVo smsCodeVO = new SmsCodeVo();

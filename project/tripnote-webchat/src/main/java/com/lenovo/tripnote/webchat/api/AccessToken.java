@@ -15,7 +15,7 @@ public class AccessToken {
     /**
      * 令牌
      */
-    private String token;
+    private String access_token;
     /**
      * 有效期  单位秒
      */
