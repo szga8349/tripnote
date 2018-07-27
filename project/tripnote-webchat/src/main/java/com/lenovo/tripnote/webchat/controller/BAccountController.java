@@ -226,7 +226,7 @@ public class BAccountController {
 		smsCodeVO.setSmsCode(code);
 		ResultVo vo = new ResultVo();
 		vo.setCode(Result.SUCESSFUL);
-		//vo.setData(code);
+		vo.setData(code);
 		try {
 			if (smsSender.sendRegisterCode(phoneNo, code))// 发送验证码成功
 				request.getSession().setAttribute("smscode", smsCodeVO);
