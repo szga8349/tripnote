@@ -40,6 +40,8 @@ public class SmsSender implements ISmsSender,InitializingBean{
 	private String signName;
 
 	private IClientProfile profile;
+	
+	private IAcsClient acsClient;
 
 	@Override
 	public boolean sendLoginCode(String phone, String code) throws ServerException, ClientException,IOException {
@@ -52,7 +54,7 @@ public class SmsSender implements ISmsSender,InitializingBean{
 	 * @throws ServerException
 	 */
 	private boolean sendCode(String phone, String code,String loginTemplateCode) throws ServerException, ClientException,IOException {
-		IAcsClient acsClient = new DefaultAcsClient(profile);
+		/*IAcsClient acsClient = new DefaultAcsClient(profile);*/
 		// 组装请求对象
 		SendSmsRequest request = new SendSmsRequest();
 		// 使用post提交
@@ -115,6 +117,7 @@ public class SmsSender implements ISmsSender,InitializingBean{
 		profile = DefaultProfile.getProfile("cn-hangzhou", accessKeyId, accessKeySecret);
 		try {
 			DefaultProfile.addEndpoint("cn-hangzhou", "cn-hangzhou", product, domain);
+			acsClient = new DefaultAcsClient(profile);
 		} catch (ClientException e) {
 			e.printStackTrace();
 		}

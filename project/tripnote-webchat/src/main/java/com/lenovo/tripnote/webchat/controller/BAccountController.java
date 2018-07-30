@@ -226,10 +226,11 @@ public class BAccountController {
 		smsCodeVO.setSmsCode(code);
 		ResultVo vo = new ResultVo();
 		vo.setCode(Result.SUCESSFUL);
-		vo.setData(code);
 		try {
-			if (smsSender.sendRegisterCode(phoneNo, code))// 发送验证码成功
+			if (smsSender.sendRegisterCode(phoneNo, code)){// 发送验证码成功
 				request.getSession().setAttribute("smscode", smsCodeVO);
+				vo.setData(request.getSession().getId());
+			}
 		} catch (ClientException | IOException e) {
 			vo.setCode(Result.FAUL);
 			vo.setData(e.getMessage());
@@ -335,8 +336,10 @@ public class BAccountController {
 		vo.setCode(Result.SUCESSFUL);
 		//vo.setData(code);
 		try {
-			if (smsSender.sendLoginCode(phoneNo, code))// 发送验证码成功
+			if (smsSender.sendLoginCode(phoneNo, code)){// 发送验证码成功
 				request.getSession().setAttribute("smscode", smsCodeVO);
+				vo.setData(request.getSession().getId());
+			}
 		} catch (ClientException | IOException e) {
 			vo.setCode(Result.FAUL);
 			vo.setData(e.getMessage());
