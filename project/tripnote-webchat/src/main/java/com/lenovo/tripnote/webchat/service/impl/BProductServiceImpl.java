@@ -158,5 +158,47 @@ public class BProductServiceImpl implements BProductService {
 			}
 		}
 	}
+	@Transactional
+	@Override
+	public int updateProduct(BProductVo info,Integer id) {
+		BProduct bProduct = new BProduct();
+		try {
+			BeanUtils.copyProperties(bProduct, info);
+		} catch (IllegalAccessException | InvocationTargetException e) {
+			e.printStackTrace();
+			log.error(e.getMessage(),e.fillInStackTrace());
+		}
+		bProduct.setId(Integer.valueOf(id));
+		bProduct.setLastUpdateTime(new Date());
+		bProductMapper.updateByPrimaryKeySelective(bProduct);
+		
+		BProductImageExample example = new BProductImageExample();
+		example.createCriteria().andProductIdEqualTo(bProduct.getId());//删除先前关联的图片
+		bProductImageMapper.deleteByExample(example);
+		if(info.getImageUrls()!=null){//产品关联的图片
+			for(String imageurl:info.getImageUrls()){
+				BProductImage image = new BProductImage();
+				image.setUrl(imageurl);
+				image.setProductId(bProduct.getId());
+				bProductImageMapper.insertSelective(image);
+			}
+		}
+		//删除原有关联的团购类型数据
+		BProductCollageExample collageExample = new BProductCollageExample();
+		collageExample.createCriteria().andProductIdEqualTo(bProduct.getId());
+		bProductCollageMapper.deleteByExample(collageExample);
+		if(info.getProductCollages()!=null){
+			for(BProductCollageVo collageVo:info.getProductCollages()){
+				BProductCollage collage = new BProductCollage();
+				collage.setCollageLimitTime(collageVo.getCollageLimitTime());
+				collage.setCollagePrice(collageVo.getCollagePrice());
+				collage.setPeopleNum(collageVo.getPeopleNum());
+				collage.setProductId(bProduct.getId());
+				bProductCollageMapper.insertSelective(collage);
+			}
+		}
+		
+		return bProduct.getId();
+	}
 	
 }

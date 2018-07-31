@@ -1,19 +1,14 @@
 package com.lenovo.tripnote.webchat.controller;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.Date;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.lenovo.tripnote.webchat.entity.BProduct;
 import com.lenovo.tripnote.webchat.entity.vo.BProductOrderSearchVo;
 import com.lenovo.tripnote.webchat.entity.vo.BProductSearchVo;
 import com.lenovo.tripnote.webchat.entity.vo.BProductUpdateStatusVo;
@@ -26,13 +21,10 @@ import com.lenovo.tripnote.webchat.vo.Result;
 import com.lenovo.tripnote.webchat.vo.ResultVo;
 import com.lenovo.tripnote.webchat.vo.TokenVo;
 
-import lombok.extern.log4j.Log4j;
-
 /**
  * @author shijy2
  *
  */
-@Log4j
 @Controller
 @RequestMapping(value = "/token/product")
 public class BProductController {
@@ -56,16 +48,7 @@ public class BProductController {
 	@ResponseBody
 	public ResultVo doUpdate(@PathVariable String id, @RequestBody BProductVo info) {
 		ResultVo vo = new ResultVo();
-		BProduct bProduct = new BProduct();
-		try {
-			BeanUtils.copyProperties(bProduct, info);
-		} catch (IllegalAccessException | InvocationTargetException e) {
-			e.printStackTrace();
-			log.error(e.getMessage(),e.fillInStackTrace());
-		}
-		bProduct.setId(Integer.valueOf(id));
-		bProduct.setLastUpdateTime(new Date());
-		bProductService.update(bProduct);
+		bProductService.updateProduct(info,Integer.valueOf(id));
 		vo.setCode(Result.SUCESSFUL);
 		return vo;
 	}

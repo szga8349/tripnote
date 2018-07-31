@@ -14,6 +14,8 @@ public interface BProductService extends IDbService<BProduct>{
 	
       public int addProduct(BProductVo vo,TokenVo token);
       
+      public int updateProduct(BProductVo vo,Integer id);
+      
       public ResultPageInfo searchProduct(BProductSearchVo searchVo);
 
 	  public void deleteBatch(BatchVo batchVo);
