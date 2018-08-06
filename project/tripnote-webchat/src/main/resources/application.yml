@@ -1,10 +1,10 @@
 server:
   port: 80
-  #ssl:
-    #key-store: tomcat.keystore
-    #key-store-type: JKS
-    #key-alias: tomcat
-    #key-store-password: tomcat
+#  ssl:
+#    key-store: tomcat.keystore
+#    key-store-type: JKS
+#    key-alias: tomcat
+#    key-store-password: tomcat
   compression:
     enabled: true
     mime-types: application/json,application/xml,text/html,text/xml,text/plain,text/javascript,text/css,application/javascript

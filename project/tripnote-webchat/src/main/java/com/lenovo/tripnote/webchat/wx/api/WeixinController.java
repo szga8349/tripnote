@@ -1,6 +1,5 @@
 package com.lenovo.tripnote.webchat.wx.api;
 
-import com.alibaba.fastjson.JSONObject;
 import com.lenovo.tripnote.webchat.vo.Result;
 import com.lenovo.tripnote.webchat.vo.ResultVo;
 import com.lenovo.tripnote.webchat.wx.utils.IpUtils;

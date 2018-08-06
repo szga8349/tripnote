@@ -17,7 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import okhttp3.*;
+//import okhttp3.*;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.jdom.Document;
 import org.jdom.Element;
