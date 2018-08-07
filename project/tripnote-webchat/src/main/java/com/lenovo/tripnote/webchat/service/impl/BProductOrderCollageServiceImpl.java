@@ -107,13 +107,8 @@ public class BProductOrderCollageServiceImpl implements BProductOrderCollageServ
 		 record.setId(valueOf);
 		 record.setCollageStatus(1);
 		 bProductOrderCollageMapper.updateByPrimaryKeySelective(record);
-		 BProductOrderCollage collage = bProductOrderCollageMapper.selectByPrimaryKey(valueOf);
 		 BProductOrderCollageFinishVo finish = new BProductOrderCollageFinishVo();
-		 finish.setFormId(collage.getFormId());
-		 finish.setLoginToken(bAccountMapper.selectByPrimaryKey(collage.getCollageUserId()).getLoginToken());;
-		 finish.setId(valueOf);
 		 List<BProductOrderCollageFinishVo> rlist = new ArrayList<BProductOrderCollageFinishVo>();
-		 rlist.add(finish);
 		 //设置拼团下的拼单为结束
 		 List<BProductOrderCollageDetailVo> list = listUser(valueOf);
 		 for(BProductOrderCollageDetailVo vo:list){
