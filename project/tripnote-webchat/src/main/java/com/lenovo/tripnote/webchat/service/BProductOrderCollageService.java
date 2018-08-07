@@ -35,4 +35,7 @@ public interface BProductOrderCollageService extends IDbService<BProductOrderCol
 	
 
 	public List<BProductOrderCollageFinishVo> updateFinish(Integer valueOf);
+	
+	
+	public List<BProductOrderCollageFinishVo> searchFormIds(Integer valueOf);
 }

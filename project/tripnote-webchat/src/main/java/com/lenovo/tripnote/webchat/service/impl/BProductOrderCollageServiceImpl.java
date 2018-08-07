@@ -119,4 +119,10 @@ public class BProductOrderCollageServiceImpl implements BProductOrderCollageServ
 		return rlist;
 	}
 
+	@Override
+	public List<BProductOrderCollageFinishVo> searchFormIds(Integer valueOf) {
+		
+		return bProductOrderCollageMapper.searchFormIds(valueOf);
+	}
+
 }

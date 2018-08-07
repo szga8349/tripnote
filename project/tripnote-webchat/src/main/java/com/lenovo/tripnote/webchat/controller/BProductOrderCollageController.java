@@ -124,5 +124,14 @@ public class BProductOrderCollageController {
 		vo.setCode(Result.SUCESSFUL);
 		return vo;
 	}
+	
+	@RequestMapping(value = "/doFormId/{id}")
+	@ResponseBody
+	public ResultVo doFormIds(@PathVariable String id) {
+		ResultVo vo = new ResultVo();
+		vo.setData(bProductOrderCollageService.searchFormIds(Integer.valueOf(id)));
+		vo.setCode(Result.SUCESSFUL);
+		return vo;
+	}
 
 }

@@ -3,6 +3,7 @@ package com.lenovo.tripnote.webchat.mapper;
 import com.lenovo.tripnote.webchat.entity.BProductOrderCollage;
 import com.lenovo.tripnote.webchat.entity.BProductOrderCollageExample;
 import com.lenovo.tripnote.webchat.entity.vo.BProductOrderCollageDetailVo;
+import com.lenovo.tripnote.webchat.entity.vo.BProductOrderCollageFinishVo;
 
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
@@ -120,4 +121,11 @@ public interface BProductOrderCollageMapper {
 	 * @return
 	 */
 	List<BProductOrderCollageDetailVo> listCollage(Integer valueOf);
+	
+	
+	/**查询拼团下所有支付信息
+	 * @param valueOf
+	 * @return
+	 */
+	List<BProductOrderCollageFinishVo> searchFormIds(Integer valueOf);
 }
