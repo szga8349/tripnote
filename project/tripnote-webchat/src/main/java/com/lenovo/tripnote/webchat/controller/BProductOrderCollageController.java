@@ -111,5 +111,18 @@ public class BProductOrderCollageController {
 		vo.setCode(Result.SUCESSFUL);
 		return vo;
 	}
+	
+	/**一键拼团成功
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value = "/doFinish/{id}")
+	@ResponseBody
+	public ResultVo doFinishOrderCollage(@PathVariable String id) {
+		ResultVo vo = new ResultVo();
+		vo.setData(bProductOrderCollageService.updateFinish(Integer.valueOf(id)));
+		vo.setCode(Result.SUCESSFUL);
+		return vo;
+	}
 
 }

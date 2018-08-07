@@ -1,6 +1,7 @@
 package com.lenovo.tripnote.webchat.service.impl;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,7 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.lenovo.tripnote.webchat.entity.BProductOrderCollage;
 import com.lenovo.tripnote.webchat.entity.vo.BProductOrderCollageDetailVo;
+import com.lenovo.tripnote.webchat.entity.vo.BProductOrderCollageFinishVo;
 import com.lenovo.tripnote.webchat.entity.vo.BProductOrderCollagedPartakeVo;
+import com.lenovo.tripnote.webchat.mapper.BAccountMapper;
 import com.lenovo.tripnote.webchat.mapper.BProductOrderCollageMapper;
 import com.lenovo.tripnote.webchat.service.BProductOrderCollageService;
 import com.lenovo.tripnote.webchat.vo.TokenVo;
@@ -23,6 +26,9 @@ import lombok.extern.log4j.Log4j;
 public class BProductOrderCollageServiceImpl implements BProductOrderCollageService{
     @Resource
     private BProductOrderCollageMapper bProductOrderCollageMapper;
+    @Resource
+    private BAccountMapper bAccountMapper;
+    
 	@Override
 	@Transactional
 	public int insert(BProductOrderCollage t) {
@@ -80,6 +86,37 @@ public class BProductOrderCollageServiceImpl implements BProductOrderCollageServ
 	public List<BProductOrderCollageDetailVo> listCollage(Integer valueOf) {
 	
 		return bProductOrderCollageMapper.listCollage(valueOf);
+	}
+
+	@Override
+	@Transactional
+	public List<BProductOrderCollageFinishVo> updateFinish(Integer valueOf) {
+		 //设置拼团状态为结束
+		 BProductOrderCollage record = new BProductOrderCollage();
+		 record.setId(valueOf);
+		 record.setCollageStatus(1);
+		 bProductOrderCollageMapper.updateByPrimaryKeySelective(record);
+		 BProductOrderCollage collage = bProductOrderCollageMapper.selectByPrimaryKey(valueOf);
+		 BProductOrderCollageFinishVo finish = new BProductOrderCollageFinishVo();
+		 finish.setFormId(collage.getFormId());
+		 finish.setLoginToken(bAccountMapper.selectByPrimaryKey(collage.getCollageUserId()).getLoginToken());;
+		 finish.setId(valueOf);
+		 List<BProductOrderCollageFinishVo> rlist = new ArrayList<BProductOrderCollageFinishVo>();
+		 rlist.add(finish);
+		 //设置拼团下的拼单为结束
+		 List<BProductOrderCollageDetailVo> list = listUser(valueOf);
+		 for(BProductOrderCollageDetailVo vo:list){
+			 record = new BProductOrderCollage();
+			 record.setId(vo.getId());
+			 record.setCollageStatus(1);
+			 bProductOrderCollageMapper.updateByPrimaryKeySelective(record);
+			 finish = new BProductOrderCollageFinishVo();
+			 finish.setFormId(vo.getFormId());
+			 finish.setLoginToken(vo.getLoginToken());
+			 finish.setId(vo.getId());
+			 rlist.add(finish);
+		 }
+		return rlist;
 	}
 
 }

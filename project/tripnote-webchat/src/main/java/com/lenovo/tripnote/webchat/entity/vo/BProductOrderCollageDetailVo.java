@@ -43,5 +43,11 @@ public class BProductOrderCollageDetailVo extends BProductOrderCollage{
      * 用户头像信息
      */
     private String userImageUrl;
+    
+    
+    /**
+     * 用户头像信息
+     */
+    private String loginToken;
 
 }

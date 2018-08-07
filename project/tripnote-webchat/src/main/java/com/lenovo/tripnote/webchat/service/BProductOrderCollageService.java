@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.lenovo.tripnote.webchat.entity.BProductOrderCollage;
 import com.lenovo.tripnote.webchat.entity.vo.BProductOrderCollageDetailVo;
+import com.lenovo.tripnote.webchat.entity.vo.BProductOrderCollageFinishVo;
 import com.lenovo.tripnote.webchat.entity.vo.BProductOrderCollagedPartakeVo;
 import com.lenovo.tripnote.webchat.vo.TokenVo;
 
@@ -30,5 +31,8 @@ public interface BProductOrderCollageService extends IDbService<BProductOrderCol
 	 * @return
 	 */
 	List<BProductOrderCollageDetailVo> listCollage(Integer valueOf);
+	
+	
 
+	public List<BProductOrderCollageFinishVo> updateFinish(Integer valueOf);
 }

@@ -42,6 +42,8 @@
     <result column="pay_status" property="payStatus" jdbcType="INTEGER" />
     <result column="userImageUrl" property="userImageUrl" jdbcType="VARCHAR" />
     <result column="collage_limit_time" property="collageLimitTime" jdbcType="INTEGER" />
+    <result column="login_token" property="loginToken" jdbcType="VARCHAR" />
+    <result column="form_id" property="formId" jdbcType="VARCHAR" />
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -112,7 +114,7 @@
      select bpc.people_num,bpc.collage_price,bpc.collage_limit_time,
      (bpc.collage_limit_time*3600 - TIMESTAMPDIFF(SECOND,bpoc.create_time,now())) as remainingTime,(select count(1) from  b_product_order_collage bp where bp.collage_id =bpoc.id or (bp.id=bpoc.id and bp.collage_id=0)) as peoplecount,
      bpoc.create_user_id,bpoc.create_user_name,bpoc.collage_status,bpoc.product_collage_id,bpoc.product_id,bpoc.id,bpoc.create_time,bpoc.collage_id,bpoc.collage_user_id,bpoc.collage_user_name,
-     ba.imageurl as userImageUrl,bpoc.pay_status
+     ba.imageurl as userImageUrl,bpoc.pay_status,ba.login_token,bpoc.form_id
      from b_product_order_collage bpoc left join b_product_collage bpc on bpc.id=bpoc.product_collage_id
      left join b_account ba on ba.id = bpoc.collage_user_id
      where (bpoc.id = #{id,jdbcType=INTEGER}  or bpoc.collage_id=#{id,jdbcType=INTEGER}) order by bpoc.create_time desc
