@@ -134,6 +134,12 @@
             <groupId>org.weixin4j</groupId>
             <artifactId>weixin4j</artifactId>
             <version>0.0.7</version>
+            <exclusions>
+               <exclusion>
+                  <groupId>javax.servlet</groupId>
+			      <artifactId>servlet-api</artifactId>
+               </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
