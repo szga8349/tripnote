@@ -73,7 +73,7 @@ public class BProductOrderVo {
      * b_product_order_collage.play_status (支付状态：0编辑 1预支付 2支付完成)
      * @ibatorgenerated 2018-08-07 15:29:05
      */
-    private Integer playStatus;
+    private Integer payStatus;
 
     /**
      * b_product_order_collage.form_id (微信小程序发送通知模板信息中使用的form_id,由预支付后设置)
