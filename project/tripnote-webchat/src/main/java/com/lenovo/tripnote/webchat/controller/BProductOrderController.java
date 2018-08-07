@@ -45,7 +45,8 @@ public class BProductOrderController {
 		bProduct.setCreateUserName(token.getUserLoginName());
 		bProduct.setCreateTime(new Date());
 		vo.setCode(Result.SUCESSFUL);
-		vo.setData(bProductOrderService.insert(bProduct));
+		bProductOrderService.insert(bProduct);
+		vo.setData(bProduct.getId());
 		return vo;
 	}
 	@RequestMapping(value = "/doUpdate/{id}")

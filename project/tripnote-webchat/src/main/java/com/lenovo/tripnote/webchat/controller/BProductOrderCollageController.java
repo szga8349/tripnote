@@ -55,7 +55,8 @@ public class BProductOrderCollageController {
 		bProduct.setCreateTime(new Date());
 		bProduct.setCollageId(0);//默认创建拼团的主键值为0
 		vo.setCode(Result.SUCESSFUL);
-		vo.setData(bProductOrderCollageService.insert(bProduct));
+		bProductOrderCollageService.insert(bProduct);
+		vo.setData(bProduct.getId());
 		return vo;
 	}
 
