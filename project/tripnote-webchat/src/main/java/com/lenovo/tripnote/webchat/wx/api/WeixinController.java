@@ -5,18 +5,18 @@ import com.lenovo.tripnote.webchat.vo.ResultVo;
 import com.lenovo.tripnote.webchat.wx.utils.IpUtils;
 import com.lenovo.tripnote.webchat.wx.utils.StringUtils;
 import com.lenovo.tripnote.webchat.wx.utils.weixin.PayUtil;
+import com.lenovo.tripnote.webchat.wx.utils.weixin.vo.GroupSuccess;
 import com.lenovo.tripnote.webchat.wx.utils.weixin.vo.OAuthJsToken;
 import com.lenovo.tripnote.webchat.wx.utils.weixin.vo.WxUnifiedOrder;
 import com.lenovo.tripnote.webchat.wx.vo.Json;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.web.bind.annotation.*;
 import org.weixin4j.WeixinException;
 import org.weixin4j.WeixinSupport;
 import org.weixin4j.http.HttpsClient;
@@ -25,10 +25,10 @@ import org.weixin4j.http.Response;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -42,6 +42,9 @@ import java.util.TreeMap;
 @RestController
 @PropertySource(value="classpath:conf/sms.properties",encoding="UTF-8")
 public class WeixinController extends WeixinSupport{
+
+	// 存储缓存数据
+	public static Map<String,Object> cacheData = new HashMap<>();
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -70,6 +73,9 @@ public class WeixinController extends WeixinSupport{
 	
 	@Value("${webchat.pay_url}")
 	private String pay_url;
+
+	@Value("${webchat.templateGroupSuccessId}")
+	private String templateGroupSuccessId;
 
     /**
      * 小程序后台登录，向微信平台发送获取access_token请求，并返回openId
@@ -210,6 +216,8 @@ public class WeixinController extends WeixinSupport{
 
             response.put("appid", appid);
 
+
+
             vo.setCode(Result.SUCESSFUL);
             vo.setData(response);
         }catch(Exception e){
@@ -269,4 +277,225 @@ public class WeixinController extends WeixinSupport{
         out.flush();
         out.close();
     }
+
+
+	/**
+	 * 定时获取access_token
+	 * @throws SQLException
+	 */
+	@Scheduled(fixedDelay=7180000)
+	public void setAccessToken() throws SQLException {
+		logger.info("==============开始获取access_token===============");
+		String access_token = null;
+		String grant_type = "client_credential";
+		String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type="+grant_type+"&appid="+appid+"&secret="+secret;
+
+		try {
+			URL urlGet = new URL(url);
+			HttpURLConnection http = (HttpURLConnection) urlGet.openConnection();
+			http.setRequestMethod("GET"); // 必须是get方式请求
+			http.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
+			http.setDoOutput(true);
+			http.setDoInput(true);
+			http.connect();
+			InputStream is = http.getInputStream();
+			int size = is.available();
+			byte[] jsonBytes = new byte[size];
+			is.read(jsonBytes);
+			String message = new String(jsonBytes, "UTF-8");
+			JSONObject demoJson = JSONObject.fromObject(message);
+			//System.out.println("JSON字符串："+demoJson);
+			access_token = demoJson.getString("access_token");
+
+			System.out.println(access_token);
+			is.close();
+			logger.info("==============结束获取access_token===============");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		logger.info("==============开始写入access_token===============");
+//        redisTokenHelper.saveObject("global_token", access_token);
+		cacheData.put("token", access_token);
+		logger.info("==============写入access_token成功===============");
+	}
+
+	@RequestMapping(value = "/getAccessToken")
+	@ResponseBody
+	public ResultVo getAccessToken(HttpServletRequest request) {
+		ResultVo vo = new ResultVo();
+
+		System.out.println(cacheData.get("token"));
+
+		vo.setData(cacheData.get("token"));
+		return vo;
+	}
+
+
+	/**
+	 *  拼团成功发送模板
+	 */
+	@RequestMapping(value = "/sentTemplateGroupSuccessMessage")
+	public void sentOrderSuccessMessage(@RequestBody GroupSuccess groupSuccess) {
+		logger.info("==============接收到formId---"+groupSuccess.getFormId()+"===============");
+		String url = "https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token="+cacheData.get("token");
+
+		try {
+			URL urlGet = new URL(url);
+			HttpURLConnection http = (HttpURLConnection) urlGet.openConnection();
+			http.setRequestMethod("POST");
+			http.setRequestProperty("Content-Type","application/json;charset=UTF-8");
+
+
+			http.setDoOutput(true);
+			http.setDoInput(true);
+			http.connect();
+
+			JSONObject jsonObject = new JSONObject();
+
+
+//			商品名称
+//			{{keyword1.DATA}}
+//
+//			参团人数
+//			{{keyword2.DATA}}
+//
+//			原价
+//			{{keyword3.DATA}}
+//
+//			拼团价格
+//			{{keyword4.DATA}}
+//
+//			温馨提示
+//			{{keyword5.DATA}}
+
+			jsonObject.put("touser", groupSuccess.getOpenId());
+			jsonObject.put("template_id", templateGroupSuccessId);
+			jsonObject.put("form_id", groupSuccess.getFormId());
+
+
+			JSONObject data = new JSONObject();
+			JSONObject keyword1 = new JSONObject();
+			keyword1.put("value", groupSuccess.getProductName());
+			JSONObject keyword2 = new JSONObject();
+			keyword2.put("value", groupSuccess.getGroupNum());
+			JSONObject keyword3 = new JSONObject();
+			keyword3.put("value", groupSuccess.getRawPrice());
+			JSONObject keyword4 = new JSONObject();
+			keyword4.put("value", groupSuccess.getGroupPrice());
+			JSONObject keyword5 = new JSONObject();
+			keyword5.put("value", groupSuccess.getTips());
+
+			data.put("keyword1", keyword1);
+			data.put("keyword2", keyword2);
+			data.put("keyword3", keyword3);
+			data.put("keyword4", keyword4);
+			data.put("keyword5", keyword5);
+
+			jsonObject.put("data", data);
+
+			DataOutputStream out = new DataOutputStream(
+					http.getOutputStream());
+			out.write(jsonObject.toString().getBytes("UTF-8"));
+			out.flush();
+			out.close();
+
+			InputStream is = http.getInputStream();
+			int size = is.available();
+			byte[] jsonBytes = new byte[size];
+			is.read(jsonBytes);
+			String message = new String(jsonBytes, "UTF-8");
+			JSONObject demoJson = JSONObject.fromObject(message);
+
+			is.close();
+			logger.info("===发送结果："+message+"===============");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+
+	@RequestMapping(value = "/sentMessage")
+	public void sentMessage(@RequestParam String open_id, @RequestParam String title, @RequestParam String pagepath, @RequestParam String thumb_media_id) {
+		logger.info("==============openId---"+open_id+"===============");
+		String url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token="+cacheData.get("token");
+
+		try {
+			URL urlGet = new URL(url);
+			HttpURLConnection http = (HttpURLConnection) urlGet.openConnection();
+			http.setRequestMethod("POST");
+			http.setRequestProperty("Content-Type","application/json;charset=UTF-8");
+
+
+			http.setDoOutput(true);
+			http.setDoInput(true);
+			http.connect();
+
+			JSONObject jsonObject = new JSONObject();
+
+
+//			产品
+//			{{keyword1.DATA}}
+//
+//			购买时间
+//			{{keyword2.DATA}}
+//
+//			交易单号
+//			{{keyword3.DATA}}
+//
+//			订单总价
+//			{{keyword4.DATA}}
+//
+//			姓名
+//			{{keyword5.DATA}}
+//
+//			电话
+//			{{keyword6.DATA}}
+
+			jsonObject.put("touser", open_id);
+			jsonObject.put("msgtype", "miniprogrampage");
+
+
+			JSONObject data = new JSONObject();
+			JSONObject keyword1 = new JSONObject();
+			keyword1.put("value", "日本五年多次往返签证111");
+			JSONObject keyword2 = new JSONObject();
+			keyword2.put("value", "2018年08月06日 15:30");
+			JSONObject keyword3 = new JSONObject();
+			keyword3.put("value", "101225262522225");
+			JSONObject keyword4 = new JSONObject();
+			keyword4.put("value", "1");
+			JSONObject keyword5 = new JSONObject();
+			keyword5.put("value", "杜军芝1");
+			JSONObject keyword6 = new JSONObject();
+			keyword6.put("value", "15108230211");
+
+			data.put("title", title);
+			data.put("pagepath", pagepath);
+			data.put("thumb_media_id", thumb_media_id);
+//			data.put("keyword4", keyword4);
+//			data.put("keyword5", keyword5);
+//			data.put("keyword6", keyword6);
+
+			jsonObject.put("miniprogrampage", data);
+
+			DataOutputStream out = new DataOutputStream(
+					http.getOutputStream());
+			out.write(jsonObject.toString().getBytes("UTF-8"));
+			out.flush();
+			out.close();
+
+			InputStream is = http.getInputStream();
+			int size = is.available();
+			byte[] jsonBytes = new byte[size];
+			is.read(jsonBytes);
+			String message = new String(jsonBytes, "UTF-8");
+			JSONObject demoJson = JSONObject.fromObject(message);
+
+			is.close();
+			logger.info("===发送结果："+message+"===============");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }
