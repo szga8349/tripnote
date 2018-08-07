@@ -75,7 +75,12 @@ public class BProductOrderCollageController {
 			partakVo = new BProductOrderCollagedPartakeVo();
 		}
 		partakVo.setOrderCollageId(Integer.valueOf(id));
-		vo.setData(bProductOrderCollageService.insertCollage(partakVo,token));
+		int newId = bProductOrderCollageService.insertCollage(partakVo,token);
+		if(newId==-1){
+			vo.setCode(Result.FAUL);
+			vo.setData("参团人数已满");
+		}
+		vo.setData(newId);
 		return vo;
 	}
 	@RequestMapping(value = "/doUpdate/{id}")

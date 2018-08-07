@@ -11,11 +11,13 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.lenovo.tripnote.webchat.entity.BProductCollage;
 import com.lenovo.tripnote.webchat.entity.BProductOrderCollage;
 import com.lenovo.tripnote.webchat.entity.vo.BProductOrderCollageDetailVo;
 import com.lenovo.tripnote.webchat.entity.vo.BProductOrderCollageFinishVo;
 import com.lenovo.tripnote.webchat.entity.vo.BProductOrderCollagedPartakeVo;
 import com.lenovo.tripnote.webchat.mapper.BAccountMapper;
+import com.lenovo.tripnote.webchat.mapper.BProductCollageMapper;
 import com.lenovo.tripnote.webchat.mapper.BProductOrderCollageMapper;
 import com.lenovo.tripnote.webchat.service.BProductOrderCollageService;
 import com.lenovo.tripnote.webchat.vo.TokenVo;
@@ -28,6 +30,8 @@ public class BProductOrderCollageServiceImpl implements BProductOrderCollageServ
     private BProductOrderCollageMapper bProductOrderCollageMapper;
     @Resource
     private BAccountMapper bAccountMapper;
+    @Resource
+    private BProductCollageMapper bProductCollageMapper;
     
 	@Override
 	@Transactional
@@ -56,9 +60,16 @@ public class BProductOrderCollageServiceImpl implements BProductOrderCollageServ
 	}
 
 	@Override
-	@Transactional
 	public int insertCollage(BProductOrderCollagedPartakeVo vo, TokenVo token) {
+	
 		BProductOrderCollage old = bProductOrderCollageMapper.selectByPrimaryKey(vo.getOrderCollageId());
+		
+		List<BProductOrderCollageDetailVo> oldUsers = listUser(vo.getOrderCollageId());
+		//根据团购类型ID查询团购类型信息
+		BProductCollage collage = bProductCollageMapper.selectByPrimaryKey(old.getProductCollageId());
+		if(collage.getPeopleNum()<=oldUsers.size()+1){//参团已满
+		    return -1;
+		}
 		BProductOrderCollage bProduct = new BProductOrderCollage();
 		try {
 			BeanUtils.copyProperties(bProduct, old);
