@@ -19,7 +19,7 @@
     <result column="use_date" property="useDate" jdbcType="DATE" />
     <result column="other_info" property="otherInfo" jdbcType="VARCHAR" />
     <result column="deposit" property="deposit" jdbcType="REAL" />
-    <result column="play_status" property="playStatus" jdbcType="INTEGER" />
+    <result column="pay_status" property="payStatus" jdbcType="INTEGER" />
     <result column="form_id" property="formId" jdbcType="VARCHAR" />
   </resultMap>
   
@@ -39,7 +39,7 @@
     <result column="collage_price" property="collagePrice" jdbcType="REAL" />
     <result column="peoplecount" property="peoplecount" jdbcType="INTEGER" />
     <result column="remainingTime" property="remainingTime" jdbcType="INTEGER" />
-    <result column="play_status" property="playStatus" jdbcType="INTEGER" />
+    <result column="pay_status" property="payStatus" jdbcType="INTEGER" />
     <result column="userImageUrl" property="userImageUrl" jdbcType="VARCHAR" />
     <result column="collage_limit_time" property="collageLimitTime" jdbcType="INTEGER" />
   </resultMap>
@@ -47,7 +47,7 @@
   <sql id="Base_Column_List" >
     id, collage_user_id, collage_user_name, product_collage_id, product_id, collage_status, 
     create_user_id, create_user_name, create_time, collage_id, order_user_name, order_user_phone, 
-    place, card_id, use_date, other_info, deposit, play_status, form_id
+    place, card_id, use_date, other_info, deposit, pay_status, form_id
   </sql>
   <sql id="Example_Where_Clause" >
     <where >
@@ -112,7 +112,7 @@
      select bpc.people_num,bpc.collage_price,bpc.collage_limit_time,
      (bpc.collage_limit_time*3600 - TIMESTAMPDIFF(SECOND,bpoc.create_time,now())) as remainingTime,(select count(1) from  b_product_order_collage bp where bp.collage_id =bpoc.id or (bp.id=bpoc.id and bp.collage_id=0)) as peoplecount,
      bpoc.create_user_id,bpoc.create_user_name,bpoc.collage_status,bpoc.product_collage_id,bpoc.product_id,bpoc.id,bpoc.create_time,bpoc.collage_id,bpoc.collage_user_id,bpoc.collage_user_name,
-     ba.imageurl as userImageUrl,bpoc.play_status
+     ba.imageurl as userImageUrl,bpoc.pay_status
      from b_product_order_collage bpoc left join b_product_collage bpc on bpc.id=bpoc.product_collage_id
      left join b_account ba on ba.id = bpoc.collage_user_id
      where (bpoc.id = #{id,jdbcType=INTEGER}  or bpoc.collage_id=#{id,jdbcType=INTEGER}) order by bpoc.create_time desc
@@ -123,7 +123,7 @@
      select bpc.people_num,bpc.collage_price,bpc.collage_limit_time,
      (bpc.collage_limit_time*3600 - TIMESTAMPDIFF(SECOND,bpoc.create_time,now())) as remainingTime,(select count(1) from  b_product_order_collage bp where bp.collage_id =bpoc.id or (bp.id=bpoc.id and bp.collage_id=0)) as peoplecount,
      bpoc.create_user_id,bpoc.create_user_name,bpoc.collage_status,bpoc.product_collage_id,bpoc.product_id,bpoc.id,bpoc.create_time,bpoc.collage_id,bpoc.collage_user_id,bpoc.collage_user_name,
-     ba.imageurl as userImageUrl,bpoc.play_status
+     ba.imageurl as userImageUrl,bpoc.pay_status
      from b_product_order_collage bpoc left join b_product_collage bpc on bpc.id=bpoc.product_collage_id  
      left join b_account ba on ba.id = bpoc.collage_user_id where  bpoc.collage_id = 0
      and  bpoc.product_id = #{id,jdbcType=INTEGER} order by bpoc.create_time desc
@@ -223,8 +223,8 @@
       <if test="record.deposit != null" >
         deposit = #{record.deposit,jdbcType=REAL},
       </if>
-      <if test="record.playStatus != null" >
-        play_status = #{record.playStatus,jdbcType=INTEGER},
+      <if test="record.payStatus != null" >
+        pay_status = #{record.payStatus,jdbcType=INTEGER},
       </if>
       <if test="record.formId != null" >
         form_id = #{record.formId,jdbcType=VARCHAR},
@@ -253,7 +253,7 @@
       use_date = #{record.useDate,jdbcType=DATE},
       other_info = #{record.otherInfo,jdbcType=VARCHAR},
       deposit = #{record.deposit,jdbcType=REAL},
-      play_status = #{record.playStatus,jdbcType=INTEGER},
+      pay_status = #{record.payStatus,jdbcType=INTEGER},
       form_id = #{record.formId,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -275,14 +275,14 @@
       create_user_name, create_time, collage_id, 
       order_user_name, order_user_phone, place, 
       card_id, use_date, other_info, 
-      deposit, play_status, form_id
+      deposit, pay_status, form_id
       )
     values (#{collageUserId,jdbcType=INTEGER}, #{collageUserName,jdbcType=VARCHAR}, #{productCollageId,jdbcType=INTEGER}, 
       #{productId,jdbcType=INTEGER}, #{collageStatus,jdbcType=INTEGER}, #{createUserId,jdbcType=INTEGER}, 
       #{createUserName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{collageId,jdbcType=INTEGER}, 
       #{orderUserName,jdbcType=VARCHAR}, #{orderUserPhone,jdbcType=VARCHAR}, #{place,jdbcType=VARCHAR}, 
       #{cardId,jdbcType=VARCHAR}, #{useDate,jdbcType=DATE}, #{otherInfo,jdbcType=VARCHAR}, 
-      #{deposit,jdbcType=REAL}, #{playStatus,jdbcType=INTEGER}, #{formId,jdbcType=VARCHAR}
+      #{deposit,jdbcType=REAL}, #{payStatus,jdbcType=INTEGER}, #{formId,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.lenovo.tripnote.webchat.entity.BProductOrderCollage" useGeneratedKeys="true" keyProperty="id" >
@@ -304,7 +304,7 @@
       use_date,
       other_info,
       deposit,
-      play_status,
+      pay_status,
       form_id,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -324,7 +324,7 @@
       #{useDate,jdbcType=DATE},
       #{otherInfo,jdbcType=VARCHAR},
       #{deposit,jdbcType=REAL},
-      #{playStatus,jdbcType=INTEGER},
+      #{payStatus,jdbcType=INTEGER},
       #{formId,jdbcType=VARCHAR},
     </trim>
   </insert>
@@ -379,8 +379,8 @@
       <if test="deposit != null" >
         deposit = #{deposit,jdbcType=REAL},
       </if>
-      <if test="playStatus != null" >
-        play_status = #{playStatus,jdbcType=INTEGER},
+      <if test="payStatus != null" >
+        pay_status = #{payStatus,jdbcType=INTEGER},
       </if>
       <if test="formId != null" >
         form_id = #{formId,jdbcType=VARCHAR},
@@ -406,7 +406,7 @@
       use_date = #{useDate,jdbcType=DATE},
       other_info = #{otherInfo,jdbcType=VARCHAR},
       deposit = #{deposit,jdbcType=REAL},
-      play_status = #{playStatus,jdbcType=INTEGER},
+      pay_status = #{payStatus,jdbcType=INTEGER},
       form_id = #{formId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
