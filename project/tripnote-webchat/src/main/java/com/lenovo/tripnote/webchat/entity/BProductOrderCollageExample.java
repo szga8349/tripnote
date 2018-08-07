@@ -8,25 +8,25 @@ import java.util.List;
 public class BProductOrderCollageExample {
     /**
      * 主键字段
-     * @ibatorgenerated 2018-07-09 16:50:59
+     * @ibatorgenerated 2018-08-07 15:29:05
      */
     protected String pk_name = "id";
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-07-09 16:50:59
+     * @ibatorgenerated 2018-08-07 15:29:05
      */
     protected String orderByClause;
 
     /**
      * 去重复
-     * @ibatorgenerated 2018-07-09 16:50:59
+     * @ibatorgenerated 2018-08-07 15:29:05
      */
     protected boolean distinct;
 
     /**
      * 条件集
-     * @ibatorgenerated 2018-07-09 16:50:59
+     * @ibatorgenerated 2018-08-07 15:29:05
      */
     protected List<Criteria> oredCriteria;
 
@@ -44,7 +44,7 @@ public class BProductOrderCollageExample {
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-07-09 16:50:59
+     * @ibatorgenerated 2018-08-07 15:29:05
      */
     public void setOrderByClause(String orderByClause) {
         this.orderByClause = orderByClause;
@@ -56,7 +56,7 @@ public class BProductOrderCollageExample {
 
     /**
      * 设置去重复
-     * @ibatorgenerated 2018-07-09 16:50:59
+     * @ibatorgenerated 2018-08-07 15:29:05
      */
     public void setDistinct(boolean distinct) {
         this.distinct = distinct;
@@ -82,7 +82,7 @@ public class BProductOrderCollageExample {
 
     /**
      * 条件查询要先创建Criteria
-     * @ibatorgenerated 2018-07-09 16:50:59
+     * @ibatorgenerated 2018-08-07 15:29:05
      */
     public Criteria createCriteria() {
         Criteria criteria = createCriteriaInternal();
@@ -106,7 +106,7 @@ public class BProductOrderCollageExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-07-09 16:50:59
+     * @ibatorgenerated 2018-08-07 15:29:05
      */
     protected abstract static class GeneratedCriteria {
         protected List<Criterion> criteria;
@@ -1264,11 +1264,141 @@ public class BProductOrderCollageExample {
             addCriterion("deposit not between", value1, value2, "deposit");
             return (Criteria) this;
         }
+
+        public Criteria andPlayStatusIsNull() {
+            addCriterion("play_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlayStatusIsNotNull() {
+            addCriterion("play_status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlayStatusEqualTo(Integer value) {
+            addCriterion("play_status =", value, "playStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlayStatusNotEqualTo(Integer value) {
+            addCriterion("play_status <>", value, "playStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlayStatusGreaterThan(Integer value) {
+            addCriterion("play_status >", value, "playStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlayStatusGreaterThanOrEqualTo(Integer value) {
+            addCriterion("play_status >=", value, "playStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlayStatusLessThan(Integer value) {
+            addCriterion("play_status <", value, "playStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlayStatusLessThanOrEqualTo(Integer value) {
+            addCriterion("play_status <=", value, "playStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlayStatusIn(List<Integer> values) {
+            addCriterion("play_status in", values, "playStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlayStatusNotIn(List<Integer> values) {
+            addCriterion("play_status not in", values, "playStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlayStatusBetween(Integer value1, Integer value2) {
+            addCriterion("play_status between", value1, value2, "playStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlayStatusNotBetween(Integer value1, Integer value2) {
+            addCriterion("play_status not between", value1, value2, "playStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormIdIsNull() {
+            addCriterion("form_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormIdIsNotNull() {
+            addCriterion("form_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormIdEqualTo(String value) {
+            addCriterion("form_id =", value, "formId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormIdNotEqualTo(String value) {
+            addCriterion("form_id <>", value, "formId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormIdGreaterThan(String value) {
+            addCriterion("form_id >", value, "formId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormIdGreaterThanOrEqualTo(String value) {
+            addCriterion("form_id >=", value, "formId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormIdLessThan(String value) {
+            addCriterion("form_id <", value, "formId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormIdLessThanOrEqualTo(String value) {
+            addCriterion("form_id <=", value, "formId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormIdLike(String value) {
+            addCriterion("form_id like", value, "formId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormIdNotLike(String value) {
+            addCriterion("form_id not like", value, "formId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormIdIn(List<String> values) {
+            addCriterion("form_id in", values, "formId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormIdNotIn(List<String> values) {
+            addCriterion("form_id not in", values, "formId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormIdBetween(String value1, String value2) {
+            addCriterion("form_id between", value1, value2, "formId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormIdNotBetween(String value1, String value2) {
+            addCriterion("form_id not between", value1, value2, "formId");
+            return (Criteria) this;
+        }
     }
 
     /**
      * b_product_order_collage
-     * @ibatorgenerated do_not_delete_during_merge 2018-07-09 16:50:59
+     * @ibatorgenerated do_not_delete_during_merge 2018-08-07 15:29:05
      */
     public static class Criteria extends GeneratedCriteria {
 
@@ -1280,7 +1410,7 @@ public class BProductOrderCollageExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-07-09 16:50:59
+     * @ibatorgenerated 2018-08-07 15:29:05
      */
     public static class Criterion {
         private String condition;
