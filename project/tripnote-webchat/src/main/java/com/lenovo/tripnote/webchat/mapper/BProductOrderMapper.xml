@@ -152,7 +152,7 @@
       from b_product bp,
       <choose>  
           <when test="record.priceType==null">
-           (select bpoc.id,product_id,bpoc.create_time,collage_status as status,collage_user_id as create_user_id,collage_user_name as create_user_name from b_product_order_collage bpoc,b_product bp where bp.id = product_id 
+           (select bpoc.id,product_id,bpoc.create_time,pay_status as status,collage_user_id as create_user_id,collage_user_name as create_user_name from b_product_order_collage bpoc,b_product bp where bp.id = product_id 
             union all
             select bpo.id,product_id,bpo.create_time,bpo.status,bpo.create_user_id,bpo.create_user_name from b_product_order bpo,b_product bp where bp.id = product_id
            )
