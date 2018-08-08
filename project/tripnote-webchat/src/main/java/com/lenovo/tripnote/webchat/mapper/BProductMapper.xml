@@ -143,7 +143,7 @@
   
    
   <select id="searchProduct" resultMap="SearchResultMap" parameterType="com.lenovo.tripnote.webchat.entity.vo.BProductSearchVo" >
-    select case price_type when 2 then (select count(1) from b_product_order_collage bpoc where bpoc.product_id=bp.id and bpoc.pay_status = 2) else (select count(1) from b_product_order bpo where bpo.product_id=bp.id and bpo.status=1) end as soldCount,
+    select case price_type when 2 then (select count(1) from b_product_order_collage bpoc where bpoc.product_id=bp.id and bpoc.pay_status = 1) else (select count(1) from b_product_order bpo where bpo.product_id=bp.id and bpo.status=1) end as soldCount,
     case price_type when 2 then (select count(1) from b_product_order_collage bpoc where bpoc.product_id=bp.id and bpoc.collage_id=0 ) else null end as collageCount,
     <include refid="Base_Column_List" />
     from b_product bp where 1=1
@@ -167,7 +167,7 @@
     bp.id, bp.`name`, bp.user_date, bp.price_type, bp.product_count, bp.discount_price, bp.raw_price, bp.limit_time, bp.guide,bp.cost_description,bp.reservation_note,
     bp.commission, bp.`status`, bp.image_url, bp.create_user_name, bp.create_user_id,bp.create_time,bp.last_update_time,bp.introduction,
     bpi.id as bproduct_imageid,bpi.url as bproduct_image_url,bpi.product_id,
-    case price_type when 2 then (select count(1) from b_product_order_collage bpoc where bpoc.product_id=bp.id and bpoc.pay_status = 2) else (select count(1) from b_product_order bpo where bpo.product_id=bp.id and bpo.status=1) end as soldCount,
+    case price_type when 2 then (select count(1) from b_product_order_collage bpoc where bpoc.product_id=bp.id and bpoc.pay_status = 1) else (select count(1) from b_product_order bpo where bpo.product_id=bp.id and bpo.status=1) end as soldCount,
     (select count(1) from b_product_collection bpc where bpc.collection_product_id = bp.id) as collectionCount
     from b_product bp
     left join b_product_image bpi on bpi.product_id=bp.id
