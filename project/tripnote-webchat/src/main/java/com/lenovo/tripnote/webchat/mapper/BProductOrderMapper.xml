@@ -143,7 +143,7 @@
       commission, 
       <choose>  
           <when test="record.priceType==null">tmp.status</when>  
-          <when test="record.priceType==2">tmp.collage_status</when>
+          <when test="record.priceType==2">tmp.pay_status</when>
           <when test="record.priceType!=2">tmp.status</when>
      </choose>
        as orderStatus,bp.status,image_url, bp.create_time,
