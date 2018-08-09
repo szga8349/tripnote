@@ -143,6 +143,10 @@
      where (bpoc.id = #{id,jdbcType=INTEGER}  or bpoc.collage_id=#{id,jdbcType=INTEGER}) order by bpoc.create_time desc
   </select>
   
+   <update id="updateFinishStatus"  parameterType="java.lang.Integer" >
+     update b_product_order_collage set collage_status =1 where  (id = #{id,jdbcType=INTEGER}  or collage_id=#{id,jdbcType=INTEGER})
+   </update>
+  
   
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lenovo.tripnote.webchat.entity.BProductOrderCollageExample" >
     select

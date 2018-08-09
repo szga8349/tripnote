@@ -128,4 +128,10 @@ public interface BProductOrderCollageMapper {
 	 * @return
 	 */
 	List<BProductOrderCollageFinishVo> searchFormIds(Integer valueOf);
+	
+	/**设置拼团状态为结束
+	 * @param valueOf
+	 * @return
+	 */
+	int updateFinishStatus(Integer valueOf);
 }

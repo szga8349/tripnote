@@ -127,7 +127,7 @@ public class BProductOrderCollageServiceImpl implements BProductOrderCollageServ
 
 	@Override
 	public List<BProductOrderCollageFinishVo> searchFormIds(Integer valueOf) {
-		
+		bProductOrderCollageMapper.updateFinishStatus(valueOf);
 		return bProductOrderCollageMapper.searchFormIds(valueOf);
 	}
 
