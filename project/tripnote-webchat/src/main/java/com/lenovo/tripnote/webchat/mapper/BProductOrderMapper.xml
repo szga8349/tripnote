@@ -144,8 +144,8 @@
       select 
       bp.id,tmp.id as orderId,`name`, user_date, price_type, product_count, discount_price, raw_price, limit_time, 
       commission,
-      case price_type when 2 tmp.pay_status else tmp.status end as orderStatus,
-      case price_type when 2 tmp.collage_status else -1 end as collageStatus,
+      case price_type when 2 then tmp.pay_status else tmp.status end as orderStatus,
+      case price_type when 2 then tmp.collage_status else -1 end as collageStatus,
       bp.status,image_url, bp.create_time,
       tmp.create_user_name, tmp.create_user_id, tmp.create_time as orderCreateTime,    
       last_update_time,introduction
