@@ -143,19 +143,9 @@
    <select id="search" resultMap="SearchResultMap" parameterType="com.lenovo.tripnote.webchat.entity.vo.BProductOrderSearchVo" >
       select 
       bp.id,tmp.id as orderId,`name`, user_date, price_type, product_count, discount_price, raw_price, limit_time, 
-      commission, 
-      <choose>  
-          <when test="record.priceType==null">tmp.status</when>  
-          <when test="record.priceType==2">tmp.pay_status</when>
-          <when test="record.priceType!=2">tmp.status</when>
-     </choose>
-       as orderStatus,
-       <choose>  
-          <when test="record.priceType==null">-1</when>  
-          <when test="record.priceType==2">tmp.collage_status</when>
-          <when test="record.priceType!=2">-1</when>
-       </choose>
-      as collageStatus,
+      commission,
+      case price_type when 2 tmp.pay_status else tmp.status end as orderStatus,
+      case price_type when 2 tmp.collage_status else -1 end as collageStatus,
       bp.status,image_url, bp.create_time,
       tmp.create_user_name, tmp.create_user_id, tmp.create_time as orderCreateTime,    
       last_update_time,introduction
