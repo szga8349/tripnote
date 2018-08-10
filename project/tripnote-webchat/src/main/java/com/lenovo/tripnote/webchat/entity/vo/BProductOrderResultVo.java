@@ -30,4 +30,10 @@ public class BProductOrderResultVo extends BProduct{
      */
     @IDEncryption
     private Integer orderId;
+    
+    /**
+     * b_product_order_collage.collage_status (拼团状态:0:拼团中,1:拼团结束(达到拼团人数或达到拼团时限))
+     * @ibatorgenerated 2018-07-09 16:50:59
+     */
+    private Integer collageStatus;
 }

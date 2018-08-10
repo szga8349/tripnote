@@ -52,6 +52,9 @@
     <result column="orderStatus" property="orderStatus" jdbcType="INTEGER" />
     <result column="orderCreateTime" property="orderCreateTime" jdbcType="TIMESTAMP" />
     <result column="orderId" property="orderId" jdbcType="TIMESTAMP" />
+    
+    <result column="collageStatus" property="collageStatus" jdbcType="TIMESTAMP" />
+     
   </resultMap>
   <resultMap id="SearchCustomerResultMap" type="com.lenovo.tripnote.webchat.entity.vo.BProductCustomerOrderResultVo" >
     <id column="id" property="id" jdbcType="INTEGER" />
@@ -146,7 +149,14 @@
           <when test="record.priceType==2">tmp.pay_status</when>
           <when test="record.priceType!=2">tmp.status</when>
      </choose>
-       as orderStatus,bp.status,image_url, bp.create_time,
+       as orderStatus,
+       <choose>  
+          <when test="record.priceType==null">-1</when>  
+          <when test="record.priceType==2">tmp.collage_status</when>
+          <when test="record.priceType!=2">-1</when>
+       </choose>
+      as collageStatus,
+      bp.status,image_url, bp.create_time,
       tmp.create_user_name, tmp.create_user_id, tmp.create_time as orderCreateTime,    
       last_update_time,introduction
       from b_product bp,
