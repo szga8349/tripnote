@@ -67,7 +67,7 @@ public class BProductOrderCollageServiceImpl implements BProductOrderCollageServ
 		List<BProductOrderCollageDetailVo> oldUsers = listUser(vo.getOrderCollageId());
 		//根据团购类型ID查询团购类型信息
 		BProductCollage collage = bProductCollageMapper.selectByPrimaryKey(old.getProductCollageId());
-		if(collage.getPeopleNum()<=oldUsers.size()+1){//参团已满
+		if(collage.getPeopleNum()<oldUsers.size()+1){//参团已满
 		    return -1;
 		}
 		BProductOrderCollage bProduct = new BProductOrderCollage();

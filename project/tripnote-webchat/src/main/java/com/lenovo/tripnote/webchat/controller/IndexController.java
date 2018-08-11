@@ -57,4 +57,14 @@ public class IndexController {
 		vo.setData(HttpClientUtils.excute(url));
 		return vo;
 	}
+
+	@RequestMapping(value = "/decryptID/{id}")
+	@ResponseBody
+	public ResultVo decryptID(@PathVariable  String id) {
+		ResultVo vo = new ResultVo();
+		vo.setCode(Result.SUCESSFUL);
+		//String url = "https://api.weixin.qq.com/sns/jscode2session?appid="+this.appid+"&secret="+this.secret+"&js_code="+code+"&grant_type=authorization_code";
+		vo.setData(id);
+		return vo;
+	}
 }
