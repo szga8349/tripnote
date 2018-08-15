@@ -4,7 +4,8 @@
   <resultMap id="BaseResultMap" type="com.lenovo.tripnote.webchat.entity.BProduct" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="user_date" property="userDate" jdbcType="DATE" />
+    <result column="use_start_date" property="useStartDate" jdbcType="DATE" />
+    <result column="use_end_date" property="useEndDate" jdbcType="DATE" />
     <result column="price_type" property="priceType" jdbcType="INTEGER" />
     <result column="product_count" property="productCount" jdbcType="INTEGER" />
     <result column="discount_price" property="discountPrice" jdbcType="REAL" />
@@ -26,7 +27,8 @@
   <resultMap id="SearchResultMap" type="com.lenovo.tripnote.webchat.entity.vo.BProductResultVo" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="user_date" property="userDate" jdbcType="DATE" />
+    <result column="use_start_date" property="useStartDate" jdbcType="DATE" />
+    <result column="use_end_date" property="useEndDate" jdbcType="DATE" />
     <result column="price_type" property="priceType" jdbcType="INTEGER" />
     <result column="product_count" property="productCount" jdbcType="INTEGER" />
     <result column="discount_price" property="discountPrice" jdbcType="REAL" />
@@ -47,7 +49,8 @@
   <resultMap id="DetailResultMap" type="com.lenovo.tripnote.webchat.entity.vo.BProductDetailVo" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="user_date" property="userDate" jdbcType="DATE" />
+    <result column="use_start_date" property="useStartDate" jdbcType="DATE" />
+    <result column="use_end_date" property="useEndDate" jdbcType="DATE" />
     <result column="price_type" property="priceType" jdbcType="INTEGER" />
     <result column="product_count" property="productCount" jdbcType="INTEGER" />
     <result column="discount_price" property="discountPrice" jdbcType="REAL" />
@@ -75,7 +78,7 @@
   </resultMap>
   
   <sql id="Base_Column_List" >
-    id, `name`, user_date, price_type, product_count, discount_price, raw_price, limit_time, 
+    id, `name`, use_start_date, use_end_date, price_type, product_count, discount_price, raw_price, limit_time,
     commission, `status`, image_url, create_user_name, create_user_id, create_time, last_update_time, 
     cost_description, reservation_note
   </sql>
@@ -164,7 +167,7 @@
   
   <select id="detail" resultMap="DetailResultMap" parameterType="java.lang.Integer" >
     select 
-    bp.id, bp.`name`, bp.user_date, bp.price_type, bp.product_count, bp.discount_price, bp.raw_price, bp.limit_time, bp.guide,bp.cost_description,bp.reservation_note,
+    bp.id, bp.`name`, bp.use_start_date, bp.use_end_date, bp.price_type, bp.product_count, bp.discount_price, bp.raw_price, bp.limit_time, bp.guide,bp.cost_description,bp.reservation_note,
     bp.commission, bp.`status`, bp.image_url, bp.create_user_name, bp.create_user_id,bp.create_time,bp.last_update_time,bp.introduction,
     bpi.id as bproduct_imageid,bpi.url as bproduct_image_url,bpi.product_id,
     case price_type when 2 then (select count(1) from b_product_order_collage bpoc where bpoc.product_id=bp.id and bpoc.pay_status = 1) else (select count(1) from b_product_order bpo where bpo.product_id=bp.id and bpo.status=1) end as soldCount,
@@ -256,8 +259,11 @@
       <if test="record.name != null" >
         `name` = #{record.name,jdbcType=VARCHAR},
       </if>
-      <if test="record.userDate != null" >
-        user_date = #{record.userDate,jdbcType=DATE},
+      <if test="record.useStartDate != null" >
+        use_start_date = #{record.useStartDate,jdbcType=DATE},
+      </if>
+      <if test="record.useEndDate != null" >
+        use_end_date = #{record.useEndDate,jdbcType=DATE},
       </if>
       <if test="record.priceType != null" >
         price_type = #{record.priceType,jdbcType=INTEGER},
@@ -316,7 +322,8 @@
     update b_product
     set id = #{record.id,jdbcType=INTEGER},
       `name` = #{record.name,jdbcType=VARCHAR},
-      user_date = #{record.userDate,jdbcType=DATE},
+      use_start_date = #{record.useStartDate,jdbcType=DATE},
+      use_end_date = #{record.useEndDate,jdbcType=DATE},
       price_type = #{record.priceType,jdbcType=INTEGER},
       product_count = #{record.productCount,jdbcType=INTEGER},
       discount_price = #{record.discountPrice,jdbcType=REAL},
@@ -341,7 +348,8 @@
     update b_product
     set id = #{record.id,jdbcType=INTEGER},
       `name` = #{record.name,jdbcType=VARCHAR},
-      user_date = #{record.userDate,jdbcType=DATE},
+      use_start_date = #{record.useStartDate,jdbcType=DATE},
+      use_end_date = #{record.useEndDate,jdbcType=DATE},
       price_type = #{record.priceType,jdbcType=INTEGER},
       product_count = #{record.productCount,jdbcType=INTEGER},
       discount_price = #{record.discountPrice,jdbcType=REAL},
@@ -373,14 +381,14 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.lenovo.tripnote.webchat.entity.BProduct" useGeneratedKeys="true" keyProperty="id" >
-    insert into b_product (`name`, user_date, price_type, 
+    insert into b_product (`name`, use_start_date, use_end_date, price_type,
       product_count, discount_price, raw_price, 
       limit_time, commission, `status`, 
       image_url, create_user_name, create_user_id, 
       create_time, last_update_time, cost_description, 
       reservation_note, introduction, guide
       )
-    values (#{name,jdbcType=VARCHAR}, #{userDate,jdbcType=DATE}, #{priceType,jdbcType=INTEGER}, 
+    values (#{name,jdbcType=VARCHAR}, #{useStartDate,jdbcType=DATE}, #{useEndDate,jdbcType=DATE}, #{priceType,jdbcType=INTEGER},
       #{productCount,jdbcType=INTEGER}, #{discountPrice,jdbcType=REAL}, #{rawPrice,jdbcType=REAL}, 
       #{limitTime,jdbcType=INTEGER}, #{commission,jdbcType=REAL}, #{status,jdbcType=INTEGER}, 
       #{imageUrl,jdbcType=VARCHAR}, #{createUserName,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, 
@@ -392,7 +400,8 @@
     insert into b_product
     <trim prefix="(" suffix=")" suffixOverrides="," >
       `name`,
-      user_date,
+      use_start_date,
+      use_end_date,
       price_type,
       product_count,
       discount_price,
@@ -412,7 +421,8 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       #{name,jdbcType=VARCHAR},
-      #{userDate,jdbcType=DATE},
+      #{useStartDate,jdbcType=DATE},
+      #{useEndDate,jdbcType=DATE},
       #{priceType,jdbcType=INTEGER},
       #{productCount,jdbcType=INTEGER},
       #{discountPrice,jdbcType=REAL},
@@ -437,8 +447,11 @@
       <if test="name != null" >
         `name` = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="userDate != null" >
-        user_date = #{userDate,jdbcType=DATE},
+      <if test="useStartDate != null" >
+        use_start_date = #{useStartDate,jdbcType=DATE},
+      </if>
+      <if test="useEndDate != null" >
+        use_end_date = #{useEndDate,jdbcType=DATE},
       </if>
       <if test="priceType != null" >
         price_type = #{priceType,jdbcType=INTEGER},
@@ -494,7 +507,8 @@
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lenovo.tripnote.webchat.entity.BProduct" >
     update b_product
     set `name` = #{name,jdbcType=VARCHAR},
-      user_date = #{userDate,jdbcType=DATE},
+      use_start_date = #{useStartDate,jdbcType=DATE},
+      use_end_date = #{useEndDate,jdbcType=DATE},
       price_type = #{priceType,jdbcType=INTEGER},
       product_count = #{productCount,jdbcType=INTEGER},
       discount_price = #{discountPrice,jdbcType=REAL},
@@ -516,7 +530,8 @@
   <update id="updateByPrimaryKey" parameterType="com.lenovo.tripnote.webchat.entity.BProduct" >
     update b_product
     set `name` = #{name,jdbcType=VARCHAR},
-      user_date = #{userDate,jdbcType=DATE},
+      use_start_date = #{useStartDate,jdbcType=DATE},
+      use_end_date = #{useEndDate,jdbcType=DATE},
       price_type = #{priceType,jdbcType=INTEGER},
       product_count = #{productCount,jdbcType=INTEGER},
       discount_price = #{discountPrice,jdbcType=REAL},

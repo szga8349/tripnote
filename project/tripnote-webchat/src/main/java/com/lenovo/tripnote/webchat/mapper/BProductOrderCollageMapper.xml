@@ -11,6 +11,7 @@
     <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
     <result column="create_user_name" property="createUserName" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
     <result column="collage_id" property="collageId" jdbcType="INTEGER" />
     <result column="order_user_name" property="orderUserName" jdbcType="VARCHAR" />
     <result column="order_user_phone" property="orderUserPhone" jdbcType="VARCHAR" />
@@ -60,7 +61,7 @@
   
   <sql id="Base_Column_List" >
     id, collage_user_id, collage_user_name, product_collage_id, product_id, collage_status, 
-    create_user_id, create_user_name, create_time, collage_id, order_user_name, order_user_phone, 
+    create_user_id, create_user_name, create_time, pay_time, collage_id, order_user_name, order_user_phone,
     place, card_id, use_date, other_info, deposit, pay_status, form_id
   </sql>
   <sql id="Example_Where_Clause" >
@@ -381,6 +382,9 @@
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
+        <if test="payTime != null" >
+            pay_time = #{payTime,jdbcType=TIMESTAMP},
+        </if>
       <if test="collageId != null" >
         collage_id = #{collageId,jdbcType=INTEGER},
       </if>

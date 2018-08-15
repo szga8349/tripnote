@@ -52,6 +52,13 @@ public class BProductOrder {
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
+	/**
+	 * b_product_order.pay_time (付款时间)
+	 * @ibatorgenerated 2018-07-09 16:50:58
+	 */
+	@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+	private Date payTime;
+
     /**
      * b_product_order.order_user_name (预订人_姓名)
      * @ibatorgenerated 2018-07-09 16:50:58

@@ -70,6 +70,12 @@ public class BProductOrderCollage  {
      */
     private Date createTime;
 
+	/**
+	 * b_product_order_collage.pay_time (付款时间)
+	 * @ibatorgenerated 2018-07-09 16:50:59
+	 */
+	private Date payTime;
+
     /**
      * b_product_order_collage.collage_id (拼团主键ID)
      * @ibatorgenerated 2018-07-09 16:50:59

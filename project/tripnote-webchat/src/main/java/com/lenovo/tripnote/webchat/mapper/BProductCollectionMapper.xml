@@ -19,7 +19,8 @@
     <result column="collection_remark" property="collectionRemark" jdbcType="VARCHAR" />
   
     <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="user_date" property="userDate" jdbcType="DATE" />
+    <result column="use_start_date" property="useStartDate" jdbcType="DATE" />
+    <result column="use_end_date" property="useEndDate" jdbcType="DATE" />
     <result column="price_type" property="priceType" jdbcType="INTEGER" />
     <result column="product_count" property="productCount" jdbcType="INTEGER" />
     <result column="discount_price" property="discountPrice" jdbcType="REAL" />
@@ -130,7 +131,7 @@
    <select id="search" resultMap="SearchResultMap" parameterType="com.lenovo.tripnote.webchat.entity.vo.BProductCollectionSearchVo" >
      select
       bpc.id, bpc.collection_product_id, bpc.collection_user_id, bpc.collection_user_name, bpc.collection_create_time, bpc.collection_remark,
-      bp.`name`, bp.user_date, bp.price_type, bp.product_count, bp.discount_price, bp.raw_price, bp.limit_time, 
+      bp.`name`, bp.use_start_date, bp.use_end_date, bp.price_type, bp.product_count, bp.discount_price, bp.raw_price, bp.limit_time,
       bp.commission, bp.`status`, bp.image_url, bp.create_user_name, bp.create_user_id,bp.create_time, bp.last_update_time,bp.introduction
       from b_product_collection bpc,b_product bp where bpc.collection_product_id = bp.id 
   

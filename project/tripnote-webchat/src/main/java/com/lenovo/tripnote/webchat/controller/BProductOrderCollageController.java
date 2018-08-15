@@ -90,6 +90,9 @@ public class BProductOrderCollageController {
 		BProductOrderCollage bProduct = new BProductOrderCollage();
 		try {
 			BeanUtils.copyProperties(bProduct, info);
+			if(info.getStatus().equals(1)){
+				bProduct.setPayTime(new Date());
+			}
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			e.printStackTrace();
 			log.error(e.getMessage(),e.fillInStackTrace());
@@ -99,6 +102,16 @@ public class BProductOrderCollageController {
 		vo.setCode(Result.SUCESSFUL);
 		return vo;
 	}
+
+	@RequestMapping(value = "/doDetail/{id}")
+	@ResponseBody
+	public ResultVo doDetail(@PathVariable String id) {
+		ResultVo vo = new ResultVo();
+		vo.setData(bProductOrderCollageService.getByKey(Integer.valueOf(id)));
+		vo.setCode(Result.SUCESSFUL);
+		return vo;
+	}
+
 	@RequestMapping(value = "/doDelete/{id}")
 	@ResponseBody
 	public ResultVo doDelete(@PathVariable String id) {
@@ -110,7 +123,7 @@ public class BProductOrderCollageController {
 	
 	@RequestMapping(value = "/doListUser/{id}")
 	@ResponseBody
-	public ResultVo doDetail(@PathVariable String id) {
+	public ResultVo doListUser(@PathVariable String id) {
 		ResultVo vo = new ResultVo();
 		vo.setData(bProductOrderCollageService.listUser(Integer.valueOf(id)));
 		vo.setCode(Result.SUCESSFUL);

@@ -3,6 +3,7 @@ package com.lenovo.tripnote.webchat.controller;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import com.lenovo.tripnote.webchat.service.BProductOrderCollageService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,10 @@ import com.lenovo.tripnote.webchat.vo.ResultVo;
 public class IndexController {
 	@Resource
 	private BProductService bProductService;
+
+	@Resource
+	private BProductOrderCollageService bProductOrderCollageService;
+
 	@Value("${webchat.appid}")
 	private String appid ;
 	@Value("${webchat.secret}")
@@ -55,6 +60,15 @@ public class IndexController {
 		vo.setCode(Result.SUCESSFUL);
 		String url = "https://api.weixin.qq.com/sns/jscode2session?appid="+this.appid+"&secret="+this.secret+"&js_code="+code+"&grant_type=authorization_code";
 		vo.setData(HttpClientUtils.excute(url));
+		return vo;
+	}
+
+	@RequestMapping(value = "/product/order/collage//doListUser/{id}")
+	@ResponseBody
+	public ResultVo doListUser(@PathVariable String id) {
+		ResultVo vo = new ResultVo();
+		vo.setData(bProductOrderCollageService.listUser(Integer.valueOf(id)));
+		vo.setCode(Result.SUCESSFUL);
 		return vo;
 	}
 

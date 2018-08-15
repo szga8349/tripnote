@@ -25,10 +25,16 @@ public class BProduct {
     private String name;
 
     /**
-     * b_product.user_date (使用日期)
+     * b_product.use_start_date (使用开始日期)
      * @ibatorgenerated 2018-07-12 15:38:19
      */
-    private Date userDate;
+    private Date useStartDate;
+
+	/**
+	 * b_product.use_end_date (使用结束日期)
+	 * @ibatorgenerated 2018-07-12 15:38:19
+	 */
+	private Date useEndDate;
 
     /**
      * b_product.price_type (格价类型:1限时特价,2拼团,3直购)

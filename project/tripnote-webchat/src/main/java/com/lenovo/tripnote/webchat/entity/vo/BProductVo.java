@@ -19,11 +19,18 @@ public class BProductVo {
     private String name;
 
     /**
-     * b_product.user_date (使用日期)
+     * b_product.use_start_date (使用开始日期)
      * @ibatorgenerated 2018-06-06 14:07:53
      */
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
-    private Date userDate;
+    private Date useStartDate;
+
+    /**
+     * b_product.use_end_date (使用结束日期)
+     * @ibatorgenerated 2018-06-06 14:07:53
+     */
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
+    private Date useEndDate;
 
     /**
      * b_product.price_type (格价类型:1限时特价,2拼团,3直购)

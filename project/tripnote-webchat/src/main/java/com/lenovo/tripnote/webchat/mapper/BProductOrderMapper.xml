@@ -8,6 +8,7 @@
     <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
     <result column="create_user_name" property="createUserName" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+      <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
     <result column="order_user_name" property="orderUserName" jdbcType="VARCHAR" />
     <result column="order_user_phone" property="orderUserPhone" jdbcType="VARCHAR" />
     <result column="place" property="place" jdbcType="VARCHAR" />
@@ -35,7 +36,8 @@
   <resultMap id="SearchResultMap" type="com.lenovo.tripnote.webchat.entity.vo.BProductOrderResultVo" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="user_date" property="userDate" jdbcType="DATE" />
+    <result column="use_start_date" property="useStartDate" jdbcType="DATE" />
+    <result column="use_end_date" property="useEndDate" jdbcType="DATE" />
     <result column="price_type" property="priceType" jdbcType="INTEGER" />
     <result column="product_count" property="productCount" jdbcType="INTEGER" />
     <result column="discount_price" property="discountPrice" jdbcType="REAL" />
@@ -59,7 +61,8 @@
   <resultMap id="SearchCustomerResultMap" type="com.lenovo.tripnote.webchat.entity.vo.BProductCustomerOrderResultVo" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="user_date" property="userDate" jdbcType="DATE" />
+    <result column="use_start_date" property="useStartDate" jdbcType="DATE" />
+    <result column="use_end_date" property="useEndDate" jdbcType="DATE" />
     <result column="price_type" property="priceType" jdbcType="INTEGER" />
     <result column="product_count" property="productCount" jdbcType="INTEGER" />
     <result column="discount_price" property="discountPrice" jdbcType="REAL" />
@@ -78,7 +81,7 @@
   </resultMap>
   
   <sql id="Base_Column_List" >
-    id, `status`, product_id, create_user_id, create_user_name, create_time, order_user_name, 
+    id, `status`, product_id, create_user_id, create_user_name, create_time, pay_time, order_user_name,
     order_user_phone, place, card_id, use_date, other_info
   </sql>
   <sql id="Example_Where_Clause" >
@@ -142,7 +145,7 @@
    
    <select id="search" resultMap="SearchResultMap" parameterType="com.lenovo.tripnote.webchat.entity.vo.BProductOrderSearchVo" >
       select 
-      bp.id,tmp.id as orderId,`name`, user_date, price_type, product_count, discount_price, raw_price, limit_time, 
+      bp.id,tmp.id as orderId,`name`, use_start_date, use_end_date, price_type, product_count, discount_price, raw_price, limit_time,
       commission,
       case price_type when 2 then tmp.pay_status else tmp.status end as orderStatus,
       case price_type when 2 then tmp.collage_status else -1 end as collageStatus,
@@ -174,7 +177,7 @@
   
   <select id="searchCustomer" resultMap="SearchCustomerResultMap" parameterType="com.lenovo.tripnote.webchat.entity.vo.BProductOrderSearchVo" >
       select 
-      id,`name`, user_date, price_type, product_count, discount_price, raw_price, limit_time, 
+      id,`name`, use_start_date, use_end_date, price_type, product_count, discount_price, raw_price, limit_time,
       commission,status,image_url, 
       create_user_name, create_user_id, create_time,       
       last_update_time,introduction,
@@ -383,6 +386,9 @@
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
+        <if test="payTime != null" >
+            pay_time = #{payTime,jdbcType=TIMESTAMP},
+        </if>
       <if test="orderUserName != null" >
         order_user_name = #{orderUserName,jdbcType=VARCHAR},
       </if>

@@ -56,6 +56,9 @@ public class BProductOrderController {
 		BProductOrder bProduct = new BProductOrder();
 		try {
 			BeanUtils.copyProperties(bProduct, info);
+			if(info.getStatus().equals(1)){
+				bProduct.setPayTime(new Date());
+			}
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			e.printStackTrace();
 			log.error(e.getMessage(),e.fillInStackTrace());
@@ -70,6 +73,15 @@ public class BProductOrderController {
 	public ResultVo doDelete(@PathVariable String id) {
 		ResultVo vo = new ResultVo();
 		bProductOrderService.deleteBykey(Integer.valueOf(id));
+		vo.setCode(Result.SUCESSFUL);
+		return vo;
+	}
+
+	@RequestMapping(value = "/doDetail/{id}")
+	@ResponseBody
+	public ResultVo doDetail(@PathVariable String id) {
+		ResultVo vo = new ResultVo();
+		vo.setData(bProductOrderService.getByKey(Integer.valueOf(id)));
 		vo.setCode(Result.SUCESSFUL);
 		return vo;
 	}
