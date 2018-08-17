@@ -1,0 +1,101 @@
+<style lang="less">
+@import "../styles/variable";
+
+</style>
+<template>
+  <!-- <form bindsubmit="formSubmit" bindreset="formReset" report-submit="true" >
+    <view class="section section_gap">
+      <view class="section__title">阿大是大非</view>
+      <switch name="switch1"/>
+      <switch name="switch2"/>
+    </view>
+    <view class="btn-area">
+      <button formType="submit">Submit</button>
+      <button formType="reset">Reset</button>
+    </view>
+  </form> -->
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import { connect } from 'wepy-redux'
+  import Counter from 'counter' // alias example
+  import moduleA from 'module-a' // aliasFields ignore module example
+  import Toast from 'wepy-com-toast'
+  import mixin from '../mixins/index'
+
+  import config from '@/utils/config'
+
+  export default class Pay extends wepy.page {
+    config = {
+      navigationBarTitleText: '支付',
+      usingComponents: {
+        "zan-icon": "./../assets/libs/zanui/icon/index",
+        "zan-cell": "./../assets/libs/zanui/cell/index",
+        "zan-icon": "./../assets/libs/zanui/icon/index",
+        "zan-badge": "./../assets/libs/zanui/badge/index",
+        "zan-panel": "./../assets/libs/zanui/panel/index",
+        "zan-cell-group": "./../assets/libs/zanui/cell-group/index"
+      }
+    }
+
+    mixins = [mixin]
+
+    data = {
+      isLogin: false,
+     
+    }
+
+    computed = {
+      now () {
+        return +new Date()
+      }
+    }
+
+    methods = {
+
+    }
+
+    // async orderPay(product_id, out_trade_no, total_fee, body){
+    //   let userInfo = wepy.getStorageSync('userInfo')
+    //   let openid = userInfo.loginToken
+
+    //   let res = await wepy.request({
+    //     method: 'post',
+    //     url: config.service.host + '/weixin/wxPay',
+    //     data: {
+    //       openid,
+    //       total_fee,
+    //       product_id,
+    //       out_trade_no,
+    //       body
+    //     },
+    //     header: {
+    //       'content-type': 'application/json'
+    //     }
+    //   })
+    //   if(res.data.code == 1){
+    //     wx.requestPayment({
+    //       'timeStamp': res.data.data.timeStamp,
+    //       'nonceStr': res.data.data.nonceStr,
+    //       'package': res.data.data.package,
+    //       'signType': 'MD5',
+    //       'paySign': res.data.data.paySign,
+    //       'success':function(res){
+    //         console.log(res)
+    //       },
+    //       'fail':function(res){},
+    //       'complete':function(res){}
+    //     })
+    //   }
+    // }
+
+    onLoad() {
+      this.orderPay(1, 525123456780, 1, 'test')
+    }
+
+    onShow(){
+      
+    }
+  }
+</script>

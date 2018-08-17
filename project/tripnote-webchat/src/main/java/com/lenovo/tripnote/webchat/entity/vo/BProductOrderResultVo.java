@@ -24,7 +24,20 @@ public class BProductOrderResultVo extends BProduct{
      * @ibatorgenerated 2018-06-06 17:42:48
      */
     private Date orderCreateTime;
-    
+
+
+	/**
+	 * b_product_collage.collage_price (拼团价格)
+	 * @ibatorgenerated 2018-06-06 14:07:51
+	 */
+	private Float collagePrice;
+
+	/**
+	 * b_product_collage.people_num (拼团人数)
+	 * @ibatorgenerated 2018-06-06 14:07:51
+	 */
+	private Integer peopleNum;
+
     /**
      * 订单ID
      */

@@ -17,7 +17,7 @@ spring:
         static-locations: file:/root/tripnote/static, file:/root/tripnote/resource/static
     datasource:
         name: product
-        url: jdbc:mysql://172.27.0.8:3306/tripnote_webchat
+        url: jdbc:mysql://172.27.0.8:3306/tripnote_zy
         username: root
         password: tripnote_lenovo
         # 使用druid数据源

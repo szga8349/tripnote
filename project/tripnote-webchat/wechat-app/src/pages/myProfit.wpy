@@ -1,0 +1,335 @@
+<style lang="less">
+@import "../styles/variable";
+
+.profitWrap{
+  .productList{
+    .types{
+      display: flex;
+      padding: 20rpx 30rpx;
+      background: #fff;
+      .btn{
+        width: 70px;
+        height: 30px;
+        background: #f2f2f2;
+        border-color: #f2f2f2;
+        border-radius: 60rpx;
+        text-align: center;
+        line-height: 30px;
+        font-size: 13px;
+        &.active{
+          background: @primary-color;
+          border-color: @primary-color;
+          color: #fff;
+        }
+      }
+    }
+    .productListBox{
+      padding-bottom: 180rpx;
+    }
+    .item{
+      position: relative;
+      display: flex;
+      margin-top: 20rpx;
+      margin-right: 20rpx;
+      margin-left: 20rpx;
+      .checkStatus{
+        margin: 100rpx 20rpx 0 20rpx;
+        color: @primary-color;
+        .iconfont{
+          font-size: 40rpx;
+        }
+      }
+      .detailCon{
+        flex: 1;
+        display: flex;
+        background: #fff;
+        .pic{
+          position: relative;
+          width: 250rpx;
+          height: 250rpx;
+          .tag{
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 40rpx;
+            line-height: 40rpx;
+            font-size: 24rpx;
+            background: red;
+            color: #fff;
+            padding: 0 10rpx;
+          }
+          image{
+            width: 250rpx;
+            height: 250rpx;
+          }
+        }
+        .info{
+          flex: 1;
+          margin: 10rpx 20rpx 0;
+          .tit{
+            height: 76rpx;
+            overflow: hidden;
+            font-size: 28rpx;
+          }
+
+          .des{
+            margin-top: 20rpx;
+            .leftBox{
+              float: left;
+              .list{
+                line-height: 44rpx;
+                color: #999;
+                font-size: 24rpx;
+              }
+            }
+            .rightBox{
+              position: absolute;
+              right: 20rpx;
+              bottom: 20rpx;
+              text-align: right;
+              .price{
+                color: @primary-green;
+                text{
+                  font-size: 40rpx;
+                }
+              }
+              .btnOpt{
+                .btn{
+                  float: left;
+                  width: 120rpx;
+                  height: 50rpx;
+                  margin-top: 16rpx;
+                  margin-left: 20rpx;
+                  background: @primary-color;
+                  border: 1px solid @primary-color;
+                  border-radius: 50rpx;
+                  line-height: 50rpx;
+                  text-align: center;
+                  color: #fff;
+                  &.btnDone{
+                    background: #fff;
+                    border-color: #dadada;
+                    color: #777;
+                  }
+                }
+              }
+            }
+
+          }
+        }
+      }
+    }
+  }
+}
+
+
+</style>
+<template>
+  <view class="profitWrap">
+    <view class="productList">
+      <view class="productListBox">
+        <repeat for="{{productList}}" key="index" index="index" item="item">
+          <view class="item" wx:if="{{item.visible}}">
+            <view class="detailCon">
+              <view class="pic">
+                <!-- <view class="tag">{{item.tag}}</view> -->
+                <image src="{{item.imageUrl  || '../assets/images/product_img_blank.png'}}"></image>
+              </view>
+              <view class="info">
+                <view class="tit">
+                  <navigator url="/pages/productDetail?id={{item.id}}">{{item.name}}</navigator>
+                </view>
+                <view class="des">
+                  <view class="leftBox">
+                    <view class="list">创建时间：{{item.orderCreateTime}}</view>
+                    <!-- <view class="list">价格：{{item.soldCount}}</view> -->
+                  </view>
+                  <view class="rightBox">
+                    <view class="price">￥<text>{{item.discountPrice || item.rawPrice}}</text></view>
+
+                    <view class="btnOpt">
+                      <view class="btn btnDone" wx:if="{{item.status == 1}}">已支付</view>
+                      <view class="btn" wx:if="{{item.status == 0}}" @tap="paymentSubmit({{item}})">去支付</view>
+                    </view>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </repeat>
+
+        <view class="noData">
+          <image src="../assets/images/icon_empty.png"></image>
+          <text>没有相关数据！</text>
+        </view>
+      </view>
+
+    </view>
+
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import { connect } from 'wepy-redux'
+  import Counter from 'counter' // alias example
+  import moduleA from 'module-a' // aliasFields ignore module example
+  import Toast from 'wepy-com-toast'
+  import testMixin from '../mixins/index'
+  import config from '@/utils/config'
+  import Util from '@/utils/util'
+
+  export default class Product extends wepy.page {
+    config = {
+      navigationBarTitleText: '我的收益',
+      usingComponents: {
+        "zan-icon": "./../assets/libs/zanui/icon/index",
+        "zan-cell": "./../assets/libs/zanui/cell/index",
+        "zan-icon": "./../assets/libs/zanui/icon/index",
+        "zan-badge": "./../assets/libs/zanui/badge/index",
+        "zan-panel": "./../assets/libs/zanui/panel/index",
+        "zan-cell-group": "./../assets/libs/zanui/cell-group/index",
+        "zan-tab": "./../assets/libs/zanui/tab/index",
+        "zan-card": "./../assets/libs/zanui/card/index"
+      }
+    }
+    components = {
+      counter1: Counter,
+      counter2: Counter,
+      toast: Toast
+    }
+
+    mixins = [testMixin]
+
+    data = {
+      tab1BtnChecked: -2,
+      tab1NoData: false,
+      productList: [],
+      selectAll: false,
+    }
+
+    computed = {
+    }
+
+
+    statusFilter(){
+      this.tab1NoData = true
+      let self = this
+
+      this.productList.forEach(item => {
+        if(self.tab1BtnChecked == -2){
+          item['visible'] = true
+          self.tab1NoData = false
+        }else{
+          if(item.status == self.tab1BtnChecked){
+            item['visible'] = true
+            self.tab1NoData = false
+          }else{
+            item['visible'] = false
+          }
+        }
+      })
+    }
+
+    methods = {
+      
+      setStatusDown(item){
+
+        console.log(item)
+
+        return;
+
+        wepy.request({
+          method: 'post',
+          url: config.service.host + '/token/product/status/doUpdate',
+          data: {"statuses": _ids},
+          header: {
+            'authorization': this.$parent.globalData.userKey,
+            'content-type': 'application/json'
+          },
+          success: function (res) {
+            wx.hideLoading()
+            self.getProductList()
+            self.selectAll = false
+          }
+        })
+      },
+
+      tab1BtnFilter(e){
+        let sel = parseInt(e.target.dataset.index)
+        this.tab1BtnChecked = sel
+
+        this.tab1NoData = true
+        let self = this
+
+        this.productList.forEach(item => {
+          if(sel == -2){
+            item['visible'] = true
+            self.tab1NoData = false
+          }else{
+            if(item.status == sel){
+              item['visible'] = true
+              self.tab1NoData = false
+            }else{
+              item['visible'] = false
+            }
+          }
+        })
+      },
+
+    }
+
+    events = {
+      
+    }
+
+
+    async getOrderList(){
+      let self = this
+      wx.showLoading({
+        title: '加载中...',
+      })
+
+      const res = await wepy.request({
+        url: config.service.host + '/token/product/order/doMy',
+        header: {
+          'authorization': this.$parent.globalData.userKey,
+        },
+        // data: {
+        //   isMy: true
+        // }
+      })
+      let productList = res.data.data.data
+      productList.forEach(element => {
+        element['checked'] = false
+        element['orderCreateTime'] = Util.timestampToTime(element.orderCreateTime)
+        element['statusTxt'] = self.formatStatus(element.status)
+        element['visible'] = true
+        element['tag'] = self.formatType(element.priceType)
+      })
+      self.productList = productList
+
+      self.statusFilter()
+
+      self.$apply()
+
+      wx.hideLoading()
+    }
+
+    onLoad() {
+      // this.getOrderList()
+    }
+
+    onShow(){
+      console.log(this.$parent.globalData.userKey)
+
+      // if(!this.$parent.globalData.userKey){
+      //   wx.navigateTo({
+      //     url: "/pages/login"
+      //   })
+      // }else{
+      //   this.getProductList()
+      // }
+    }
+  }
+</script>

@@ -1,0 +1,432 @@
+<style lang="less">
+@import "../styles/variable";
+
+.indexWrap{
+  .header{
+    width: 100%;
+    padding: 10px 0;
+    background: @primary-color;
+  }
+  .searchCon{
+    display: flex;
+    margin: 0 30rpx;
+    background: #fff;
+    border-radius: 40px;
+  }
+  .searchCon .iconPoint{
+    width: 25rpx;
+    height: 32rpx;
+    margin: 18rpx 0 0 30rpx;
+  }
+  .searchCon .city{
+    width:68rpx;
+    height:40rpx;
+    margin:14rpx 16rpx 0 12rpx;
+    padding-right:5px;
+    border-right:1px solid #cbcbcb;
+    line-height:40rpx;
+  }
+
+  .searchCon input{
+    // width: calc(~"100%-10rpx");
+    width: 556rpx;
+    height: 68rpx;
+    margin-left: 40rpx;
+  }
+
+  .searchCon .btnSubmit{
+    width: 60rpx;
+    height: 68rpx;
+    background: none;
+  }
+  .searchCon .btnSubmit .btnSubmitIcon{
+    width: 38rpx;
+    height: 38rpx;
+    margin-left: 20rpx;
+    margin-top: 14rpx;
+  }
+
+  .tipsBar{
+    height: 32px;
+    padding: 0 15px;
+    background: #fff;
+    line-height: 32px;
+    color: #999;
+    font-size: 12px;
+  }
+
+  .menu{
+    display: flex;
+    margin: 20rpx 20rpx 0;
+    background: #fff;
+    box-shadow: 0 0 16rpx rgba(0,0,0,.08);
+    .item{
+      width: 25%;
+      padding: 30rpx 0;
+      text-align: center;
+      &.active{
+        background: #f8f8f8;
+      }
+    }
+    image{
+      display: block;
+      width: 71rpx;
+      height: 71rpx;
+      margin: 0 auto 5px;
+    }
+  }
+
+  .productList{
+    margin: 0 10px 20rpx;
+    .item{
+      display: flex;
+      margin-top: 10px;
+      .pic{
+        position: relative;
+        width: 200rpx;
+        height: 200rpx;
+        image{
+          display: block;
+          width: 200rpx;
+          height: 200rpx;
+        }
+      }
+
+      .info{
+        flex: 1;
+        position: relative;
+        padding: 5px 10px 5px 10px;
+        background: #fff;
+        line-height: 24px;
+
+        .tit{
+          display: block;
+          line-height: 42rpx;
+          height: 84rpx;
+          overflow: hidden;
+          font-size: 28rpx;
+        }
+
+        .typeTag{
+          //margin-bottom: 6rpx;
+          .tag{
+            display: inline-block;
+            border: 1px solid #ccc;
+            padding: 0 6rpx;
+            border-radius: 4rpx;
+            line-height: 36rpx;
+            font-size: 24rpx;
+            color: #999;
+          }
+        }
+
+        .price{
+          position: absolute;
+          right: 20rpx;
+          bottom: 16rpx;
+          font-size: 40rpx;
+          color: @primary-green;
+        }
+        .sellNum{
+          color: #999;
+        }
+        .star{
+          color: #999;
+        }
+        .line{
+          margin: 0 5px;
+          color: #999;
+        }
+      }
+    }
+  }
+  // .productList .item .info .btn{
+  //   position: absolute;
+  //   right: 5px;
+  //   bottom: 20rpx;
+  //   width: 70px;
+  //   height: 30px;
+  //   background: @primary-color;
+  //   border-radius: 30px;
+  //   color: #fff;
+  //   text-align: center;
+  //   line-height:30px;
+  //   font-size: 13px;
+  // }
+}
+</style>
+<template>
+  <view class="indexWrap">
+    <view class="header">
+      <view class="searchCon">
+        <!-- <image class="iconPoint" src="../assets/images/icon_point.png" mode="scaleToFill"></image> -->
+        <!-- <label class="city">{{city}}</label> -->
+        <input type="text" @input="handleKeywordChange" @confirm="handleSearch" value="{{searchKeyword}}" confirm-type="search" placeholder="搜索相关商品"/>
+        <view class="btnSubmit" @tap="handleSearch">
+          <image class="btnSubmitIcon" src="../assets/images/icon_search.png" mode="scaleToFill"></image>
+        </view>
+      </view>
+    </view>
+
+    <!-- <button @tap="pay">支付</button> -->
+
+    <view class="tipsBar">
+      活动：分享给小伙伴，成单得收益，查看详情
+    </view>
+    <view class="menu">
+      <view class="item {{filterType == '' ? 'active' : ''}}" @tap="filterTypeChange('')">
+        <image src="../assets/images/icon_menu_7.png"></image>
+        <label>全部</label>
+      </view>
+      <view class="item {{filterType == 1 ? 'active' : ''}}" @tap="filterTypeChange(1)">
+        <image src="../assets/images/icon_menu_6.png"></image>
+        <label>限时特价</label>
+      </view>
+      <view class="item {{filterType == 2 ? 'active' : ''}}" @tap="filterTypeChange(2)">
+        <image src="../assets/images/icon_menu_5.png"></image>
+        <label>拼团</label>
+      </view>
+      <view class="item {{filterType == 3 ? 'active' : ''}}" @tap="filterTypeChange(3)">
+        <image src="../assets/images/icon_menu_3.png"></image>
+        <label>直购</label>
+      </view>
+    </view>
+
+    <scroll-view scroll-y="true" class="swiper-item-box" bindscrolltolower="onReachBottom">
+      <view class="productList">
+        <repeat for="{{productList}}" key="index" index="index" item="item">
+          <navigator url="/pages/productDetail?id={{item.id}}">
+            <view class="item">
+              <view class="pic">
+                <view class="tag">{{item.tag}}</view>
+                <image src="{{item.imageUrl || '../assets/images/product_img_blank.png'}}" mode="aspectFit center widthFix "></image>
+              </view>
+              <view class="info">
+                <view class="tit">
+                  <!-- <label>【特辑】</label> -->
+                  {{item.name}}</view>
+
+                <view class="typeTag">
+                  <text class="tag">{{item.type}}</text>
+                </view>
+                
+                <!-- <text class="line">|</text> -->
+                <text class="sellNum">已售{{item.soldCount}}</text>
+                <text class="line">|</text>
+                <text class="star">5星</text>
+                <text class="price">￥{{item.discountPrice || item.rawPrice}}</text>
+                <!-- <button class="btn">去拼团</button> -->
+              </view>
+            </view>
+          </navigator>
+        </repeat>
+
+        <view class="noData" wx:if="{{!showLoading && productList.length == 0}}">
+          <image src="../assets/images/icon_empty.png"></image>
+          <text>没有相关数据！</text>
+        </view>
+      </view>
+      <!--加载更多时动画-->
+      <!-- <bottomLoadMore :show.sync="showLoading" message="正在加载"></bottomLoadMore> -->
+    </scroll-view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import { connect } from 'wepy-redux'
+  import mixinIndex from '../mixins/index'
+
+  import BottomLoadMore from "../components/common/bottomLoadMore"
+
+  import QQMapWX from '@/assets/libs/qqmap-wx-jssdk.min'
+
+  import config from '@/utils/config'
+  import tips from '@/utils/tips'
+  import Util from '@/utils/tips'
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '热门预定'
+    }
+    components = {
+      bottomLoadMore: BottomLoadMore,
+    }
+
+    mixins = [mixinIndex]
+
+    data = {
+      showLoading: true,
+      searchKeyword: '',
+      city: '成都',
+      productList: [],
+      productType: '',
+      pageNum: 1,
+      pageSize: 5,
+      pageTotal: '',
+      filterType: ''
+    }
+
+    // 加载更多
+    onReachBottom() {
+      console.log('on reach bottom')
+      this.showLoading = true
+      if(this.productList.length < this.pageTotal){
+        this.getProductList()
+      }
+      // this.showLoading = false;
+    }
+
+    async getProductList(type){
+      wx.showLoading({
+        title: '加载中...',
+      })
+
+      let data = {
+        pageNum: this.pageNum++,
+        pageSize: this.pageSize,
+        status: 1
+      }
+
+      if(this.searchKeyword != ''){
+        data['name'] = this.searchKeyword
+      }
+
+      if(this.filterType != ''){
+        data['priceType'] = this.filterType
+      }
+
+      let res = await wepy.request({
+        url: config.service.host + '/index/product',
+        data: data
+      })
+
+
+      let productList = res.data.data.data
+      productList.forEach(element => {
+        element['checked'] = false
+        element['type'] = this.formatType(element.priceType)
+      })
+      if(type == 'search'){
+        this.productList = productList
+      }else{
+        this.productList = this.productList.concat(productList)
+      }
+
+      this.pageTotal = res.data.data.total
+
+      this.showLoading = false
+      this.$apply()
+
+      // 隐藏导航栏加载框
+      wx.hideNavigationBarLoading();
+      // 停止下拉动作
+      wx.stopPullDownRefresh();
+      
+      wx.hideLoading()
+    }
+
+    getLocation(){
+      let self = this
+
+      // 实例化API核心类
+      let qqmapsdk = new QQMapWX({
+        key: '3ORBZ-Q7GW6-TWLSC-EETJY-NQ5RT-2JFSR'
+      })
+
+      wx.getLocation({
+        type: 'wgs84',
+        success: function (res) {
+          qqmapsdk.reverseGeocoder({
+            location: {
+              latitude: res.latitude,
+              longitude: res.longitude
+            },
+            success: function (addressRes) {
+              var address = addressRes.result.address;
+              var city = addressRes.result.address_component.city
+              if(city.indexOf('市')){
+                city = city.substring(0,city.lastIndexOf('市'))
+              }
+              self.city = city
+              
+              self.$apply()
+            }
+          })
+        }
+      })
+    }
+
+    onPullDownRefresh() {
+      // 显示顶部刷新图标
+      wx.showNavigationBarLoading()
+      console.log(123)
+
+      this.pageNum = 1
+      this.productList = []
+      this.getProductList()
+    }
+
+    methods = {
+      // pay(){
+      //   this.orderPay(1, 55128856780, 1, 'test')
+      // },
+
+      filterTypeChange(key){
+        this.filterType = this.filterType == key ? '' : key
+        this.pageNum = 1
+        this.productList = []
+        this.getProductList()
+      },
+
+      handleKeywordChange(e){
+        this.searchKeyword = e.detail.value
+      },
+
+      handleSearch(){
+        this.pageNum = 1
+        this.productList = []
+        this.getProductList('search')
+      },
+    }
+
+
+    onShow() {
+      //设置滚动高度
+      let systemInfo = wepy.getStorageSync('systemInfo');
+
+      this.winHeight = systemInfo.windowHeight
+
+      this.showLoading = true
+
+      this.productList = []
+      this.pageNum = 1
+
+      this.getProductList()
+
+
+      // this.groupSuccess('2AF07B750346843054BBDF033BA9CD91')
+
+      // this.getLocation()
+
+      // wepy.request({
+      //   method: 'post',
+      //   url: config.service.host + '/weixin/sentTemplateGroupSuccessMessage',
+      //   header: {
+      //     'content-type': 'application/json'
+      //   },
+      //   data: {
+      //     formId: 'wx08112902327581e0e66101e43316930723',
+      //     openId: 'oA7Px5ApLEPlpxqnJnWT3slZh-Ls',
+      //     productName: '产品名称',
+      //     groupNum: '12',
+      //     rawPrice: '1000',
+      //     groupPrice: '900',
+      //     tips: '拼团成功，请尽快支付余款！'
+      //   }
+      // })
+
+
+    }
+  }
+</script>

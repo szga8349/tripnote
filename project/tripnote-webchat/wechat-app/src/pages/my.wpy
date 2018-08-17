@@ -1,0 +1,322 @@
+<style lang="less">
+@import "../styles/variable";
+.userInfo {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20rpx 24rpx 20rpx 40rpx;
+  overflow: hidden;
+  background: #fff;  
+}
+
+.userInfo .info{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.userInfoAvatar {
+  object-fit: cover;
+  display: block;
+  width: 128rpx;
+  height: 128rpx;
+  margin-right: 20rpx;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.userInfo view{
+  background: #fff;
+}
+
+.userInfoNickname {
+  line-height: 128rpx;
+  font-size: 28rpx;
+}
+// .userinfo-phone {
+//   display: block;
+//   margin-top: 10rpx;
+//   color: #999;
+// }
+
+.userInfo .userInfoArrow{
+  line-height: 128rpx;
+  view{
+    text-align:right;
+    font-size: 22rpx;
+    color: #c8c8c8;
+  }
+}
+
+
+.userNav{
+  margin-top: 30rpx;
+}
+.userNav .icon{
+  width: 67rpx;
+  height: 67rpx;
+}
+.userNav .num{
+  position: absolute;
+  left: 112px;
+  top: 15px;
+  height: 36rpx;
+  padding: 0 16rpx;
+  background: #ff4242;
+  border-radius: 36rpx;
+  line-height: 36rpx;
+  text-align: center;
+  color: #fff;
+  font-size: 24rpx;
+}
+</style>
+<template>
+  <!-- <form bindsubmit="formSubmit" bindreset="formReset" report-submit="true" >
+    <view class="section section_gap">
+      <view class="section__title">阿大是大非</view>
+      <switch name="switch1"/>
+      <switch name="switch2"/>
+    </view>
+    <view class="btn-area">
+      <button formType="submit">Submit</button>
+      <button formType="reset">Reset</button>
+    </view>
+  </form> -->
+  <view class="container">
+    <view wx:if="{{isLogin}}">
+      <view class="userInfo">
+        <view class="info">
+          <view>
+            <open-data class="userInfoAvatar" mode='aspectFit' type="userAvatarUrl"></open-data>
+          </view>
+          <view>
+            <open-data class="userInfoNickname" type="userNickName"></open-data>
+          </view>
+        </view>
+        <!-- <view class="userInfoArrow">
+          <zan-icon type="arrow"></zan-icon>
+        </view> -->
+      </view>
+    </view>
+
+    <view class="userNav" wx:if="{{isLogin}}">
+      <zan-panel>
+        <zan-cell-group>
+          <zan-cell title="我的订单" is-link url="/pages/myOrder">
+            <image slot="icon" src="../assets/images/icon_user_menu_1.png" mode="scaleToFill" class="icon"></image>
+            <!-- <text class="num">3</text> -->
+          </zan-cell>
+          <zan-cell title="客户订单" is-link url="/pages/customerOrder">
+            <image slot="icon" src="../assets/images/icon_user_menu_6.png" mode="scaleToFill" class="icon"></image>
+          </zan-cell>
+          <zan-cell title="我的收藏" is-link url="/pages/fav">
+            <image slot="icon" src="../assets/images/icon_user_menu_2.png" mode="scaleToFill" class="icon"></image>
+          </zan-cell>
+          <zan-cell title="我的收益" is-link url="/pages/myProfit">
+            <image slot="icon" src="../assets/images/icon_user_menu_3.png" mode="scaleToFill" class="icon"></image>
+          </zan-cell>
+          <zan-cell title="我的钱包" is-link url="/pages/myWallet">
+            <image slot="icon" src="../assets/images/icon_user_menu_4.png" mode="scaleToFill" class="icon"></image>
+          </zan-cell>
+          <zan-cell title="如何成为商户" is-link url="/pages/register">
+            <image slot="icon" src="../assets/images/icon_user_menu_5.png" mode="scaleToFill" class="icon"></image>
+          </zan-cell>
+        </zan-cell-group>
+      </zan-panel>
+    </view>
+
+    <view wx:if="{{!isLogin}}" class="authorize">
+      <view class="authItem">您还未登录！</view>
+      <view class="btnAuthorize">
+        <button class="btnPrimary" open-type="getUserInfo" type="primary" lang="zh_CN"  bindgetuserinfo="login">微信用户快速登录</button>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import { connect } from 'wepy-redux'
+  import Counter from 'counter' // alias example
+  import moduleA from 'module-a' // aliasFields ignore module example
+  import Toast from 'wepy-com-toast'
+  import testMixin from '../mixins/index'
+
+  import config from '@/utils/config'
+  import Util from '@/utils/util'
+
+  @connect({
+    num (state) {
+      return state.counter.num
+    },
+    asyncNum (state) {
+      return state.counter.asyncNum
+    },
+    sumNum (state) {
+      return state.counter.num + state.counter.asyncNum
+    }
+  })
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '我的',
+      usingComponents: {
+        "zan-icon": "./../assets/libs/zanui/icon/index",
+        "zan-cell": "./../assets/libs/zanui/cell/index",
+        "zan-icon": "./../assets/libs/zanui/icon/index",
+        "zan-badge": "./../assets/libs/zanui/badge/index",
+        "zan-panel": "./../assets/libs/zanui/panel/index",
+        "zan-cell-group": "./../assets/libs/zanui/cell-group/index"
+      }
+    }
+    components = {
+      counter1: Counter,
+      counter2: Counter,
+      toast: Toast
+    }
+
+    mixins = [testMixin]
+
+    data = {
+      isLogin: false,
+      mynum: 20,
+      userInfo: {
+        nickName: '加载中...'
+      },
+      normalTitle: '原始标题',
+      setTimeoutTitle: '标题三秒后会被修改',
+      count: 0,
+      netrst: '',
+      groupList: [
+        {
+          id: 1,
+          name: '点击改变',
+          list: [
+            {
+              childid: '1.1',
+              childname: '子项，点我改变'
+            }, {
+              childid: '1.2',
+              childname: '子项，点我改变'
+            }, {
+              childid: '1.3',
+              childname: '子项，点我改变'
+            }
+          ]
+        },
+        {
+          id: 2,
+          name: '点击改变',
+          list: [
+            {
+              childid: '2.1',
+              childname: '子项，点我改变'
+            }, {
+              childid: '2.2',
+              childname: '子项，点我改变'
+            }, {
+              childid: '2.3',
+              childname: '子项，点我改变'
+            }
+          ]
+        },
+        {
+          id: 3,
+          name: '点击改变',
+          list: [
+            {
+              childid: '3.1',
+              childname: '子项，点我改变'
+            }
+          ]
+        }
+      ]
+    }
+
+    computed = {
+      now () {
+        return +new Date()
+      }
+    }
+
+    methods = {
+      formSubmit(e) {
+        console.log('form发生了submit事件，携带数据为：', e.detail.formId)
+
+        wepy.request({
+          method: 'get',
+          url: config.service.host + '/sentMessage?formId='+e.detail.formId,
+          data: {
+            formId: e.detail.formId
+          }
+        })
+      },
+      formReset: function () {
+        console.log('form发生了reset事件')
+      },
+
+      // 登录
+      async login(e) {
+        if (e.detail.errMsg == 'getUserInfo:ok') {
+          wx.showLoading({
+            title: '处理中...',
+          })
+
+          let res = await wepy.login()
+          if (res.code) {
+            let userInfo = e.detail.userInfo
+
+            let userSecretInfo = await wepy.request({
+              method: 'post',
+              url: config.service.host + '/weixin/login?code='+res.code
+            })
+
+            let userOpenId = userSecretInfo.data.data
+
+            let loginInfo = await wepy.request({
+              method: 'post',
+              url: config.service.host + '/auto/doLogin',
+              data: {
+                loginToken: userOpenId, 
+                autoLogin: 1, 
+                loginName: encodeURIComponent(userInfo.nickName), 
+                loginPassword: userOpenId,
+                imageurl: userInfo.avatarUrl,
+                realName: Util.replaceEmoji(userInfo.nickName)
+              },
+              header: {
+                'content-type': 'application/json'
+              }
+            })
+
+            this.$parent.globalData.userKey = 'Bearer ' + loginInfo.data.data.token
+            this.$apply()
+            wepy.setStorageSync('userKey', 'Bearer ' + loginInfo.data.data.token)
+            wepy.setStorageSync('userInfo', loginInfo.data.data)
+
+            this.isLogin = true
+
+            this.$apply()
+
+            wx.hideLoading()
+          }
+        }
+      },
+    }
+
+    onLoad() {
+      // this.userInfo = this.$parent.globalData.userInfo
+      // console.log(this.$parent.globalData.userInfo)
+      // this.$apply()
+    }
+
+    onShow(){
+      if(!this.$parent.globalData.userKey){
+        this.pageLoading = false
+        this.isLogin = false
+      }else{
+        this.isLogin = true
+      }
+    }
+  }
+</script>

@@ -1,0 +1,194 @@
+<style lang="less">
+@import "../styles/variable";
+
+.orderPeople{
+  .totalNum{
+    height: 80rpx;
+    padding-left: 30rpx;
+    background: #fff;
+    line-height: 80rpx;
+  }
+  .orderGroupList{
+    .item{
+      position: relative;
+      display: flex;
+      margin-top: 20rpx;
+      margin-right: 20rpx;
+      margin-left: 20rpx;
+      padding: 20rpx;
+      background: #fff;
+      .checkStatus{
+        margin: 100rpx 20rpx 0 20rpx;
+        color: @primary-color;
+        .iconfont{
+          font-size: 40rpx;
+        }
+      }
+      .pic{
+        position: relative;
+        width: 70rpx;
+        height: 70rpx;
+        margin-top: 12rpx;
+        border-radius: 70rpx;
+        image{
+          display: block;
+          width: 70rpx;
+          height: 70rpx;
+          border-radius: 70rpx;
+        }
+      }
+      .info{
+        flex: 1;
+        margin: 0 20rpx;
+        font-size: 24rpx;
+        line-height: 48rpx;
+        .list{
+          font-size: 24rpx;
+        }
+      }
+      .btnOpt{
+        position: absolute;
+        right: 20rpx;
+        top: 30rpx;
+        .btn{
+          height: 50rpx;
+          margin-top: 16rpx;
+          margin-left: 20rpx;
+          padding: 0 24rpx;
+          border: 1px solid @primary-color;
+          border-radius: 50rpx;
+          line-height: 50rpx;
+          text-align: center;
+          color: @primary-color;
+        }
+      }
+    }
+  }
+}
+</style>
+
+
+<template>
+  <view class="orderPeople">
+    <view class="totalNum">拼团数：{{groupList.length}}</view>
+
+    <view class="orderGroupList">
+      <repeat for="{{groupList}}" key="index" index="index" item="item">
+        <view class="item">
+          <view class="pic">
+            <image src="{{item.userImageUrl}}"></image>
+          </view>
+          <view class="info">
+            <view class="list">所选套餐：{{item.peopleNum}} | ￥{{item.collagePrice}}</view>
+            <view class="list">发起人：{{item.createUserName}}</view>
+            <view class="list">状态：{{item.collageStatus == 0 ? '未成团' : '已成团'}}</view>
+          </view>
+          <view class="btnOpt">
+            <view class="btn" hover-class="btnHoverClass" @tap="showPeople({{item}})">查看参团人</view>
+          </view>
+        </view>
+      </repeat>
+
+      <view class="noData" wx:if="{{groupList.length == 0}}">
+        <image src="../assets/images/icon_empty.png" />
+        <text>没有相关数据！</text>
+      </view>
+    </view>
+
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import { connect } from 'wepy-redux'
+  import Counter from 'counter' // alias example
+  import moduleA from 'module-a' // aliasFields ignore module example
+  import Toast from 'wepy-com-toast'
+  import testMixin from '../mixins/index'
+  import config from '@/utils/config'
+
+  export default class Product extends wepy.page {
+    config = {
+      navigationBarTitleText: '拼团信息',
+      usingComponents: {
+        "zan-icon": "./../assets/libs/zanui/icon/index",
+        "zan-cell": "./../assets/libs/zanui/cell/index",
+        "zan-icon": "./../assets/libs/zanui/icon/index",
+        "zan-badge": "./../assets/libs/zanui/badge/index",
+        "zan-panel": "./../assets/libs/zanui/panel/index",
+        "zan-cell-group": "./../assets/libs/zanui/cell-group/index",
+        "zan-tab": "./../assets/libs/zanui/tab/index",
+        "zan-card": "./../assets/libs/zanui/card/index"
+      }
+    }
+    components = {
+      counter1: Counter,
+      counter2: Counter,
+      toast: Toast
+    }
+
+    mixins = [testMixin]
+
+    data = {
+      productId: '',
+      createUserId: '',
+      totalNum: '',
+      groupList: [],
+    }
+
+
+    computed = {
+    }
+
+    
+
+    methods = {
+      showPeople(item){
+        console.log(item)
+        wx.navigateTo({
+          url: '/pages/customerOrderPeople?productId=' + item.id + '&createUserId='+item.createUserId  + '&type=2'
+        })
+      }
+    }
+
+    events = {
+      
+    }
+
+
+    async getUserList(type){
+      let url = config.service.host + '/token/product/collage/' + this.productId
+      let res = await wepy.request({
+        method: 'get',
+        url: url,
+        header: {
+          'content-type': 'application/json',
+          'authorization': this.$parent.globalData.userKey,
+        }
+      })
+
+      let groupList = res.data.data
+
+      groupList.forEach(item => {
+        item.createUserName = decodeURIComponent(item.createUserName)
+      })
+      
+      this.groupList = groupList
+
+      this.$apply()
+    }
+
+    onLoad(option) {
+      console.log(option)
+      if(option.productId){
+        this.productId = option.productId
+        this.createUserId = option.createUserId
+        this.getUserList()
+      }
+    }
+
+    onShow(option){
+      
+    }
+  }
+</script>

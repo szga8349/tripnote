@@ -1,0 +1,945 @@
+<style lang="less">
+@import "../styles/variable";
+
+.products{
+  .productList{
+    .types{
+      display: flex;
+      padding: 20rpx 30rpx;
+      background: #fff;
+      .btn{
+        width: 70px;
+        height: 30px;
+        background: #f2f2f2;
+        border-color: #f2f2f2;
+        border-radius: 60rpx;
+        text-align: center;
+        line-height: 30px;
+        font-size: 13px;
+        &.active{
+          background: @primary-color;
+          border-color: @primary-color;
+          color: #fff;
+        }
+      }
+    }
+    .productListBox{
+      padding-bottom: 180rpx;
+    }
+    .item{
+      position: relative;
+      display: flex;
+      margin-top: 20rpx;
+      margin-right: 20rpx;
+      margin-left: 20rpx;
+      .checkStatus{
+        margin: 100rpx 20rpx 0 20rpx;
+        color: @primary-color;
+        .iconfont{
+          font-size: 40rpx;
+        }
+      }
+      .detailCon{
+        flex: 1;
+        display: flex;
+        background: #fff;
+        .pic{
+          position: relative;
+          width: 250rpx;
+          height: 250rpx;
+          .tag{
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 40rpx;
+            line-height: 40rpx;
+            font-size: 24rpx;
+            background: red;
+            color: #fff;
+            padding: 0 10rpx;
+          }
+          image{
+            width: 250rpx;
+            height: 250rpx;
+          }
+        }
+        .info{
+          flex: 1;
+          margin: 10rpx 20rpx 0;
+          .tit{
+            height: 76rpx;
+            overflow: hidden;
+            font-size: 28rpx;
+          }
+
+          .des{
+            margin-top: 20rpx;
+            .leftBox{
+              float: left;
+              .list{
+                line-height: 44rpx;
+                color: #999;
+                font-size: 24rpx;
+              }
+            }
+            .rightBox{
+              position: absolute;
+              right: 20rpx;
+              bottom: 20rpx;
+              text-align: right;
+              .price{
+                color: @primary-green;
+                text{
+                  font-size: 40rpx;
+                }
+              }
+              .btnOpt{
+                .btn{
+                  float: left;
+                  width: 120rpx;
+                  height: 50rpx;
+                  margin-top: 16rpx;
+                  margin-left: 20rpx;
+                  border: 1px solid @primary-color;
+                  border-radius: 50rpx;
+                  line-height: 50rpx;
+                  text-align: center;
+                  color: @primary-color;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .variWrap{
+    // background: #fff;
+    margin: 20rpx 30rpx;
+    .item{
+      display: flex;
+      justify-content: space-between;
+      padding: 20rpx 0;
+      border-bottom: 2rpx solid #dedede;
+      line-height: 60rpx;
+      &:last-child{
+        border-bottom: 0;
+      }
+      .inputPhone{
+        width: 100%;
+        height: 60rpx;
+      }
+      .inputCode{
+        width: 400rpx;
+        height: 60rpx;
+      }
+      .sendCode{
+        float: right;
+        margin-right: 40rpx;
+        .sendLink{
+          color: @primary-green;
+        }
+      }
+      .btnSubmit{
+        width: 100%;
+        margin-top: 20rpx;
+      }
+    }
+    .errorTip{
+      color: red;
+      text-align: left;
+    }
+  }
+}
+
+.productNew {
+  width: 100%;
+  height: 80rpx;
+  border-top: 1px solid #ededed;
+  position: fixed;
+  bottom: 0;
+  background: #d1e5ff;
+  line-height: 80rpx;
+  z-index: 1001;
+  text-align: center;
+  font-size: 28rpx;
+  .iconfont{
+    // color: @primary-color;
+    margin-right: 6rpx;
+  }
+}
+
+.productBottom {
+  width: 100%;
+  border-top: 1px solid #ededed;
+  position: fixed;
+  bottom: 0;
+  background: #fff;
+  z-index: 1001;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  .selectAll{
+    flex: 1;
+    padding-left: 30rpx;
+    .iconfont{
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 10rpx;
+      margin-top: -4rpx;
+      font-size: 40rpx;
+      color: @primary-color;
+    }
+  }
+  .btn{
+    flex: 1;
+    height: 80rpx;
+    line-height: 80rpx;
+    font-size: 30rpx;
+    text-align: center;
+    &.btnDel{
+      background:#d1e5ff;
+      color: @primary-color;
+    }
+    &.btnShare{
+      background: @primary-color;
+      color: #fff;
+    }
+  }
+}
+
+</style>
+<template>
+  <view class="products" wx:if="{{!pageLoading}}">
+    <view class="authorize" wx:if="{{!authorize}}">
+      <view wx:if="{{isLogin}}">
+        <view class="addTips" wx:if="{{!variWrapVisible}}">
+          <view class="authItem">您还不是商户，无法添加产品！</view>
+          <view class="btnAuthorize" wx:if="{{userRole!=-1 && !variWrapVisible}}">
+            <button class="btnPrimary" type="primary" @tap="applyAction">申请成为商户</button>
+          </view>
+          <view class="authItem waitTip" wx:if="{{userRole==-1}}">您的申请已提交，请耐心等待！</view>
+        </view>
+
+        <view class="variWrap" wx:if="{{variWrapVisible}}">
+          <view class="item">
+            <view><input type="text" placeholder="请输入手机号" value="{{phone}}" @input="handlePhoneChange" class="inputPhone" /></view>
+          </view>
+          <view class="errorTip" wx:if="{{phoneError}}">{{phoneErrorTxt}}</view>
+          <view class="item">
+            <input type="text" class="inputCode" value="{{code}}" @input="handleCodeChange" placeholder="请输入验证码" />
+            <view class="sendCode">
+              <text wx:if="{{sendMsgDisabled}}">{{time+'秒后获取'}}</text>
+              <text @tap="sendCode" wx:else="{{sendMsgDisabled}}" class="sendLink">获取验证码</text>
+            </view>
+          </view>
+          <view class="errorTip" wx:if="{{codeError}}">验证码错误</view>
+          <view class="item">
+            <!-- <button class="btnPrimary btnSubmit" wx:if="{{!isLogin}}" open-type="getUserInfo" type="primary" lang="zh_CN"  bindgetuserinfo="loginAndApplyProducter">提交</button> -->
+            <button class="btnPrimary btnSubmit" wx:if="{{isLogin}}" type="primary" @tap="applyProducter">提交</button>
+          </view>
+        </view>
+        
+      </view>
+
+      <view wx:if="{{!isLogin}}">
+        <view class="authItem">您还未登录！</view>
+        <view class="btnAuthorize">
+          <button class="btnPrimary" open-type="getUserInfo" type="primary" lang="zh_CN"  bindgetuserinfo="login">微信用户快速登录</button>
+        </view>
+      </view>
+    </view>
+
+    <!-- <view>userId:{{userOpenId}}</view> -->
+
+    <view wx:if="{{authorize}}">
+      <zan-tab
+        list="{{ tab.list }}"
+        selected-id="{{ tabSelectedId }}"
+        bindtabchange="handleTabChange"
+      />
+
+      <view wx:if="{{ tabSelectedId == 1 }}" class="productList">
+        <view class="types">
+          <button class="btn {{ tab1BtnChecked == -2 ? 'active' : ''}}" data-index="-2" @tap="tab1BtnFilter">全部</button>
+          <button class="btn {{ tab1BtnChecked == 1 ? 'active' : ''}}" data-index="1" @tap="tab1BtnFilter">已发布</button>
+          <button class="btn {{ tab1BtnChecked == 0 ? 'active' : ''}}" data-index="0" @tap="tab1BtnFilter">未发布</button>
+          <button class="btn {{ tab1BtnChecked == -1 ? 'active' : ''}}" data-index="-1" @tap="tab1BtnFilter">已结束</button>
+        </view>
+
+        <view class="productListBox">
+          <repeat for="{{productList}}" key="index" index="index" item="item">
+            <view class="item" wx:if="{{item.visible}}">
+              <!-- <view class="checkStatus">
+                <i @tap="handleProductListSel({{item.id}})" class="iconfont {{!item.checked ? 'icon-checknormal' : 'icon-icon_checkbox_fill'}}"></i>
+              </view> -->
+
+              <view class="detailCon">
+                <view class="pic">
+                  <view class="tag">{{item.tag}}</view>
+                  <navigator url="/pages/productDetail?id={{item.id}}">
+                    <image src="{{item.imageUrl || '../assets/images/product_img_blank.png'}}"/>
+                  </navigator>
+                </view>
+                <view class="info">
+                  <view class="tit">
+                    <navigator url="/pages/productDetail?id={{item.id}}">{{item.name}}</navigator>
+                  </view>
+                  <view class="des">
+                    <view class="leftBox">
+                      <view class="list">状态：{{item.statusTxt}}</view>
+                      <view class="list">已售：{{item.soldCount}}</view>
+                    </view>
+                    <view class="rightBox">
+                      <view class="price">￥<text>{{item.discountPrice || item.rawPrice}}</text></view>
+
+                      <view class="btnOpt">
+                        <view class="btn" wx:if="{{item.status == 0 || item.status == -1}}">
+                          <navigator url="/pages/productEdit?id={{item.id}}">编辑</navigator>
+                        </view>
+
+                        <view class="btn" wx:if="{{item.status == 1}}" @tap="setStatusDown({{item}})">下架</view>
+                        <view class="btn" wx:if="{{item.status != 1}}" @tap="setStatusUp({{item}})">上架</view>
+                      </view>
+                    </view>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </repeat>
+
+          <view class="noData" wx:if="{{tab1NoData}}">
+            <image src="../assets/images/icon_empty.png"></image>
+            <text>没有相关数据！</text>
+          </view>
+        </view>
+
+      </view>
+
+      <view wx:if="{{ tabSelectedId == 2 }}" class="productList">
+        <view class="types">
+          <button class="btn {{tab2BtnChecked==-2 ? 'active' : ''}}" data-index="-2" @tap="tab2BtnFilter">全部</button>
+          <button class="btn {{tab2BtnChecked == 1 ? 'active' : ''}}" data-index="1" @tap="tab2BtnFilter">已发布</button>
+          <button class="btn {{tab2BtnChecked==-1 ? 'active' : ''}}" data-index="-1" @tap="tab2BtnFilter">已结束</button>
+        </view>
+
+        <view class="productListBox">
+          <repeat for="{{shareList}}" key="index" index="index" item="item">
+            <view class="item" wx:if="{{item.visible}}">
+              <view class="detailCon">
+                <view class="pic">
+                  <view class="tag">{{item.tag}}</view>
+                  <navigator url="/pages/productDetail?id={{item.id}}"><image src="{{item.imageUrl}}"></image></navigator>
+                </view>
+                <view class="info">
+                  <view class="tit">
+                    <navigator url="/pages/productDetail?id={{item.id}}">{{item.name}}</navigator>
+                  </view>
+                  <view class="des">
+                    <view class="leftBox">
+                      <view class="list">状态：{{item.statusTxt}}</view>
+                      <view class="list">购买人数：{{item.purchaseNumber}}</view>
+                      <view class="list">分享收益：￥{{item.shareProfit}}</view>
+                    </view>
+                    <view class="rightBox">
+                      <view class="price">￥<text>{{ item.rawPrice || item.discountPrice}}</text></view>
+
+                      <view class="btnOpt">
+                        <view class="btn" @tap="setStatusDown({{item}})">分享</view>
+                      </view>
+                    </view>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </repeat>
+
+          <view class="noData" wx:if="{{tab2NoData}}">
+            <image src="../assets/images/icon_empty.png"></image>
+            <text>没有相关数据！</text>
+          </view>
+        </view>
+
+
+      </view>
+    </view>
+    
+  </view>
+
+  <view class="productNew" wx:if="{{authorize}}">
+    <navigator url="/pages/productCreate">
+      <i class="iconfont icon-add1"></i>新建产品
+    </navigator>
+  </view>
+
+  <!-- <view class="productBottom">
+    <view class="selectAll" @tap="handleSelectAll">
+      <i class="iconfont {{!selectAll ? 'icon-checknormal' : 'icon-icon_checkbox_fill'}}"></i>全选
+    </view>
+    <view class="btn btnDel" data-type="-1" @tap="productStatusChange">下架</view>
+    <view class="btn btnShare" data-type="1" @tap="productStatusChange">发布</view>
+  </view> -->
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import { connect } from 'wepy-redux'
+  import Counter from 'counter' // alias example
+  import moduleA from 'module-a' // aliasFields ignore module example
+  import Toast from 'wepy-com-toast'
+  import testMixin from '@/mixins/index'
+  import config from '@/utils/config'
+  import Util from '@/utils/util'
+
+  export default class Product extends wepy.page {
+    config = {
+      navigationBarTitleText: '我的产品库',
+      usingComponents: {
+        "zan-icon": "./../assets/libs/zanui/icon/index",
+        "zan-cell": "./../assets/libs/zanui/cell/index",
+        "zan-icon": "./../assets/libs/zanui/icon/index",
+        "zan-badge": "./../assets/libs/zanui/badge/index",
+        "zan-panel": "./../assets/libs/zanui/panel/index",
+        "zan-cell-group": "./../assets/libs/zanui/cell-group/index",
+        "zan-tab": "./../assets/libs/zanui/tab/index",
+        "zan-card": "./../assets/libs/zanui/card/index"
+      }
+    }
+    components = {
+      counter1: Counter,
+      counter2: Counter,
+      toast: Toast
+    }
+
+    mixins = [testMixin]
+
+    data = {
+      variWrapVisible: false,
+      hasPhone: false,
+      phone: '',
+      phoneError: false,
+      phoneErrorTxt: '',
+      code: '',
+      codeError: false,
+      pageLoading: true,
+      authorize: false,
+      isLogin: false,
+      userRole: 0,
+
+      sendMsgDisabled: false,
+      time: 60,
+      codeCallback: '',
+
+      tab: {
+        list: [{
+          id: 1,
+          title: '我创建的产品'
+        }, {
+          id: 2,
+          title: '我分享的产品'
+        }]
+      },
+      tabSelectedId: 1,
+      
+      tab1BtnChecked: -2,
+      tab1NoData: false,
+      tab2NoData: false,
+      tab2BtnChecked: -2,
+      productList: [],
+      selectAll: false,
+      shareList: [],
+
+      // userOpenId: '123'
+    }
+
+    computed = {
+    }
+
+    statusFilter(){
+      this.tab1NoData = true
+      let self = this
+
+      this.productList.forEach(item => {
+        if(self.tab1BtnChecked == -2){
+          item['visible'] = true
+          self.tab1NoData = false
+        }else{
+          if(item.status == self.tab1BtnChecked){
+            item['visible'] = true
+            self.tab1NoData = false
+          }else{
+            item['visible'] = false
+          }
+        }
+      })
+    }
+
+    variPhone(){
+      let mobile = this.phone
+
+       if(mobile.length==0) 
+       { 
+          this.phoneErrorTxt = '请输入手机号码！'
+          return false; 
+       }     
+       if(mobile.length!=11) 
+       { 
+           this.phoneErrorTxt = '请输入有效的手机号码！'
+           return false; 
+       } 
+        
+       var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/; 
+       if(!myreg.test(mobile)) 
+       { 
+           this.phoneErrorTxt = '请输入有效的手机号码！'
+           return false; 
+       }
+       return true
+    } 
+
+    methods = {
+      async applyAction(){
+        if(this.hasPhone){
+          wx.showLoading({
+            title: '处理中...',
+          })
+          let applyProducter = await wepy.request({
+            method: 'post',
+            url: config.service.host + '/token/user/doUpdate',
+            data: {
+              accountType: -1,
+              phone: this.phone
+            },
+            header: {
+              'content-type': 'application/json',
+              'authorization': this.$parent.globalData.userKey,
+            }
+          })
+
+          this.userRole = -1
+          this.$apply()
+
+          wx.hideLoading()
+        }else{
+          this.variWrapVisible = true
+        }
+      },
+
+      handlePhoneChange(e) {
+        this.phone = e.detail.value
+      },
+      handleCodeChange(e) {
+        this.code = e.detail.value
+      },
+
+      // 发送验证码
+      async sendCode(){
+        if(!this.variPhone()){
+          this.phoneError = true
+          return
+        }else{
+          this.phoneError = false
+        }
+        let that = this
+        
+
+        wx.showLoading({
+          title: '发送中...',
+        })
+        let res = await wepy.request({
+          url: config.service.host + '/sendRegisterCode',
+          data: {
+            phoneNo: this.phone
+          }
+        })
+        if(res){
+          this.sendMsgDisabled = true
+          this.time = 60
+          this.$apply()
+
+          let interval = setInterval(() => {
+            if ((that.time--) <= 0) {
+              that.time = 60;
+              that.sendMsgDisabled = false;
+              clearInterval(interval);
+              that.$apply();
+            }
+            that.$apply()
+          }, 1000)
+
+          this.codeCallback = res.data.data
+
+          wx.hideLoading()
+        }
+      },
+
+      // 权限申请
+      async applyProducter(e) {
+        // if(this.code != this.codeCallback){
+        //   this.codeError = true
+        //   return
+        // }
+        wx.showLoading({
+          title: '处理中...',
+        })
+
+        let checkCode = await wepy.request({
+          url: config.service.host + '/code/check',
+          header: {
+            'Cookie': 'JSESSIONID=' + this.codeCallback
+          },
+          data: {
+            smsCode: this.code
+          }
+        })
+
+        if(checkCode.data.code == -1){
+          this.codeError = true
+          return
+        }
+
+        let applyProducter = await wepy.request({
+          method: 'post',
+          url: config.service.host + '/token/user/doUpdate',
+          data: {
+            accountType: -1,
+            phone: this.phone
+          },
+          header: {
+            'content-type': 'application/json',
+            'authorization': this.$parent.globalData.userKey,
+          }
+        })
+
+        this.userRole = -1
+        this.variWrapVisible = false
+
+        this.$apply()
+
+        wx.hideLoading()
+      },
+
+      // 登录
+      async login(e) {
+        if (e.detail.errMsg == 'getUserInfo:ok') {
+          wx.showLoading({
+            title: '处理中...',
+          })
+
+          let res = await wepy.login()
+          if (res.code) {
+            let userInfo = e.detail.userInfo
+
+            let userSecretInfo = await wepy.request({
+              method: 'post',
+              url: config.service.host + '/weixin/login?code='+res.code
+            })
+
+            let userOpenId = userSecretInfo.data.data
+
+            let loginInfo = await wepy.request({
+              method: 'post',
+              url: config.service.host + '/auto/doLogin',
+              data: {
+                loginToken: userOpenId, 
+                autoLogin: 1, 
+                loginName: encodeURIComponent(userInfo.nickName), 
+                loginPassword: userOpenId,
+                imageurl: userInfo.avatarUrl,
+                realName: Util.replaceEmoji(userInfo.nickName)
+              },
+              header: {
+                'content-type': 'application/json'
+              }
+            })
+
+            this.$parent.globalData.userKey = 'Bearer ' + loginInfo.data.data.token
+            this.$apply()
+            wepy.setStorageSync('userKey', 'Bearer ' + loginInfo.data.data.token)
+
+            this.isLogin = true
+
+            this.$apply()
+
+            this.getUserDetail()
+          }
+        }
+      },
+
+      async setStatusDown(item){
+
+        let res = await wepy.request({
+          method: 'post',
+          url: config.service.host + '/token/product/status/doUpdate',
+          data: {"statuses": [{id: item.id, status: -1}]},
+          header: {
+            'authorization': this.$parent.globalData.userKey,
+            'content-type': 'application/json'
+          }
+        })
+        this.getProductList()
+      },
+
+      async setStatusUp(item){
+        let res = await wepy.request({
+          method: 'post',
+          url: config.service.host + '/token/product/status/doUpdate',
+          data: {"statuses": [{id: item.id, status: 1}]},
+          header: {
+            'authorization': this.$parent.globalData.userKey,
+            'content-type': 'application/json'
+          }
+        })
+        this.getProductList()
+      },
+
+      tab1BtnFilter(e){
+        let sel = parseInt(e.target.dataset.index)
+        this.tab1BtnChecked = sel
+
+        this.statusFilter()
+      },
+      tab2BtnFilter(e){
+        let sel = parseInt(e.target.dataset.index)
+        this.tab2BtnChecked = sel
+
+        this.tab2NoData = true
+        let self = this
+
+        this.shareList.forEach(item => {
+          if(sel == -2){
+            item['visible'] = true
+            self.tab2NoData = false
+          }else{
+            if(item.status == sel){
+              item['visible'] = true
+              self.tab2NoData = false
+            }else{
+              item['visible'] = false
+            }
+          }
+        })
+      },
+
+      productStatusChange(e){
+        let type = parseInt(e.target.dataset.type)
+
+        let self = this
+
+        wx.showLoading({
+          title: '正在操作...',
+        })
+        
+        let _ids = []
+        this.productList.forEach(element => {
+          if(element.checked){
+            _ids.push({id: element.id, status: type})
+          }
+        })
+
+        wepy.request({
+          method: 'post',
+          url: config.service.host + '/token/product/status/doUpdate',
+          data: {"statuses": _ids},
+          header: {
+            'authorization': this.$parent.globalData.userKey,
+            'content-type': 'application/json'
+          },
+          success: function (res) {
+            wx.hideLoading()
+            self.getProductList()
+            self.selectAll = false
+          }
+        })
+      },
+
+      handleProductListSel(itemId){
+        this.productList.forEach(element => {
+          if(element.id == itemId){
+            element.checked = !element.checked
+          }
+        })
+
+        console.log('--', this.productList)
+        // this.$apply()
+      },
+
+      handleSelectAll(){
+        this.selectAll = !this.selectAll
+        this.productList.forEach(element => {
+          element.checked = this.selectAll
+        })
+      },
+
+      handleTabChange(e){
+        if (this.tabSelectedId == e.detail) {
+          return false;
+        } else {
+          this.tabSelectedId = e.detail
+          this.$apply();
+        }
+      },
+
+      handleDel(){
+        wx.showLoading({
+          title: '正在删除...',
+        })
+        
+        let self = this
+        let _ids = []
+        this.productList.forEach(element => {
+          if(element.checked){
+            _ids.push(element.id)
+          }
+        })
+
+        wepy.request({
+          method: 'post',
+          url: config.service.host + '/token/product/doDelete',
+          data: _ids,
+          header: {
+            'authorization': this.$parent.globalData.userKey,
+            'content-type': 'application/json'
+          },
+          success: function (res) {
+            wx.hideLoading()
+            self.getProductList()
+          }
+        })
+      }
+    }
+
+    events = {
+      
+    }
+
+    async getProductList(){
+      let self = this
+      wx.showLoading({
+        title: '加载中...',
+      })
+
+      const res = await wepy.request({
+        url: config.service.host + '/token/product/doSearch',
+        header: {
+          'authorization': this.$parent.globalData.userKey,
+        },
+        data: {
+          isMy: true
+        }
+      })
+      let productList = res.data.data.data
+      productList.forEach(element => {
+        element['checked'] = false
+        element['statusTxt'] = self.formatStatus(element.status)
+        element['visible'] = true
+        element['tag'] = self.formatType(element.priceType)
+      })
+      self.productList = productList
+
+      this.statusFilter()
+
+      self.$apply()
+
+      wx.hideLoading()
+    }
+
+
+    async getUserDetail(){
+      let self = this
+      wx.showLoading({
+        title: '加载中...',
+      })
+
+      const res = await wepy.request({
+        url: config.service.host + '/token/user/doDetail',
+        header: {
+          'authorization': this.$parent.globalData.userKey,
+        }
+      })
+
+      if(res.data.data == null){
+        wx.hideLoading()
+        wx.clearStorageSync()
+        this.$parent.globalData.userKey = null
+        this.$apply()
+      }
+
+      let userRole = res.data.data.accountType
+
+      wepy.setStorageSync('userInfo', res.data.data)
+
+      this.userRole = userRole
+
+      if(userRole == 1){
+        this.authorize = true
+        this.getProductList()
+        this.getShareList()
+      }else{
+        this.authorize = false
+        console.log('phone', res.data.data.phone)
+        this.hasPhone = res.data.data.phone != null && res.data.data.phone != ''
+      }
+
+      wx.hideLoading()
+
+      this.pageLoading = false
+      this.$apply()
+    }
+
+    async getShareList(){
+      let self = this
+      wx.showLoading({
+        title: '加载中...',
+      })
+
+      const res = await wepy.request({
+        url: config.service.host + '/token/product/share/doMy',
+        header: {
+          'authorization': this.$parent.globalData.userKey,
+        }
+      })
+      let productList = res.data.data.data
+
+      productList.forEach(element => {
+        element['checked'] = false
+        element['statusTxt'] = self.formatStatus(element.status)
+        element['visible'] = true
+        element['tag'] = self.formatType(element.priceType)
+      })
+      this.shareList = productList
+      self.$apply()
+
+      wx.hideLoading()
+    }
+
+    onLoad() {
+
+      // if(wepy.getStorageSync('userKey')){
+      //   this.isLogin = true
+      // }
+
+      // this.$parent.autoLogin()
+
+
+      // if(!this.$parent.globalData.userKey){
+      //   wx.navigateTo({
+      //     url: "/pages/login"
+      //   })
+      // }else{
+      //   this.getProductList()
+      // }
+    }
+
+    onShow(){
+      if(!this.$parent.globalData.userKey){
+        this.pageLoading = false
+        this.isLogin = false
+      }else{
+        this.isLogin = true
+        this.getUserDetail()
+      }
+    }
+  }
+</script>
