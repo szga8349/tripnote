@@ -7,25 +7,25 @@ import java.util.List;
 public class BProductCashflowExample {
     /**
      * 主键字段
-     * @ibatorgenerated 2018-06-14 18:44:29
+     * @ibatorgenerated 2018-08-21 19:20:23
      */
     protected String pk_name = "id";
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-06-14 18:44:29
+     * @ibatorgenerated 2018-08-21 19:20:23
      */
     protected String orderByClause;
 
     /**
      * 去重复
-     * @ibatorgenerated 2018-06-14 18:44:29
+     * @ibatorgenerated 2018-08-21 19:20:23
      */
     protected boolean distinct;
 
     /**
      * 条件集
-     * @ibatorgenerated 2018-06-14 18:44:29
+     * @ibatorgenerated 2018-08-21 19:20:23
      */
     protected List<Criteria> oredCriteria;
 
@@ -43,7 +43,7 @@ public class BProductCashflowExample {
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-06-14 18:44:29
+     * @ibatorgenerated 2018-08-21 19:20:23
      */
     public void setOrderByClause(String orderByClause) {
         this.orderByClause = orderByClause;
@@ -55,7 +55,7 @@ public class BProductCashflowExample {
 
     /**
      * 设置去重复
-     * @ibatorgenerated 2018-06-14 18:44:29
+     * @ibatorgenerated 2018-08-21 19:20:23
      */
     public void setDistinct(boolean distinct) {
         this.distinct = distinct;
@@ -81,7 +81,7 @@ public class BProductCashflowExample {
 
     /**
      * 条件查询要先创建Criteria
-     * @ibatorgenerated 2018-06-14 18:44:29
+     * @ibatorgenerated 2018-08-21 19:20:23
      */
     public Criteria createCriteria() {
         Criteria criteria = createCriteriaInternal();
@@ -105,7 +105,7 @@ public class BProductCashflowExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-06-14 18:44:29
+     * @ibatorgenerated 2018-08-21 19:20:23
      */
     protected abstract static class GeneratedCriteria {
         protected List<Criterion> criteria;
@@ -657,11 +657,131 @@ public class BProductCashflowExample {
             addCriterion("remarks not between", value1, value2, "remarks");
             return (Criteria) this;
         }
+
+        public Criteria andProductIdIsNull() {
+            addCriterion("product_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductIdIsNotNull() {
+            addCriterion("product_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductIdEqualTo(Integer value) {
+            addCriterion("product_id =", value, "productId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductIdNotEqualTo(Integer value) {
+            addCriterion("product_id <>", value, "productId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductIdGreaterThan(Integer value) {
+            addCriterion("product_id >", value, "productId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("product_id >=", value, "productId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductIdLessThan(Integer value) {
+            addCriterion("product_id <", value, "productId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductIdLessThanOrEqualTo(Integer value) {
+            addCriterion("product_id <=", value, "productId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductIdIn(List<Integer> values) {
+            addCriterion("product_id in", values, "productId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductIdNotIn(List<Integer> values) {
+            addCriterion("product_id not in", values, "productId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductIdBetween(Integer value1, Integer value2) {
+            addCriterion("product_id between", value1, value2, "productId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("product_id not between", value1, value2, "productId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfitTypeIsNull() {
+            addCriterion("profit_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfitTypeIsNotNull() {
+            addCriterion("profit_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfitTypeEqualTo(Integer value) {
+            addCriterion("profit_type =", value, "profitType");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfitTypeNotEqualTo(Integer value) {
+            addCriterion("profit_type <>", value, "profitType");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfitTypeGreaterThan(Integer value) {
+            addCriterion("profit_type >", value, "profitType");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfitTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("profit_type >=", value, "profitType");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfitTypeLessThan(Integer value) {
+            addCriterion("profit_type <", value, "profitType");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfitTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("profit_type <=", value, "profitType");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfitTypeIn(List<Integer> values) {
+            addCriterion("profit_type in", values, "profitType");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfitTypeNotIn(List<Integer> values) {
+            addCriterion("profit_type not in", values, "profitType");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfitTypeBetween(Integer value1, Integer value2) {
+            addCriterion("profit_type between", value1, value2, "profitType");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfitTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("profit_type not between", value1, value2, "profitType");
+            return (Criteria) this;
+        }
     }
 
     /**
      * b_product_cashflow
-     * @ibatorgenerated do_not_delete_during_merge 2018-06-14 18:44:29
+     * @ibatorgenerated do_not_delete_during_merge 2018-08-21 19:20:23
      */
     public static class Criteria extends GeneratedCriteria {
 
@@ -673,7 +793,7 @@ public class BProductCashflowExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-06-14 18:44:29
+     * @ibatorgenerated 2018-08-21 19:20:23
      */
     public static class Criterion {
         private String condition;
