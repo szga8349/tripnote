@@ -13,11 +13,8 @@ spring:
         #设置静态页面路径 可以配置多一个 按照配置顺序依次查询
         static-locations: file:D:/notetripstatic,file:D:/source/tripnote/project/tripnote-webchat/static,file:D:/tripnote/tripnote-xcx-web/build
     datasource:
-        name: test
-#        url: jdbc:mysql://cd-cdb-0qahydri.sql.tencentcdb.com:63860/tripnote_webchat
-#        username: root
-#        password: tripnote_lenovo
-        url: jdbc:mysql://127.0.0.1:3306/tripnote_webchat
+        name: tripnote_webchat
+        url: jdbc:mysql://10.109.4.6:3306/tripnote_webchat
         username: root
         password: root
         # 使用druid数据源

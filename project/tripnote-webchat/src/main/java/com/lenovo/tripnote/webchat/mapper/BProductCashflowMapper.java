@@ -2,6 +2,9 @@ package com.lenovo.tripnote.webchat.mapper;
 
 import com.lenovo.tripnote.webchat.entity.BProductCashflow;
 import com.lenovo.tripnote.webchat.entity.BProductCashflowExample;
+import com.lenovo.tripnote.webchat.entity.vo.BProductCashFlowResultVo;
+import com.lenovo.tripnote.webchat.entity.vo.BProductCashFlowSearchVo;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
@@ -62,7 +65,7 @@ public interface BProductCashflowMapper {
      * 返回:删除个数
      * @ibatorgenerated 2018-08-21 19:20:23
      */
-    int deleteByPrimaryKey(Long id);
+    int deleteByPrimaryKey(Integer id);
 
     /**
      * 插入，空属性也会插入
@@ -86,7 +89,7 @@ public interface BProductCashflowMapper {
      * 返回:对象
      * @ibatorgenerated 2018-08-21 19:20:23
      */
-    BProductCashflow selectByPrimaryKey(Long id);
+    BProductCashflow selectByPrimaryKey(Integer id);
 
     /**
      * 根据主键修改，空值条件不会修改成null
@@ -103,4 +106,11 @@ public interface BProductCashflowMapper {
      * @ibatorgenerated 2018-08-21 19:20:23
      */
     int updateByPrimaryKey(BProductCashflow record);
+    
+    
+    
+    List<BProductCashFlowResultVo> searchBProductCashflow(@Param("record")BProductCashFlowSearchVo vo);
+    
+    Float searchBalance(Integer userId);
+    
 }

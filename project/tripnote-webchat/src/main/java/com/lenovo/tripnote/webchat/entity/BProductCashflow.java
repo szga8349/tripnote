@@ -2,6 +2,8 @@ package com.lenovo.tripnote.webchat.entity;
 
 import java.util.Date;
 
+import com.lenovo.tripnote.webchat.convert.IDEncryption;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,7 +15,8 @@ public class BProductCashflow  {
      * b_product_cashflow.id
      * @ibatorgenerated 2018-08-21 19:20:23
      */
-    private Long id;
+	@IDEncryption
+    private Integer id;
 
     /**
      * b_product_cashflow.type (流水类型：1入账-1出账)
@@ -37,6 +40,7 @@ public class BProductCashflow  {
      * b_product_cashflow.flow_user_id (流水归属用户ID)
      * @ibatorgenerated 2018-08-21 19:20:23
      */
+    @IDEncryption
     private Integer flowUserId;
 
     /**
@@ -61,6 +65,7 @@ public class BProductCashflow  {
      * b_product_cashflow.product_id (分享的产品ID,出账时设置-1)
      * @ibatorgenerated 2018-08-21 19:20:23
      */
+    @IDEncryption
     private Integer productId;
 
     /**

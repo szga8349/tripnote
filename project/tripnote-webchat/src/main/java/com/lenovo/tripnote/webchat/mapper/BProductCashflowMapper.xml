@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
 <mapper namespace="com.lenovo.tripnote.webchat.mapper.BProductCashflowMapper" >
   <resultMap id="BaseResultMap" type="com.lenovo.tripnote.webchat.entity.BProductCashflow" >
-    <id column="id" property="id" jdbcType="BIGINT" />
+    <id column="id" property="id" jdbcType="INTEGER" />
     <result column="type" property="type" jdbcType="INTEGER" />
     <result column="money" property="money" jdbcType="REAL" />
     <result column="flow_time" property="flowTime" jdbcType="TIMESTAMP" />
@@ -13,6 +13,20 @@
     <result column="product_id" property="productId" jdbcType="INTEGER" />
     <result column="profit_type" property="profitType" jdbcType="INTEGER" />
   </resultMap>
+  
+  
+  <resultMap id="SearchResultMap" type="com.lenovo.tripnote.webchat.entity.vo.BProductCashFlowResultVo" >
+  
+    <result column="product_id" property="productId" jdbcType="INTEGER" />
+    <result column="productName" property="productName" jdbcType="VARCHAR" />
+    <result column="price_type" property="priceType" jdbcType="INTEGER" />
+    <result column="image_url" property="imageUrl" jdbcType="VARCHAR" />
+    <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
+    <result column="salesCount" property="salesCount" jdbcType="INTEGER" />
+    <result column="totalProfit" property="totalProfit" jdbcType="REAL" />
+    
+  </resultMap>
+  
   <sql id="Base_Column_List" >
     id, `type`, money, flow_time, flow_user_id, flow_user_name, flow_code, remarks, product_id, 
     profit_type
@@ -75,6 +89,23 @@
       </foreach>
     </where>
   </sql>
+  
+  <select id="searchBProductCashflow" resultMap="SearchResultMap" parameterType="com.lenovo.tripnote.webchat.entity.vo.BProductCashFlowSearchVo" >
+    select bp.name as productName,price_type,image_url,introduction,bcount.c as salesCount,bcount.s as totalProfit,bcount.product_id  from  (select count(1) as c,sum(money) as s,product_id 
+    from b_product_cashflow where type = 1
+    and flow_user_id = #{record.userId,jdbcType=INTEGER}
+    <if test="record.profitType != null" >
+        and profit_type = #{record.profitType,jdbcType=INTEGER}
+    </if>
+    group by product_id ) bcount 
+    left join b_product bp on bp.id =bcount.product_id
+    
+  </select>
+  
+  <select id="searchBalance" resultType="java.lang.Float" parameterType="java.lang.Integer" >
+    select sum(money) from b_product_cashflow where flow_user_id = #{userId,jdbcType=INTEGER}
+  </select>
+ 
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lenovo.tripnote.webchat.entity.BProductCashflowExample" >
     select
     <if test="distinct" >
@@ -119,7 +150,7 @@
     update b_product_cashflow
     <set >
       <if test="record.id != null" >
-        id = #{record.id,jdbcType=BIGINT},
+        id = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.type != null" >
         `type` = #{record.type,jdbcType=INTEGER},
@@ -169,13 +200,13 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from b_product_cashflow
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from b_product_cashflow
     where id = #{id,jdbcType=BIGINT}
   </delete>
@@ -245,7 +276,7 @@
         profit_type = #{profitType,jdbcType=INTEGER},
       </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.lenovo.tripnote.webchat.entity.BProductCashflow" >
     update b_product_cashflow
@@ -258,6 +289,6 @@
       remarks = #{remarks,jdbcType=VARCHAR},
       product_id = #{productId,jdbcType=INTEGER},
       profit_type = #{profitType,jdbcType=INTEGER}
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
