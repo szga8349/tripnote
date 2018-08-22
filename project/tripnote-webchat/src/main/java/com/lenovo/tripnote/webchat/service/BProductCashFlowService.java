@@ -1,5 +1,7 @@
 package com.lenovo.tripnote.webchat.service;
 
+import java.util.Date;
+
 import com.lenovo.tripnote.webchat.entity.BProductCashflow;
 import com.lenovo.tripnote.webchat.entity.vo.BProductCashFlowSearchVo;
 import com.lenovo.tripnote.webchat.entity.vo.BProductCashFlowTotalVo;
@@ -33,5 +35,11 @@ public interface BProductCashFlowService extends IDbService<BProductCashflow>{
 	 * @return
 	 */
 	public BProductCashFlowTotalVo searchTotal(BProductCashFlowSearchVo searchVo);
+	
+	/**根据日期生成编号
+	 * @param currentDate
+	 * @return
+	 */
+	public String generationNumber(Date currentDate);
 
 }
