@@ -11,15 +11,21 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.lenovo.tripnote.webchat.entity.BProduct;
+import com.lenovo.tripnote.webchat.entity.BProductCashflow;
 import com.lenovo.tripnote.webchat.entity.BProductCollage;
 import com.lenovo.tripnote.webchat.entity.BProductOrderCollage;
 import com.lenovo.tripnote.webchat.entity.vo.BProductOrderCollageDetailVo;
 import com.lenovo.tripnote.webchat.entity.vo.BProductOrderCollageFinishVo;
 import com.lenovo.tripnote.webchat.entity.vo.BProductOrderCollagedPartakeVo;
 import com.lenovo.tripnote.webchat.mapper.BAccountMapper;
+import com.lenovo.tripnote.webchat.mapper.BProductCashflowMapper;
 import com.lenovo.tripnote.webchat.mapper.BProductCollageMapper;
+import com.lenovo.tripnote.webchat.mapper.BProductMapper;
 import com.lenovo.tripnote.webchat.mapper.BProductOrderCollageMapper;
+import com.lenovo.tripnote.webchat.service.BProductCashFlowService;
 import com.lenovo.tripnote.webchat.service.BProductOrderCollageService;
+import com.lenovo.tripnote.webchat.vo.ProfitTypeVo;
 import com.lenovo.tripnote.webchat.vo.TokenVo;
 
 import lombok.extern.log4j.Log4j;
@@ -33,6 +39,13 @@ public class BProductOrderCollageServiceImpl implements BProductOrderCollageServ
     @Resource
     private BProductCollageMapper bProductCollageMapper;
     
+    @Resource
+    private BProductCashflowMapper bProductCashflowMapper;
+    @Resource
+    private BProductMapper bProductMapper;
+    @Resource
+    private BProductCashFlowService bProductCashFlowService;
+    
 	@Override
 	@Transactional
 	public int insert(BProductOrderCollage t) {
@@ -43,6 +56,27 @@ public class BProductOrderCollageServiceImpl implements BProductOrderCollageServ
 	@Transactional
 	public BProductOrderCollage update(BProductOrderCollage t) {
 		this.bProductOrderCollageMapper.updateByPrimaryKeySelective(t);
+		//设置支付状态为完成时 增加流水信息
+	    if(t.getPayStatus()==2){//成功支付
+	    	BProductCashflow record = new BProductCashflow();
+			Date date = new Date();
+			record.setFlowTime(date);
+			record.setFlowUserId(t.getCreateUserId());
+			record.setFlowUserName(t.getCreateUserName());
+			//查询产品设置价格
+			BProduct product = bProductMapper.selectByPrimaryKey(t.getProductId());
+			if(product==null)
+				throw new RuntimeException("产品ID:["+t.getProductId()+"]的产品已经不存在请联系管理人员");
+			record.setMoney(product.getRawPrice());
+			record.setProductId(t.getProductId());
+			//设置流水号
+			record.setFlowCode(bProductCashFlowService.generationNumber(date));
+			//设置入账
+			record.setType(1);
+			//设置订单收益
+			record.setProfitType(ProfitTypeVo.ORDER.index());
+			bProductCashflowMapper.insertSelective(record);
+		}
 		return t;
 	}
 
