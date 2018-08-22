@@ -29,7 +29,7 @@ public class BProductCashFlowServiceImpl implements BProductCashFlowService{
     @Resource
     private BNumberGenerationMapper bNumberGenerationMapper;
     @Value("${number.generation}")
-	private Integer generationNum;
+	private Integer generationNum = 4;
 	@Override
 	public int insert(BProductCashflow t) {
 		// TODO Auto-generated method stub

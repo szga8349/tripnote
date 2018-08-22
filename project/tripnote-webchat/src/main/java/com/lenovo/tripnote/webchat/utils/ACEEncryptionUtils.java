@@ -115,7 +115,7 @@ public class ACEEncryptionUtils {
 	}
 
 	public static void main(String[] args) {
-		String content = "19999";
+		String content = "80";
 		// 加密
 		System.out.println("加密前：" + content);
 		String s = encrypt(content);

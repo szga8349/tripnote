@@ -14,5 +14,7 @@ logging:
 spring:
   profiles: 
     active: pro
+number:
+  generation: 6
 
  

@@ -46,6 +46,7 @@ public class BProductOrderServiceImpl implements BProductOrderService{
 		this.bProductOrderMapper.updateByPrimaryKeySelective(t);
 		//设置支付状态为完成时 增加流水信息
 		if(t.getStatus()==1){//成功支付
+			t = this.bProductOrderMapper.selectByPrimaryKey(t.getId());
 			BProductCashflow record = new BProductCashflow();
 			Date date = new Date();
 			record.setFlowTime(date);
