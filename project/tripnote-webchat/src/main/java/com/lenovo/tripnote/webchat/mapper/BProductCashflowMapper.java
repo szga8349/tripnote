@@ -4,6 +4,7 @@ import com.lenovo.tripnote.webchat.entity.BProductCashflow;
 import com.lenovo.tripnote.webchat.entity.BProductCashflowExample;
 import com.lenovo.tripnote.webchat.entity.vo.BProductCashFlowResultVo;
 import com.lenovo.tripnote.webchat.entity.vo.BProductCashFlowSearchVo;
+import com.lenovo.tripnote.webchat.entity.vo.BProductCashFlowTotalVo;
 
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
@@ -109,8 +110,22 @@ public interface BProductCashflowMapper {
     
     
     
+    /**查询 收益
+     * @param vo
+     * @return
+     */
     List<BProductCashFlowResultVo> searchBProductCashflow(@Param("record")BProductCashFlowSearchVo vo);
     
+    /**查询用户的账号余额
+     * @param userId
+     * @return
+     */
     Float searchBalance(Integer userId);
+
+	/**查询 收益的总得概括信息:总交易单数和总收益
+	 * @param searchVo
+	 * @return
+	 */
+	BProductCashFlowTotalVo searchTotal(@Param("record")BProductCashFlowSearchVo searchVo);
     
 }

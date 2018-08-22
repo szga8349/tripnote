@@ -57,11 +57,23 @@ public class BProductCashFlowController {
 	}
 	@RequestMapping(value = "/balance")
 	@ResponseBody
-	public ResultVo dobalanceh(HttpServletRequest request) {
+	public ResultVo doBalance(HttpServletRequest request) {
 		ResultVo vo = new ResultVo();
 		TokenVo token = (TokenVo) request.getAttribute("token");
 		vo.setCode(Result.SUCESSFUL);
 		vo.setData(bProductCashFlowService.searchBalance(token.getUserId()));
+		return vo;
+	}
+	@RequestMapping(value = "/total")
+	@ResponseBody
+	public ResultVo doTotal(HttpServletRequest request,Integer profitType) {
+		ResultVo vo = new ResultVo();
+		BProductCashFlowSearchVo searchVo = new BProductCashFlowSearchVo();
+		TokenVo token = (TokenVo) request.getAttribute("token");
+		vo.setCode(Result.SUCESSFUL);
+		searchVo.setUserId(token.getUserId());
+		searchVo.setProfitType(profitType);
+		vo.setData(bProductCashFlowService.searchTotal(searchVo));
 		return vo;
 	}
 }

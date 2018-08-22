@@ -2,6 +2,7 @@ package com.lenovo.tripnote.webchat.service;
 
 import com.lenovo.tripnote.webchat.entity.BProductCashflow;
 import com.lenovo.tripnote.webchat.entity.vo.BProductCashFlowSearchVo;
+import com.lenovo.tripnote.webchat.entity.vo.BProductCashFlowTotalVo;
 import com.lenovo.tripnote.webchat.vo.ResultPageInfo;
 
 public interface BProductCashFlowService extends IDbService<BProductCashflow>{
@@ -26,5 +27,11 @@ public interface BProductCashFlowService extends IDbService<BProductCashflow>{
 	 * @return
 	 */
 	public ResultPageInfo searchCashFlow(BProductCashFlowSearchVo searchVo);
+	
+	
+	/**查询总的收益和交易单数
+	 * @return
+	 */
+	public BProductCashFlowTotalVo searchTotal(BProductCashFlowSearchVo searchVo);
 
 }

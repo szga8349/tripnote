@@ -27,6 +27,13 @@
     
   </resultMap>
   
+  
+  <resultMap id="TotalResultMap" type="com.lenovo.tripnote.webchat.entity.vo.BProductCashFlowTotalVo" >
+  
+    <result column="salesCount" property="salesCount" jdbcType="INTEGER" />
+    <result column="totalProfit" property="totalProfit" jdbcType="REAL" />
+    
+  </resultMap>
   <sql id="Base_Column_List" >
     id, `type`, money, flow_time, flow_user_id, flow_user_name, flow_code, remarks, product_id, 
     profit_type
@@ -102,8 +109,15 @@
     
   </select>
   
-  <select id="searchBalance" resultType="java.lang.Float" parameterType="java.lang.Integer" >
+   <select id="searchBalance" resultType="java.lang.Float" parameterType="java.lang.Integer" >
     select sum(money) from b_product_cashflow where flow_user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="searchTotal" resultMap="TotalResultMap" parameterType="com.lenovo.tripnote.webchat.entity.vo.BProductCashFlowSearchVo" >
+    select sum(money) as totalProfit,count(1) as salesCount from b_product_cashflow where flow_user_id = #{record.userId,jdbcType=INTEGER}
+    <if test="record.profitType != null" >
+        and profit_type = #{record.profitType,jdbcType=INTEGER}
+    </if>
   </select>
  
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lenovo.tripnote.webchat.entity.BProductCashflowExample" >

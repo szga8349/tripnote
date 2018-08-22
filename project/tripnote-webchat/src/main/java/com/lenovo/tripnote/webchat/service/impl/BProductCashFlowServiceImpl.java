@@ -13,6 +13,7 @@ import com.lenovo.tripnote.webchat.entity.BProductCashflow;
 import com.lenovo.tripnote.webchat.entity.BProductCashflowExample;
 import com.lenovo.tripnote.webchat.entity.vo.BProductCashFlowResultVo;
 import com.lenovo.tripnote.webchat.entity.vo.BProductCashFlowSearchVo;
+import com.lenovo.tripnote.webchat.entity.vo.BProductCashFlowTotalVo;
 import com.lenovo.tripnote.webchat.mapper.BProductCashflowMapper;
 import com.lenovo.tripnote.webchat.service.BProductCashFlowService;
 import com.lenovo.tripnote.webchat.vo.ResultPageInfo;
@@ -83,6 +84,12 @@ public class BProductCashFlowServiceImpl implements BProductCashFlowService{
 		if(count>0)//当查询总数大于0时 再去查询数据
 			pageInfo.setData(this.bProductCashflowMapper.selectByExampleAndPage(example, rowBound));
 		return pageInfo;
+	}
+
+	@Override
+	public BProductCashFlowTotalVo searchTotal(BProductCashFlowSearchVo searchVo) {
+
+		return bProductCashflowMapper.searchTotal(searchVo);
 	}
 	
 }
