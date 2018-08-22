@@ -50,14 +50,14 @@ public class BProductOrderServiceImpl implements BProductOrderService{
 			BProductCashflow record = new BProductCashflow();
 			Date date = new Date();
 			record.setFlowTime(date);
-			record.setFlowUserId(t.getCreateUserId());
-			record.setFlowUserName(t.getCreateUserName());
 			//查询产品设置价格
 			BProduct product = bProductMapper.selectByPrimaryKey(t.getProductId());
 			if(product==null)
 				throw new RuntimeException("产品ID:["+t.getProductId()+"]的产品已经不存在请联系管理人员");
+			record.setFlowUserId(product.getCreateUserId());
+			record.setFlowUserName(product.getCreateUserName());
 			record.setMoney(product.getRawPrice());
-			record.setProductId(t.getProductId());
+			record.setProductId(product.getId());
 			//设置流水号
 			record.setFlowCode(bProductCashFlowService.generationNumber(date));
 			//设置入账
