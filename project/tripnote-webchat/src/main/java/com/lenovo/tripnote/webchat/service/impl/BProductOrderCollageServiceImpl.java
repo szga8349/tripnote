@@ -73,7 +73,7 @@ public class BProductOrderCollageServiceImpl implements BProductOrderCollageServ
 			record.setFlowUserName(product.getCreateUserName());
 			record.setMoney(product.getRawPrice());
 			record.setProductId(product.getId());
-			record.setMoney(product.getRawPrice());
+			record.setMoney(t.getPrice());
 			record.setProductId(t.getProductId());
 			//设置流水号
 			record.setFlowCode(bProductCashFlowService.generationNumber(date));

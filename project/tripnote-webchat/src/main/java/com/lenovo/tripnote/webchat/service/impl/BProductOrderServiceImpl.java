@@ -59,7 +59,7 @@ public class BProductOrderServiceImpl implements BProductOrderService{
 				throw new RuntimeException("产品ID:["+t.getProductId()+"]的产品已经不存在请联系管理人员");
 			record.setFlowUserId(product.getCreateUserId());
 			record.setFlowUserName(product.getCreateUserName());
-			record.setMoney(product.getRawPrice());
+			record.setMoney(t.getPrice());
 			record.setProductId(product.getId());
 			//设置流水号
 			record.setFlowCode(bProductCashFlowService.generationNumber(date));
