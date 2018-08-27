@@ -23,4 +23,11 @@ public interface BProductService extends IDbService<BProduct>{
 	  public BProductDetailVo detail(Integer valueOf);
 	  
 	  public void updateStatusBatch(BProductUpdateStatusVo statuses);
+	  
+	  /**验证订单是否 还能继续支付
+	 * @param orderId
+	 * @param priceType
+	 * @return
+	 */
+	public boolean checkProduct(Integer orderId,Integer priceType);
 }

@@ -8,25 +8,25 @@ import java.util.List;
 public class BProductOrderCollageExample {
     /**
      * 主键字段
-     * @ibatorgenerated 2018-08-07 15:29:05
+     * @ibatorgenerated 2018-08-27 10:02:21
      */
     protected String pk_name = "id";
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-08-07 15:29:05
+     * @ibatorgenerated 2018-08-27 10:02:21
      */
     protected String orderByClause;
 
     /**
      * 去重复
-     * @ibatorgenerated 2018-08-07 15:29:05
+     * @ibatorgenerated 2018-08-27 10:02:21
      */
     protected boolean distinct;
 
     /**
      * 条件集
-     * @ibatorgenerated 2018-08-07 15:29:05
+     * @ibatorgenerated 2018-08-27 10:02:21
      */
     protected List<Criteria> oredCriteria;
 
@@ -44,7 +44,7 @@ public class BProductOrderCollageExample {
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-08-07 15:29:05
+     * @ibatorgenerated 2018-08-27 10:02:21
      */
     public void setOrderByClause(String orderByClause) {
         this.orderByClause = orderByClause;
@@ -56,7 +56,7 @@ public class BProductOrderCollageExample {
 
     /**
      * 设置去重复
-     * @ibatorgenerated 2018-08-07 15:29:05
+     * @ibatorgenerated 2018-08-27 10:02:21
      */
     public void setDistinct(boolean distinct) {
         this.distinct = distinct;
@@ -82,7 +82,7 @@ public class BProductOrderCollageExample {
 
     /**
      * 条件查询要先创建Criteria
-     * @ibatorgenerated 2018-08-07 15:29:05
+     * @ibatorgenerated 2018-08-27 10:02:21
      */
     public Criteria createCriteria() {
         Criteria criteria = createCriteriaInternal();
@@ -106,7 +106,7 @@ public class BProductOrderCollageExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-08-07 15:29:05
+     * @ibatorgenerated 2018-08-27 10:02:21
      */
     protected abstract static class GeneratedCriteria {
         protected List<Criterion> criteria;
@@ -735,6 +735,66 @@ public class BProductOrderCollageExample {
             return (Criteria) this;
         }
 
+        public Criteria andPayTimeIsNull() {
+            addCriterion("pay_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTimeIsNotNull() {
+            addCriterion("pay_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTimeEqualTo(Date value) {
+            addCriterion("pay_time =", value, "payTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTimeNotEqualTo(Date value) {
+            addCriterion("pay_time <>", value, "payTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTimeGreaterThan(Date value) {
+            addCriterion("pay_time >", value, "payTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("pay_time >=", value, "payTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTimeLessThan(Date value) {
+            addCriterion("pay_time <", value, "payTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTimeLessThanOrEqualTo(Date value) {
+            addCriterion("pay_time <=", value, "payTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTimeIn(List<Date> values) {
+            addCriterion("pay_time in", values, "payTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTimeNotIn(List<Date> values) {
+            addCriterion("pay_time not in", values, "payTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTimeBetween(Date value1, Date value2) {
+            addCriterion("pay_time between", value1, value2, "payTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTimeNotBetween(Date value1, Date value2) {
+            addCriterion("pay_time not between", value1, value2, "payTime");
+            return (Criteria) this;
+        }
+
         public Criteria andCollageIdIsNull() {
             addCriterion("collage_id is null");
             return (Criteria) this;
@@ -1265,63 +1325,63 @@ public class BProductOrderCollageExample {
             return (Criteria) this;
         }
 
-        public Criteria andPlayStatusIsNull() {
-            addCriterion("play_status is null");
+        public Criteria andPayStatusIsNull() {
+            addCriterion("pay_status is null");
             return (Criteria) this;
         }
 
-        public Criteria andPlayStatusIsNotNull() {
-            addCriterion("play_status is not null");
+        public Criteria andPayStatusIsNotNull() {
+            addCriterion("pay_status is not null");
             return (Criteria) this;
         }
 
-        public Criteria andPlayStatusEqualTo(Integer value) {
-            addCriterion("play_status =", value, "playStatus");
+        public Criteria andPayStatusEqualTo(Integer value) {
+            addCriterion("pay_status =", value, "payStatus");
             return (Criteria) this;
         }
 
-        public Criteria andPlayStatusNotEqualTo(Integer value) {
-            addCriterion("play_status <>", value, "playStatus");
+        public Criteria andPayStatusNotEqualTo(Integer value) {
+            addCriterion("pay_status <>", value, "payStatus");
             return (Criteria) this;
         }
 
-        public Criteria andPlayStatusGreaterThan(Integer value) {
-            addCriterion("play_status >", value, "playStatus");
+        public Criteria andPayStatusGreaterThan(Integer value) {
+            addCriterion("pay_status >", value, "payStatus");
             return (Criteria) this;
         }
 
-        public Criteria andPlayStatusGreaterThanOrEqualTo(Integer value) {
-            addCriterion("play_status >=", value, "playStatus");
+        public Criteria andPayStatusGreaterThanOrEqualTo(Integer value) {
+            addCriterion("pay_status >=", value, "payStatus");
             return (Criteria) this;
         }
 
-        public Criteria andPlayStatusLessThan(Integer value) {
-            addCriterion("play_status <", value, "playStatus");
+        public Criteria andPayStatusLessThan(Integer value) {
+            addCriterion("pay_status <", value, "payStatus");
             return (Criteria) this;
         }
 
-        public Criteria andPlayStatusLessThanOrEqualTo(Integer value) {
-            addCriterion("play_status <=", value, "playStatus");
+        public Criteria andPayStatusLessThanOrEqualTo(Integer value) {
+            addCriterion("pay_status <=", value, "payStatus");
             return (Criteria) this;
         }
 
-        public Criteria andPlayStatusIn(List<Integer> values) {
-            addCriterion("play_status in", values, "playStatus");
+        public Criteria andPayStatusIn(List<Integer> values) {
+            addCriterion("pay_status in", values, "payStatus");
             return (Criteria) this;
         }
 
-        public Criteria andPlayStatusNotIn(List<Integer> values) {
-            addCriterion("play_status not in", values, "playStatus");
+        public Criteria andPayStatusNotIn(List<Integer> values) {
+            addCriterion("pay_status not in", values, "payStatus");
             return (Criteria) this;
         }
 
-        public Criteria andPlayStatusBetween(Integer value1, Integer value2) {
-            addCriterion("play_status between", value1, value2, "playStatus");
+        public Criteria andPayStatusBetween(Integer value1, Integer value2) {
+            addCriterion("pay_status between", value1, value2, "payStatus");
             return (Criteria) this;
         }
 
-        public Criteria andPlayStatusNotBetween(Integer value1, Integer value2) {
-            addCriterion("play_status not between", value1, value2, "playStatus");
+        public Criteria andPayStatusNotBetween(Integer value1, Integer value2) {
+            addCriterion("pay_status not between", value1, value2, "payStatus");
             return (Criteria) this;
         }
 
@@ -1394,11 +1454,71 @@ public class BProductOrderCollageExample {
             addCriterion("form_id not between", value1, value2, "formId");
             return (Criteria) this;
         }
+
+        public Criteria andPriceIsNull() {
+            addCriterion("price is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceIsNotNull() {
+            addCriterion("price is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceEqualTo(Float value) {
+            addCriterion("price =", value, "price");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceNotEqualTo(Float value) {
+            addCriterion("price <>", value, "price");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceGreaterThan(Float value) {
+            addCriterion("price >", value, "price");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceGreaterThanOrEqualTo(Float value) {
+            addCriterion("price >=", value, "price");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceLessThan(Float value) {
+            addCriterion("price <", value, "price");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceLessThanOrEqualTo(Float value) {
+            addCriterion("price <=", value, "price");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceIn(List<Float> values) {
+            addCriterion("price in", values, "price");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceNotIn(List<Float> values) {
+            addCriterion("price not in", values, "price");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceBetween(Float value1, Float value2) {
+            addCriterion("price between", value1, value2, "price");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceNotBetween(Float value1, Float value2) {
+            addCriterion("price not between", value1, value2, "price");
+            return (Criteria) this;
+        }
     }
 
     /**
      * b_product_order_collage
-     * @ibatorgenerated do_not_delete_during_merge 2018-08-07 15:29:05
+     * @ibatorgenerated do_not_delete_during_merge 2018-08-27 10:02:21
      */
     public static class Criteria extends GeneratedCriteria {
 
@@ -1410,7 +1530,7 @@ public class BProductOrderCollageExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-08-07 15:29:05
+     * @ibatorgenerated 2018-08-27 10:02:21
      */
     public static class Criterion {
         private String condition;

@@ -49,6 +49,9 @@ public class BProductOrderCollageServiceImpl implements BProductOrderCollageServ
 	@Override
 	@Transactional
 	public int insert(BProductOrderCollage t) {
+		//后台根据产品的拼团类型ID获取产品折扣价 作为订单的价格
+		BProductCollage product = bProductCollageMapper.selectByPrimaryKey(t.getProductCollageId());
+	    t.setPrice(product.getCollagePrice());
 		return bProductOrderCollageMapper.insertSelective(t);
 	}
 
@@ -70,7 +73,7 @@ public class BProductOrderCollageServiceImpl implements BProductOrderCollageServ
 			record.setFlowUserName(product.getCreateUserName());
 			record.setMoney(product.getRawPrice());
 			record.setProductId(product.getId());
-			record.setMoney(product.getRawPrice());
+			record.setMoney(t.getPrice());
 			record.setProductId(t.getProductId());
 			//设置流水号
 			record.setFlowCode(bProductCashFlowService.generationNumber(date));

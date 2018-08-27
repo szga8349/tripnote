@@ -37,6 +37,9 @@ public class BProductOrderServiceImpl implements BProductOrderService{
 	@Override
 	@Transactional
 	public int insert(BProductOrder t) {
+		//后台根据产品ID获取产品折扣价 作为订单的价格
+		BProduct product = bProductMapper.selectByPrimaryKey(t.getProductId());
+		t.setPrice(product.getDiscountPrice());
 		return bProductOrderMapper.insertSelective(t);
 	}
 
@@ -56,7 +59,7 @@ public class BProductOrderServiceImpl implements BProductOrderService{
 				throw new RuntimeException("产品ID:["+t.getProductId()+"]的产品已经不存在请联系管理人员");
 			record.setFlowUserId(product.getCreateUserId());
 			record.setFlowUserName(product.getCreateUserName());
-			record.setMoney(product.getRawPrice());
+			record.setMoney(t.getPrice());
 			record.setProductId(product.getId());
 			//设置流水号
 			record.setFlowCode(bProductCashFlowService.generationNumber(date));

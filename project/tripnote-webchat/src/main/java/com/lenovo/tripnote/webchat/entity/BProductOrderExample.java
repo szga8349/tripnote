@@ -8,25 +8,25 @@ import java.util.List;
 public class BProductOrderExample {
     /**
      * 主键字段
-     * @ibatorgenerated 2018-07-09 16:50:58
+     * @ibatorgenerated 2018-08-27 10:02:20
      */
     protected String pk_name = "id";
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-07-09 16:50:58
+     * @ibatorgenerated 2018-08-27 10:02:20
      */
     protected String orderByClause;
 
     /**
      * 去重复
-     * @ibatorgenerated 2018-07-09 16:50:58
+     * @ibatorgenerated 2018-08-27 10:02:20
      */
     protected boolean distinct;
 
     /**
      * 条件集
-     * @ibatorgenerated 2018-07-09 16:50:58
+     * @ibatorgenerated 2018-08-27 10:02:20
      */
     protected List<Criteria> oredCriteria;
 
@@ -44,7 +44,7 @@ public class BProductOrderExample {
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-07-09 16:50:58
+     * @ibatorgenerated 2018-08-27 10:02:20
      */
     public void setOrderByClause(String orderByClause) {
         this.orderByClause = orderByClause;
@@ -56,7 +56,7 @@ public class BProductOrderExample {
 
     /**
      * 设置去重复
-     * @ibatorgenerated 2018-07-09 16:50:58
+     * @ibatorgenerated 2018-08-27 10:02:20
      */
     public void setDistinct(boolean distinct) {
         this.distinct = distinct;
@@ -82,7 +82,7 @@ public class BProductOrderExample {
 
     /**
      * 条件查询要先创建Criteria
-     * @ibatorgenerated 2018-07-09 16:50:58
+     * @ibatorgenerated 2018-08-27 10:02:20
      */
     public Criteria createCriteria() {
         Criteria criteria = createCriteriaInternal();
@@ -106,7 +106,7 @@ public class BProductOrderExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-07-09 16:50:58
+     * @ibatorgenerated 2018-08-27 10:02:20
      */
     protected abstract static class GeneratedCriteria {
         protected List<Criterion> criteria;
@@ -545,6 +545,66 @@ public class BProductOrderExample {
             return (Criteria) this;
         }
 
+        public Criteria andPayTimeIsNull() {
+            addCriterion("pay_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTimeIsNotNull() {
+            addCriterion("pay_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTimeEqualTo(Date value) {
+            addCriterion("pay_time =", value, "payTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTimeNotEqualTo(Date value) {
+            addCriterion("pay_time <>", value, "payTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTimeGreaterThan(Date value) {
+            addCriterion("pay_time >", value, "payTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("pay_time >=", value, "payTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTimeLessThan(Date value) {
+            addCriterion("pay_time <", value, "payTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTimeLessThanOrEqualTo(Date value) {
+            addCriterion("pay_time <=", value, "payTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTimeIn(List<Date> values) {
+            addCriterion("pay_time in", values, "payTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTimeNotIn(List<Date> values) {
+            addCriterion("pay_time not in", values, "payTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTimeBetween(Date value1, Date value2) {
+            addCriterion("pay_time between", value1, value2, "payTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTimeNotBetween(Date value1, Date value2) {
+            addCriterion("pay_time not between", value1, value2, "payTime");
+            return (Criteria) this;
+        }
+
         public Criteria andOrderUserNameIsNull() {
             addCriterion("order_user_name is null");
             return (Criteria) this;
@@ -954,11 +1014,71 @@ public class BProductOrderExample {
             addCriterion("other_info not between", value1, value2, "otherInfo");
             return (Criteria) this;
         }
+
+        public Criteria andPriceIsNull() {
+            addCriterion("price is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceIsNotNull() {
+            addCriterion("price is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceEqualTo(Float value) {
+            addCriterion("price =", value, "price");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceNotEqualTo(Float value) {
+            addCriterion("price <>", value, "price");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceGreaterThan(Float value) {
+            addCriterion("price >", value, "price");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceGreaterThanOrEqualTo(Float value) {
+            addCriterion("price >=", value, "price");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceLessThan(Float value) {
+            addCriterion("price <", value, "price");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceLessThanOrEqualTo(Float value) {
+            addCriterion("price <=", value, "price");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceIn(List<Float> values) {
+            addCriterion("price in", values, "price");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceNotIn(List<Float> values) {
+            addCriterion("price not in", values, "price");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceBetween(Float value1, Float value2) {
+            addCriterion("price between", value1, value2, "price");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceNotBetween(Float value1, Float value2) {
+            addCriterion("price not between", value1, value2, "price");
+            return (Criteria) this;
+        }
     }
 
     /**
      * b_product_order
-     * @ibatorgenerated do_not_delete_during_merge 2018-07-09 16:50:58
+     * @ibatorgenerated do_not_delete_during_merge 2018-08-27 10:02:20
      */
     public static class Criteria extends GeneratedCriteria {
 
@@ -970,7 +1090,7 @@ public class BProductOrderExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-07-09 16:50:58
+     * @ibatorgenerated 2018-08-27 10:02:20
      */
     public static class Criterion {
         private String condition;

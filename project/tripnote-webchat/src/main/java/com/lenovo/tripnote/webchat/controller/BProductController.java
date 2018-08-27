@@ -116,6 +116,18 @@ public class BProductController {
 		vo.setData(bProductOrderService.listByProduct(search));
 		return vo;
 	}
-
+	/**验证订单是否有效 在支付时进行检查
+	 * @param id
+	 * @param priceType
+	 * @return
+	 */
+	@RequestMapping(value = "/order/{id}/check")
+	@ResponseBody
+	public ResultVo checkOrder(@PathVariable String id,Integer priceType) {
+		ResultVo vo = new ResultVo();
+		vo.setCode(Result.SUCESSFUL);
+		vo.setData(bProductService.checkProduct(Integer.valueOf(id),priceType));
+		return vo;
+	}
 
 }
