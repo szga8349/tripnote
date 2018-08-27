@@ -215,6 +215,9 @@ public class BProductServiceImpl implements BProductService {
 			{
 				BProductOrder order = bProductOrderMapper.selectByPrimaryKey(orderId);
 			    BProduct product = bProductMapper.selectByPrimaryKey(order.getProductId());
+			    if(product.getStatus()==-1){//产品已下架
+			    	return false;
+			    }
 			    Calendar now =  Calendar.getInstance();
 			    now.add(Calendar.HOUR_OF_DAY, -product.getLimitTime());
 			    return now.getTime().before(order.getCreateTime());
@@ -223,6 +226,9 @@ public class BProductServiceImpl implements BProductService {
         	{
         		 BProductOrderCollage order = bProductOrderCollageMapper.selectByPrimaryKey(orderId);
         		 BProduct product = bProductMapper.selectByPrimaryKey(order.getProductId());
+        		 if(product.getStatus()==-1){//产品已下架
+ 			    	return false;
+ 			    }
         		 BProductCollage productCollage = bProductCollageMapper.selectByPrimaryKey(order.getProductCollageId());
         		 Calendar now =  Calendar.getInstance();
  			     now.add(Calendar.HOUR_OF_DAY, -productCollage.getCollageLimitTime());
