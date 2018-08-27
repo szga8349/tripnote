@@ -1,4 +1,4 @@
-package com.lenovo.tripnote.webchat.wx.utils.weixin.vo;
+package com.lenovo.tripnote.webchat.wx.vo;
 
 /**
  * @Description:

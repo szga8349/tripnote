@@ -1,4 +1,4 @@
-package com.lenovo.tripnote.webchat.wx.utils.weixin;
+package com.lenovo.tripnote.webchat.wx.utils;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;

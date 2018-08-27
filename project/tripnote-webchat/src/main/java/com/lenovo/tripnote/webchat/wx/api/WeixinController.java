@@ -2,13 +2,13 @@ package com.lenovo.tripnote.webchat.wx.api;
 
 import com.lenovo.tripnote.webchat.vo.Result;
 import com.lenovo.tripnote.webchat.vo.ResultVo;
+import com.lenovo.tripnote.webchat.wx.utils.HttpUtils;
 import com.lenovo.tripnote.webchat.wx.utils.IpUtils;
 import com.lenovo.tripnote.webchat.wx.utils.StringUtils;
-import com.lenovo.tripnote.webchat.wx.utils.weixin.PayUtil;
-import com.lenovo.tripnote.webchat.wx.utils.weixin.vo.GroupSuccess;
-import com.lenovo.tripnote.webchat.wx.utils.weixin.vo.OAuthJsToken;
-import com.lenovo.tripnote.webchat.wx.utils.weixin.vo.WxUnifiedOrder;
-import com.lenovo.tripnote.webchat.wx.vo.Json;
+import com.lenovo.tripnote.webchat.wx.utils.PayUtil;
+import com.lenovo.tripnote.webchat.wx.vo.GroupSuccess;
+import com.lenovo.tripnote.webchat.wx.vo.OAuthJsToken;
+import com.lenovo.tripnote.webchat.wx.vo.WxUnifiedOrder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
@@ -22,6 +22,7 @@ import org.weixin4j.WeixinSupport;
 import org.weixin4j.http.HttpsClient;
 import org.weixin4j.http.Response;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,10 +32,9 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
 
 /**
- * @Description: 本示例仅供参考，请根据自己的使用情景进行修改
+ * @Description: 微信登录，支付等相关接口
  * @Date: 2018/08/02
  * @Author: dujz1
  */
@@ -42,6 +42,9 @@ import java.util.TreeMap;
 @RestController
 @PropertySource(value="classpath:conf/sms.properties",encoding="UTF-8")
 public class WeixinController extends WeixinSupport{
+
+//	@Resource
+//	private HttpUtils httpUtils;
 
 	// 存储缓存数据
 	public static Map<String,Object> cacheData = new HashMap<>();
@@ -76,6 +79,9 @@ public class WeixinController extends WeixinSupport{
 
 	@Value("${webchat.templateGroupSuccessId}")
 	private String templateGroupSuccessId;
+
+	@Value("${webchat.transfers_merchant_url}")
+	private String transfers_merchant_url;
 
     /**
      * 小程序后台登录，向微信平台发送获取access_token请求，并返回openId
@@ -228,8 +234,90 @@ public class WeixinController extends WeixinSupport{
         return vo;
     }
 
+	/**
+	 * @Description:商户转账给个人到零钱
+	 * @return
+	 */
+//	@RequestMapping("transferToMerchant")
+//	public ResultVo transferToMerchant(HttpServletRequest request){
+//		ResultVo vo = new ResultVo();
+//
+//		try{
+//			//生成的随机字符串
+//			String nonce_str = StringUtils.getRandomStringByLength(32);
+//			String spbill_create_ip = IpUtils.getIpAddr(request);
+//
+//			Map<String, String> packageParams = new HashMap<String, String>();
+//			packageParams.put("mch_appid", appid);
+//			packageParams.put("mchid", mch_id);
+//			packageParams.put("nonce_str", nonce_str);
+//			packageParams.put("partner_trade_no", "abcd123");
+//			packageParams.put("openid", "oJxKK5Vf6WUJEE-cPGXHaKG9BlGQ");//商户订单号
+//			packageParams.put("check_name", "NO_CHECK");//支付金额，这边需要转成字符串类型，否则后面的签名会失败
+//			packageParams.put("spbill_create_ip", spbill_create_ip);
+//			packageParams.put("amount", "1");
+//			packageParams.put("desc", "付款给dujz");
+//
+//			// 除去数组中的空值和签名参数
+//			packageParams = PayUtil.paraFilter(packageParams);
+//			String prestr = PayUtil.createLinkString(packageParams); // 把数组所有元素，按照“参数=参数值”的模式用“&”字符拼接成字符串
+//
+//			//MD5运算生成签名，这里是第一次签名，用于调用统一下单接口
+//			String mysign = PayUtil.sign(prestr, pay_secret, "utf-8").toUpperCase();
+//			logger.info("=======================第一次签名：" + mysign + "=====================");
+//
+//
+//			//拼接统一下单接口使用的xml数据，要将上一步生成的签名一起拼接进去
+//			String xml = "<xml>" + "<mch_appid>" + appid + "</mch_appid>"
+//					+ "<mchid>" + mch_id + "</mchid>"
+//					+ "<nonce_str>" + nonce_str + "</nonce_str>"
+//					+ "<notify_url>" + notify_url + "</notify_url>"
+//					+ "<partner_trade_no>" + "abcd123" + "</partner_trade_no>"
+//					+ "<openid>" + "oJxKK5Vf6WUJEE-cPGXHaKG9BlGQ" + "</openid>"
+//					+ "<check_name>" + "NO_CHECK" + "</check_name>"
+//					+ "<spbill_create_ip>" + spbill_create_ip + "</spbill_create_ip>"
+//					+ "<amount>" + "1" + "</amount>"
+//					+ "<desc>" + "付款给dujz" + "</desc>"
+//					+ "<sign>" + mysign + "</sign>"
+//					+ "</xml>";
+//
+//			System.out.println("调试模式_统一下单接口 请求XML数据：" + xml);
+//
+//			//调用统一下单接口，并接受返回的结果
+////			String result = PayUtil.httpRequest(transfers_merchant_url, "POST", xml);
+//			String result = httpUtils.posts(transfers_merchant_url, xml);
+//
+//			System.out.println("调试模式_统一下单接口 返回XML数据：" + result);
+//
+//			// 将解析结果存储在HashMap中
+//			Map map = PayUtil.doXMLParse(result);
+//
+//			String return_code = (String) map.get("return_code");//返回状态码
+//
+//			//返回给移动端需要的参数
+//			Map<String, Object> response = new HashMap<String, Object>();
+//			if(return_code == "SUCCESS" || return_code.equals(return_code)){
+//				// 业务结果
+//				response.put("partner_trade_no", map.get("partner_trade_no"));
+//				response.put("payment_no", map.get("payment_no"));
+//				response.put("payment_time", map.get("payment_time"));
+//			}else{
+//				response.put("err_code", map.get("err_code"));
+//				response.put("err_code_des", map.get("err_code_des"));
+//			}
+//
+//			vo.setCode(Result.SUCESSFUL);
+//			vo.setData(response);
+//		}catch(Exception e){
+//			e.printStackTrace();
+//			vo.setCode(Result.FAUL);
+//			vo.setData("发起失败!");
+//		}
+//		return vo;
+//	}
+
     /**
-     * @Description:微信支付
+     * @Description:微信支付回调
      * @return
      * @throws Exception
      * @throws WeixinException
@@ -498,4 +586,5 @@ public class WeixinController extends WeixinSupport{
 			e.printStackTrace();
 		}
 	}
+	
 }
