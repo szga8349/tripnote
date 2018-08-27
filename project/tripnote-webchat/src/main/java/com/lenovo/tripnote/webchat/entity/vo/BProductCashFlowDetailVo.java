@@ -1,7 +1,7 @@
 package com.lenovo.tripnote.webchat.entity.vo;
 
-import com.lenovo.tripnote.webchat.convert.IDEncryption;
 import com.lenovo.tripnote.webchat.entity.BProductCashflow;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

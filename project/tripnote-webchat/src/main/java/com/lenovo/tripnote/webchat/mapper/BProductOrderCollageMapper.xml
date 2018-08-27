@@ -22,7 +22,9 @@
     <result column="deposit" property="deposit" jdbcType="REAL" />
     <result column="pay_status" property="payStatus" jdbcType="INTEGER" />
     <result column="form_id" property="formId" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="REAL" />
   </resultMap>
+  
   
    
   <resultMap id="DetailResultMap" type="com.lenovo.tripnote.webchat.entity.vo.BProductOrderCollageDetailVo" >
@@ -45,6 +47,7 @@
     <result column="collage_limit_time" property="collageLimitTime" jdbcType="INTEGER" />
     <result column="login_token" property="loginToken" jdbcType="VARCHAR" />
     <result column="form_id" property="formId" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="REAL" />
       <result column="order_user_name" property="orderUserName" jdbcType="VARCHAR" />
       <result column="order_user_phone" property="orderUserPhone" jdbcType="VARCHAR" />
       <result column="place" property="place" jdbcType="VARCHAR" />
@@ -59,10 +62,12 @@
     <result column="form_id" property="formId" jdbcType="VARCHAR" />
   </resultMap>
   
+  
   <sql id="Base_Column_List" >
     id, collage_user_id, collage_user_name, product_collage_id, product_id, collage_status, 
-    create_user_id, create_user_name, create_time, pay_time, collage_id, order_user_name, order_user_phone,
-    place, card_id, use_date, other_info, deposit, pay_status, form_id
+    create_user_id, create_user_name, create_time, pay_time, collage_id, order_user_name, 
+    order_user_phone, place, card_id, use_date, other_info, deposit, pay_status, form_id, 
+    price
   </sql>
   <sql id="Example_Where_Clause" >
     <where >
@@ -122,6 +127,7 @@
       </foreach>
     </where>
   </sql>
+  
   
    <select id="listUser" resultMap="DetailResultMap" parameterType="java.lang.Integer" >
      select bpc.people_num,bpc.collage_price,bpc.collage_limit_time,
@@ -226,6 +232,9 @@
       <if test="record.createTime != null" >
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.payTime != null" >
+        pay_time = #{record.payTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="record.collageId != null" >
         collage_id = #{record.collageId,jdbcType=INTEGER},
       </if>
@@ -256,6 +265,9 @@
       <if test="record.formId != null" >
         form_id = #{record.formId,jdbcType=VARCHAR},
       </if>
+      <if test="record.price != null" >
+        price = #{record.price,jdbcType=REAL},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -272,6 +284,7 @@
       create_user_id = #{record.createUserId,jdbcType=INTEGER},
       create_user_name = #{record.createUserName,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      pay_time = #{record.payTime,jdbcType=TIMESTAMP},
       collage_id = #{record.collageId,jdbcType=INTEGER},
       order_user_name = #{record.orderUserName,jdbcType=VARCHAR},
       order_user_phone = #{record.orderUserPhone,jdbcType=VARCHAR},
@@ -281,7 +294,8 @@
       other_info = #{record.otherInfo,jdbcType=VARCHAR},
       deposit = #{record.deposit,jdbcType=REAL},
       pay_status = #{record.payStatus,jdbcType=INTEGER},
-      form_id = #{record.formId,jdbcType=VARCHAR}
+      form_id = #{record.formId,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=REAL}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -299,18 +313,18 @@
   <insert id="insert" parameterType="com.lenovo.tripnote.webchat.entity.BProductOrderCollage" useGeneratedKeys="true" keyProperty="id" >
     insert into b_product_order_collage (collage_user_id, collage_user_name, product_collage_id, 
       product_id, collage_status, create_user_id, 
-      create_user_name, create_time, collage_id, 
-      order_user_name, order_user_phone, place, 
-      card_id, use_date, other_info, 
-      deposit, pay_status, form_id
-      )
+      create_user_name, create_time, pay_time, 
+      collage_id, order_user_name, order_user_phone, 
+      place, card_id, use_date, 
+      other_info, deposit, pay_status, 
+      form_id, price)
     values (#{collageUserId,jdbcType=INTEGER}, #{collageUserName,jdbcType=VARCHAR}, #{productCollageId,jdbcType=INTEGER}, 
       #{productId,jdbcType=INTEGER}, #{collageStatus,jdbcType=INTEGER}, #{createUserId,jdbcType=INTEGER}, 
-      #{createUserName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{collageId,jdbcType=INTEGER}, 
-      #{orderUserName,jdbcType=VARCHAR}, #{orderUserPhone,jdbcType=VARCHAR}, #{place,jdbcType=VARCHAR}, 
-      #{cardId,jdbcType=VARCHAR}, #{useDate,jdbcType=DATE}, #{otherInfo,jdbcType=VARCHAR}, 
-      #{deposit,jdbcType=REAL}, #{payStatus,jdbcType=INTEGER}, #{formId,jdbcType=VARCHAR}
-      )
+      #{createUserName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{payTime,jdbcType=TIMESTAMP}, 
+      #{collageId,jdbcType=INTEGER}, #{orderUserName,jdbcType=VARCHAR}, #{orderUserPhone,jdbcType=VARCHAR}, 
+      #{place,jdbcType=VARCHAR}, #{cardId,jdbcType=VARCHAR}, #{useDate,jdbcType=DATE}, 
+      #{otherInfo,jdbcType=VARCHAR}, #{deposit,jdbcType=REAL}, #{payStatus,jdbcType=INTEGER}, 
+      #{formId,jdbcType=VARCHAR}, #{price,jdbcType=REAL})
   </insert>
   <insert id="insertSelective" parameterType="com.lenovo.tripnote.webchat.entity.BProductOrderCollage" useGeneratedKeys="true" keyProperty="id" >
     insert into b_product_order_collage
@@ -323,6 +337,7 @@
       create_user_id,
       create_user_name,
       create_time,
+      pay_time,
       collage_id,
       order_user_name,
       order_user_phone,
@@ -333,6 +348,7 @@
       deposit,
       pay_status,
       form_id,
+      price,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       #{collageUserId,jdbcType=INTEGER},
@@ -343,6 +359,7 @@
       #{createUserId,jdbcType=INTEGER},
       #{createUserName,jdbcType=VARCHAR},
       #{createTime,jdbcType=TIMESTAMP},
+      #{payTime,jdbcType=TIMESTAMP},
       #{collageId,jdbcType=INTEGER},
       #{orderUserName,jdbcType=VARCHAR},
       #{orderUserPhone,jdbcType=VARCHAR},
@@ -353,6 +370,7 @@
       #{deposit,jdbcType=REAL},
       #{payStatus,jdbcType=INTEGER},
       #{formId,jdbcType=VARCHAR},
+      #{price,jdbcType=REAL},
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.lenovo.tripnote.webchat.entity.BProductOrderCollage" >
@@ -382,9 +400,9 @@
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-        <if test="payTime != null" >
-            pay_time = #{payTime,jdbcType=TIMESTAMP},
-        </if>
+      <if test="payTime != null" >
+        pay_time = #{payTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="collageId != null" >
         collage_id = #{collageId,jdbcType=INTEGER},
       </if>
@@ -415,6 +433,9 @@
       <if test="formId != null" >
         form_id = #{formId,jdbcType=VARCHAR},
       </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=REAL},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -428,6 +449,7 @@
       create_user_id = #{createUserId,jdbcType=INTEGER},
       create_user_name = #{createUserName,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
+      pay_time = #{payTime,jdbcType=TIMESTAMP},
       collage_id = #{collageId,jdbcType=INTEGER},
       order_user_name = #{orderUserName,jdbcType=VARCHAR},
       order_user_phone = #{orderUserPhone,jdbcType=VARCHAR},
@@ -437,7 +459,8 @@
       other_info = #{otherInfo,jdbcType=VARCHAR},
       deposit = #{deposit,jdbcType=REAL},
       pay_status = #{payStatus,jdbcType=INTEGER},
-      form_id = #{formId,jdbcType=VARCHAR}
+      form_id = #{formId,jdbcType=VARCHAR},
+      price = #{price,jdbcType=REAL}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

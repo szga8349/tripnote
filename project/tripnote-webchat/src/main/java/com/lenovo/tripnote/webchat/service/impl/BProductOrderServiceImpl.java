@@ -37,6 +37,9 @@ public class BProductOrderServiceImpl implements BProductOrderService{
 	@Override
 	@Transactional
 	public int insert(BProductOrder t) {
+		//后台根据产品ID获取产品折扣价 作为订单的价格
+		BProduct product = bProductMapper.selectByPrimaryKey(t.getProductId());
+		t.setPrice(product.getDiscountPrice());
 		return bProductOrderMapper.insertSelective(t);
 	}
 
