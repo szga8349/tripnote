@@ -13,6 +13,20 @@
     <result column="product_id" property="productId" jdbcType="INTEGER" />
     <result column="profit_type" property="profitType" jdbcType="INTEGER" />
   </resultMap>
+
+    <resultMap id="DetailResultMap" type="com.lenovo.tripnote.webchat.entity.vo.BProductCashFlowDetailVo" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="type" property="type" jdbcType="INTEGER" />
+        <result column="money" property="money" jdbcType="REAL" />
+        <result column="flow_time" property="flowTime" jdbcType="TIMESTAMP" />
+        <result column="flow_code" property="flowCode" jdbcType="VARCHAR" />
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+        <result column="profit_type" property="profitType" jdbcType="INTEGER" />
+        <result column="user_name" property="userName" jdbcType="VARCHAR" />
+        <result column="imageurl" property="userImageUrl" jdbcType="VARCHAR" />
+    </resultMap>
+
+    
   
   
   <resultMap id="SearchResultMap" type="com.lenovo.tripnote.webchat.entity.vo.BProductCashFlowResultVo" >
@@ -134,13 +148,19 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByExampleAndPage" resultMap="BaseResultMap" parameterType="com.lenovo.tripnote.webchat.entity.BProductCashflowExample" >
+
+  <select id="selectByExampleAndPage" resultMap="DetailResultMap" parameterType="com.lenovo.tripnote.webchat.entity.BProductCashflowExample" >
     select
     <if test="distinct" >
       distinct
     </if>
-    <include refid="Base_Column_List" />
-    from b_product_cashflow
+      bpc.id as id, bpc.type as `type`, bpc.money as money, bpc.flow_time as flow_time,
+      bpc.flow_code as flow_code,
+      bpc.remarks as remarks, bpc.profit_type as profit_type, bpc.flow_user_id as flow_user_id,
+      ba.login_name as user_name, ba.imageurl as imageurl
+    from b_product_cashflow bpc
+      left join b_account ba
+      on ba.id = bpc.pay_user_id
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -148,6 +168,7 @@
       order by ${orderByClause}
     </if>
   </select>
+
   <delete id="deleteByExample" parameterType="com.lenovo.tripnote.webchat.entity.BProductCashflowExample" >
     delete from b_product_cashflow
     <if test="_parameter != null" >
@@ -205,6 +226,7 @@
       money = #{record.money,jdbcType=REAL},
       flow_time = #{record.flowTime,jdbcType=TIMESTAMP},
       flow_user_id = #{record.flowUserId,jdbcType=INTEGER},
+      pay_user_id = #{record.payUserId,jdbcType=INTEGER},
       flow_user_name = #{record.flowUserName,jdbcType=VARCHAR},
       flow_code = #{record.flowCode,jdbcType=VARCHAR},
       remarks = #{record.remarks,jdbcType=VARCHAR},
@@ -226,11 +248,12 @@
   </delete>
   <insert id="insert" parameterType="com.lenovo.tripnote.webchat.entity.BProductCashflow" useGeneratedKeys="true" keyProperty="id" >
     insert into b_product_cashflow (`type`, money, flow_time, 
-      flow_user_id, flow_user_name, flow_code, 
+      flow_user_id, flow_user_name, pay_user_id, flow_code,
       remarks, product_id, profit_type
       )
     values (#{type,jdbcType=INTEGER}, #{money,jdbcType=REAL}, #{flowTime,jdbcType=TIMESTAMP}, 
-      #{flowUserId,jdbcType=INTEGER}, #{flowUserName,jdbcType=VARCHAR}, #{flowCode,jdbcType=VARCHAR}, 
+      #{flowUserId,jdbcType=INTEGER}, #{flowUserName,jdbcType=VARCHAR}, #{payUserId,jdbcType=INTEGER},
+      #{flowCode,jdbcType=VARCHAR},
       #{remarks,jdbcType=VARCHAR}, #{productId,jdbcType=INTEGER}, #{profitType,jdbcType=INTEGER}
       )
   </insert>

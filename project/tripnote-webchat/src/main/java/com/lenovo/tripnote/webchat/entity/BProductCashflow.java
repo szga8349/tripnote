@@ -49,6 +49,13 @@ public class BProductCashflow  {
      */
     private String flowUserName;
 
+	/**
+	 * b_product_cashflow.pay_user_id (付款用户ID)
+	 * @ibatorgenerated 2018-08-21 19:20:23
+	 */
+	@IDEncryption
+	private Integer payUserId;
+
     /**
      * b_product_cashflow.flow_code (流水编号)
      * @ibatorgenerated 2018-08-21 19:20:23

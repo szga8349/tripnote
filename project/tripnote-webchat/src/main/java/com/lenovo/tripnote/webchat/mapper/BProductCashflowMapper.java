@@ -2,6 +2,7 @@ package com.lenovo.tripnote.webchat.mapper;
 
 import com.lenovo.tripnote.webchat.entity.BProductCashflow;
 import com.lenovo.tripnote.webchat.entity.BProductCashflowExample;
+import com.lenovo.tripnote.webchat.entity.vo.BProductCashFlowDetailVo;
 import com.lenovo.tripnote.webchat.entity.vo.BProductCashFlowResultVo;
 import com.lenovo.tripnote.webchat.entity.vo.BProductCashFlowSearchVo;
 import com.lenovo.tripnote.webchat.entity.vo.BProductCashFlowTotalVo;
@@ -58,7 +59,7 @@ public interface BProductCashflowMapper {
      * 返回:成功修改个数
      * @ibatorgenerated 2018-08-21 19:20:23
      */
-    List<BProductCashflow> selectByExampleAndPage(BProductCashflowExample example, RowBounds rowBound);
+    List<BProductCashFlowDetailVo> selectByExampleAndPage(BProductCashflowExample example, RowBounds rowBound);
 
     /**
      * 根据主键删除
