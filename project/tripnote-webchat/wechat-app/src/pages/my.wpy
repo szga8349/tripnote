@@ -118,7 +118,7 @@
           <zan-cell title="我的钱包" is-link url="/pages/myWallet">
             <image slot="icon" src="../assets/images/icon_user_menu_4.png" mode="scaleToFill" class="icon"></image>
           </zan-cell>
-          <zan-cell title="如何成为商户" is-link url="/pages/register">
+          <zan-cell title="如何成为定制师" is-link url="/pages/register">
             <image slot="icon" src="../assets/images/icon_user_menu_5.png" mode="scaleToFill" class="icon"></image>
           </zan-cell>
         </zan-cell-group>

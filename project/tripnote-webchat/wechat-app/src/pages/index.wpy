@@ -161,7 +161,7 @@
       <view class="searchCon">
         <!-- <image class="iconPoint" src="../assets/images/icon_point.png" mode="scaleToFill"></image> -->
         <!-- <label class="city">{{city}}</label> -->
-        <input type="text" @input="handleKeywordChange" @confirm="handleSearch" value="{{searchKeyword}}" confirm-type="search" placeholder="搜索相关商品"/>
+        <input type="text" @input="handleKeywordChange" @confirm="handleSearch" value="{{searchKeyword}}" confirm-type="search" placeholder="搜索目的地、景点、门票"/>
         <view class="btnSubmit" @tap="handleSearch">
           <image class="btnSubmitIcon" src="../assets/images/icon_search.png" mode="scaleToFill"></image>
         </view>

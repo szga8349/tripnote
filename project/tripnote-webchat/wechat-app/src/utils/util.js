@@ -13,15 +13,20 @@ function getCurrentTime() {
   return keep; //20160614134947
 }
 
-function timestampToTime(timestamp) {
+function timestampToTime(timestamp, type) {
   var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
   var Y = date.getFullYear() + '-';
   var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
   var D = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
-  // h = date.getHours() + ':';
-  // m = date.getMinutes() + ':';
-  // s = date.getSeconds();
-  return Y+M+D;
+  var h = '',
+    m = '',
+    s = '';
+  if(type){
+    h = ' ' + date.getHours() + ':';
+    m = date.getMinutes() + ':';
+    s = date.getSeconds();
+  }
+  return Y+M+D + h + m + s
 }
 
 function objLength(input) {

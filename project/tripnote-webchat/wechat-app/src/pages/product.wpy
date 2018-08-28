@@ -215,9 +215,9 @@
     <view class="authorize" wx:if="{{!authorize}}">
       <view wx:if="{{isLogin}}">
         <view class="addTips" wx:if="{{!variWrapVisible}}">
-          <view class="authItem">您还不是商户，无法添加产品！</view>
+          <view class="authItem">您还不是定制师，无法添加产品！</view>
           <view class="btnAuthorize" wx:if="{{userRole!=-1 && !variWrapVisible}}">
-            <button class="btnPrimary" type="primary" @tap="applyAction">申请成为商户</button>
+            <button class="btnPrimary" type="primary" @tap="applyAction">申请成为定制师</button>
           </view>
           <view class="authItem waitTip" wx:if="{{userRole==-1}}">您的申请已提交，请耐心等待！</view>
         </view>

@@ -2,6 +2,20 @@
 @import "../styles/variable";
 
 .profitWrap{
+  .summary{
+    box-sizing: border-box;
+    display: flex;
+    // justify-content: space-between;
+    height: 80rpx;
+    padding: 20rpx 20rpx;
+    background: #fff;
+    line-height: 40rpx;
+    .num{
+      margin-right: 30rpx;
+      padding-right: 20rpx;
+      border-right: 1px solid #ddd;
+    }
+  }
   .productList{
     .types{
       display: flex;
@@ -65,56 +79,37 @@
         }
         .info{
           flex: 1;
-          margin: 10rpx 20rpx 0;
+          margin: 0 20rpx;
+          display: flex;
           .tit{
-            height: 76rpx;
+            flex: 1;
+            margin-top: 20rpx;
             overflow: hidden;
             font-size: 28rpx;
           }
 
           .des{
-            margin-top: 20rpx;
-            .leftBox{
-              float: left;
-              .list{
-                line-height: 44rpx;
-                color: #999;
-                font-size: 24rpx;
+            box-sizing: border-box;
+            width: 180rpx;
+            height: 230rpx;
+            margin: 10rpx 0 0 10rpx;
+            padding-top: 70rpx;
+            border-left: 1px solid #ddd;
+            text-align: center;
+            line-height: 50rpx;
+            navigator{
+              display: inline;
+            }
+            .num{
+              text{
+                color: @primary-yellow;
               }
             }
-            .rightBox{
-              position: absolute;
-              right: 20rpx;
-              bottom: 20rpx;
-              text-align: right;
-              .price{
+            .price{
+              text{
                 color: @primary-green;
-                text{
-                  font-size: 40rpx;
-                }
-              }
-              .btnOpt{
-                .btn{
-                  float: left;
-                  width: 120rpx;
-                  height: 50rpx;
-                  margin-top: 16rpx;
-                  margin-left: 20rpx;
-                  background: @primary-color;
-                  border: 1px solid @primary-color;
-                  border-radius: 50rpx;
-                  line-height: 50rpx;
-                  text-align: center;
-                  color: #fff;
-                  &.btnDone{
-                    background: #fff;
-                    border-color: #dadada;
-                    color: #777;
-                  }
-                }
               }
             }
-
           }
         }
       }
@@ -126,10 +121,21 @@
 </style>
 <template>
   <view class="profitWrap">
-    <view class="productList">
+
+    <zan-tab
+      list="{{ tab.list }}"
+      selected-id="{{ tabSelectedId }}"
+      bindtabchange="handleTabChange"
+    />
+
+    <view wx:if="{{ tabSelectedId == 2 }}" class="productList">
+      <view class="summary">
+        <view class="num">成单：{{orderTotalNum}}</view>
+        <view class="">已获取收益：￥{{orderTotalMoney}}</view>
+      </view>
       <view class="productListBox">
-        <repeat for="{{productList}}" key="index" index="index" item="item">
-          <view class="item" wx:if="{{item.visible}}">
+        <repeat for="{{orderList}}" key="index" index="index" item="item">
+          <view class="item">
             <view class="detailCon">
               <view class="pic">
                 <!-- <view class="tag">{{item.tag}}</view> -->
@@ -137,35 +143,62 @@
               </view>
               <view class="info">
                 <view class="tit">
-                  <navigator url="/pages/productDetail?id={{item.id}}">{{item.name}}</navigator>
+                  <navigator url="/pages/productDetail?id={{item.productId}}">{{item.productName}}</navigator>
                 </view>
-                <view class="des">
-                  <view class="leftBox">
-                    <view class="list">创建时间：{{item.orderCreateTime}}</view>
-                    <!-- <view class="list">价格：{{item.soldCount}}</view> -->
-                  </view>
-                  <view class="rightBox">
-                    <view class="price">￥<text>{{item.discountPrice || item.rawPrice}}</text></view>
 
-                    <view class="btnOpt">
-                      <view class="btn btnDone" wx:if="{{item.status == 1}}">已支付</view>
-                      <view class="btn" wx:if="{{item.status == 0}}" @tap="paymentSubmit({{item}})">去支付</view>
-                    </view>
+                <view class="des">
+                  <view class="num">完成: 
+                    <navigator url="/pages/myProfitDetail?productId={{item.productId}}"><text>{{item.salesCount}}单</text></navigator>
                   </view>
+                  <view class="price">收益: <text>￥{{item.totalProfit}}</text></view>
                 </view>
               </view>
             </view>
           </view>
         </repeat>
 
-        <view class="noData">
+        <view class="noData" wx:if="{{orderList.length == 0}}">
           <image src="../assets/images/icon_empty.png"></image>
           <text>没有相关数据！</text>
         </view>
       </view>
-
     </view>
 
+    <view wx:if="{{ tabSelectedId == 1 }}" class="productList">
+      <view class="summary">
+        <view class="num">成单：{{shareTotalNum}}</view>
+        <view class="">已获取收益：￥{{shareTotalMoney}}</view>
+      </view>
+      <view class="productListBox">
+        <repeat for="{{shareList}}" key="index" index="index" item="item">
+          <view class="item">
+            <view class="detailCon">
+              <view class="pic">
+                <!-- <view class="tag">{{item.tag}}</view> -->
+                <image src="{{item.imageUrl  || '../assets/images/product_img_blank.png'}}"></image>
+              </view>
+              <view class="info">
+                <view class="tit">
+                  <navigator url="/pages/productDetail?id={{item.productId}}">{{item.productName}}</navigator>
+                </view>
+
+                <view class="des">
+                  <view class="num">完成: 
+                    <navigator url="/pages/myProfitDetail?productId={{item.productId}}"><text>{{item.salesCount}}单</text></navigator>
+                  </view>
+                  <view class="price">收益: <text>￥{{item.totalProfit}}</text></view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </repeat>
+
+        <view class="noData" wx:if="{{shareList.length == 0}}">
+          <image src="../assets/images/icon_empty.png"></image>
+          <text>没有相关数据！</text>
+        </view>
+      </view>
+    </view>
   </view>
 </template>
 
@@ -194,89 +227,42 @@
       }
     }
     components = {
-      counter1: Counter,
-      counter2: Counter,
       toast: Toast
     }
 
     mixins = [testMixin]
 
     data = {
-      tab1BtnChecked: -2,
-      tab1NoData: false,
-      productList: [],
+      orderList: [],
+      orderTotalNum: '',
+      orderTotalMoney: '',
+      shareList: [],
+      shareTotalNum: 0,
+      shareTotalMoney: 0,
       selectAll: false,
+      tab: {
+        list: [{
+          id: 2,
+          title: '订单收益'
+        }, {
+          id: 1,
+          title: '分享收益'
+        }]
+      },
+      tabSelectedId: 2,
     }
 
     computed = {
     }
 
-
-    statusFilter(){
-      this.tab1NoData = true
-      let self = this
-
-      this.productList.forEach(item => {
-        if(self.tab1BtnChecked == -2){
-          item['visible'] = true
-          self.tab1NoData = false
-        }else{
-          if(item.status == self.tab1BtnChecked){
-            item['visible'] = true
-            self.tab1NoData = false
-          }else{
-            item['visible'] = false
-          }
-        }
-      })
-    }
-
     methods = {
-      
-      setStatusDown(item){
-
-        console.log(item)
-
-        return;
-
-        wepy.request({
-          method: 'post',
-          url: config.service.host + '/token/product/status/doUpdate',
-          data: {"statuses": _ids},
-          header: {
-            'authorization': this.$parent.globalData.userKey,
-            'content-type': 'application/json'
-          },
-          success: function (res) {
-            wx.hideLoading()
-            self.getProductList()
-            self.selectAll = false
-          }
-        })
+      handleTabChange(e){
+        if (this.tabSelectedId == e.detail) {
+          return false
+        } else {
+          this.tabSelectedId = e.detail
+        }
       },
-
-      tab1BtnFilter(e){
-        let sel = parseInt(e.target.dataset.index)
-        this.tab1BtnChecked = sel
-
-        this.tab1NoData = true
-        let self = this
-
-        this.productList.forEach(item => {
-          if(sel == -2){
-            item['visible'] = true
-            self.tab1NoData = false
-          }else{
-            if(item.status == sel){
-              item['visible'] = true
-              self.tab1NoData = false
-            }else{
-              item['visible'] = false
-            }
-          }
-        })
-      },
-
     }
 
     events = {
@@ -284,40 +270,47 @@
     }
 
 
-    async getOrderList(){
-      let self = this
+    async getProfitOrderList(){
       wx.showLoading({
         title: '加载中...',
       })
 
       const res = await wepy.request({
-        url: config.service.host + '/token/product/order/doMy',
+        url: config.service.host + '/token/cashflow/product/doSearch',
         header: {
           'authorization': this.$parent.globalData.userKey,
         },
-        // data: {
-        //   isMy: true
-        // }
       })
-      let productList = res.data.data.data
-      productList.forEach(element => {
-        element['checked'] = false
-        element['orderCreateTime'] = Util.timestampToTime(element.orderCreateTime)
-        element['statusTxt'] = self.formatStatus(element.status)
-        element['visible'] = true
-        element['tag'] = self.formatType(element.priceType)
+      this.orderList = res.data.data.data
+      this.$apply()
+
+      wx.hideLoading()
+    }
+
+    async getProfitOrderTotal(){
+      wx.showLoading({
+        title: '加载中...',
       })
-      self.productList = productList
 
-      self.statusFilter()
-
-      self.$apply()
+      const res = await wepy.request({
+        url: config.service.host + '/token/cashflow/total',
+        header: {
+          'authorization': this.$parent.globalData.userKey,
+        },
+        data: {
+          profitType: this.tabSelectedId
+        }
+      })
+      this.orderTotalNum = res.data.data.salesCount
+      this.orderTotalMoney = res.data.data.totalProfit
+      this.$apply()
 
       wx.hideLoading()
     }
 
     onLoad() {
-      // this.getOrderList()
+      this.getProfitOrderList()
+      this.getProfitOrderTotal()
     }
 
     onShow(){

@@ -1,0 +1,325 @@
+<style lang="less">
+@import '../styles/variable';
+
+.tradeDetail {
+  .totalNum {
+    height: 80rpx;
+    padding-left: 30rpx;
+    background: #fff;
+    line-height: 80rpx;
+  }
+  .dataList {
+    .item {
+      position: relative;
+      display: flex;
+      margin-top: 20rpx;
+      margin-right: 20rpx;
+      margin-left: 20rpx;
+      padding: 20rpx;
+      background: #fff;
+      .checkStatus {
+        margin: 100rpx 20rpx 0;
+        color: @primary-color;
+        .iconfont {
+          font-size: 40rpx;
+        }
+      }
+      .pic {
+        position: relative;
+        width: 70rpx;
+        height: 70rpx;
+        margin-top: 12rpx;
+        border-radius: 70rpx;
+        image {
+          display: block;
+          width: 70rpx;
+          height: 70rpx;
+          border-radius: 70rpx;
+        }
+      }
+      .info {
+        flex: 1;
+        margin: 0 20rpx;
+        font-size: 24rpx;
+        line-height: 48rpx;
+        .list {
+          font-size: 24rpx;
+        }
+      }
+      .price{
+        line-height: 96rpx;
+        font-size: 32rpx;
+        color: @primary-green;
+      }
+    }
+
+    .detailInfo {
+      margin: 0 20rpx;
+      background: #fff;
+      .tit {
+        font-size: 32rpx;
+      }
+      .fieldCon:last-child {
+        border-bottom: 0;
+      }
+
+      .fieldCon {
+        display: flex;
+        margin: 0 30rpx;
+        padding: 18rpx 0;
+        border-bottom: 1px solid @border-color-grey;
+        font-size: 28rpx;
+        &.des {
+          padding-top: 30rpx;
+          border-bottom: 0;
+          .label {
+            line-height: 1;
+          }
+        }
+        .label {
+          width: 130rpx;
+          padding-right: 20rpx;
+          line-height: 50rpx;
+        }
+        .con {
+          flex: 1;
+          line-height: 50rpx;
+          input {
+            height: 50rpx;
+            min-height: 50rpx;
+            line-height: 50rpx;
+          }
+          .fieldDes {
+            margin-top: -15rpx;
+            min-height: 200rpx;
+          }
+          .groupList {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 16rpx;
+            .item {
+              display: flex;
+              align-items: center;
+              border-bottom: 1px solid #ddd;
+              input {
+                width: 80rpx;
+              }
+            }
+          }
+          &.fieldPriceCon {
+            display: flex;
+            justify-content: space-between;
+            input {
+              width: 90px;
+            }
+            .label {
+              width: 120rpx;
+            }
+          }
+          .fee {
+            line-height: 50rpx;
+            color: @primary-color;
+          }
+        }
+        .pics {
+          display: flex;
+          flex-wrap: wrap;
+          .picItem {
+            position: relative;
+            width: 120rpx;
+            height: 120rpx;
+            margin: 0 30rpx 20rpx 0;
+            border: 1px solid @border-color-grey;
+            text-align: center;
+            .tag {
+              position: absolute;
+              left: 0;
+              top: 0;
+              height: 36rpx;
+              line-height: 36rpx;
+              font-size: 24rpx;
+              background: red;
+              color: #fff;
+              padding: 0 8rpx;
+            }
+
+            // &.cover{
+            //   border: 1px solid @primary-green;
+            // }
+
+            image {
+              width: 120rpx;
+              height: 120rpx;
+            }
+            .setBtn {
+              position: absolute;
+              bottom: 0;
+              left: 0;
+              width: 100%;
+              height: 30rpx;
+              background: rgba(0, 0, 0, 0.3);
+              line-height: 30rpx;
+              text-align: center;
+              color: #fff;
+              font-size: 20rpx;
+            }
+            .deleteImg {
+              position: absolute;
+              width: 20rpx;
+              height: 20rpx;
+              right: -6rpx;
+              top: -16rpx;
+              color: red;
+              background: #fff;
+              .iconfont {
+                background: #fff;
+                border-radius: 100%;
+              }
+            }
+            .addBtn {
+              position: relative;
+              width: 120rpx;
+              height: 120rpx;
+              &:after,
+              &:before {
+                content: ' ';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background-color: #ccc;
+              }
+              &:before {
+                width: 80rpx;
+                height: 3rpx;
+              }
+              &:after {
+                width: 3rpx;
+                height: 80rpx;
+              }
+              &:active {
+                border-color: #bbb;
+                &:after,
+                &:before {
+                  background-color: #bbb;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+</style>
+<template>
+    <view class="tradeDetail">
+        <view class="dataList">
+            <repeat for="{{tradeList}}" key="index" index="index" item="item">
+                <view class="item">
+                    <view class="pic">
+                        <image src="{{item.userImageUrl}}"></image>
+                    </view>
+                    <view class="info">
+                        <view class="list">{{item.userName}} - 付款</view>
+                        <view class="list">{{item.flowTime}}</view>
+                    </view>
+                    <view class="price">
+                      ￥{{item.money}}
+                    </view>
+                </view>
+            </repeat>
+
+            <view class="noData" wx:if="{{peopleList.length == 0}}">
+                <image src="../assets/images/icon_empty.png"></image>
+                <text>没有相关数据！</text>
+            </view>
+        </view>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import { connect } from 'wepy-redux';
+import Counter from 'counter'; // alias example
+import moduleA from 'module-a'; // aliasFields ignore module example
+import Toast from 'wepy-com-toast';
+import testMixin from '../mixins/index';
+import config from '@/utils/config';
+import Util from '@/utils/util';
+
+export default class Product extends wepy.page {
+  config = {
+    navigationBarTitleText: '交易明细',
+    usingComponents: {
+      'zan-icon': './../assets/libs/zanui/icon/index',
+      'zan-cell': './../assets/libs/zanui/cell/index',
+      'zan-icon': './../assets/libs/zanui/icon/index',
+      'zan-badge': './../assets/libs/zanui/badge/index',
+      'zan-panel': './../assets/libs/zanui/panel/index',
+      'zan-cell-group': './../assets/libs/zanui/cell-group/index',
+      'zan-tab': './../assets/libs/zanui/tab/index',
+      'zan-card': './../assets/libs/zanui/card/index'
+    }
+  };
+  components = {
+    counter1: Counter,
+    counter2: Counter,
+    toast: Toast
+  };
+
+  mixins = [testMixin];
+
+  data = {
+    productId: '',
+    tradeList: []
+  };
+
+  computed = {};
+
+  methods = {
+    showDetail(item) {
+      this.peopleList.forEach(element => {
+        if (element.id == item.id) {
+          element.detailShow = !element.detailShow;
+        }
+      });
+    }
+  };
+
+  events = {};
+
+  async getTradeList(type) {
+    let res = await wepy.request({
+      method: 'get',
+      url: config.service.host + '/token/cashflow/doSearch',
+      header: {
+        authorization: this.$parent.globalData.userKey
+      },
+      data: {
+        productId: this.productId
+      }
+    })
+
+    let tradeList = res.data.data.data
+    tradeList.forEach(item => {
+      item.userName = decodeURIComponent(item.userName)
+      item.flowTime = Util.timestampToTime(item.flowTime, true)
+    })
+
+    this.tradeList = tradeList
+
+    this.$apply()
+  }
+
+  onLoad(option) {
+    if (option.productId) {
+      this.productId = option.productId
+
+      this.getTradeList()
+    }
+  }
+
+  onShow(option) {}
+}
+</script>

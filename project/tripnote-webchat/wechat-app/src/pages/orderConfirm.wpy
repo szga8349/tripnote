@@ -556,14 +556,14 @@
 
         console.log('prepay_id', prepay_id)
 
-        wx.requestPayment({
-          timeStamp: res.data.data.timeStamp,
-          nonceStr: res.data.data.nonceStr,
-          package: res.data.data.package,
-          signType: 'MD5',
-          paySign: res.data.data.paySign,
-          success: function(res){
-            if(res.errMsg == 'requestPayment:ok'){
+        // wx.requestPayment({
+        //   timeStamp: res.data.data.timeStamp,
+        //   nonceStr: res.data.data.nonceStr,
+        //   package: res.data.data.package,
+        //   signType: 'MD5',
+        //   paySign: res.data.data.paySign,
+        //   success: function(res){
+        //     if(res.errMsg == 'requestPayment:ok'){
               wx.request({
                 method: 'post',
                 url: config.service.host + '/token/product/order/doUpdate/' + orderId,
@@ -587,13 +587,13 @@
                   }
                 }
               })
-            }
-          },
-          'fail':function(res){
-            // tips.error(res.errMsg)
-          },
-          'complete':function(res){}
-        })
+        //     }
+        //   },
+        //   'fail':function(res){
+        //     // tips.error(res.errMsg)
+        //   },
+        //   'complete':function(res){}
+        // })
       }
     }
 
@@ -640,7 +640,7 @@
 
         let payEntity = {
           productId: this.productId,
-          orderId: this.orderId,
+          orderId: orderId,
           price: price,
           productName: this.productName
         }

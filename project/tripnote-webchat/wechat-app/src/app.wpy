@@ -3,13 +3,16 @@
 @import "./styles/base";
 @import "./styles/wxParse";
 @import "./styles/icon";
+@import "./styles/style";
 </style>
 
 <script>
 import wepy from 'wepy'
 import 'wepy-async-function'
+
 import { setStore } from 'wepy-redux'
 import configStore from './store'
+
 import config from '@/utils/config'
 
 const store = configStore()
@@ -18,22 +21,25 @@ setStore(store)
 export default class extends wepy.app {
   config = {
     pages: [
+      'pages/my',
+      'pages/myProfit',
+      'pages/myWallet',
+      'pages/myWalletDetail',
+      'pages/myProfitDetail',
+      'pages/customerOrder',
+      'pages/myOrder',
       'pages/index',
       'pages/product',
-      'pages/myOrder',
       'pages/productCreate',
       'pages/myOrderInfo',
       'pages/productGroup',
       // 'pages/pay',
-      'pages/my',
+      
       
       'pages/productDetail',
       'pages/orderConfirm',
       'pages/login',
       'pages/fav',
-      'pages/customerOrder',
-      'pages/myProfit',
-      'pages/myWallet',
       'pages/productEdit',
       'pages/register',
       'pages/customerOrderGroup',
@@ -111,6 +117,7 @@ export default class extends wepy.app {
   onLaunch() {
     if(wx.getStorageSync('userKey')){
       this.globalData.userKey = wx.getStorageSync('userKey')
+
       this.checkUser()
     }
   }
