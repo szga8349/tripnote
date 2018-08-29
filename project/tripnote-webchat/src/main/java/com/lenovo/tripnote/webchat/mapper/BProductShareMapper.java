@@ -109,4 +109,12 @@ public interface BProductShareMapper {
     
 
 	List<BProductShareResultVo> search(@Param("record")BProductShareSearchVo search);
+	
+	
+	/**根据当前分享ID获取其上层分享信息(获取父分享信息)
+	 * @param id
+	 * @return
+	 */
+	List<BProductShare> selectParentListByShareID(Integer id);
+	
 }

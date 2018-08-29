@@ -137,6 +137,11 @@
          and bp.name like #{record.name,jdbcType=VARCHAR}
        </if>
   </select>
+   <!-- 根据分享节点ID查询父节点ID 往上只查询10级 -->
+   <select id="selectParentListByShareID" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+      select id, product_id, share_user_id, share_user_name, share_time, share_level, parent_share_id 
+      from b_product_share where FIND_IN_SET(id, getParentList(#{id,jdbcType=INTEGER})) order by id asc limit 10
+  </select>
   
   <delete id="deleteByExample" parameterType="com.lenovo.tripnote.webchat.entity.BProductShareExample" >
     delete from b_product_share
