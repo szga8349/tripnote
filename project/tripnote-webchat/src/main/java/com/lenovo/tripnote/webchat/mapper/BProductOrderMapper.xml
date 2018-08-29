@@ -16,8 +16,8 @@
     <result column="use_date" property="useDate" jdbcType="DATE" />
     <result column="other_info" property="otherInfo" jdbcType="VARCHAR" />
     <result column="price" property="price" jdbcType="REAL" />
+    <result column="share_id" property="shareId" jdbcType="INTEGER" />
   </resultMap>
-  
   
   <resultMap id="DetailResultMap" type="com.lenovo.tripnote.webchat.entity.vo.BProductOrderDetailVo" >
     <id column="id" property="id" jdbcType="INTEGER" />
@@ -34,6 +34,7 @@
     <result column="other_info" property="otherInfo" jdbcType="VARCHAR" />
     <result column="imageurl" property="userImageUrl" jdbcType="VARCHAR" />
     <result column="price" property="price" jdbcType="REAL" />
+    <result column="share_id" property="shareId" jdbcType="INTEGER" />
   </resultMap>
   
   <resultMap id="SearchResultMap" type="com.lenovo.tripnote.webchat.entity.vo.BProductOrderResultVo" >
@@ -86,7 +87,7 @@
   
   <sql id="Base_Column_List" >
     id, `status`, product_id, create_user_id, create_user_name, create_time, pay_time, 
-    order_user_name, order_user_phone, place, card_id, use_date, other_info, price
+    order_user_name, order_user_phone, place, card_id, use_date, other_info, price, share_id
   </sql>
   <sql id="Example_Where_Clause" >
     <where >
@@ -214,7 +215,7 @@
   
    <select id="listByProduct" resultMap="DetailResultMap" parameterType="com.lenovo.tripnote.webchat.entity.vo.BProductOrderSearchVo" >
      select bpo.id, bpo.`status`, bpo.product_id, bpo.create_user_id, bpo.create_user_name, bpo.create_time, bpo.order_user_name, 
-     bpo.order_user_phone, bpo.place, bpo.card_id, bpo.use_date, bpo.other_info,ba.imageurl
+     bpo.order_user_phone, bpo.place, bpo.card_id, bpo.use_date, bpo.other_info,ba.imageurl,bpo.share_id
      from b_product_order bpo 
      left join b_account ba on ba.id = bpo.create_user_id
      where product_id = #{record.productId,jdbcType=INTEGER}
@@ -306,6 +307,9 @@
       <if test="record.price != null" >
         price = #{record.price,jdbcType=REAL},
       </if>
+      <if test="record.shareId != null" >
+        share_id = #{record.shareId,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -326,7 +330,8 @@
       card_id = #{record.cardId,jdbcType=VARCHAR},
       use_date = #{record.useDate,jdbcType=DATE},
       other_info = #{record.otherInfo,jdbcType=VARCHAR},
-      price = #{record.price,jdbcType=REAL}
+      price = #{record.price,jdbcType=REAL},
+      share_id = #{record.shareId,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -346,12 +351,12 @@
       create_user_name, create_time, pay_time, 
       order_user_name, order_user_phone, place, 
       card_id, use_date, other_info, 
-      price)
+      price, share_id)
     values (#{status,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER}, #{createUserId,jdbcType=INTEGER}, 
       #{createUserName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{payTime,jdbcType=TIMESTAMP}, 
       #{orderUserName,jdbcType=VARCHAR}, #{orderUserPhone,jdbcType=VARCHAR}, #{place,jdbcType=VARCHAR}, 
       #{cardId,jdbcType=VARCHAR}, #{useDate,jdbcType=DATE}, #{otherInfo,jdbcType=VARCHAR}, 
-      #{price,jdbcType=REAL})
+      #{price,jdbcType=REAL}, #{shareId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.lenovo.tripnote.webchat.entity.BProductOrder" useGeneratedKeys="true" keyProperty="id" >
     insert into b_product_order
@@ -369,6 +374,7 @@
       use_date,
       other_info,
       price,
+      share_id,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       #{status,jdbcType=INTEGER},
@@ -384,6 +390,7 @@
       #{useDate,jdbcType=DATE},
       #{otherInfo,jdbcType=VARCHAR},
       #{price,jdbcType=REAL},
+      #{shareId,jdbcType=INTEGER},
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.lenovo.tripnote.webchat.entity.BProductOrder" >
@@ -428,6 +435,9 @@
       <if test="price != null" >
         price = #{price,jdbcType=REAL},
       </if>
+      <if test="shareId != null" >
+        share_id = #{shareId,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -445,7 +455,8 @@
       card_id = #{cardId,jdbcType=VARCHAR},
       use_date = #{useDate,jdbcType=DATE},
       other_info = #{otherInfo,jdbcType=VARCHAR},
-      price = #{price,jdbcType=REAL}
+      price = #{price,jdbcType=REAL},
+      share_id = #{shareId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

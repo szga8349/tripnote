@@ -8,25 +8,25 @@ import java.util.List;
 public class BProductOrderExample {
     /**
      * 主键字段
-     * @ibatorgenerated 2018-08-27 10:02:20
+     * @ibatorgenerated 2018-08-29 10:41:44
      */
     protected String pk_name = "id";
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-08-27 10:02:20
+     * @ibatorgenerated 2018-08-29 10:41:44
      */
     protected String orderByClause;
 
     /**
      * 去重复
-     * @ibatorgenerated 2018-08-27 10:02:20
+     * @ibatorgenerated 2018-08-29 10:41:44
      */
     protected boolean distinct;
 
     /**
      * 条件集
-     * @ibatorgenerated 2018-08-27 10:02:20
+     * @ibatorgenerated 2018-08-29 10:41:44
      */
     protected List<Criteria> oredCriteria;
 
@@ -44,7 +44,7 @@ public class BProductOrderExample {
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-08-27 10:02:20
+     * @ibatorgenerated 2018-08-29 10:41:44
      */
     public void setOrderByClause(String orderByClause) {
         this.orderByClause = orderByClause;
@@ -56,7 +56,7 @@ public class BProductOrderExample {
 
     /**
      * 设置去重复
-     * @ibatorgenerated 2018-08-27 10:02:20
+     * @ibatorgenerated 2018-08-29 10:41:44
      */
     public void setDistinct(boolean distinct) {
         this.distinct = distinct;
@@ -82,7 +82,7 @@ public class BProductOrderExample {
 
     /**
      * 条件查询要先创建Criteria
-     * @ibatorgenerated 2018-08-27 10:02:20
+     * @ibatorgenerated 2018-08-29 10:41:44
      */
     public Criteria createCriteria() {
         Criteria criteria = createCriteriaInternal();
@@ -106,7 +106,7 @@ public class BProductOrderExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-08-27 10:02:20
+     * @ibatorgenerated 2018-08-29 10:41:44
      */
     protected abstract static class GeneratedCriteria {
         protected List<Criterion> criteria;
@@ -1074,11 +1074,71 @@ public class BProductOrderExample {
             addCriterion("price not between", value1, value2, "price");
             return (Criteria) this;
         }
+
+        public Criteria andShareIdIsNull() {
+            addCriterion("share_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andShareIdIsNotNull() {
+            addCriterion("share_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andShareIdEqualTo(Integer value) {
+            addCriterion("share_id =", value, "shareId");
+            return (Criteria) this;
+        }
+
+        public Criteria andShareIdNotEqualTo(Integer value) {
+            addCriterion("share_id <>", value, "shareId");
+            return (Criteria) this;
+        }
+
+        public Criteria andShareIdGreaterThan(Integer value) {
+            addCriterion("share_id >", value, "shareId");
+            return (Criteria) this;
+        }
+
+        public Criteria andShareIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("share_id >=", value, "shareId");
+            return (Criteria) this;
+        }
+
+        public Criteria andShareIdLessThan(Integer value) {
+            addCriterion("share_id <", value, "shareId");
+            return (Criteria) this;
+        }
+
+        public Criteria andShareIdLessThanOrEqualTo(Integer value) {
+            addCriterion("share_id <=", value, "shareId");
+            return (Criteria) this;
+        }
+
+        public Criteria andShareIdIn(List<Integer> values) {
+            addCriterion("share_id in", values, "shareId");
+            return (Criteria) this;
+        }
+
+        public Criteria andShareIdNotIn(List<Integer> values) {
+            addCriterion("share_id not in", values, "shareId");
+            return (Criteria) this;
+        }
+
+        public Criteria andShareIdBetween(Integer value1, Integer value2) {
+            addCriterion("share_id between", value1, value2, "shareId");
+            return (Criteria) this;
+        }
+
+        public Criteria andShareIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("share_id not between", value1, value2, "shareId");
+            return (Criteria) this;
+        }
     }
 
     /**
      * b_product_order
-     * @ibatorgenerated do_not_delete_during_merge 2018-08-27 10:02:20
+     * @ibatorgenerated do_not_delete_during_merge 2018-08-29 10:41:44
      */
     public static class Criteria extends GeneratedCriteria {
 
@@ -1090,7 +1150,7 @@ public class BProductOrderExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-08-27 10:02:20
+     * @ibatorgenerated 2018-08-29 10:41:44
      */
     public static class Criterion {
         private String condition;

@@ -82,5 +82,10 @@ public class BProductOrderVo {
     private String formId;
 
 
-
+    /**
+     * b_product_order.share_id (分享主键值ID,不为-1表示该订单来自于别人分享的产品)
+     * @ibatorgenerated 2018-08-29 10:41:44
+     */
+    @IDDeEncryption
+    private Integer shareId;
 }

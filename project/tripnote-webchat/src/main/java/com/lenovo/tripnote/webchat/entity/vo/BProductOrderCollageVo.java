@@ -35,5 +35,13 @@ public class BProductOrderCollageVo {
      * @ibatorgenerated 2018-07-09 16:50:59
      */
     private Float deposit;
+    
+
+    /**
+     * b_product_order_collage.share_id (分享主键值ID,不为-1表示该订单来自于别人分享的产品)
+     * @ibatorgenerated 2018-08-29 10:41:45
+     */
+    @IDDeEncryption
+    private Integer shareId;
 
 }
