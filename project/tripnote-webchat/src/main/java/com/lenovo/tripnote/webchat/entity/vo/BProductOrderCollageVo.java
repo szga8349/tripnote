@@ -42,6 +42,6 @@ public class BProductOrderCollageVo {
      * @ibatorgenerated 2018-08-29 10:41:45
      */
     @IDDeEncryption
-    private Integer shareId;
+    private Integer shareId = -1;
 
 }
