@@ -24,5 +24,5 @@ public class BProductShareVo {
      * @ibatorgenerated 2018-06-14 18:44:28
      */
     @IDDeEncryption
-    private Integer parentShareId;
+    private Integer parentShareId = 0;
 }

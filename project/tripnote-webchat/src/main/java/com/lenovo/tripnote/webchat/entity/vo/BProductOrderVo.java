@@ -87,5 +87,5 @@ public class BProductOrderVo {
      * @ibatorgenerated 2018-08-29 10:41:44
      */
     @IDDeEncryption
-    private Integer shareId = -1;
+    private Integer shareId;
 }

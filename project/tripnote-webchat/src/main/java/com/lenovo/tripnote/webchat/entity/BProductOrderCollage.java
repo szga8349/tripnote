@@ -2,6 +2,7 @@ package com.lenovo.tripnote.webchat.entity;
 
 import java.util.Date;
 
+import com.lenovo.tripnote.webchat.convert.IDEncryption;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,6 +14,7 @@ public class BProductOrderCollage  {
      * b_product_order_collage.id (订单拼团主键ID)
      * @ibatorgenerated 2018-08-29 10:41:45
      */
+	@IDEncryption
     private Integer id;
 
     /**
