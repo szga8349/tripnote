@@ -2,6 +2,8 @@ package com.lenovo.tripnote.webchat.entity;
 
 import java.util.Date;
 
+import com.lenovo.tripnote.webchat.convert.IDEncryption;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,6 +15,7 @@ public class BProductOrder {
      * b_product_order.id (产品订单主键ID)
      * @ibatorgenerated 2018-08-29 10:41:44
      */
+	@IDEncryption
     private Integer id;
 
     /**
@@ -31,6 +34,7 @@ public class BProductOrder {
      * b_product_order.create_user_id (订单创建人ID)
      * @ibatorgenerated 2018-08-29 10:41:44
      */
+    @IDEncryption
     private Integer createUserId;
 
     /**
@@ -97,5 +101,6 @@ public class BProductOrder {
      * b_product_order.share_id (分享主键值ID,不为-1表示该订单来自于别人分享的产品)
      * @ibatorgenerated 2018-08-29 10:41:44
      */
+    @IDEncryption
     private Integer shareId;
 }

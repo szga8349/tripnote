@@ -46,7 +46,8 @@ public class BProductShareController {
 		bProduct.setShareUserName(token.getUserLoginName());
 		bProduct.setShareTime(new Date());
 		vo.setCode(Result.SUCESSFUL);
-		vo.setData(bProductShareService.insert(bProduct));
+		bProductShareService.insert(bProduct);
+		vo.setData(bProduct.getId());
 		return vo;
 	}
 	@RequestMapping(value = "/doUpdate/{id}")

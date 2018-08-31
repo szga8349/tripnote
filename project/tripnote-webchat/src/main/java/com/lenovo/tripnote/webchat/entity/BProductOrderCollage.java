@@ -1,9 +1,7 @@
 package com.lenovo.tripnote.webchat.entity;
 
 import java.util.Date;
-
 import com.lenovo.tripnote.webchat.convert.IDEncryption;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

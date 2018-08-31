@@ -93,7 +93,7 @@ public class BProductCashFlowServiceImpl implements BProductCashFlowService{
 
 	@Override
 	public ResultPageInfo searchProductProfit(BProductCashFlowSearchVo searchVo) {
-	
+
 		return searchShareProfit(searchVo);
 	}
 
@@ -109,7 +109,13 @@ public class BProductCashFlowServiceImpl implements BProductCashFlowService{
 		pageInfo.setPageNum(searchVo.getPageNum());
 		pageInfo.setPageSize(searchVo.getPageSize());
 		BProductCashflowExample example = new BProductCashflowExample();
-		example.createCriteria().andFlowUserIdEqualTo(searchVo.getUserId());
+		if(searchVo.getProfitType() != null){
+			example.createCriteria().andFlowUserIdEqualTo(searchVo.getUserId())
+					.andProfitTypeEqualTo(searchVo.getProfitType());
+		}else{
+			example.createCriteria().andFlowUserIdEqualTo(searchVo.getUserId());
+		}
+
 		int offset =  (searchVo.getPageNum()-1)*searchVo.getPageSize();
 		RowBounds rowBound = new RowBounds(offset,searchVo.getPageSize());
 		int count = this.bProductCashflowMapper.countByExample(example);
