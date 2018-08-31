@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.lenovo.tripnote.webchat.entity.BProductShare;
+import com.lenovo.tripnote.webchat.entity.BProductShareExample;
+import com.lenovo.tripnote.webchat.entity.BProductShareExample.Criteria;
 import com.lenovo.tripnote.webchat.entity.vo.BProductShareResultVo;
 import com.lenovo.tripnote.webchat.entity.vo.BProductShareSearchVo;
 import com.lenovo.tripnote.webchat.mapper.BProductShareMapper;
@@ -21,7 +23,18 @@ public class BProductShareServiceImpl implements BProductShareService{
     private BProductShareMapper bProductShareMapper;
 	@Override
 	public int insert(BProductShare t) {
-		// TODO Auto-generated method stub
+		BProductShareExample example = new BProductShareExample();
+		Criteria riteria = example.createCriteria();
+		riteria.andProductIdEqualTo(t.getProductId());
+		riteria.andShareUserIdEqualTo(t.getShareUserId());
+		if(t.getParentShareId()==null)
+			riteria.andParentShareIdEqualTo(-1);
+		else
+			riteria.andParentShareIdEqualTo(t.getParentShareId());
+		 List<BProductShare>  shares = bProductShareMapper.selectByExample(example);
+		 if(shares!=null && shares.size()>0){//如果已存在 返回shareID
+			 return shares.get(0).getId();
+		 }
 		return bProductShareMapper.insertSelective(t);
 	}
 
