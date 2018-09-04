@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lenovo.tripnote.webchat.entity.BClassify;
 import com.lenovo.tripnote.webchat.entity.vo.BClassifyVo;
-import com.lenovo.tripnote.webchat.entity.vo.BProductShareVo;
 import com.lenovo.tripnote.webchat.service.BClassifyService;
 import com.lenovo.tripnote.webchat.vo.Result;
 import com.lenovo.tripnote.webchat.vo.ResultVo;
@@ -50,7 +49,7 @@ public class BClassifyController {
 	}
 	@RequestMapping(value = "/doUpdate/{id}")
 	@ResponseBody
-	public ResultVo doUpdate(@PathVariable String id, @RequestBody BProductShareVo info) {
+	public ResultVo doUpdate(@PathVariable String id, @RequestBody BClassifyVo info) {
 		ResultVo vo = new ResultVo();
 		BClassify bProduct = new BClassify();
 		try {
