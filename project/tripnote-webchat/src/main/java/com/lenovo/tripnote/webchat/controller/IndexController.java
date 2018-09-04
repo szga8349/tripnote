@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.lenovo.tripnote.webchat.common.BusinessLog;
 import com.lenovo.tripnote.webchat.entity.vo.BProductSearchVo;
 import com.lenovo.tripnote.webchat.service.BProductService;
 import com.lenovo.tripnote.webchat.utils.HttpClientUtils;
@@ -34,6 +35,7 @@ public class IndexController {
 	
 	@RequestMapping(value = "/index/product")
 	@ResponseBody
+	@BusinessLog(value="商品列表")
 	public ResultVo myProduct(HttpServletRequest request,BProductSearchVo searchVo) {
 		ResultVo vo = new ResultVo();
 		if(searchVo.getName()!=null){
