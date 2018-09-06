@@ -47,6 +47,14 @@ public class BClassifyController {
 		vo.setData(bClassifyService.insert(bProduct));
 		return vo;
 	}
+	@RequestMapping(value = "/doList")
+	@ResponseBody
+	public ResultVo doList(HttpServletRequest request,Integer parentId) {
+		ResultVo vo = new ResultVo();
+		vo.setCode(Result.SUCESSFUL);
+		vo.setData(bClassifyService.searchBClassify(parentId));
+		return vo;
+	}
 	@RequestMapping(value = "/doUpdate/{id}")
 	@ResponseBody
 	public ResultVo doUpdate(@PathVariable String id, @RequestBody BClassifyVo info) {

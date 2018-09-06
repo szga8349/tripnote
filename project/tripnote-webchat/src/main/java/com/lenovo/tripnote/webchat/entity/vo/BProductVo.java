@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.lenovo.tripnote.webchat.convert.IDDeEncryption;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -113,5 +114,19 @@ public class BProductVo {
      * @ibatorgenerated 2018-07-12 15:38:19
      */
     private String guide;
+    
+    /**
+     * b_product.classify_id (分类主键值ID)
+     * @ibatorgenerated 2018-09-06 09:49:38
+     */
+    @IDDeEncryption
+    private Integer classifyId;
+
+    /**
+     * b_product.store_id (门店主键值ID)
+     * @ibatorgenerated 2018-09-06 09:49:38
+     */
+    @IDDeEncryption
+    private Integer storeId;
     
 }
