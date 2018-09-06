@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.lenovo.tripnote.webchat.entity.BProductOrderCollage;
 import com.lenovo.tripnote.webchat.entity.vo.BProductOrderCollageVo;
 import com.lenovo.tripnote.webchat.entity.vo.BProductOrderCollagedPartakeVo;
-import com.lenovo.tripnote.webchat.entity.vo.BProductOrderVo;
 import com.lenovo.tripnote.webchat.service.BProductOrderCollageService;
 import com.lenovo.tripnote.webchat.vo.Result;
 import com.lenovo.tripnote.webchat.vo.ResultVo;
@@ -85,12 +84,12 @@ public class BProductOrderCollageController {
 	}
 	@RequestMapping(value = "/doUpdate/{id}")
 	@ResponseBody
-	public ResultVo doUpdate(@PathVariable String id, @RequestBody BProductOrderVo info) {
+	public ResultVo doUpdate(@PathVariable String id, @RequestBody BProductOrderCollageVo info) {
 		ResultVo vo = new ResultVo();
 		BProductOrderCollage bProduct = new BProductOrderCollage();
 		try {
 			BeanUtils.copyProperties(bProduct, info);
-			if(info.getStatus().equals(1)){
+			if(info.getCollageStatus().equals(2)){
 				bProduct.setPayTime(new Date());
 			}
 		} catch (IllegalAccessException | InvocationTargetException e) {
