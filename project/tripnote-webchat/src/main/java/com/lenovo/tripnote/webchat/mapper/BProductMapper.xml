@@ -20,7 +20,7 @@
     <result column="last_update_time" property="lastUpdateTime" jdbcType="TIMESTAMP" />
     <result column="classify_id" property="classifyId" jdbcType="INTEGER" />
     <result column="store_id" property="storeId" jdbcType="INTEGER" />
-     <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
+    <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
     <result column="cost_description" property="costDescription" jdbcType="LONGVARCHAR" />
     <result column="reservation_note" property="reservationNote" jdbcType="LONGVARCHAR" />
     <result column="guide" property="guide" jdbcType="LONGVARCHAR" />
@@ -76,12 +76,12 @@
     <result column="guide" property="guide" jdbcType="LONGVARCHAR" />
     <result column="soldCount" property="soldCount" jdbcType="INTEGER" />
     <result column="collageCount" property="collageCount" jdbcType="INTEGER" />
+    <result column="store_name" property="storeName" jdbcType="VARCHAR" />
     <collection property="imageUrls" javaType="java.util.List" ofType="com.lenovo.tripnote.webchat.entity.BProductImage">  
             <result column="bproduct_imageid" property="id" jdbcType="INTEGER" />
             <result column="bproduct_image_url" property="url" jdbcType="VARCHAR" />
             <result column="product_id" property="productId" jdbcType="VARCHAR" />  
      </collection>
-     <result column="store_name" property="storeName" jdbcType="VARCHAR" />
   </resultMap>
   
   <sql id="Base_Column_List" >
