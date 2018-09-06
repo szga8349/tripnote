@@ -10,9 +10,11 @@
     <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
     <result column="latitude" property="latitude" jdbcType="REAL" />
     <result column="longitude" property="longitude" jdbcType="REAL" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, store_name, store_address, store_url, store_logo, create_user_id, latitude, longitude
+    id, store_name, store_address, store_url, store_logo, create_user_id, latitude, longitude, 
+    create_time
   </sql>
   <sql id="Example_Where_Clause" >
     <where >
@@ -139,6 +141,9 @@
       <if test="record.longitude != null" >
         longitude = #{record.longitude,jdbcType=REAL},
       </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -153,7 +158,8 @@
       store_logo = #{record.storeLogo,jdbcType=VARCHAR},
       create_user_id = #{record.createUserId,jdbcType=INTEGER},
       latitude = #{record.latitude,jdbcType=REAL},
-      longitude = #{record.longitude,jdbcType=REAL}
+      longitude = #{record.longitude,jdbcType=REAL},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -171,10 +177,10 @@
   <insert id="insert" parameterType="com.lenovo.tripnote.webchat.entity.BStore" useGeneratedKeys="true" keyProperty="id" >
     insert into b_store (store_name, store_address, store_url, 
       store_logo, create_user_id, latitude, 
-      longitude)
+      longitude, create_time)
     values (#{storeName,jdbcType=VARCHAR}, #{storeAddress,jdbcType=VARCHAR}, #{storeUrl,jdbcType=VARCHAR}, 
       #{storeLogo,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, #{latitude,jdbcType=REAL}, 
-      #{longitude,jdbcType=REAL})
+      #{longitude,jdbcType=REAL}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.lenovo.tripnote.webchat.entity.BStore" useGeneratedKeys="true" keyProperty="id" >
     insert into b_store
@@ -186,6 +192,7 @@
       create_user_id,
       latitude,
       longitude,
+      create_time,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       #{storeName,jdbcType=VARCHAR},
@@ -195,6 +202,7 @@
       #{createUserId,jdbcType=INTEGER},
       #{latitude,jdbcType=REAL},
       #{longitude,jdbcType=REAL},
+      #{createTime,jdbcType=TIMESTAMP},
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.lenovo.tripnote.webchat.entity.BStore" >
@@ -221,6 +229,9 @@
       <if test="longitude != null" >
         longitude = #{longitude,jdbcType=REAL},
       </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -232,7 +243,8 @@
       store_logo = #{storeLogo,jdbcType=VARCHAR},
       create_user_id = #{createUserId,jdbcType=INTEGER},
       latitude = #{latitude,jdbcType=REAL},
-      longitude = #{longitude,jdbcType=REAL}
+      longitude = #{longitude,jdbcType=REAL},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -7,9 +7,10 @@
     <result column="store_id" property="storeId" jdbcType="INTEGER" />
     <result column="index" property="index" jdbcType="INTEGER" />
     <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, module_name, store_id, `index`, create_user_id
+    id, module_name, store_id, `index`, create_user_id, create_time
   </sql>
   <sql id="Example_Where_Clause" >
     <where >
@@ -122,10 +123,13 @@
         store_id = #{record.storeId,jdbcType=INTEGER},
       </if>
       <if test="record.index != null" >
-        `index` = #{record.index,jdbcType=TINYINT},
+        `index` = #{record.index,jdbcType=INTEGER},
       </if>
       <if test="record.createUserId != null" >
         create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -137,8 +141,9 @@
     set id = #{record.id,jdbcType=INTEGER},
       module_name = #{record.moduleName,jdbcType=VARCHAR},
       store_id = #{record.storeId,jdbcType=INTEGER},
-      `index` = #{record.index,jdbcType=TINYINT},
-      create_user_id = #{record.createUserId,jdbcType=INTEGER}
+      `index` = #{record.index,jdbcType=INTEGER},
+      create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -155,9 +160,9 @@
   </delete>
   <insert id="insert" parameterType="com.lenovo.tripnote.webchat.entity.BStoreModule" useGeneratedKeys="true" keyProperty="id" >
     insert into b_store_module (module_name, store_id, `index`, 
-      create_user_id)
-    values (#{moduleName,jdbcType=VARCHAR}, #{storeId,jdbcType=INTEGER}, #{index,jdbcType=TINYINT}, 
-      #{createUserId,jdbcType=INTEGER})
+      create_user_id, create_time)
+    values (#{moduleName,jdbcType=VARCHAR}, #{storeId,jdbcType=INTEGER}, #{index,jdbcType=INTEGER}, 
+      #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.lenovo.tripnote.webchat.entity.BStoreModule" useGeneratedKeys="true" keyProperty="id" >
     insert into b_store_module
@@ -166,12 +171,14 @@
       store_id,
       `index`,
       create_user_id,
+      create_time,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       #{moduleName,jdbcType=VARCHAR},
       #{storeId,jdbcType=INTEGER},
-      #{index,jdbcType=TINYINT},
+      #{index,jdbcType=INTEGER},
       #{createUserId,jdbcType=INTEGER},
+      #{createTime,jdbcType=TIMESTAMP},
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.lenovo.tripnote.webchat.entity.BStoreModule" >
@@ -184,10 +191,13 @@
         store_id = #{storeId,jdbcType=INTEGER},
       </if>
       <if test="index != null" >
-        `index` = #{index,jdbcType=TINYINT},
+        `index` = #{index,jdbcType=INTEGER},
       </if>
       <if test="createUserId != null" >
         create_user_id = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -196,8 +206,9 @@
     update b_store_module
     set module_name = #{moduleName,jdbcType=VARCHAR},
       store_id = #{storeId,jdbcType=INTEGER},
-      `index` = #{index,jdbcType=TINYINT},
-      create_user_id = #{createUserId,jdbcType=INTEGER}
+      `index` = #{index,jdbcType=INTEGER},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

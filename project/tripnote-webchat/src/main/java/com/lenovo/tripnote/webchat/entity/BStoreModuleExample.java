@@ -1,30 +1,31 @@
 package com.lenovo.tripnote.webchat.entity;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class BStoreModuleExample {
     /**
      * 主键字段
-     * @ibatorgenerated 2018-09-06 09:49:40
+     * @ibatorgenerated 2018-09-06 10:17:14
      */
     protected String pk_name = "id";
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-09-06 09:49:40
+     * @ibatorgenerated 2018-09-06 10:17:14
      */
     protected String orderByClause;
 
     /**
      * 去重复
-     * @ibatorgenerated 2018-09-06 09:49:40
+     * @ibatorgenerated 2018-09-06 10:17:14
      */
     protected boolean distinct;
 
     /**
      * 条件集
-     * @ibatorgenerated 2018-09-06 09:49:40
+     * @ibatorgenerated 2018-09-06 10:17:14
      */
     protected List<Criteria> oredCriteria;
 
@@ -42,7 +43,7 @@ public class BStoreModuleExample {
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-09-06 09:49:40
+     * @ibatorgenerated 2018-09-06 10:17:14
      */
     public void setOrderByClause(String orderByClause) {
         this.orderByClause = orderByClause;
@@ -54,7 +55,7 @@ public class BStoreModuleExample {
 
     /**
      * 设置去重复
-     * @ibatorgenerated 2018-09-06 09:49:40
+     * @ibatorgenerated 2018-09-06 10:17:14
      */
     public void setDistinct(boolean distinct) {
         this.distinct = distinct;
@@ -80,7 +81,7 @@ public class BStoreModuleExample {
 
     /**
      * 条件查询要先创建Criteria
-     * @ibatorgenerated 2018-09-06 09:49:40
+     * @ibatorgenerated 2018-09-06 10:17:14
      */
     public Criteria createCriteria() {
         Criteria criteria = createCriteriaInternal();
@@ -104,7 +105,7 @@ public class BStoreModuleExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-09-06 09:49:40
+     * @ibatorgenerated 2018-09-06 10:17:14
      */
     protected abstract static class GeneratedCriteria {
         protected List<Criterion> criteria;
@@ -347,52 +348,52 @@ public class BStoreModuleExample {
             return (Criteria) this;
         }
 
-        public Criteria andIndexEqualTo(Byte value) {
+        public Criteria andIndexEqualTo(Integer value) {
             addCriterion("`index` =", value, "index");
             return (Criteria) this;
         }
 
-        public Criteria andIndexNotEqualTo(Byte value) {
+        public Criteria andIndexNotEqualTo(Integer value) {
             addCriterion("`index` <>", value, "index");
             return (Criteria) this;
         }
 
-        public Criteria andIndexGreaterThan(Byte value) {
+        public Criteria andIndexGreaterThan(Integer value) {
             addCriterion("`index` >", value, "index");
             return (Criteria) this;
         }
 
-        public Criteria andIndexGreaterThanOrEqualTo(Byte value) {
+        public Criteria andIndexGreaterThanOrEqualTo(Integer value) {
             addCriterion("`index` >=", value, "index");
             return (Criteria) this;
         }
 
-        public Criteria andIndexLessThan(Byte value) {
+        public Criteria andIndexLessThan(Integer value) {
             addCriterion("`index` <", value, "index");
             return (Criteria) this;
         }
 
-        public Criteria andIndexLessThanOrEqualTo(Byte value) {
+        public Criteria andIndexLessThanOrEqualTo(Integer value) {
             addCriterion("`index` <=", value, "index");
             return (Criteria) this;
         }
 
-        public Criteria andIndexIn(List<Byte> values) {
+        public Criteria andIndexIn(List<Integer> values) {
             addCriterion("`index` in", values, "index");
             return (Criteria) this;
         }
 
-        public Criteria andIndexNotIn(List<Byte> values) {
+        public Criteria andIndexNotIn(List<Integer> values) {
             addCriterion("`index` not in", values, "index");
             return (Criteria) this;
         }
 
-        public Criteria andIndexBetween(Byte value1, Byte value2) {
+        public Criteria andIndexBetween(Integer value1, Integer value2) {
             addCriterion("`index` between", value1, value2, "index");
             return (Criteria) this;
         }
 
-        public Criteria andIndexNotBetween(Byte value1, Byte value2) {
+        public Criteria andIndexNotBetween(Integer value1, Integer value2) {
             addCriterion("`index` not between", value1, value2, "index");
             return (Criteria) this;
         }
@@ -456,11 +457,71 @@ public class BStoreModuleExample {
             addCriterion("create_user_id not between", value1, value2, "createUserId");
             return (Criteria) this;
         }
+
+        public Criteria andCreateTimeIsNull() {
+            addCriterion("create_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeIsNotNull() {
+            addCriterion("create_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeEqualTo(Date value) {
+            addCriterion("create_time =", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeNotEqualTo(Date value) {
+            addCriterion("create_time <>", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeGreaterThan(Date value) {
+            addCriterion("create_time >", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("create_time >=", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeLessThan(Date value) {
+            addCriterion("create_time <", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeLessThanOrEqualTo(Date value) {
+            addCriterion("create_time <=", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeIn(List<Date> values) {
+            addCriterion("create_time in", values, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeNotIn(List<Date> values) {
+            addCriterion("create_time not in", values, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeBetween(Date value1, Date value2) {
+            addCriterion("create_time between", value1, value2, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeNotBetween(Date value1, Date value2) {
+            addCriterion("create_time not between", value1, value2, "createTime");
+            return (Criteria) this;
+        }
     }
 
     /**
      * b_store_module
-     * @ibatorgenerated do_not_delete_during_merge 2018-09-06 09:49:40
+     * @ibatorgenerated do_not_delete_during_merge 2018-09-06 10:17:14
      */
     public static class Criteria extends GeneratedCriteria {
 
@@ -472,7 +533,7 @@ public class BStoreModuleExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-09-06 09:49:40
+     * @ibatorgenerated 2018-09-06 10:17:14
      */
     public static class Criterion {
         private String condition;

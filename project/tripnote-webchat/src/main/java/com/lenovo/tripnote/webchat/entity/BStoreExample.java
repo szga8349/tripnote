@@ -1,30 +1,31 @@
 package com.lenovo.tripnote.webchat.entity;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class BStoreExample {
     /**
      * 主键字段
-     * @ibatorgenerated 2018-09-06 09:49:39
+     * @ibatorgenerated 2018-09-06 10:17:13
      */
     protected String pk_name = "id";
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-09-06 09:49:39
+     * @ibatorgenerated 2018-09-06 10:17:13
      */
     protected String orderByClause;
 
     /**
      * 去重复
-     * @ibatorgenerated 2018-09-06 09:49:39
+     * @ibatorgenerated 2018-09-06 10:17:13
      */
     protected boolean distinct;
 
     /**
      * 条件集
-     * @ibatorgenerated 2018-09-06 09:49:39
+     * @ibatorgenerated 2018-09-06 10:17:13
      */
     protected List<Criteria> oredCriteria;
 
@@ -42,7 +43,7 @@ public class BStoreExample {
 
     /**
      * 排序字段
-     * @ibatorgenerated 2018-09-06 09:49:39
+     * @ibatorgenerated 2018-09-06 10:17:13
      */
     public void setOrderByClause(String orderByClause) {
         this.orderByClause = orderByClause;
@@ -54,7 +55,7 @@ public class BStoreExample {
 
     /**
      * 设置去重复
-     * @ibatorgenerated 2018-09-06 09:49:39
+     * @ibatorgenerated 2018-09-06 10:17:13
      */
     public void setDistinct(boolean distinct) {
         this.distinct = distinct;
@@ -80,7 +81,7 @@ public class BStoreExample {
 
     /**
      * 条件查询要先创建Criteria
-     * @ibatorgenerated 2018-09-06 09:49:39
+     * @ibatorgenerated 2018-09-06 10:17:13
      */
     public Criteria createCriteria() {
         Criteria criteria = createCriteriaInternal();
@@ -104,7 +105,7 @@ public class BStoreExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-09-06 09:49:39
+     * @ibatorgenerated 2018-09-06 10:17:13
      */
     protected abstract static class GeneratedCriteria {
         protected List<Criterion> criteria;
@@ -666,11 +667,71 @@ public class BStoreExample {
             addCriterion("longitude not between", value1, value2, "longitude");
             return (Criteria) this;
         }
+
+        public Criteria andCreateTimeIsNull() {
+            addCriterion("create_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeIsNotNull() {
+            addCriterion("create_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeEqualTo(Date value) {
+            addCriterion("create_time =", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeNotEqualTo(Date value) {
+            addCriterion("create_time <>", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeGreaterThan(Date value) {
+            addCriterion("create_time >", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("create_time >=", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeLessThan(Date value) {
+            addCriterion("create_time <", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeLessThanOrEqualTo(Date value) {
+            addCriterion("create_time <=", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeIn(List<Date> values) {
+            addCriterion("create_time in", values, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeNotIn(List<Date> values) {
+            addCriterion("create_time not in", values, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeBetween(Date value1, Date value2) {
+            addCriterion("create_time between", value1, value2, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeNotBetween(Date value1, Date value2) {
+            addCriterion("create_time not between", value1, value2, "createTime");
+            return (Criteria) this;
+        }
     }
 
     /**
      * b_store
-     * @ibatorgenerated do_not_delete_during_merge 2018-09-06 09:49:39
+     * @ibatorgenerated do_not_delete_during_merge 2018-09-06 10:17:13
      */
     public static class Criteria extends GeneratedCriteria {
 
@@ -682,7 +743,7 @@ public class BStoreExample {
     /**
      * 
      * 内类部，系统内部调用1
-     * @ibatorgenerated 2018-09-06 09:49:39
+     * @ibatorgenerated 2018-09-06 10:17:13
      */
     public static class Criterion {
         private String condition;
