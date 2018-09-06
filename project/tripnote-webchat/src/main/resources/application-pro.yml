@@ -11,7 +11,9 @@ logging:
   level:
     com.lenovo.tripnote.webchat.mapper: DEBUG 
 spring:
-
+    http:
+        multipart:
+            max-file-size: 5MB
     resources:
         #设置静态页面路径 可以配置多一个 按照配置顺序依次查询
         static-locations: file:/root/tripnote/static, file:/root/tripnote/resource/static
