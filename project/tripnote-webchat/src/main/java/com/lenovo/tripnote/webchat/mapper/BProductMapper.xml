@@ -81,6 +81,7 @@
             <result column="bproduct_image_url" property="url" jdbcType="VARCHAR" />
             <result column="product_id" property="productId" jdbcType="VARCHAR" />  
      </collection>
+     <result column="store_name" property="storeName" jdbcType="VARCHAR" />
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -184,9 +185,10 @@
     bp.commission, bp.`status`, bp.image_url, bp.create_user_name, bp.create_user_id,bp.create_time,bp.last_update_time,bp.introduction,
     bpi.id as bproduct_imageid,bpi.url as bproduct_image_url,bpi.product_id,
     case price_type when 2 then (select count(1) from b_product_order_collage bpoc where bpoc.product_id=bp.id and bpoc.pay_status = 1) else (select count(1) from b_product_order bpo where bpo.product_id=bp.id and bpo.status=1) end as soldCount,
-    (select count(1) from b_product_collection bpc where bpc.collection_product_id = bp.id) as collectionCount
+    (select count(1) from b_product_collection bpc where bpc.collection_product_id = bp.id) as collectionCount,bs.store_name
     from b_product bp
     left join b_product_image bpi on bpi.product_id=bp.id
+    left join b_store bs on bs.id=bp.store_id
     where bp.id = #{id,jdbcType=INTEGER} 
   </select>
   

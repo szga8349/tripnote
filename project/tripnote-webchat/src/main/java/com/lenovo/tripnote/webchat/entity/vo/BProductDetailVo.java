@@ -30,4 +30,7 @@ public class BProductDetailVo extends BProduct {
 	 * 已收藏数
 	 */
 	public Integer collectionCount;
+	
+	
+	public String storeName;
 }
