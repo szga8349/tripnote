@@ -1,0 +1,13 @@
+{
+  "description": "TripNote",
+  "setting": {
+    "urlCheck": true,
+    "es6": false,
+    "postcss": false,
+    "minified": false
+  },
+  "compileType": "miniprogram",
+  "appid": "wxf967dc44cbad4719",
+  "projectname": "tripnote",
+  "miniprogramRoot": "./dist"
+}

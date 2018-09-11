@@ -1,0 +1,155 @@
+<style lang="less">
+@import "../styles/variable";
+
+.walletWrap{
+  .summary{
+    display: flex;
+    height: 200rpx;
+    padding: 30rpx;
+    background: #FFF9EB;
+    color: @primary-yellow;
+    .money{
+      flex: 1;
+      .title{
+        font-size: 28rpx;
+      }
+      .num{
+        margin-top: 30rpx;
+        font-size: 90rpx;
+      }
+    }
+    .transferOut{
+      background: @primary-yellow;
+      width: 140rpx;
+      height: 60rpx;
+      line-height: 60rpx;
+      border-radius: 60rpx;
+      color: #fff;
+      font-size: 28rpx;
+    }
+  }
+
+  .userNav{
+    margin-top: 30rpx;
+  }
+  .userNav .icon{
+    width: 67rpx;
+    height: 67rpx;
+  }
+  .userNav .num{
+    position: absolute;
+    left: 112px;
+    top: 15px;
+    height: 36rpx;
+    padding: 0 16rpx;
+    background: #ff4242;
+    border-radius: 36rpx;
+    line-height: 36rpx;
+    text-align: center;
+    color: #fff;
+    font-size: 24rpx;
+  }
+}
+
+
+</style>
+<template>
+  <view class="walletWrap">
+    <view class="summary">
+      <view class="money">
+        <view class="title">余额（元）</view>
+        <view class="num">{{walletMoney}}</view>
+      </view>
+      <button class="transferOut">提现</button>
+    </view>
+
+    <view class="userNav">
+      <zan-panel>
+        <zan-cell-group>
+          <zan-cell title="交易明细" is-link url="/pages/myWalletDetail">
+            <image slot="icon" src="../assets/images/icon_menu_mywallet_1.png" mode="scaleToFill" class="icon"></image>
+          </zan-cell>
+          <!-- <zan-cell title="支付设置" is-link url="/pages/myWalletSetting">
+            <image slot="icon" src="../assets/images/icon_menu_mywallet_2.png" mode="scaleToFill" class="icon"></image>
+          </zan-cell> -->
+        </zan-cell-group>
+      </zan-panel>
+    </view>
+
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import { connect } from 'wepy-redux'
+  import Counter from 'counter' // alias example
+  import moduleA from 'module-a' // aliasFields ignore module example
+  import Toast from 'wepy-com-toast'
+  import testMixin from '../mixins/index'
+  import config from '@/utils/config'
+  import Util from '@/utils/util'
+
+  export default class Product extends wepy.page {
+    config = {
+      navigationBarTitleText: '我的钱包',
+      usingComponents: {
+        "zan-icon": "./../assets/libs/zanui/icon/index",
+        "zan-cell": "./../assets/libs/zanui/cell/index",
+        "zan-icon": "./../assets/libs/zanui/icon/index",
+        "zan-badge": "./../assets/libs/zanui/badge/index",
+        "zan-panel": "./../assets/libs/zanui/panel/index",
+        "zan-cell-group": "./../assets/libs/zanui/cell-group/index",
+        "zan-tab": "./../assets/libs/zanui/tab/index",
+        "zan-card": "./../assets/libs/zanui/card/index"
+      }
+    }
+    components = {
+      counter1: Counter,
+      counter2: Counter,
+      toast: Toast
+    }
+
+    mixins = [testMixin]
+
+    data = {
+      walletMoney: []
+    }
+
+    computed = {
+    }
+
+    methods = {
+      
+    }
+
+    events = {
+      
+    }
+
+
+    async getWalletMoney(){
+      let self = this
+      wx.showLoading({
+        title: '加载中...',
+      })
+
+      const res = await wepy.request({
+        url: config.service.host + '/token/cashflow/balance',
+        header: {
+          'authorization': this.$parent.globalData.userKey,
+        },
+      })
+      this.walletMoney = res.data.data
+      this.$apply()
+
+      wx.hideLoading()
+    }
+
+    onLoad() {
+      this.getWalletMoney()
+    }
+
+    onShow(){
+    }
+  }
+</script>

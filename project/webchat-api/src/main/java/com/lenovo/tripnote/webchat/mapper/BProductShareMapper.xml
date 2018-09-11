@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.lenovo.tripnote.webchat.mapper.BProductShareMapper" >
+  <resultMap id="BaseResultMap" type="com.lenovo.tripnote.webchat.entity.BProductShare" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="product_id" property="productId" jdbcType="INTEGER" />
+    <result column="share_user_id" property="shareUserId" jdbcType="INTEGER" />
+    <result column="share_user_name" property="shareUserName" jdbcType="VARCHAR" />
+    <result column="share_time" property="shareTime" jdbcType="TIMESTAMP" />
+    <result column="share_level" property="shareLevel" jdbcType="INTEGER" />
+    <result column="parent_share_id" property="parentShareId" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <resultMap id="SearchResultMap" type="com.lenovo.tripnote.webchat.entity.vo.BProductShareResultVo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="use_start_date" property="useStartDate" jdbcType="DATE" />
+    <result column="use_end_date" property="useEndDate" jdbcType="DATE" />
+    <result column="price_type" property="priceType" jdbcType="INTEGER" />
+    <result column="product_count" property="productCount" jdbcType="INTEGER" />
+    <result column="discount_price" property="discountPrice" jdbcType="REAL" />
+    <result column="raw_price" property="rawPrice" jdbcType="REAL" />
+    <result column="limit_time" property="limitTime" jdbcType="INTEGER" />
+    <result column="commission" property="commission" jdbcType="REAL" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="image_url" property="imageUrl" jdbcType="VARCHAR" />
+    <result column="create_user_name" property="createUserName" jdbcType="VARCHAR" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="last_update_time" property="lastUpdateTime" jdbcType="TIMESTAMP" />
+    <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
+    <result column="purchaseNumber" property="purchaseNumber" jdbcType="INTEGER" />
+    <result column="shareProfit" property="shareProfit" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, product_id, share_user_id, share_user_name, share_time, share_level, parent_share_id
+  </sql>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lenovo.tripnote.webchat.entity.BProductShareExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from b_product_share
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleAndPage" resultMap="BaseResultMap" parameterType="com.lenovo.tripnote.webchat.entity.BProductShareExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from b_product_share
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+ 
+   <select id="search" resultMap="SearchResultMap" parameterType="com.lenovo.tripnote.webchat.entity.vo.BProductShareSearchVo" >
+      select case price_type when 2 then (select count(1) from b_product_order_collage bpoc where bpoc.product_id=pp.product_id) else (select count(1) from b_product_order bpo where bpo.product_id=pp.product_id) end  as shareProfit,
+      pp.countID  as purchaseNumber,
+      id, `name`, use_start_date, use_end_date, price_type, product_count, discount_price, raw_price, limit_time,
+      commission, `status`, image_url, create_user_name, create_user_id, create_time, last_update_time,introduction
+      from (select count(*) as countID,product_id from b_product_share  
+      <if test="record.userId != null" >
+        where share_user_id = #{record.userId,jdbcType=INTEGER}
+      </if>
+     group by product_id order by share_time desc) pp,b_product bp where pp.product_id = bp.id 
+        <if test="record.name != null" >
+         and bp.name like #{record.name,jdbcType=VARCHAR}
+       </if>
+  </select>
+   <!-- 根据分享节点ID查询父节点ID 往上只查询10级 -->
+   <select id="selectParentListByShareID" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+      select id, product_id, share_user_id, share_user_name, share_time, share_level, parent_share_id 
+      from b_product_share where FIND_IN_SET(id, getParentList(#{id,jdbcType=INTEGER})) order by id asc limit 10
+  </select>
+  
+  <delete id="deleteByExample" parameterType="com.lenovo.tripnote.webchat.entity.BProductShareExample" >
+    delete from b_product_share
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <select id="countByExample" parameterType="com.lenovo.tripnote.webchat.entity.BProductShareExample" resultType="java.lang.Integer" >
+    select count(*) from b_product_share
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update b_product_share
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.productId != null" >
+        product_id = #{record.productId,jdbcType=INTEGER},
+      </if>
+      <if test="record.shareUserId != null" >
+        share_user_id = #{record.shareUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.shareUserName != null" >
+        share_user_name = #{record.shareUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shareTime != null" >
+        share_time = #{record.shareTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.shareLevel != null" >
+        share_level = #{record.shareLevel,jdbcType=INTEGER},
+      </if>
+      <if test="record.parentShareId != null" >
+        parent_share_id = #{record.parentShareId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update b_product_share
+    set id = #{record.id,jdbcType=INTEGER},
+      product_id = #{record.productId,jdbcType=INTEGER},
+      share_user_id = #{record.shareUserId,jdbcType=INTEGER},
+      share_user_name = #{record.shareUserName,jdbcType=VARCHAR},
+      share_time = #{record.shareTime,jdbcType=TIMESTAMP},
+      share_level = #{record.shareLevel,jdbcType=INTEGER},
+      parent_share_id = #{record.parentShareId,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from b_product_share
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from b_product_share
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lenovo.tripnote.webchat.entity.BProductShare" useGeneratedKeys="true" keyProperty="id" >
+    insert into b_product_share (product_id, share_user_id, share_user_name, 
+      share_time, share_level, parent_share_id
+      )
+    values (#{productId,jdbcType=INTEGER}, #{shareUserId,jdbcType=INTEGER}, #{shareUserName,jdbcType=VARCHAR}, 
+      #{shareTime,jdbcType=TIMESTAMP}, #{shareLevel,jdbcType=INTEGER}, #{parentShareId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lenovo.tripnote.webchat.entity.BProductShare" useGeneratedKeys="true" keyProperty="id" >
+    insert into b_product_share
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      product_id,
+      share_user_id,
+      share_user_name,
+      share_time,
+      share_level,
+      parent_share_id,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{productId,jdbcType=INTEGER},
+      #{shareUserId,jdbcType=INTEGER},
+      #{shareUserName,jdbcType=VARCHAR},
+      #{shareTime,jdbcType=TIMESTAMP},
+      #{shareLevel,jdbcType=INTEGER},
+      #{parentShareId,jdbcType=INTEGER},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lenovo.tripnote.webchat.entity.BProductShare" >
+    update b_product_share
+    <set >
+      <if test="productId != null" >
+        product_id = #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="shareUserId != null" >
+        share_user_id = #{shareUserId,jdbcType=INTEGER},
+      </if>
+      <if test="shareUserName != null" >
+        share_user_name = #{shareUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="shareTime != null" >
+        share_time = #{shareTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shareLevel != null" >
+        share_level = #{shareLevel,jdbcType=INTEGER},
+      </if>
+      <if test="parentShareId != null" >
+        parent_share_id = #{parentShareId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lenovo.tripnote.webchat.entity.BProductShare" >
+    update b_product_share
+    set product_id = #{productId,jdbcType=INTEGER},
+      share_user_id = #{shareUserId,jdbcType=INTEGER},
+      share_user_name = #{shareUserName,jdbcType=VARCHAR},
+      share_time = #{shareTime,jdbcType=TIMESTAMP},
+      share_level = #{shareLevel,jdbcType=INTEGER},
+      parent_share_id = #{parentShareId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

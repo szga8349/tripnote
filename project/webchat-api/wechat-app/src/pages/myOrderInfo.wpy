@@ -1,0 +1,427 @@
+<style lang="less">
+@import "../styles/variable";
+
+.orderInfoWrap{
+  .baseInfo{
+    margin: 20rpx;
+    background: #fff;
+    .item{
+      display: flex;
+      margin: 0 30rpx;
+      padding: 18rpx 0;
+      border-bottom: 1px solid @border-color-grey;
+      font-size: 28rpx;
+      // label{
+      //   width: 
+      // }
+    }
+  }
+  .detailInfo {
+    margin: 20rpx 20rpx 100rpx;
+    background: #fff;
+    .tit {
+      font-size: 32rpx;
+    }
+    .fieldCon:last-child {
+      border-bottom: 0;
+    }
+
+    .fieldCon {
+      display: flex;
+      margin: 0 30rpx;
+      padding: 18rpx 0;
+      border-bottom: 1px solid @border-color-grey;
+      font-size: 28rpx;
+      &.des {
+        padding-top: 30rpx;
+        border-bottom: 0;
+        .label {
+          line-height: 1;
+        }
+      }
+      .label {
+        width: 130rpx;
+        padding-right: 20rpx;
+        line-height: 50rpx;
+      }
+      .con {
+        flex: 1;
+        line-height: 50rpx;
+        input {
+          height: 50rpx;
+          min-height: 50rpx;
+          line-height: 50rpx;
+        }
+        .fieldDes {
+          min-height: 200rpx;
+        }
+        .groupList {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 16rpx;
+          .item {
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            input {
+              width: 80rpx;
+            }
+          }
+        }
+        &.fieldPriceCon {
+          display: flex;
+          justify-content: space-between;
+          input {
+            width: 90px;
+          }
+          .label {
+            width: 120rpx;
+          }
+        }
+        .fee {
+          line-height: 50rpx;
+          color: @primary-color;
+        }
+      }
+      .pics {
+        display: flex;
+        flex-wrap: wrap;
+        .picItem {
+          position: relative;
+          width: 120rpx;
+          height: 120rpx;
+          margin: 0 30rpx 20rpx 0;
+          border: 1px solid @border-color-grey;
+          text-align: center;
+          .tag {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 36rpx;
+            line-height: 36rpx;
+            font-size: 24rpx;
+            background: red;
+            color: #fff;
+            padding: 0 8rpx;
+          }
+
+          // &.cover{
+          //   border: 1px solid @primary-green;
+          // }
+
+          image {
+            width: 120rpx;
+            height: 120rpx;
+          }
+          .setBtn {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 30rpx;
+            background: rgba(0, 0, 0, 0.3);
+            line-height: 30rpx;
+            text-align: center;
+            color: #fff;
+            font-size: 20rpx;
+          }
+          .deleteImg {
+            position: absolute;
+            width: 20rpx;
+            height: 20rpx;
+            right: -6rpx;
+            top: -16rpx;
+            color: red;
+            background: #fff;
+            .iconfont {
+              background: #fff;
+              border-radius: 100%;
+            }
+          }
+          .addBtn {
+            position: relative;
+            width: 120rpx;
+            height: 120rpx;
+            &:after,
+            &:before {
+              content: ' ';
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              background-color: #ccc;
+            }
+            &:before {
+              width: 80rpx;
+              height: 3rpx;
+            }
+            &:after {
+              width: 3rpx;
+              height: 80rpx;
+            }
+            &:active {
+              border-color: #bbb;
+              &:after,
+              &:before {
+                background-color: #bbb;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .orderInfoBottom {
+    width: 100%;
+    border-top: 1px solid #ededed;
+    position: fixed;
+    bottom: 0;
+    height: 80rpx;
+    z-index: 1;
+    .btn{
+      height: 80rpx;
+      background: @primary-color;
+      border-radius: 0;
+      line-height: 80rpx;
+      color: #fff;
+    }
+  }
+}
+</style>
+
+<template>
+  <view class="orderInfoWrap">
+    <view class="baseInfo">
+      <view class="item">
+        <label>商品编号：</label>
+        <view>{{productId}}</view>
+      </view>
+      <view class="item">
+        <label>订单金额：</label>
+        <view>{{orderPrice}}</view>
+      </view>
+      <view class="item">
+        <label>订单编号：</label>
+        <view>{{orderId}}</view>
+      </view>
+      <view class="item">
+        <label>创建时间：</label>
+        <view>{{createTime}}</view>
+      </view>
+      <view class="item" wx:if="{{payTime != null}}">
+        <label>付款时间：</label>
+        <view>{{payTime}}</view>
+      </view>
+    </view>
+
+    <view class="detailInfo">
+      <view class="fieldCon">
+        <view class="tit">预订信息</view>
+      </view>
+      <view class="fieldCon">
+        <view class="label">姓名：</view>
+        <view class="con">
+          <input type="text" placeholder-style="placeholderClass" placeholder="请输入姓名" value="{{orderUserName}}" data-type="orderUserName" @input="handleInputChange"/>
+        </view>
+      </view>
+      <view class="fieldCon">
+        <view class="label">手机号：</view>
+        <view class="con">
+          <input type="text" placeholder-style="placeholderClass" placeholder="请输入手机号" value="{{orderUserPhone}}" data-type="orderUserPhone" @input="handleInputChange"/>
+        </view>
+      </view>
+      <view class="fieldCon">
+        <view class="label">出发地：</view>
+        <view class="con">
+          <input type="text" placeholder-style="placeholderClass" placeholder="请填写出发地" data-type="place" value="{{place}}" @input="handleInputChange"/>
+        </view>
+      </view>
+      <view class="fieldCon">
+        <view class="label">身份证号：</view>
+        <view class="con">
+          <input type="text" placeholder-style="placeholderClass" placeholder="输入是18位的身份证号码" value="{{cardId}}" data-type="cardId" @input="handleInputChange"/>
+        </view>
+      </view>
+      <view class="fieldCon">
+        <view class="label">使用日期：</view>
+        <view class="con">
+          <picker mode="date" value="{{useDate}}" start="2018-01-01" end="2019-09-01" data-type="useDate" @change="handleDateChange">
+            <input type="text" placeholder-style="placeholderClass" value="{{useDate}}" disabled="{{true}}" placeholder="请输入时间"/>
+          </picker>
+        </view>
+      </view>
+      <view class="fieldCon">
+        <view class="label">其他信息：</view>
+        <view class="con">
+          <textarea class="fieldDes" auto-height placeholder-style="placeholderClass" placeholder="填写其他信息" 
+            value="{{otherInfo}}"
+            data-type="otherInfo" 
+            @input="handleInputChange"
+          />
+        </view>
+      </view>
+    </view>
+
+    <view class="orderInfoBottom">
+      <button class="btn" hover-class="btnHoverClass" @tap="handleUpdate">保存</button>
+    </view>
+  </view>
+
+  <toast />
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import Toast from 'wepy-com-toast'
+  import testMixin from '../mixins/index'
+  import config from '@/utils/config'
+  import Util from '@/utils/util'
+  import tips from '@/utils/tips'
+
+  export default class OrderInfo extends wepy.page {
+    config = {
+      navigationBarTitleText: '预订信息',
+      usingComponents: {
+        "zan-icon": "./../assets/libs/zanui/icon/index",
+        "zan-cell": "./../assets/libs/zanui/cell/index",
+        "zan-icon": "./../assets/libs/zanui/icon/index",
+        "zan-badge": "./../assets/libs/zanui/badge/index",
+        "zan-panel": "./../assets/libs/zanui/panel/index",
+        "zan-cell-group": "./../assets/libs/zanui/cell-group/index",
+        "zan-tab": "./../assets/libs/zanui/tab/index",
+        "zan-card": "./../assets/libs/zanui/card/index"
+      }
+    }
+    components = {
+      toast: Toast
+    }
+
+    mixins = [testMixin]
+
+    data = {
+      orderId: '',
+      productId: '',
+      orderPrice: '',
+      createTime: '',
+      payTime: '',
+      orderType: '',
+      orderUserName: '', 
+      orderUserPhone: '', 
+      place: '', 
+      cardId: '', 
+      useDate: '', 
+      useDateInit: '', 
+      otherInfo: '', 
+    }
+
+    computed = {
+    }
+
+    methods = {
+      handleDateChange(e){
+        if(this.useDateInit == ''){
+          this[e.target.dataset.type] = e.detail.value
+        }else{
+          this.$invoke('toast', 'show', {
+            title: '请联系客服修改使用时间！',
+            img: '../assets/images/alert.png',
+            duration: 2000
+          })
+        }
+      },
+
+      async handleUpdate(){
+        if(this.orderUserName == '' || this.orderUserPhone == '' || this.cardId == ''){
+          this.$invoke('toast', 'show', {
+            title: '姓名、手机号和身份证号是必填项！',
+            img: '../assets/images/alert.png',
+            duration: 2000
+          })
+          return
+        }
+
+        wx.showLoading({
+          title: '正在进行...',
+        })
+
+        let url = this.orderType == 2 ? 
+        config.service.host + '/token/product/order/collage/doUpdate/' + this.orderId : 
+        config.service.host + '/token/product/order/doUpdate/' + this.orderId
+
+        const res = await wepy.request({
+          method: 'post',
+          url: url,
+          header: {
+            'authorization': this.$parent.globalData.userKey,
+            'content-type': 'application/json'
+          },
+          data: {
+            orderUserName: this.orderUserName, 
+            orderUserPhone: this.orderUserPhone, 
+            place: this.place, 
+            cardId: this.cardId, 
+            useDate: this.useDate, 
+            otherInfo: this.otherInfo
+          }
+        })
+        wx.hideLoading()
+
+        tips.success('更新成功！')
+
+        wx.navigateTo({
+          url: '/pages/myOrder'
+        })
+      },
+    }
+
+    async getOrderInfo(){
+      let self = this
+      wx.showLoading({
+        title: '加载中...',
+      })
+
+      let url = this.orderType == 2 ? 
+        config.service.host + '/token/product/order/collage/doDetail/' + this.orderId : 
+        config.service.host + '/token/product/order/doDetail/' + this.orderId
+
+      const res = await wepy.request({
+        url: url,
+        header: {
+          'authorization': this.$parent.globalData.userKey,
+        }
+      })
+      let orderInfo = res.data.data
+      orderInfo['useDate'] = orderInfo['useDate'] ? Util.timestampToTime(orderInfo['useDate']) : ''
+
+      this.orderUserName = orderInfo.orderUserName
+      this.productId = orderInfo.productId
+      this.createTime = orderInfo.createTime
+      this.payTime = orderInfo.payTime
+      this.orderUserPhone = orderInfo.orderUserPhone
+      this.place = orderInfo.place
+      this.cardId = orderInfo.cardId
+      this.useDate = orderInfo.useDate
+      this.useDateInit = orderInfo.useDate
+      this.otherInfo = orderInfo.otherInfo
+
+      this.$apply()
+
+      wx.hideLoading()
+      
+    }
+
+    onLoad(option) {
+      if (option.orderId) {
+        this.orderId = option.orderId
+        this.orderType = option.orderType
+        this.orderPrice = option.orderPrice
+        this.getOrderInfo()
+      }
+    }
+
+    onShow(){
+      console.log(this.$parent.globalData.userKey)
+    }
+  }
+</script>

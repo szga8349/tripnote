@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.lenovo.tripnote.webchat.mapper.BProductCollectionMapper" >
+  <resultMap id="BaseResultMap" type="com.lenovo.tripnote.webchat.entity.BProductCollection" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="collection_product_id" property="collectionProductId" jdbcType="INTEGER" />
+    <result column="collection_user_id" property="collectionUserId" jdbcType="INTEGER" />
+    <result column="collection_user_name" property="collectionUserName" jdbcType="VARCHAR" />
+    <result column="collection_create_time" property="collectionCreateTime" jdbcType="TIMESTAMP" />
+    <result column="collection_remark" property="collectionRemark" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="SearchResultMap" type="com.lenovo.tripnote.webchat.entity.vo.BProductCollectionResultVo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="collection_product_id" property="collectionProductId" jdbcType="INTEGER" />
+    <result column="collection_user_id" property="collectionUserId" jdbcType="INTEGER" />
+    <result column="collection_user_name" property="collectionUserName" jdbcType="VARCHAR" />
+    <result column="collection_create_time" property="collectionCreateTime" jdbcType="TIMESTAMP" />
+    <result column="collection_remark" property="collectionRemark" jdbcType="VARCHAR" />
+  
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="use_start_date" property="useStartDate" jdbcType="DATE" />
+    <result column="use_end_date" property="useEndDate" jdbcType="DATE" />
+    <result column="price_type" property="priceType" jdbcType="INTEGER" />
+    <result column="product_count" property="productCount" jdbcType="INTEGER" />
+    <result column="discount_price" property="discountPrice" jdbcType="REAL" />
+    <result column="raw_price" property="rawPrice" jdbcType="REAL" />
+    <result column="limit_time" property="limitTime" jdbcType="INTEGER" />
+    <result column="commission" property="commission" jdbcType="REAL" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="image_url" property="imageUrl" jdbcType="VARCHAR" />
+    <result column="create_user_name" property="createUserName" jdbcType="VARCHAR" />
+    <result column="create_user_id" property="createUserId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="last_update_time" property="lastUpdateTime" jdbcType="TIMESTAMP" />
+    
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, collection_product_id, collection_user_id, collection_user_name, collection_create_time, 
+    collection_remark
+  </sql>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lenovo.tripnote.webchat.entity.BProductCollectionExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from b_product_collection
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleAndPage" resultMap="BaseResultMap" parameterType="com.lenovo.tripnote.webchat.entity.BProductCollectionExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from b_product_collection
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  
+  
+   <select id="search" resultMap="SearchResultMap" parameterType="com.lenovo.tripnote.webchat.entity.vo.BProductCollectionSearchVo" >
+     select
+      bpc.id, bpc.collection_product_id, bpc.collection_user_id, bpc.collection_user_name, bpc.collection_create_time, bpc.collection_remark,
+      bp.`name`, bp.use_start_date, bp.use_end_date, bp.price_type, bp.product_count, bp.discount_price, bp.raw_price, bp.limit_time,
+      bp.commission, bp.`status`, bp.image_url, bp.create_user_name, bp.create_user_id,bp.create_time, bp.last_update_time,bp.introduction
+      from b_product_collection bpc,b_product bp where bpc.collection_product_id = bp.id 
+  
+      <if test="record.userId != null" >
+        and bpc.collection_user_id = #{record.userId,jdbcType=INTEGER}
+     </if>
+      <if test="record.name != null" >
+        and bp.name like #{record.name,jdbcType=VARCHAR}
+     </if>
+     order by bpc.collection_create_time desc
+  </select>
+  
+  <delete id="deleteByExample" parameterType="com.lenovo.tripnote.webchat.entity.BProductCollectionExample" >
+    delete from b_product_collection
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <select id="countByExample" parameterType="com.lenovo.tripnote.webchat.entity.BProductCollectionExample" resultType="java.lang.Integer" >
+    select count(*) from b_product_collection
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update b_product_collection
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.collectionProductId != null" >
+        collection_product_id = #{record.collectionProductId,jdbcType=INTEGER},
+      </if>
+      <if test="record.collectionUserId != null" >
+        collection_user_id = #{record.collectionUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.collectionUserName != null" >
+        collection_user_name = #{record.collectionUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.collectionCreateTime != null" >
+        collection_create_time = #{record.collectionCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.collectionRemark != null" >
+        collection_remark = #{record.collectionRemark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update b_product_collection
+    set id = #{record.id,jdbcType=INTEGER},
+      collection_product_id = #{record.collectionProductId,jdbcType=INTEGER},
+      collection_user_id = #{record.collectionUserId,jdbcType=INTEGER},
+      collection_user_name = #{record.collectionUserName,jdbcType=VARCHAR},
+      collection_create_time = #{record.collectionCreateTime,jdbcType=TIMESTAMP},
+      collection_remark = #{record.collectionRemark,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from b_product_collection
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from b_product_collection
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lenovo.tripnote.webchat.entity.BProductCollection" useGeneratedKeys="true" keyProperty="id" >
+    insert into b_product_collection (collection_product_id, collection_user_id, 
+      collection_user_name, collection_create_time, 
+      collection_remark)
+    values (#{collectionProductId,jdbcType=INTEGER}, #{collectionUserId,jdbcType=INTEGER}, 
+      #{collectionUserName,jdbcType=VARCHAR}, #{collectionCreateTime,jdbcType=TIMESTAMP}, 
+      #{collectionRemark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lenovo.tripnote.webchat.entity.BProductCollection" useGeneratedKeys="true" keyProperty="id" >
+    insert into b_product_collection
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      collection_product_id,
+      collection_user_id,
+      collection_user_name,
+      collection_create_time,
+      collection_remark,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{collectionProductId,jdbcType=INTEGER},
+      #{collectionUserId,jdbcType=INTEGER},
+      #{collectionUserName,jdbcType=VARCHAR},
+      #{collectionCreateTime,jdbcType=TIMESTAMP},
+      #{collectionRemark,jdbcType=VARCHAR},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lenovo.tripnote.webchat.entity.BProductCollection" >
+    update b_product_collection
+    <set >
+      <if test="collectionProductId != null" >
+        collection_product_id = #{collectionProductId,jdbcType=INTEGER},
+      </if>
+      <if test="collectionUserId != null" >
+        collection_user_id = #{collectionUserId,jdbcType=INTEGER},
+      </if>
+      <if test="collectionUserName != null" >
+        collection_user_name = #{collectionUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="collectionCreateTime != null" >
+        collection_create_time = #{collectionCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="collectionRemark != null" >
+        collection_remark = #{collectionRemark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lenovo.tripnote.webchat.entity.BProductCollection" >
+    update b_product_collection
+    set collection_product_id = #{collectionProductId,jdbcType=INTEGER},
+      collection_user_id = #{collectionUserId,jdbcType=INTEGER},
+      collection_user_name = #{collectionUserName,jdbcType=VARCHAR},
+      collection_create_time = #{collectionCreateTime,jdbcType=TIMESTAMP},
+      collection_remark = #{collectionRemark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

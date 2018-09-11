@@ -1,0 +1,125 @@
+<style lang="less">
+@import "./assets/libs/zanui/index.wxss";
+@import "./styles/base";
+@import "./styles/wxParse";
+@import "./styles/icon";
+@import "./styles/style";
+</style>
+
+<script>
+import wepy from 'wepy'
+import 'wepy-async-function'
+
+import { setStore } from 'wepy-redux'
+import configStore from './store'
+
+import config from '@/utils/config'
+
+const store = configStore()
+setStore(store)
+
+export default class extends wepy.app {
+  config = {
+    pages: [
+      'pages/my',
+      'pages/myProfit',
+      'pages/myWallet',
+      'pages/myWalletDetail',
+      'pages/myProfitDetail',
+      'pages/customerOrder',
+      'pages/myOrder',
+      'pages/index',
+      'pages/product',
+      'pages/productCreate',
+      'pages/myOrderInfo',
+      'pages/productGroup',
+      // 'pages/pay',
+      
+      
+      'pages/productDetail',
+      'pages/orderConfirm',
+      'pages/login',
+      'pages/fav',
+      'pages/productEdit',
+      'pages/register',
+      'pages/customerOrderGroup',
+      'pages/customerOrderPeople',
+      'pages/orderGroupConfirm'
+    ],
+    window: {
+      "backgroundColor": "#f0f0f0",
+      "backgroundTextStyle":"light",
+      "navigationBarBackgroundColor": "#177DFF",
+      "navigationBarTitleText": "热门预定",
+      "navigationBarTextStyle": "#fff",
+      "enablePullDownRefresh": true
+    },
+    tabBar: {
+      "color": "#7A7E83",
+      "selectedColor": "#177DFF",
+      "borderStyle": "black",
+      "backgroundColor": "#ffffff",
+      "list": [
+        {
+          "text": "热门预定",
+          "pagePath": "pages/index",
+          "iconPath": "assets/images/icon_index.png",
+          "selectedIconPath": "assets/images/icon_index_active.png"
+        },
+        {
+          "text": "我的产品库",
+          "pagePath": "pages/product",
+          "iconPath": "assets/images/icon_list.png",
+          "selectedIconPath": "assets/images/icon_list_active.png"
+        },
+        {
+          "text": "个人中心",
+          "pagePath": "pages/my",
+          "iconPath": "assets/images/icon_user.png",
+          "selectedIconPath": "assets/images/icon_user_active.png"
+        }
+      ]
+    },
+    "networkTimeout": {
+      "request": 10000,
+      "downloadFile": 10000
+    },
+    "debug": true
+  }
+
+  globalData = {
+    userKey: '',
+    userInfo: null
+  }
+
+  constructor () {
+    super()
+    this.use('promisify')
+    this.use('requestfix')
+  }
+
+  async checkUser(){
+    const res = await wepy.request({
+      url: config.service.host + '/token/user/doDetail',
+      header: {
+        'authorization': this.globalData.userKey,
+      }
+    })
+
+    if(res.data.code == -1 || res.data.data == null){
+      wx.hideLoading()
+      wx.clearStorageSync()
+      this.globalData.userKey = null
+      // this.$apply()
+    }
+  }
+
+  onLaunch() {
+    if(wx.getStorageSync('userKey')){
+      this.globalData.userKey = wx.getStorageSync('userKey')
+
+      this.checkUser()
+    }
+  }
+}
+</script>

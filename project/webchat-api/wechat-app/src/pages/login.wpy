@@ -1,0 +1,209 @@
+<style lang="less">
+.userInfo {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20rpx 40rpx;
+  overflow: hidden;
+  background: #fff;  
+}
+
+.userInfo .info{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.userInfoAvatar {
+  width: 128rpx;
+  height: 128rpx;
+  margin-right: 20rpx;
+  border-radius: 50%;
+}
+
+.userInfo view{
+  background: #fff;
+}
+
+.userInfoNickname {
+  line-height: 128rpx;
+  font-size: 20px;
+}
+// .userinfo-phone {
+//   display: block;
+//   margin-top: 10rpx;
+//   color: #999;
+// }
+
+.userInfo .userInfoArrow{
+  line-height: 128rpx;
+}
+
+.userNav{
+  margin-top: 30rpx;
+}
+.userNav .icon{
+  width: 67rpx;
+  height: 67rpx;
+}
+.userNav .num{
+  position: absolute;
+  left: 112px;
+  top: 15px;
+  height: 36rpx;
+  padding: 0 16rpx;
+  background: #ff4242;
+  border-radius: 36rpx;
+  line-height: 36rpx;
+  text-align: center;
+  color: #fff;
+  font-size: 24rpx;
+}
+
+
+</style>
+<template>
+  <view class="container">
+    <zan-panel title="">
+      <zan-field
+        title="{{ form.username.title }}"
+        placeholder="{{ form.username.placeholder }}"
+        focus="{{ form.username.focus }}"
+        value="{{ loginName }}"
+        @change="handleFieldUsernameChange"
+      >
+      </zan-field>
+      <zan-field
+        title="{{ form.password.title }}"
+        placeholder="{{ form.password.placeholder }}"
+        input-type="{{ form.password.inputType }}"
+        value="{{ form.password.value }}"
+        @change="handleFieldPasswordChange"
+      >
+      </zan-field>
+    </zan-panel>
+    
+    <zan-button-group>
+      <zan-button type="primary" bind:btnclick="loginSubmit">登 录</zan-button>
+    </zan-button-group>
+
+    <!-- <toast /> -->
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import { connect } from 'wepy-redux'
+  import Counter from 'counter' // alias example
+  import moduleA from 'module-a' // aliasFields ignore module example
+  import Toast from 'wepy-com-toast'
+  import testMixin from '../mixins/index'
+
+  import config from '@/utils/config'
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '登录',
+      usingComponents: {
+        "zan-panel": "./../assets/libs/zanui/panel/index",
+        "zan-button": "./../assets/libs/zanui/btn/index",
+        "zan-button-group": "./../assets/libs/zanui/btn-group/index",
+        "zan-field": "./../assets/libs/zanui/field/index",
+        "zan-panel": "./../assets/libs/zanui/panel/index",
+      }
+    }
+    components = {
+      counter1: Counter,
+      counter2: Counter,
+      toast: Toast
+    }
+
+    mixins = [testMixin]
+
+    data = {
+      loginName: '',
+      loginPasswd: '',
+      form: {
+        username: {
+          focus: true,
+          title: '手机号',
+          inputType: 'number',
+          placeholder: '请输入手机号',
+          value: ''
+        },
+        password: {
+          error: true,
+          title: '密码',
+          inputType: 'password',
+          placeholder: '请输入密码',
+          value: ''
+        },
+      },
+    }
+
+    computed = {
+      now () {
+        return +new Date()
+      }
+    }
+
+    methods = {
+      handleFieldUsernameChange(e){
+        this.loginName = e.detail.detail.value
+        this.$apply()
+      },
+      handleFieldPasswordChange(e){
+        this.loginPasswd = e.detail.detail.value
+        this.$apply()
+      },
+      async loginSubmit(){
+        let self = this
+
+        wx.showLoading({
+          title: '登录中...',
+        })
+
+        let res = wepy.request({
+          url: config.service.host + '/doLogin?loginName='+this.loginName+'&loginPasswd='+this.loginPasswd,
+        })
+
+        self.$parent.globalData.userKey = 'Bearer ' + res.data.data
+        self.$apply()
+
+        wx.navigateBack({     //返回上一页面或多级页面
+          delta:1
+        })
+          // wx.switchTab({  
+          //   url: '/pages/product',  
+          //   // success: function (e) {  
+          //   //   var page = getCurrentPages().pop();  
+          //   //   if (page == undefined || page == null) return;  
+          //   //   page.onShow();  
+          //   // }  
+          // })
+      },
+      toast () {
+        let promise = this.$invoke('toast', 'show', {
+          title: '自定义标题',
+          img: 'https://raw.githubusercontent.com/kiinlam/wetoast/master/images/star.png'
+        })
+
+        promise.then((d) => {
+          console.log('toast done')
+        })
+      },
+      
+    }
+
+    events = {
+      'index-emit': (...args) => {
+        let $event = args[args.length - 1]
+        console.log(`${this.$name} receive ${$event.name} from ${$event.source.$name}`)
+      }
+    }
+
+    onLoad() {
+      
+    }
+  }
+</script>

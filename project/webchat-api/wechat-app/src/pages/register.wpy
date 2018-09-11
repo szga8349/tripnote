@@ -1,0 +1,210 @@
+<style lang="less">
+.veriCodeWrap{
+  position: relative;
+  border-top: 1px solid #f4f4f4;
+  border-bottom: 1px solid #f4f4f4;
+  .getVeriCodeBtn{
+    position: absolute;
+    right: 20rpx;
+    top: 16rpx;
+  }
+}
+.userInfo {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20rpx 40rpx;
+  overflow: hidden;
+  background: #fff;  
+}
+
+.userInfo .info{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.userInfoAvatar {
+  width: 128rpx;
+  height: 128rpx;
+  margin-right: 20rpx;
+  border-radius: 50%;
+}
+
+.userInfo view{
+  background: #fff;
+}
+
+.userInfoNickname {
+  line-height: 128rpx;
+  font-size: 20px;
+}
+// .userinfo-phone {
+//   display: block;
+//   margin-top: 10rpx;
+//   color: #999;
+// }
+
+.userInfo .userInfoArrow{
+  line-height: 128rpx;
+}
+
+.userNav{
+  margin-top: 30rpx;
+}
+.userNav .icon{
+  width: 67rpx;
+  height: 67rpx;
+}
+.userNav .num{
+  position: absolute;
+  left: 112px;
+  top: 15px;
+  height: 36rpx;
+  padding: 0 16rpx;
+  background: #ff4242;
+  border-radius: 36rpx;
+  line-height: 36rpx;
+  text-align: center;
+  color: #fff;
+  font-size: 24rpx;
+}
+
+
+</style>
+<template>
+  <view class="container">
+    <zan-panel title="">
+      <zan-field
+        title="{{ form.veriCode.title }}"
+        placeholder="{{ form.veriCode.placeholder }}"
+        focus="{{ form.veriCode.focus }}"
+        value="{{ value }}"
+      >
+      </zan-field>
+      <view class="veriCodeWrap">
+        <zan-field
+          title="{{ form.veriCode.title }}"
+          placeholder="{{ form.veriCode.placeholder }}"
+          error="{{ form.veriCode.error }}"
+          input-type="{{ form.veriCode.inputType }}"
+        >
+        </zan-field>
+        <view class="getVeriCodeBtn">
+          <zan-button size="small" type="primary">获取验证码</zan-button>
+        </view>
+      </view>
+      <zan-field
+        title="{{ form.password.title }}"
+        placeholder="{{ form.password.placeholder }}"
+        input-type="{{ form.password.inputType }}"
+      >
+      </zan-field>
+    </zan-panel>
+    
+    <zan-button-group>
+      <zan-button type="primary" bind:btnclick="clearInput">注 册</zan-button>
+    </zan-button-group>
+
+    <!-- <toast /> -->
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import { connect } from 'wepy-redux'
+  import Counter from 'counter' // alias example
+  import moduleA from 'module-a' // aliasFields ignore module example
+  import Toast from 'wepy-com-toast'
+  import testMixin from '../mixins/index'
+
+  import config from '@/utils/config'
+
+  @connect({
+    num (state) {
+      return state.counter.num
+    },
+    asyncNum (state) {
+      return state.counter.asyncNum
+    },
+    sumNum (state) {
+      return state.counter.num + state.counter.asyncNum
+    }
+  })
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '注册',
+      usingComponents: {
+        "zan-panel": "./../assets/libs/zanui/panel/index",
+        "zan-button": "./../assets/libs/zanui/btn/index",
+        "zan-button-group": "./../assets/libs/zanui/btn-group/index",
+        "zan-field": "./../assets/libs/zanui/field/index",
+        "zan-panel": "./../assets/libs/zanui/panel/index",
+      }
+    }
+    components = {
+      counter1: Counter,
+      counter2: Counter,
+      toast: Toast
+    }
+
+    mixins = [testMixin]
+
+    data = {
+      form: {
+        phone: {
+          error: true,
+          focus: true,
+          title: '手机号',
+          inputType: 'number',
+          placeholder: '请输入手机号'
+        },
+        veriCode: {
+          error: true,
+          title: '验证码',
+          inputType: 'number',
+          placeholder: '请输入验证码'
+        },
+        password: {
+          title: '密 码',
+          placeholder: '请输入密码'
+        },
+      }
+    }
+
+    computed = {
+    }
+
+    methods = {
+      request () {
+        let self = this
+        let i = 10
+        let map = ['MA==', 'MQo=', 'Mg==', 'Mw==', 'NA==', 'NQ==', 'Ng==', 'Nw==', 'OA==', 'OQ==']
+        while (i--) {
+          wepy.request({
+            url: 'https://www.madcoder.cn/tests/sleep.php?time=1&t=css&c=' + map[i] + '&i=' + i,
+            success: function (d) {
+              self.netrst += d.data + '.'
+              self.$apply()
+            }
+          })
+        }
+      },
+      counterEmit (...args) {
+        let $event = args[args.length - 1]
+        console.log(`${this.$name} receive ${$event.name} from ${$event.source.$name}`)
+      }
+    }
+
+    events = {
+      'index-emit': (...args) => {
+        let $event = args[args.length - 1]
+        console.log(`${this.$name} receive ${$event.name} from ${$event.source.$name}`)
+      }
+    }
+
+    onLoad() {
+    }
+  }
+</script>

@@ -1,0 +1,49 @@
+server:
+  port: 80
+  #ssl:
+    #key-store: tomcat.keystore
+    #key-store-type: JKS
+    #key-alias: tomcat
+    #key-store-password: tomcat
+logging:
+  level:
+    com.lenovo.tripnote.webchat.mapper: DEBUG 
+spring:
+    http:
+        multipart:
+            max-file-size: 5MB
+    resources:
+        #设置静态页面路径 可以配置多一个 按照配置顺序依次查询
+        static-locations: file:D:/notetripstatic,file:D:/source/tripnote/project/tripnote-webchat/static,file:D:/tripnote/tripnote-xcx-web/build
+    datasource:
+        name: tripnote_webchat
+        url: jdbc:mysql://10.109.4.6:3306/tripnote_webchat
+        username: root
+        password: root
+        # 使用druid数据源
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.jdbc.Driver
+        filters: stat
+        maxActive: 20
+        initialSize: 1
+        maxWait: 60000
+        minIdle: 1
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 300000
+        validationQuery: select 'x'
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        poolPreparedStatements: true
+        maxOpenPreparedStatements: 20
+  
+mybatis:
+  mapper-locations: classpath:com/lenovo/tripnote/webchat/mapper/*.xml
+  type-aliases-package: com.lenovo.tripnote.webchat.entity
+#pagehelper分页插件
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql
+   

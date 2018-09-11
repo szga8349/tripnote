@@ -1,0 +1,1898 @@
+<style lang="less">
+@import "../styles/variable";
+
+
+.productDetail{
+  margin: 0 20rpx;
+  padding-bottom: 100rpx;
+  .itemBox{
+    margin-top: 20rpx;
+    background: #fff;
+    .itemBoxTit{
+      position: relative;
+      margin: 10rpx 20rpx 0;
+      line-height: 80rpx;
+      border-bottom: 1px solid @border-color-grey;
+      .moreLink{
+        position: absolute;
+        right: 0;
+        top: 0;
+        line-height: 80rpx;
+        font-size: 24rpx;
+      }
+    }
+    .itemBoxCon{
+      padding: 20rpx;
+    }
+  }
+}
+.swiper {
+  height: 520rpx;
+}
+
+.slide-image {
+  width: 100%;
+  height: 100%;
+}
+
+.big_images {
+  height: 100%;
+  display: block;
+  margin-bottom: 90rpx;
+  image {
+    width: 100%;
+  }
+}
+
+.detailsBase {
+  border-top: 1px solid #ededed;
+  padding: 30rpx 30rpx 0;
+  .detailsTitle {
+    display: flex;
+    justify-content: space-between;
+    overflow: hidden;
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
+    font-size: 30rpx;
+    color: #333;
+    padding-bottom: 16rpx;
+    border-bottom: 1px solid #e5e5e5;
+    .name{
+      font-size: 28rpx;
+    }
+
+    .shareBox {
+      width: 120rpx;
+      text-align: center;
+      font-size: 24rpx;
+      margin-left: 30rpx;
+      padding-left: 30rpx;
+      border-left: 1px solid #e5e5e5;
+      button{
+        background:none;
+        padding: 0;
+        line-height: 40rpx;
+        font-size: 24rpx;
+      }
+      .icon-connection {
+        display: block;
+        padding-bottom: 5rpx;
+        line-height: 50rpx;
+        font-size: 46rpx;
+        color: @primary-color;
+      }
+    }
+  }
+  .detailsInfo {
+    padding-top: 20rpx;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    line-height: 70rpx;
+    .price {
+      color: @primary-green;
+      font-size: 48rpx;
+      text{
+        font-size: 24rpx;
+      }
+    }
+
+    .otherInfo{
+      display: flex;
+      .rate, .sellNum {
+        margin-left: 60rpx;
+        color: #808080;
+        font-size: 28rpx;
+      }
+      // .sellNum {
+      //   position: absolute;
+      //   right: 170rpx;
+      //   top: 0rpx;
+      // }
+    }
+    
+  }
+}
+
+
+.valiPopup{
+  width: 500rpx;
+  background: #fff;
+  border-radius: 6rpx;
+  .head{
+    height: 80rpx;
+    line-height: 80rpx;
+    border-bottom: 1px solid #dedede;
+    text-align: center;
+    font-size: 28rpx;
+  }
+  .con{
+    padding: 0 20rpx 30rpx;
+    .item{
+      display: flex;
+      justify-content: space-between;
+      padding: 10rpx 0;
+      border-bottom: 2rpx solid #eee;
+      line-height: 60rpx;
+      &:last-child{
+        border-bottom: 0;
+      }
+      .inputPhone{
+        width: 100%;
+        height: 60rpx;
+      }
+      .inputCode{
+        width: 300rpx;
+        height: 60rpx;
+      }
+      .sendCode{
+        float: right;
+        margin-right: 20rpx;
+        .sendLink{
+          color: @primary-green;
+        }
+      }
+      &.btnWrap{
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20rpx;
+        .btnDefault, .btnPrimary{
+          width: 150rpx;
+        }
+      }
+    }
+    .errorTip{
+      color: red;
+      text-align: left;
+    }
+  }
+}
+
+
+.detailFeature{
+  display: flex;
+  justify-content: space-between;
+  padding: 30rpx 16rpx;
+
+  .item{
+    display: flex;
+    // flex: 1;
+    i{
+      margin-right: 6rpx;
+      color: @primary-color;
+    }
+    text{
+      font-size: 24rpx;
+    }
+  }
+}
+
+.groupRule{
+  display: flex;
+  .item{
+    display: flex;
+    line-height: 60rpx;
+    font-size: 22rpx;
+    &:first-child{
+      width: 300rpx;
+    }
+    .num{
+      width: 30rpx;
+      height: 30rpx;
+      margin-top: 15rpx;
+      margin-right: 8rpx;
+      background: @primary-color;
+      color: #fff;
+      border-radius: 100%;
+      line-height: 30rpx;
+      text-align: center;
+      font-style: italic;
+    }
+  }
+}
+
+.productGroupList{
+  .item{
+    padding: 20rpx 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .userInfo{
+      width: 300rpx;
+      display: flex;
+      .avatar{
+        image{
+          width: 70rpx;
+          height: 70rpx;
+          border-radius: 70rpx;
+        }
+        i{
+          font-size: 40px;
+          color: #999;
+        }
+      }
+      .baseInfo{
+        margin-left: 16rpx;
+        line-height: 40rpx;
+        .username{
+          font-size: 24rpx;
+        }
+        .info{
+          font-size: 24rpx;
+          .price{
+            color: @primary-green;
+          }
+          .groupNum{
+            margin-left: 10rpx;
+            padding-left: 10rpx;
+            border-left: 1px solid @border-color-grey;
+          }
+        }
+      }
+    }
+    .joinInfo{
+      // padding-left: 40rpx;
+      font-size: 24rpx;
+      color: #555;
+      view{
+        line-height: 40rpx;
+        font-size: 24rpx;
+      }
+    }
+    .operateBtn{
+      flex: 1;
+      .btn{
+        width: 140rpx;
+        height: 60rpx;
+        margin-right: 0;
+        padding: 0;
+        background: #fff;
+        border: 1px solid @primary-color;
+        border-radius: 60rpx;
+        text-align: center;
+        line-height: 60rpx;
+        font-size: 28rpx;
+        color: @primary-color;
+        &.close{
+          color: #999;
+          border-color: #999;
+        }
+        &.success{
+          color: #09b578;
+          border-color: #09b578;
+        }
+      }
+    }
+  }
+}
+
+
+.productDetailCon{
+  padding: 20rpx;
+  .useDate{
+    margin-bottom: 20rpx;
+  }
+}
+
+.productDetailBottom {
+  width: 100%;
+  border-top: 1px solid #ededed;
+  position: fixed;
+  bottom: 0;
+  background: #fff;
+  z-index: 1;
+  .bottomBox {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    position: relative;
+    .contact {
+      width: 100rpx;
+      height: 80rpx;
+      margin: 0 auto;
+      position: absolute;
+      text-align: center;
+      line-height: 80rpx;
+      left: 100rpx; // 在客服上面
+      opacity: 0;
+    }
+  }
+  .btn {
+    padding: 0 40rpx;
+    height: 80rpx;
+    border-radius: 0;
+    line-height: 80rpx;
+    font-size: 30rpx;
+  }
+  .btnOrder {
+    background: @primary-color;
+    color: #fff;
+  }
+  .item {
+    flex: 1;
+    border-right: 1px solid #efefef;
+    text-align: center;
+    .contactBtn,
+    .favBtn{
+      padding: 0;
+      background: none;
+      border: 0;
+      box-shadow: none;
+      line-height: 1.2;
+    }
+    &:nth-child(3){
+      border-right: 0;
+    }
+    &:last-child{
+      border-right: 0;
+    }
+    .doc {
+      font-size: 24rpx;
+    }
+  }
+  .selec_active {
+    .doc {
+      color: #ff4856;
+    }
+    .iconfont {
+      color: #ff4856;
+    }
+  }
+}
+
+.over_model {
+  position: fixed;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  width: 100%;
+  height: 100%;
+  top: 0;
+}
+
+.head_box {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #efefef;
+  padding-bottom: 26rpx;
+  .img_wrap {
+    height: 200rpx;
+    width: 200rpx;
+    background: #000;
+  }
+  .goods_img {
+    height: 200rpx;
+    width: 200rpx;
+    background: #000;
+  }
+  .product_wrap {
+    padding: 20rpx;
+  }
+  .product_name {
+    color: #666;
+  }
+  .price {
+    color: #e11500;
+    font-size: 36rpx;
+    padding-top: 32rpx;
+  }
+}
+
+.rule_box {
+  border-bottom: 1px solid #efefef;
+  padding-bottom: 26rpx;
+  .title {
+    color: #4c4c4c;
+    font-size: 32rpx;
+    margin-top: 10rpx;
+  }
+  .items {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 5rpx;
+    margin-left: -20rpx;
+  }
+  .item {
+    padding: 15rpx 28rpx;
+    background: #e6e6e6;
+    color: #000;
+    margin-left: 20rpx;
+    margin-top: 10rpx;
+    border-radius: 10rpx;
+  }
+  .active {
+    background: #ed394a;
+    color: #fff;
+  }
+}
+
+.num_box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15rpx 0rpx;
+  .title {
+    color: #4c4c4c;
+    font-size: 32rpx;
+  }
+}
+
+.buy-num {
+  width: 170rpx;
+  height: 48rpx;
+  line-height: 48rpx;
+  display: flex;
+  font-size: 24rpx;
+  text-align: center;
+  .jian-btn {
+    width: 48rpx;
+    height: 100%;
+    border-left: 1rpx solid #ccc;
+    border-bottom: 1rpx solid #ccc;
+    border-top: 1rpx solid #ccc;
+    border-bottom-left-radius: 6rpx;
+    border-top-left-radius: 6rpx;
+  }
+  .jian-btn.disabled {
+    background-color: #f5f5f9;
+    border-left: 1rpx solid #eee;
+    border-bottom: 1rpx solid #eee;
+    border-top: 1rpx solid #eee;
+    color: #ccc;
+  }
+  .jia-btn {
+    width: 48rpx;
+    height: 100%;
+    border-right: 1rpx solid #ccc;
+    border-bottom: 1rpx solid #ccc;
+    border-top: 1rpx solid #ccc;
+    border-bottom-right-radius: 6rpx;
+    border-top-right-radius: 6rpx;
+  }
+  .jia-btn.disabled {
+    background-color: #f5f5f9;
+    border-right: 1rpx solid #eee;
+    border-bottom: 1rpx solid #eee;
+    border-top: 1rpx solid #eee;
+    color: #ccc;
+  }
+  input {
+    width: 68rpx;
+    height: 48rpx;
+    min-height: 48rpx;
+    text-align: center;
+    font-size: 24rpx;
+    border: 1rpx solid #ccc;
+  }
+}
+
+.panle_model {
+  position: absolute;
+  height: 0rpx;
+  width: 100%;
+  z-index: 1002;
+  background: #fff;
+  bottom: 0;
+}
+
+.model_content {
+  padding: 20rpx;
+  position: relative;
+}
+
+.colse_model {
+  position: absolute;
+  right: 10rpx;
+  top: 10rpx;
+  .icon-close {
+    color: #e11500;
+    font-size: 32rpx;
+  }
+}
+
+.comfire_btn {
+  height: 100rpx;
+  line-height: 100rpx;
+  width: 100%;
+  background: #ff6e30;
+  text-align: center;
+  color: #fff;
+  position: absolute;
+  bottom: 0;
+  z-index: 10003;
+}
+
+.button-more-cmment {
+  font-size: 28rpx;
+  height: 55rpx;
+  line-height: 55rpx;
+  text-align: center;
+  margin: 20rpx auto;
+  width: 200rpx;
+  -moz-border-radius: 10rpx;
+  /* Firefox */
+  -webkit-border-radius: 10rpx;
+  /* Safari 和 Chrome */
+  border-radius: 10rpx;
+  /* Opera 10.5+, 以及使用了IE-CSS3的IE浏览器 */
+  color: #ff4856;
+  border: 1px solid #ff4856;
+}
+
+.selTypePopup{
+  width: 750rpx;
+  background: #fff;
+  .title{
+    height: 80rpx;
+    border-bottom: 1px solid #e8e8e8;
+    line-height: 80rpx;
+    font-size: 32rpx;
+    text-align: center;
+  }
+  .tableHeader{
+    display: flex;
+    height: 64rpx;
+    margin: 20rpx 20rpx 0;
+    background: #f1f1f1;
+    line-height: 64rpx;
+  }
+  .tableCon{
+    padding: 14rpx 20rpx;
+    border-bottom: 1px solid #e8e8e8;
+  }
+  .col1,
+  .col2,
+  .col3,
+  .col4{
+    width: 25%;
+    padding: 0 20rpx;
+    .btn{
+      width: 70px;
+      height: 30px;
+      background: none;
+      border: 1px solid @primary-color;
+      border-radius: 30px;
+      text-align: center;
+      line-height: 30px;
+      font-size: 13px;
+      color: @primary-color;
+    }
+  }
+  .item{
+    display: flex;
+    padding: 20rpx 0;
+    line-height: 60rpx;
+    .col2{
+      color: @primary-green;
+    }
+  }
+  .btnCancel{
+    height: 90rpx;
+    line-height: 90rpx;
+    font-size: 32rpx;
+    text-align: center;
+  }
+}
+
+</style>
+
+
+<template>
+  <view class="productDetail">
+    <import src="../plugins/wxParse/wxParse.wxml" />
+
+    <!--index.wxml-->
+    <view class="itemBox">
+      <swiper indicator-dots="true" autoplay="true" interval="5000" duration="500" indicator-active-color="#ffc452" indicator-color="#efefef" class="swiper">
+        <block wx:for="{{imgs}}" key="item" item="item" wx:key="key">
+          <swiper-item>
+            <image src="{{item}}" data-src="{{item}}" class="slide-image" @tap="previewImage" />
+          </swiper-item>
+        </block>
+      </swiper>
+      <view class="detailsBase">
+        <view class="detailsTitle">
+          <view class="name">{{productName}}</view>
+          <view class="shareBox">
+            <button open-type="share">
+              <i class="iconfont icon-connection"></i>
+              <text>分享</text>
+            </button>
+          </view>
+        </view>
+
+        <view class="detailsInfo">
+          <view class="price"><text>￥</text>{{productDiscountPrice || productRawPrice}}</view>
+          <view class="otherInfo">
+            <text class="rate">评分：5</text>
+            <text class="sellNum">已售：{{productSoldCount}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="itemBox">
+      <view class="detailFeature">
+        <view class="item">
+          <i class="iconfont icon-success"></i>
+          <text>买贵赔付200%</text>
+        </view>
+        <view class="item">
+          <i class="iconfont icon-success"></i>
+          <text>支持退改</text>
+        </view>
+        <view class="item">
+          <i class="iconfont icon-success"></i>
+          <text>含机票酒店</text>
+        </view>
+        <view class="item">
+          <i class="iconfont icon-success"></i>
+          <text>一站式服务</text>
+        </view>
+      </view>
+    </view>
+
+
+    <view class="itemBox" wx:if="{{productType == 2}}">
+      <view class="itemBoxTit">拼团玩法</view>
+      <view class="itemBoxCon">
+        <view class="groupRule">
+          <view class="item">
+            <text class="num">1</text>
+            <text class="des">选择商品，开团或拼图</text>
+          </view>
+          <view class="item">
+            <text class="num">2</text>
+            <text class="des">付款后邀请好友参团</text>
+          </view>
+        </view>
+        <view class="groupRule">
+          <view class="item">
+            <text class="num">3</text>
+            <text class="des">达到拼团人数，顺利开团</text>
+          </view>
+          <view class="item">
+            <text class="num">4</text>
+            <text class="des">若2小时内拼团不成功，全额退款</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    
+    <view class="itemBox" wx:if="{{productType == 2 && orderCollagesNum > 0}}">
+      <view class="itemBoxTit">
+        {{orderCollagesNum}}人正在拼团，可直接参与
+        <!-- <navigator url="/pages/productDetail?id=1" class="moreLink">查看更多></navigator> -->
+      </view>
+      <view class="itemBoxCon">
+        <view class="productGroupList">
+
+          <block wx:for="{{productOrderCollages}}" key="item" item="item" wx:key="key">
+            <view class="item">
+              <view class="userInfo">
+                <view class="avatar">
+                  <image src="{{item.userImageUrl}}"/>
+                </view>
+                <view class="baseInfo">
+                  <view class="username">{{item.createUserName}}</view>
+                  <view class="info">
+                    <text class="price">￥{{item.collagePrice}}</text>
+                    <text class="groupNum">{{item.peopleNum}}人团</text>
+                  </view>
+                </view>
+              </view>
+
+              <view class="joinInfo">
+                <view class="num">还差<text class="fontPrimary">{{item.peopleNum - item.peoplecount}}</text>人参团</view>
+                <view class="time">剩余：{{item.leftTimer}}</view>
+              </view>
+
+              <view wx:if="{{item.collageStatus == 0}}" class="operateBtn">
+                <button wx:if="{{item.leftTimer != 0 && !isAdmin && isLogin}}" class="btn" @tap="joinGroup({{item}})">去参团</button>
+
+                <button wx:if="{{item.leftTimer != 0 && !isAdmin && !isLogin}}" data-item="{{item}}" class="btn" open-type="getUserInfo" type="primary" lang="zh_CN" bindgetuserinfo="loginAndJoinGroup">去参团</button>
+
+                <button wx:if="{{item.leftTimer != 0 && isLogin && isAdmin}}" class="btn" @tap="setGroupSuccess({{item}})">一键成团</button>
+
+                <button wx:if="{{item.leftTimer == 0}}" class="btn close">已结束</button>
+              </view>
+
+              <view class="operateBtn" wx:if="{{item.collageStatus == 1}}">
+                <button class="btn success">已成团</button>
+              </view>
+
+            </view>
+          </block>
+        </view>
+      </view>
+    </view>
+
+
+    <view class="itemBox">
+      <zan-tab
+        list="{{ tab.list }}"
+        selected-id="{{ tabSelectedId }}"
+        bindtabchange="swichTab"
+      />
+
+      <view wx:if="{{ tabSelectedId == 1 }}" class="productDetailCon">
+        <view class="useDate">
+          使用日期：{{useStartDate}} 至 {{useEndDate}}
+        </view>
+        <view class="wxParse-p">
+          <template is="wxParse" data="{{wxParseData:productIntroductionHTML.nodes}}" />
+        </view>
+      </view>
+
+      <view wx:if="{{ tabSelectedId == 2 }}" class="productDetailCon">
+        <view class="wxParse-p">
+          <template is="wxParse" data="{{wxParseData:productCostDescriptionHTML.nodes}}">
+          </template>
+        </view>
+      </view>
+
+      <view wx:if="{{ tabSelectedId == 3 }}" class="productDetailCon">
+        <view class="wxParse-p">
+          <template is="wxParse" data="{{wxParseData:productReservationNoteHTML.nodes}}">
+          </template>
+        </view>
+      </view>
+      <view wx:if="{{ tabSelectedId == 4 }}" class="productDetailCon">
+        <view class="wxParse-p">
+          <template is="wxParse" data="{{wxParseData:productGuideHTML.nodes}}">
+          </template>
+        </view>
+      </view>
+
+    </view>
+
+    <view class="big_images">
+      <view class="doc">
+        <view class="wxParse-p">
+          <template is="wxParse" data="{{wxParseData:imgs}}">
+          </template>
+        </view>
+      </view>
+    </view>
+
+    <view class="over_model {{hidden?'hidden':''}}"></view>
+  </view>
+
+  <zan-popup
+    show="{{ showSelTypePopup }}"
+    type="bottom"
+  >
+    <view class="selTypePopup">
+      <view class="title">选择拼团模式</view>
+      <view class="tableHeader">
+        <view class="col1">类型</view>
+        <view class="col2">价格</view>
+        <view class="col3">时限</view>
+        <view class="col4"></view>
+      </view>
+      <view class="tableCon">
+        <block wx:for="{{productCollages}}" key="item" item="item" wx:key="key">
+          <view class="item">
+            <view class="col1">{{item.peopleNum}}人团</view>
+            <view class="col2">￥{{item.collagePrice}}</view>
+            <view class="col3">{{item.collageLimitTime}}小时</view>
+            <view class="col4">
+              <button class="btn" hover-class="btnHoverClass" @tap="newGroup({{item}})">去开团</button>
+            </view>
+          </view>
+        </block>
+      </view>
+
+      <view class="btnCancel" @tap="closeSelTypePopup">取消</view>
+    </view>
+  </zan-popup>
+
+  <zan-popup
+    show="{{ showValiPhonePopup }}"
+  >
+    <view class="valiPopup">
+      <view class="head">验证手机号码</view>
+      <view class="con">
+        <view class="item">
+          <view><input type="text" placeholder="请输入手机号" value="{{phone}}" @input="handlePhoneChange" class="inputPhone" /></view>
+        </view>
+        <view class="errorTip" wx:if="{{phoneError}}">{{phoneErrorTxt}}</view>
+        <view class="item">
+          <input type="text" class="inputCode" value="{{code}}" @input="handleCodeChange" placeholder="请输入验证码" />
+          <view class="sendCode">
+            <text wx:if="{{sendMsgDisabled}}">{{time+'秒后获取'}}</text>
+            <text @tap="sendCode" wx:else="{{sendMsgDisabled}}" class="sendLink">获取验证码</text>
+          </view>
+        </view>
+        <view class="errorTip" wx:if="{{codeError}}">验证码错误</view>
+        <view class="item btnWrap">
+          <button class="btnDefault" hover-class="btnHoverClass" @tap="hideValiPhonePopup">取消</button>
+          <button class="btnPrimary btnSubmit" hover-class="btnHoverClass" @tap="addPhoneAndNext" >提交</button>
+        </view>
+      </view>
+    </view>
+  </zan-popup>
+
+  <view class="productDetailBottom">
+      <view class="bottomBox">
+        <view class="item" @tap="homePage">
+          <i class="iconfont icon-home1"></i>
+          <view class="doc">首页</view>
+        </view>
+
+        <view class="item">
+          <button class="item contactBtn" hover-class="btnHoverClass" open-type="contact" session-from="weapp">
+            <i class="iconfont icon-xiaoxi"></i>
+            <view class="doc">客服</view>
+          </button>
+        </view>
+
+        <view class="item" wx:if="{{!isLogin}}">
+          <button class="item favBtn {{isFavorite?'selec_active':''}}" hover-class="btnHoverClass" open-type="getUserInfo" lang="zh_CN"  bindgetuserinfo="favAndOrder">
+            <i class="iconfont icon-emaxcitygerenxinxitubiaoji02"></i>
+            <view class="doc">收藏</view>
+          </button>
+        </view>
+
+        <view class="item {{isFavorite?'selec_active':''}}" hover-class="btnHoverClass" @tap="takeFavorite" wx:if="{{isLogin}}">
+          <i class="iconfont icon-emaxcitygerenxinxitubiaoji02"></i>
+          <view class="doc">收藏</view>
+        </view>
+
+        <button wx:if="{{(productType == 1 || productType == 3)  && !isLogin}}" class="btn btnOrder" hover-class="btnHoverClass" open-type="getUserInfo" type="primary" lang="zh_CN"  bindgetuserinfo="loginAndOrder">直接购买</button>
+        <view wx:if="{{(productType == 1 || productType == 3) && isLogin}}" class="btn btnOrder" hover-class="btnHoverClass" @tap="takeOrder">直接购买</view>
+        
+        <button wx:if="{{productType == 2 && !isLogin}}" class="btn btnOrder" hover-class="btnHoverClass" open-type="getUserInfo" type="primary" lang="zh_CN"  bindgetuserinfo="loginAndNewGroup">我要开团</button>
+        <view class="btn btnOrder" hover-class="btnHoverClass" @tap="handleNewGroup" wx:if="{{productType == 2 && isLogin}}">我要开团</view>
+      </view>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy'
+import tips from '@/utils/tips'
+import api from '@/api/api'
+import WxParse from "../plugins/wxParse/wxParse"
+import config from '@/utils/config'
+import {leftTimer, timestampToTime, replaceEmoji} from '@/utils/util'
+
+export default class productDetail extends wepy.page {
+  config = {
+    navigationBarTitleText: '商品详情',
+    usingComponents: {
+      "zan-icon": "./../assets/libs/zanui/icon/index",
+      "zan-badge": "./../assets/libs/zanui/badge/index",
+      "zan-panel": "./../assets/libs/zanui/panel/index",
+      "zan-popup": "./../assets/libs/zanui/popup/index",
+      "zan-cell-group": "./../assets/libs/zanui/cell-group/index",
+      "zan-tab": "./../assets/libs/zanui/tab/index"
+    }
+  }
+  data = {
+    isLogin: false,
+    showValiPhonePopup: false,
+
+    isAdmin: false,
+
+    actionType: '',
+
+    variWrapVisible: false,
+    phone: '',
+    phoneError: false,
+    phoneErrorTxt: '',
+    code: '',
+    codeError: false,
+
+    sendMsgDisabled: false,
+    time: 60,
+    codeCallback: '',
+
+    showSelTypePopup: false,
+    winWidth: 0,
+    winHeight: '100%',
+    goodsId: 0,
+    good_bigimg: [],
+    //订单活动开始时间（格式yy-mm-dd 或者 yy/mm/dd ）
+    //startTime: "2017-07-15 16:00:00",
+    startTime: "",
+    //订单活动结束时间（格式yy-mm-dd 或者 yy/mm/dd ）
+    //endTime: "2017-07-21 16:04:00"
+    endTime: "",
+    hidden: true,
+    //动画效果
+    animationData: "",
+    //购买方式:1-加购物车,2-立即购买
+    orderType: 1,
+    //购买数量
+    orderNum: 1,
+
+    //是否收藏
+    isFavorite: false,
+
+    isValidDate: true,
+    canOrder: true, //是否能下单
+    purchasetype: 1, //1-正常购买;2-补货
+    purchaseText: "我要开团",
+    special: 0, ////0-正常入库;1-特价专区和换货专区,
+
+    tab: {
+      list: [{
+        id: 1,
+        title: '产品详情'
+      }, {
+        id: 2,
+        title: '费用说明'
+      }, {
+        id: 3,
+        title: '预定须知'
+      }, {
+        id: 4,
+        title: '实用指南'
+      }]
+    },
+    tabSelectedId: 1,
+
+
+    productId: '',
+    productCreateUserId: '',
+    productName: '',
+    useStartDate: '',
+    useEndDate: '',
+    productCount: '',
+    productDiscountPrice: '',
+    productRawPrice: '',
+    productIntroduction: '',
+
+    productCostDescription: '',
+    productReservationNote: '',
+    productGuide: '',
+
+    productCommission: '',
+    productSoldCount: '',
+    productCollages: [],
+    productOrderCollages: [],
+    orderCollagesNum: 0,
+    img: '',
+    imgs: [],
+
+    productType: '',
+    aaa: '',
+    joinGroupItem: ''
+  }
+
+  handleTabChange(e){
+    this.tabSelectedId = e.selectedId
+    this.$apply()
+  }
+
+  components = {
+  }
+
+  async getProductDetail(id){
+    let res = await wepy.request({
+      method: 'get',
+      url: config.service.host + '/productDetail/doDetail/' + id,
+      header: {
+        'content-type': 'application/json',
+        'authorization': this.$parent.globalData.userKey,
+      }
+    })
+
+    let data = res.data.data
+    
+    this.productName = data.name
+    this.useStartDate = timestampToTime(data.useStartDate)
+    this.useEndDate = timestampToTime(data.useEndDate)
+    this.productType = data.priceType
+    this.productCount = data.productCount
+    this.productRawPrice = data.rawPrice
+    this.productDiscountPrice = data.discountPrice
+    this.status = data.status
+    this.productLimitTime = data.limitTime
+    this.productCommission = data.commission
+    this.productIntroduction = data.introduction
+
+    // console.log('introduction', data.introduction)
+
+    // let introduction = this.formatHTML(data.introduction)
+
+    
+
+    
+
+
+    this.productCostDescription = data.costDescription
+    this.productReservationNote = data.reservationNote
+    this.productGuide = data.guide
+
+
+    /**
+    * WxParse.wxParse(bindName , type, data, target,imagePadding)
+    * 1.bindName绑定的数据名(必填)
+    * 2.type可以为html或者md(必填)
+    * 3.data为传入的具体数据(必填)
+    * 4.target为Page对象,一般为this(必填)
+    * 5.imagePadding为当图片自适应是左右的单一padding(默认为0,可选)
+    */
+    WxParse.wxParse('productIntroductionHTML', 'html', data.introduction, this, 5);
+    WxParse.wxParse('productCostDescriptionHTML', 'html', data.costDescription, this, 5);
+    WxParse.wxParse('productReservationNoteHTML', 'html', data.reservationNote, this, 5);
+    WxParse.wxParse('productGuideHTML', 'html', data.guide, this, 5);
+
+    this.productSoldCount = data.soldCount || 0
+    this.productCollages = data.collages
+    this.productOrderCollages = data.orderCollages
+    this.productCreateUserId = data.createUserId
+
+    if(data.priceType == 2){
+      let num = 0
+      data.orderCollages.forEach((item) => {
+        item['leftTimer'] = leftTimer(item.remainingTime)
+        num += item.peoplecount
+      })
+      this.orderCollagesNum = num
+
+      this.productOrderCollages.forEach((item) => {
+        item.createUserName = decodeURIComponent(item.createUserName)
+      })
+    }
+
+    let imgs = []
+    data.imageUrls.forEach(element => {
+      imgs.push(element.url)
+    })
+
+    this.imgs = imgs
+    this.img = data.imageUrl
+
+    this.orderCollagesIsAdmin()
+
+    this.$apply()
+  }
+
+
+  onLoad(option) {
+    console.log('onLoad')
+
+    if(this.$parent.globalData.userKey){
+      this.isLogin = true
+    }
+
+    wx.showShareMenu({
+      // withShareTicket: true,
+      success: function(){
+      }
+    })
+
+
+    let that = this;
+
+    this.shareId = option.shareId || 0
+    this.shareLevel = option.shareLevel || 1
+
+
+    this.orderNum = 1;
+    this.purchasetype = 1;
+    this.isFavorite = false;
+    this.isValidDate = true;
+    this.canOrder = true;
+    this.hidden = true;
+    this.winHeight = "100%";
+    that.$apply();
+    //接收上一个页面传过来的参数
+    that.goodsId = option.id;
+
+
+
+    if (option.purchasetype != undefined) {
+      this.purchasetype = option.purchasetype;
+    }
+    if (option.special != undefined) {
+      this.special = option.special;
+    }
+    // that.getGoodsDetail();
+    // that.addUserBrowser();
+    // console.log("special===" + this.special);
+
+    if(option.id){
+      this.productId = option.id
+      // this.getProductDetail(option.id)
+    }
+  }
+
+  
+
+  onShow() {
+    // this.goodsIsFavorite();
+    //创建动画
+    // var animation = wx.createAnimation({
+    //   transformOrigin: "50% 50%",
+    //   duration: 200,
+    //   timingFunction: "linear",
+    //   delay: 0
+    // })
+    // this.animation = animation;
+
+    this.showSelTypePopup = false
+
+    this.getProductDetail(this.productId)
+
+  }
+
+  wxParseImgLoad(e) {}
+
+  wxParseImgTap(e) {
+    var that = this
+    var nowImgUrl = e.target.dataset.src
+    var tagFrom = e.target.dataset.from
+    if (typeof(tagFrom) != 'undefined' && tagFrom.length > 0) {
+      wx.previewImage({
+        current: nowImgUrl, // 当前显示图片的http链接
+        // urls: that.data[tagFrom].imageUrls // 需要预览的图片http链接列表
+        urls: that.bindData[tagFrom].imageUrls // 注释掉上面的 换着一行 (http://blog.csdn.net/zhuming3834/article/details/74380079)
+      })
+    }
+  }
+
+  //商品收藏
+  async goodsFavorite() {
+    let res = wepy.request({
+      method: 'post',
+      url: config.service.host + '/token/product/collection/doAdd',
+      header: {
+        'content-type': 'application/json',
+        'authorization': this.$parent.globalData.userKey,
+      },
+      data: {
+        collectionProductId: this.productId,
+        collectionRemark: ''
+      }
+    })
+    this.isFavorite = true
+
+    tips.success('收藏成功！')
+    
+    this.$apply()
+  }
+
+  //商品取消收藏
+  async goodsUnFavorite() {
+    let res = await wepy.request({
+      method: 'post',
+      url: config.service.host + '/token/product/collection/doDelete/' + this.productId,
+      header: {
+        'content-type': 'application/json',
+        'authorization': this.$parent.globalData.userKey,
+      }
+    })
+    this.isFavorite = false
+
+    tips.success('取消收藏成功！')
+    
+    this.$apply()
+  }
+
+
+  async addCart(){
+    // let res = await wepy.request({
+    //   method: 'post',
+    //   url: config.service.host + '/token/product/order/doAdd',
+    //   header: {
+    //     'content-type': 'application/json',
+    //     'authorization': this.$parent.globalData.userKey,
+    //   },
+    //   data: {
+    //     productId: this.productId,
+    //     status: 0
+    //   }
+    // })
+
+    // if(res){
+      wx.navigateTo({
+        url: '/pages/orderConfirm?id=' + this.productId
+      })
+    // }
+  }
+
+  variPhone(){
+    let mobile = this.phone
+
+      if(mobile.length==0) 
+      { 
+        this.phoneErrorTxt = '请输入手机号码！'
+        return false; 
+      }     
+      if(mobile.length!=11) 
+      { 
+          this.phoneErrorTxt = '请输入有效的手机号码！'
+          return false; 
+      } 
+      
+      var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/; 
+      if(!myreg.test(mobile)) 
+      { 
+          this.phoneErrorTxt = '请输入有效的手机号码！'
+          return false; 
+      }
+      return true
+  }
+
+  orderCollagesIsAdmin(){
+    let userInfo = wx.getStorageSync('userInfo')
+    if(userInfo != '' && this.productType == 2){
+      let userId = userInfo.id
+      console.log(userId)
+      this.isAdmin = this.productCreateUserId == userId
+      this.$apply()
+    }
+  }
+
+  methods = {
+    hideValiPhonePopup(){
+      this.showValiPhonePopup = false
+    },
+
+    handlePhoneChange(e) {
+      this.phone = e.detail.value
+    },
+
+    handleCodeChange(e) {
+      this.code = e.detail.value
+    },
+
+    // 发送验证码
+    async sendCode(){
+      if(!this.variPhone()){
+        this.phoneError = true
+        return
+      }else{
+        this.phoneError = false
+      }
+      let that = this
+
+      wx.showLoading({
+        title: '发送中...',
+      })
+      let res = await wepy.request({
+        url: config.service.host + '/sendRegisterCode',
+        data: {
+          phoneNo: this.phone
+        }
+      })
+      if(res){
+        this.sendMsgDisabled = true
+        this.time = 60
+        this.$apply()
+
+        let interval = setInterval(() => {
+          if ((that.time--) <= 0) {
+            that.time = 60;
+            that.sendMsgDisabled = false;
+            clearInterval(interval);
+            that.$apply();
+          }
+          that.$apply()
+        }, 1000)
+
+        this.codeCallback = res.data.data
+
+        wx.hideLoading()
+      }
+    },
+
+
+    
+
+    async favAndOrder(e) {
+      if (e.detail.errMsg == 'getUserInfo:ok') {
+        wx.showLoading({
+          title: '处理中...',
+        })
+
+        let res = await wepy.login()
+        if (res.code) {
+          let userInfo = e.detail.userInfo
+
+          // let userSecretInfo = await wepy.request({
+          //   url: 'https://api.weixin.qq.com/sns/jscode2session?appid=wx84b8e864c4dca96b&secret=794a964ab1d0853cb0b0955c625f1f8a&js_code='+res.code+'&grant_type=authorization_code'
+          // })
+
+          // let userOpenId = userSecretInfo.data.openid
+
+          let userSecretInfo = await wepy.request({
+              method: 'post',
+              url: config.service.host + '/weixin/login?code='+res.code
+            })
+
+            let userOpenId = userSecretInfo.data.data
+
+          let loginInfo = await wepy.request({
+            method: 'post',
+            url: config.service.host + '/auto/doLogin',
+            data: {
+              loginToken: userOpenId, 
+              autoLogin: 1, 
+              loginName: encodeURIComponent(userInfo.nickName), 
+              loginPassword: userOpenId,
+              imageurl: userInfo.avatarUrl,
+              realName: replaceEmoji(userInfo.nickName)
+            },
+            header: {
+              'content-type': 'application/json'
+            }
+          })
+
+          this.$parent.globalData.userKey = 'Bearer ' + loginInfo.data.data.token
+          this.$apply()
+          wepy.setStorageSync('userKey', 'Bearer ' + loginInfo.data.data.token)
+
+          let phone = loginInfo.data.data.phone
+
+          this.orderCollagesIsAdmin(loginInfo.data.data.id)
+
+          wepy.setStorageSync('userInfo', loginInfo.data.data)
+
+          if(phone == null || phone == ''){
+            wx.hideLoading()
+
+            this.showValiPhonePopup = true
+            this.actionType = 'fav'
+
+            this.$apply()
+          }else{
+            if (this.isFavorite == true) {
+              this.goodsUnFavorite();
+            } else {
+              this.goodsFavorite();
+            }
+          }
+        }
+      }
+    },
+
+    
+    async loginAndOrder(e) {
+      if (e.detail.errMsg == 'getUserInfo:ok') {
+        wx.showLoading({
+          title: '处理中...',
+        })
+
+        let res = await wepy.login()
+        if (res.code) {
+          let userInfo = e.detail.userInfo
+
+          // let userSecretInfo = await wepy.request({
+          //   url: 'https://api.weixin.qq.com/sns/jscode2session?appid=wx84b8e864c4dca96b&secret=794a964ab1d0853cb0b0955c625f1f8a&js_code='+res.code+'&grant_type=authorization_code'
+          // })
+
+          // let userOpenId = userSecretInfo.data.openid
+
+
+          let userSecretInfo = await wepy.request({
+              method: 'post',
+              url: config.service.host + '/weixin/login?code='+res.code
+            })
+
+            let userOpenId = userSecretInfo.data.data
+
+          let loginInfo = await wepy.request({
+            method: 'post',
+            url: config.service.host + '/auto/doLogin',
+            data: {
+              loginToken: userOpenId, 
+              autoLogin: 1, 
+              loginName: encodeURIComponent(userInfo.nickName), 
+              loginPassword: userOpenId,
+              imageurl: userInfo.avatarUrl,
+              realName: replaceEmoji(userInfo.nickName)
+            },
+            header: {
+              'content-type': 'application/json'
+            }
+          })
+
+          this.$parent.globalData.userKey = 'Bearer ' + loginInfo.data.data.token
+          this.$apply()
+          wepy.setStorageSync('userKey', 'Bearer ' + loginInfo.data.data.token)
+
+          let phone = loginInfo.data.data.phone
+
+          this.orderCollagesIsAdmin(loginInfo.data.data.id)
+
+          wepy.setStorageSync('userInfo', loginInfo.data.data)
+
+          if(phone == null){
+            wx.hideLoading()
+
+            this.showValiPhonePopup = true
+            this.actionType = 'order'
+
+            this.$apply()
+          }else{
+            // let res = await wepy.request({
+            //   method: 'post',
+            //   url: config.service.host + '/token/product/order/doAdd',
+            //   header: {
+            //     'content-type': 'application/json',
+            //     'authorization': this.$parent.globalData.userKey,
+            //   },
+            //   data: {
+            //     productId: this.productId,
+            //     status: 0
+            //   }
+            // })
+
+            wx.hideLoading()
+
+            wx.navigateTo({
+              url: '/pages/orderConfirm?id=' + this.productId
+            })
+          }
+        }
+      }
+    },
+
+
+    async loginAndNewGroup(e) {
+      if (e.detail.errMsg == 'getUserInfo:ok') {
+        wx.showLoading({
+          title: '处理中...',
+        })
+
+        let res = await wepy.login()
+        if (res.code) {
+          let userInfo = e.detail.userInfo
+
+          // let userSecretInfo = await wepy.request({
+          //   url: 'https://api.weixin.qq.com/sns/jscode2session?appid=wx84b8e864c4dca96b&secret=794a964ab1d0853cb0b0955c625f1f8a&js_code='+res.code+'&grant_type=authorization_code'
+          // })
+
+          // let userOpenId = userSecretInfo.data.openid
+
+          let userSecretInfo = await wepy.request({
+              method: 'post',
+              url: config.service.host + '/weixin/login?code='+res.code
+            })
+
+            let userOpenId = userSecretInfo.data.data
+
+          let loginInfo = await wepy.request({
+            method: 'post',
+            url: config.service.host + '/auto/doLogin',
+            data: {
+              loginToken: userOpenId, 
+              autoLogin: 1, 
+              loginName: encodeURIComponent(userInfo.nickName), 
+              loginPassword: userOpenId,
+              imageurl: userInfo.avatarUrl,
+              realName: replaceEmoji(userInfo.nickName)
+            },
+            header: {
+              'content-type': 'application/json'
+            }
+          })
+
+          this.$parent.globalData.userKey = 'Bearer ' + loginInfo.data.data.token
+          this.$apply()
+          wepy.setStorageSync('userKey', 'Bearer ' + loginInfo.data.data.token)
+
+          let phone = loginInfo.data.data.phone
+
+          this.orderCollagesIsAdmin(loginInfo.data.data.id)
+
+          wepy.setStorageSync('userInfo', loginInfo.data.data)
+
+          if(phone == null){
+            wx.hideLoading()
+
+            this.showValiPhonePopup = true
+            this.actionType = 'group'
+
+            this.$apply()
+          }else{
+            this.showSelTypePopup = true
+            this.$apply()
+
+            wx.hideLoading()
+          }
+        }
+      }
+    },
+
+    
+    async addPhoneAndNext() {
+      let checkCode = await wepy.request({
+        url: config.service.host + '/code/check',
+        header: {
+          'Cookie':'JSESSIONID=' + this.codeCallback
+        },
+        data: {
+          smsCode: this.code
+        }
+      })
+
+      if(checkCode.data.code == -1){
+        this.codeError = true
+        return
+      }
+
+      let applyProducter = await wepy.request({
+        method: 'post',
+        url: config.service.host + '/token/user/doUpdate',
+        data: {
+          accountType: -1,
+          phone: this.phone
+        },
+        header: {
+          'content-type': 'application/json',
+          'authorization': this.$parent.globalData.userKey,
+        }
+      })
+
+      let userInfo = wepy.getStorageSync('userInfo')
+      userInfo['phone'] = this.phone
+
+      wepy.setStorageSync('userInfo', userInfo)
+
+      this.showValiPhonePopup = false
+      this.$apply()
+
+      if(this.actionType == 'group'){
+        this.showSelTypePopup = true
+
+        this.$apply()
+      }else if(this.actionType == 'order'){
+        wx.hideLoading()
+
+        wx.navigateTo({
+          url: '/pages/orderConfirm?id=' + this.productId
+        })
+      }else if(this.actionType == 'join'){
+        wx.hideLoading()
+
+        let isFull = this.joinGroupItem.peoplecount == this.joinGroupItem.peopleNum - 1
+        wx.navigateTo({
+          url: '/pages/orderGroupConfirm?productId=' + this.productId + '&collageId=' + this.joinGroupItem.productCollageId  + '&joinId=' + this.joinGroupItem.id  + '&groupPrice=' + this.joinGroupItem.collagePrice + '&isJoin=true' +  + '&isFull=' + isFull
+        })
+      }
+    },
+
+    goGroupDetail(item){
+      wx.navigateTo({
+        url: '/pages/productGroup?productId=' + this.productId + '&groupId=' + item.collageId
+      })
+    },
+
+    // 开团
+    async newGroup(item){
+      wx.navigateTo({
+        url: '/pages/orderGroupConfirm?productId=' + this.productId + '&collageId=' + item.id  + '&groupPrice=' + item.collagePrice
+      })
+    },
+
+
+    async joinGroup(item){
+      let isFull = item.peoplecount == item.peopleNum - 1
+      wx.navigateTo({
+        url: '/pages/orderGroupConfirm?productId=' + this.productId + '&collageId=' + item.productCollageId + '&joinId=' + item.id + '&groupPrice=' + item.collagePrice + '&isJoin=true' + '&isFull=' + isFull
+      })
+    },
+
+    async loginAndJoinGroup(e){
+      this.joinGroupItem = e.target.dataset.item
+
+      if (e.detail.errMsg == 'getUserInfo:ok') {
+        wx.showLoading({
+          title: '处理中...',
+        })
+
+        let res = await wepy.login()
+        if (res.code) {
+          let userInfo = e.detail.userInfo
+
+          // let userSecretInfo = await wepy.request({
+          //   url: 'https://api.weixin.qq.com/sns/jscode2session?appid=wx84b8e864c4dca96b&secret=794a964ab1d0853cb0b0955c625f1f8a&js_code='+res.code+'&grant_type=authorization_code'
+          // })
+
+          // let userOpenId = userSecretInfo.data.openid
+
+          let userSecretInfo = await wepy.request({
+              method: 'post',
+              url: config.service.host + '/weixin/login?code='+res.code
+            })
+
+            let userOpenId = userSecretInfo.data.data
+
+          let loginInfo = await wepy.request({
+            method: 'post',
+            url: config.service.host + '/auto/doLogin',
+            data: {
+              loginToken: userOpenId, 
+              autoLogin: 1, 
+              loginName: encodeURIComponent(userInfo.nickName), 
+              loginPassword: userOpenId,
+              imageurl: userInfo.avatarUrl,
+              realName: replaceEmoji(userInfo.nickName)
+            },
+            header: {
+              'content-type': 'application/json'
+            }
+          })
+
+          this.$parent.globalData.userKey = 'Bearer ' + loginInfo.data.data.token
+          this.$apply()
+          wepy.setStorageSync('userKey', 'Bearer ' + loginInfo.data.data.token)
+
+          let phone = loginInfo.data.data.phone
+
+          this.orderCollagesIsAdmin(loginInfo.data.data.id)
+
+          wepy.setStorageSync('userInfo', loginInfo.data.data)
+
+          if(phone == null || phone == ''){
+            wx.hideLoading()
+
+            this.showValiPhonePopup = true
+            this.accountType = 'join'
+
+            this.$apply()
+          }else{
+            wx.hideLoading()
+            
+            let isFull = this.joinGroupItem.peoplecount == this.joinGroupItem.peopleNum - 1
+
+            wx.navigateTo({
+              url: '/pages/orderGroupConfirm?productId=' + this.productId + '&collageId=' + this.joinGroupItem.productCollageId  + '&joinId=' + this.joinGroupItem.id  + '&groupPrice=' + this.joinGroupItem.collagePrice + '&isJoin=true' +  + '&isFull=' + isFull
+            })
+          }
+        }
+      }
+    },
+
+    swichTab(e) {
+      if (this.tabSelectedId == e.detail) {
+        return false;
+      } else {
+        this.tabSelectedId = e.detail
+      }
+      this.$apply()
+    },
+
+    // issus : https://mp.weixin.qq.com/debug/wxadoc/dev/api/ui-navigate.html#wxrelaunchobject
+    homePage() {
+      wepy.switchTab({
+        url: '/pages/index'
+      })
+    },
+
+    previewImage(e) {
+      let current = e.target.dataset.src
+      let imageArry = [];
+      let obj = this.imgs
+      Object.keys(obj).forEach((item) => {
+        imageArry.push(obj[item])
+      });
+      wx.previewImage({
+        current: current, // 当前显示图片的http链接
+        urls: imageArry, // 需要预览的图片http链接列表
+      })
+    },
+    bindOrderNumInput(e) {
+      this.orderNum = e.detail.value;
+    },
+
+    closeSelTypePopup(){
+      this.showSelTypePopup = false
+    },
+
+    handleNewGroup(){
+      if(wepy.getStorageSync('userInfo') && wepy.getStorageSync('userInfo').phone != null){
+        this.showSelTypePopup = true
+      }else{
+        this.showValiPhonePopup = true
+      }
+    },
+    
+    takeOrder() {
+      if(wepy.getStorageSync('userInfo') && wepy.getStorageSync('userInfo').phone != null){
+        this.addCart()
+      }else{
+        this.showValiPhonePopup = true
+      }
+
+      // return;
+      // let self = this
+      // wx.showModal({  
+      //   title: '提示',  
+      //   content: '确认要购买吗？',  
+      //   success: function(res) {  
+      //     if (res.confirm) {  
+      //       self.addCart()
+      //     } else if (res.cancel) {  
+      //       console.log('用户点击取消')  
+      //     }  
+      //   }  
+      // })  
+    },
+    takeFavorite() {
+      if (this.isFavorite == true) {
+        this.goodsUnFavorite();
+      } else {
+        this.goodsFavorite();
+      }
+    },
+    closeModel() {
+      this.winHeight = "100%";
+      this.animation.height(0).step();
+      this.setData({
+        animationData: this.animation.export()
+      })
+      setTimeout(() => {
+        this.hidden = true;
+        this.$apply();
+      }, 100)
+    },
+
+    async setGroupSuccess(group){
+      wx.showLoading({
+        title: '正在处理',
+      })
+
+      let res = await wepy.request({
+        method: 'post',
+        url: config.service.host + '/token/product/order/collage/doFinish/' + group.id,
+        header: {
+          authorization: this.$parent.globalData.userKey,
+        }
+      })
+
+      wx.hideLoading()
+
+      let personInfo = res.data.data
+
+      personInfo.forEach(item => {
+        wepy.request({
+          method: 'post',
+          url: config.service.host + '/weixin/sentTemplateGroupSuccessMessage',
+          header: {
+            'content-type': 'application/json'
+          },
+          data: {
+            formId: item.formId,
+            openId: item.loginToken,
+            productName: this.productName,
+            groupNum: group.peoplecount,
+            rawPrice: this.productRawPrice,
+            groupPrice: group.collagePrice,
+            tips: '拼团成功，请尽快到“我的订单”里面支付余款！'
+          }
+        })
+      })
+
+      this.productOrderCollages.forEach(item => {
+        if(item.id == group.id){
+          item.collageStatus = 1
+        }
+      })
+
+      this.$apply()
+    },
+
+    onShareAppMessage(e) {
+      var self = this
+
+      var _data = {
+        productId: this.productId,
+        shareLevel: this.shareLevel
+      }
+
+      if(this.shareId){
+        _data['parentShareId'] = this.shareId
+      }
+
+
+      wepy.request({
+        method: 'post',
+        url: config.service.host + '/token/product/share/doAdd',
+        header: {
+          'content-type': 'application/json',
+          'authorization': self.$parent.globalData.userKey,
+        },
+        data: _data,
+        success: function(res){
+          self.aaa = res.data.data
+        }
+      })
+
+
+      return {
+        title: self.productName,
+        path: '/pages/productDetail?id=' + self.productId + '&shareId=' + self.aaa + '&shareLevel=' + self.shareLevel,
+        success: function(res){
+        　// 转发成功之后的回调
+          if(res.errMsg == 'shareAppMessage:ok'){
+            console.log(3333)
+          }
+        },
+        fail: function(res){
+          console.log('fail')
+          // 转发失败之后的回调
+          if(res.errMsg == 'shareAppMessage:fail cancel'){
+            console.log(1111)
+          // 用户取消转发
+          }else if(res.errMsg == 'shareAppMessage:fail'){
+            // 转发失败，其中 detail message 为详细失败信息
+            console.log(2222)
+          }
+        },
+        complete: function(){
+          console.log('share complete')
+        }
+      }
+
+
+
+      // let shareId = res.data.data
+
+     
+
+      // console.log(123)
+      // if(res){
+      //   console.log(44444444444444)
+      //   let shareId = 444
+
+
+      //   return {
+      //     title: self.productName,
+      //     path: '/pages/productDetail?id=' + self.productId + '&shareId=' + shareId + '&shareLevel=' + self.shareLevel,
+      //     success: function(res){
+      //     　// 转发成功之后的回调
+      //       if(res.errMsg == 'shareAppMessage:ok'){
+      //         console.log(3333)
+      //       }
+      //     },
+      //     fail: function(res){
+      //       console.log('fail')
+      //       // 转发失败之后的回调
+      //       if(res.errMsg == 'shareAppMessage:fail cancel'){
+      //         console.log(1111)
+      //       // 用户取消转发
+      //       }else if(res.errMsg == 'shareAppMessage:fail'){
+      //         // 转发失败，其中 detail message 为详细失败信息
+      //         console.log(2222)
+      //       }
+      //     },
+      //     complete: function(){
+      //       console.log('share complete')
+      //     }
+      //   }
+      // }
+
+    }
+  }
+}
+
+</script>
+

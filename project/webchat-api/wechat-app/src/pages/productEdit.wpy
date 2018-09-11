@@ -1,0 +1,831 @@
+<style lang="less">
+@import '../styles/variable';
+
+.productCreate {
+  margin: 0 20rpx 100rpx;
+  .itemBox {
+    margin-top: 20rpx;
+    background: #fff;
+    .itemBoxTit {
+      position: relative;
+      margin: 10rpx 20rpx 0;
+      line-height: 80rpx;
+      border-bottom: 1px solid @border-color-grey;
+      .moreLink {
+        position: absolute;
+        right: 0;
+        top: 0;
+        line-height: 80rpx;
+        font-size: 24rpx24rpx;
+      }
+    }
+    .itemBoxCon {
+      padding: 20rpx;
+    }
+
+    .fieldCon:last-child{
+      border-bottom: 0;
+    }
+
+    .fieldCon {
+      display: flex;
+      margin: 0 30rpx;
+      padding: 18rpx 0;
+      border-bottom: 1px solid @border-color-grey;
+      font-size: 28rpx;
+      &.des {
+        padding-top: 30rpx;
+        border-bottom: 0;
+        .label{
+          line-height: 1;
+        }
+      }
+      .label {
+        width: 148rpx;
+        padding-right: 20rpx;
+        line-height: 50rpx;
+        text{
+          color: red;
+        }
+      }
+      .con {
+        flex: 1;
+        input{
+          height: 50rpx;
+          min-height: 50rpx;
+          line-height: 50rpx;
+        }
+        .fieldDes {
+          margin-top: -15rpx;
+          min-height: 200rpx;
+        }
+        .groupList{
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 16rpx;
+          .item{
+            display: flex;
+            align-items:center;
+            border-bottom: 1px solid #ddd;
+            input{
+              width: 80rpx;
+            }
+          }
+        }
+        &.useDate{
+          display: flex;
+          .date{
+            width: 32%;
+            text-align: center;
+          }
+          .line{
+            width: 15%;
+            line-height: 50rpx;
+            text-align: center;
+          }
+        }
+        &.fieldPriceCon{
+          display: flex;
+          justify-content: space-between;
+          input{
+            width: 140rpx;
+          }
+          .label{
+            width: 120rpx;
+          }
+        }
+        .fee{
+          line-height: 50rpx;
+          color: @primary-color;
+        }
+      }
+      .pics {
+        display: flex;
+        flex-wrap: wrap;
+        .picItem {
+          position: relative;
+          width: 120rpx;
+          height: 120rpx;
+          margin: 0 30rpx 20rpx 0;
+          border: 1px solid @border-color-grey;
+          text-align: center;
+          .tag{
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 36rpx;
+            line-height: 36rpx;
+            font-size: 24rpx;
+            background: red;
+            color: #fff;
+            padding: 0 8rpx;
+          }
+
+          // &.cover{
+          //   border: 1px solid @primary-green;
+          // }
+
+          image {
+            width: 120rpx;
+            height: 120rpx;
+          }
+          .setBtn {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 30rpx;
+            background: rgba(0, 0, 0, 0.3);
+            line-height: 30rpx;
+            text-align: center;
+            color: #fff;
+            font-size: 20rpx;
+          }
+          .deleteImg{
+            position: absolute;
+            width: 20rpx;
+            height: 20rpx;
+            right: -6rpx;
+            top: -16rpx;
+            color: red;
+            background: #fff;
+            .iconfont{
+              background:#fff;
+              border-radius:100%;
+            }
+          }
+          .addBtn {
+            position: relative;
+            width: 120rpx;
+            height: 120rpx;
+            &:before,
+            &:after {
+              content: ' ';
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              background-color: #ccc;
+            }
+
+
+            &:before {
+              width: 80rpx;
+              height: 3rpx;
+            }
+            &:after {
+              width: 3rpx;
+              height: 80rpx;
+            }
+            &:active {
+              border-color: #bbb;
+              &:before,
+              &:after {
+                background-color: #bbb;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .fieldConDes{
+      .label{
+        display: block;
+        width: 100%;
+        padding-left: 30rpx;
+        line-height: 50rpx;
+      }
+      .con{
+        margin: 0 30rpx;
+        padding: 30rpx 0;
+        .fieldDes {
+          min-height: 200rpx;
+        }
+      }
+    }
+  }
+  
+
+  .uiRadio {
+    margin-right: 10rpx;
+    radio {
+      display: none;
+    }
+    i {
+      margin-top: -4rpx;
+      vertical-align: middle;
+      font-size: 38rpx;
+      color: @primary-color;
+    }
+    text {
+      margin-right: 20rpx;
+    }
+  }
+}
+
+.productEditBottom {
+  width: 100%;
+  border-top: 1px solid #ededed;
+  position: fixed;
+  bottom: 0;
+  height: 80rpx;
+  background: #fff;
+  z-index: 1001;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  .btn {
+    flex: 1;
+    height: 80rpx;
+    line-height: 80rpx;
+    font-size: 30rpx;
+    text-align: center;
+    &.btnSave {
+      background: @primary-color;
+      color: #fff;
+    }
+    &.btnPublic {
+      background: #fff;
+    }
+  }
+}
+</style>
+
+
+<template>
+  <view class="productCreate">
+    <view class="itemBox">
+      <view class="fieldCon">
+        <view class="label"><text>*</text>产品名称：</view>
+        <view class="con">
+          <input type="text" placeholder-style="placeholderClass" placeholder="请输入产品名称" value="{{productName}}" data-type="productName" @input="handleInputChange" />
+        </view>
+      </view>
+
+      <view class="fieldCon">
+        <view class="label"><text>*</text>使用日期：</view>
+        <view class="con useDate">
+          <view class="date">
+            <picker mode="date" value="{{useStartDate}}" start="2018-01-01" end="2019-09-01" data-type="useStartDate" @change="handleInputChange">
+              <input type="text" placeholder-style="placeholderClass" value="{{ useStartDate }}" disabled="{{true}}" placeholder="开始日期"/>
+            </picker>
+          </view>
+          <view class="line">-</view>
+          <view class="date">
+            <picker mode="date" value="{{useEndDate}}" start="2018-01-01" end="2019-09-01" data-type="useEndDate" @change="handleInputChange">
+              <input type="text" placeholder-style="placeholderClass" value="{{ useEndDate }}" disabled="{{true}}" placeholder="结束日期"/>
+            </picker>
+          </view>
+        </view>
+      </view>
+
+      <view class="fieldCon">
+        <view class="label">添加图片：</view>
+        <view class="con pics">
+
+          <view class="picItem {{item == img ? 'cover' : ''}}" wx:for="{{imgs}}" wx:for-item="item" wx:key="item">
+            <view class="tag" wx:if="{{item == img}}">封面</view>
+            <image src="{{item}}" data-index="{{index}}" mode="aspectFill" @tap="previewImg"></image>
+            <view class="deleteImg" data-index="{{index}}" @tap="deleteImg">
+              <i class="iconfont icon-del2"></i>
+            </view>
+            <view class="setBtn" @tap="setCover({{item}})" wx:if="{{item != img}}">设为封面</view>
+            
+          </view>
+
+          <view class="picItem">
+            <view class="addBtn" @tap="chooseImg"></view>
+          </view>
+
+        </view>
+      </view>
+    </view>
+
+
+    <view class="itemBox">
+      <view class="fieldCon des">
+        <!-- <view class="label">产品介绍：</view> -->
+        <view class="con">
+          <textarea class="fieldDes" auto-height placeholder-style="placeholderClass" placeholder="请输入产品介绍" 
+            value="{{productIntroduction}}"
+            data-type="productIntroduction" 
+            @input="handleInputChange"
+          />
+        </view>
+      </view>
+    </view>
+
+    <view class="itemBox">
+      <view class="fieldConDes">
+        <!-- <view class="label">费用说明：</view> -->
+        <view class="con">
+          <textarea class="fieldDes" auto-height placeholder-style="placeholderClass" placeholder="请输入费用说明" 
+            value="{{productCostDescription}}"
+            data-type="productCostDescription" 
+            @input="handleInputChange"
+          />
+        </view>
+      </view>
+    </view>
+
+    <view class="itemBox">
+      <view class="fieldConDes">
+        <!-- <view class="label">预订须知：</view> -->
+        <view class="con">
+          <textarea class="fieldDes" auto-height placeholder-style="placeholderClass" placeholder="请输入预订须知" 
+            value="{{productReservationNote}}"
+            data-type="productReservationNote" @input="handleInputChange"
+          />
+        </view>
+      </view>
+    </view>
+
+    <view class="itemBox">
+      <view class="fieldConDes">
+        <!-- <view class="label">实用指南：</view> -->
+        <view class="con">
+          <textarea class="fieldDes" auto-height placeholder-style="placeholderClass" placeholder="请输入实用指南" 
+            value="{{productGuide}}"
+            data-type="productGuide" @input="handleInputChange"
+          />
+        </view>
+      </view>
+    </view>
+
+    <view class="itemBox">
+      <view class="fieldCon">
+        <view class="label">价格类型：</view>
+        <view class="con">
+          <radio-group class="radio-group" @change="radioChange">
+            <label class="uiRadio" wx:for="{{radioItems}}" wx:key="*this">
+              <i class="iconfont icon-checknormal" wx:if="{{priceType != item.value}}"></i>
+              <i class="iconfont icon-icon_checkbox_fill" wx:if="{{priceType == item.value}}"></i>
+              <radio value="{{item.value}}" checked="{{priceType == item.value}}"/>
+              {{item.name}}
+            </label>
+          </radio-group>
+        </view>
+      </view>
+
+      <view wx:if="{{ priceType == 1 }}">
+        <view class="fieldCon">
+          <view class="label"><text>*</text>时间限制：</view>
+          <view class="con">
+            <input type="text" placeholder-style="placeholderClass" placeholder="请输入小时数" value="{{productLimitTime}}" data-type="productLimitTime" @input="handleInputChange"/>
+          </view>
+        </view>
+        <view class="fieldCon">
+          <view class="label"><text>*</text>商品份数：</view>
+          <view class="con">
+            <input type="text" placeholder-style="placeholderClass" placeholder="请输入份数" value="{{productCount}}" data-type="productCount" @input="handleInputChange"/>
+          </view>
+        </view>
+        <view class="fieldCon">
+          <view class="label"><text>*</text>原 价：</view>
+          <view class="con fieldPriceCon">
+            <input type="text" placeholder-style="placeholderClass" placeholder="请输入价格" value="{{productRawPrice}}" data-type="productRawPrice" @input="handleInputChange"/>
+            <view class="label"><text>*</text>折扣价：</view>
+            <input type="text" placeholder-style="placeholderClass" placeholder="请输入价格" value="{{productDiscountPrice}}" data-type="productDiscountPrice" @input="handleInputChange"/>
+          </view>
+        </view>
+
+        <view class="fieldCon">
+          <view class="label">佣金：</view>
+          <view class="con">
+            <text class="fee">{{productCommission}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view wx:if="{{ priceType == 2 }}">
+        <view class="fieldCon">
+          <view class="label"><text>*</text>产品份数：</view>
+          <view class="con">
+            <input type="text" placeholder-style="placeholderClass" placeholder="请输入产品份数" value="{{productCount}}" data-type="productCount" @input="handleInputChange"/>
+          </view>
+        </view>
+        <view class="fieldCon">
+          <view class="label"><text>*</text>原价：</view>
+          <view class="con">
+            <input type="text" placeholder-style="placeholderClass" placeholder="请输入价格" value="{{productRawPrice}}" data-type="productRawPrice" @input="handleInputChange"/>
+          </view>
+        </view>
+        <view class="fieldCon">
+          <view class="label"><text>*</text>拼团价格：</view>
+          <view class="con">
+            <repeat for="{{groupList}}" key="index" index="index" item="item">
+              <view class="groupList">
+                <view class="item"><text>人数：</text><input placeholder-style="placeholderClass" type="text" data-type="peopleNum" data-index="{{index}}" @input="handleFieldChange" value="{{item.peopleNum}}"/></view>
+                <view class="item"><text>价格：</text><input placeholder-style="placeholderClass" type="text" data-type="collagePrice" data-index="{{index}}" @input="handleFieldChange" value="{{item.collagePrice}}" /></view>
+                <view class="item"><text>时限：</text><input placeholder-style="placeholderClass" type="text" data-type="collageLimitTime" data-index="{{index}}" @input="handleFieldChange" value="{{item.collageLimitTime}}" /></view>
+              </view>
+            </repeat>
+          </view>
+        </view>
+      </view>
+
+      <view wx:if="{{ priceType == 3 }}">
+        <view class="fieldCon">
+          <view class="label"><text>*</text>商品份数：</view>
+          <view class="con">
+            <input type="text" placeholder-style="placeholderClass" placeholder="请输入份数" value="{{productCount}}" data-type="productCount" @input="handleInputChange"/>
+          </view>
+        </view>
+        <view class="fieldCon">
+          <view class="label"><text>*</text>价格：</view>
+          <view class="con fieldPriceCon">
+            <input type="text" placeholder-style="placeholderClass" placeholder="请输入价格" value="{{productRawPrice}}" data-type="productRawPrice" @input="handleInputChange"/>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <cover-view class="productEditBottom">
+    <cover-view class="btn btnSave" hover-class="btnHoverClass" @tap="handleSave(0)">保存</cover-view>
+    <cover-view class="btn btnPublic" hover-class="btnHoverClass" @tap="handleSave(1)">直接发布</cover-view>
+  </cover-view>
+
+  <toast />
+</template>
+
+<script>
+import wepy from 'wepy';
+import tips from '@/utils/tips';
+import api from '@/api/api';
+import WxParse from '../plugins/wxParse/wxParse';
+
+import testMixin from '@/mixins/index'
+
+import config from '@/utils/config'
+import Util from '@/utils/util'
+import Toast from 'wepy-com-toast'
+
+export default class productCreate extends wepy.page {
+  config = {
+    navigationBarTitleText: '编辑产品',
+    usingComponents: {
+      'zan-icon': './../assets/libs/zanui/icon/index',
+      'zan-button': './../assets/libs/zanui/btn/index',
+      'zan-button-group': './../assets/libs/zanui/btn-group/index',
+      'zan-cell-group': './../assets/libs/zanui/cell-group/index',
+      'zan-cell': './../assets/libs/zanui/cell/index',
+      'zan-field': './../assets/libs/zanui/field/index',
+      'zan-panel': './../assets/libs/zanui/panel/index',
+      'zan-date-picker': './../assets/libs/zanui/datetime-picker/index'
+    }
+  };
+  data = {
+    productId: '',
+    productName: '',
+    productCount: '',
+    productDiscountPrice: '',
+    productRawPrice: '',
+    productIntroduction: '',
+    productCommission: '',
+    productCostDescription: '',
+    productReservationNote: '',
+    productGuide: '',
+    productLimitTime: '',
+
+    img: '',
+    imgs: [],
+
+    radioItems: [
+      { name: '限时特价', value: 1 },
+      { name: '拼团', value: 2 },
+      { name: '直购', value: 3 }
+    ],
+    priceType: 1,
+    filedTitle: '',
+    useStartDate: '',
+    useEndDate: '',
+    filedConfig: {
+      name: {
+        focus: true,
+        title: '产品名称',
+        placeholder: '请输入标题名称'
+      },
+      date: {
+        title: '使用日期',
+        placeholder: '请输入使用日期'
+      }
+    },
+    groupList: [{
+      peopleNum: '',
+      collagePrice: '',
+      collageLimitTime: ''
+    },{
+      peopleNum: '',
+      collagePrice: '',
+      collageLimitTime: ''
+    },{
+      peopleNum: '',
+      collagePrice: '',
+      collageLimitTime: ''
+    }]
+  };
+
+  mixins = [testMixin]
+
+  components = {
+    toast: Toast
+  }
+
+  onLoad(option) {
+    if(option.id){
+      console.log('id', option.id)
+      this.productId = option.id
+      this.getProductDetail(option.id)
+    }
+
+  }
+  onShow() {
+    var animation = wx.createAnimation({
+      transformOrigin: '50% 50%',
+      duration: 200,
+      timingFunction: 'linear',
+      delay: 0
+    });
+    this.animation = animation;
+  }
+  wxParseImgLoad(e) {}
+
+  wxParseImgTap(e) {
+    var that = this;
+    var nowImgUrl = e.target.dataset.src;
+    var tagFrom = e.target.dataset.from;
+    if (typeof tagFrom != 'undefined' && tagFrom.length > 0) {
+      wx.previewImage({
+        current: nowImgUrl, // 当前显示图片的http链接
+        // urls: that.data[tagFrom].imageUrls // 需要预览的图片http链接列表
+        urls: that.bindData[tagFrom].imageUrls // 注释掉上面的 换着一行 (http://blog.csdn.net/zhuming3834/article/details/74380079)
+      });
+    }
+  }
+
+  computed = {};
+  events = {};
+
+  watch = {
+    productDiscountPrice (newValue, oldValue) {
+      this.productCommission = newValue / 10
+    }
+  }
+
+
+  async getProductDetail(id){
+    let self = this
+
+    let res = await wepy.request({
+      method: 'get',
+      url: config.service.host + '/productDetail/doDetail/' + id,
+      header: {
+        'content-type': 'application/json',
+        'authorization': self.$parent.globalData.userKey,
+      }
+    })
+
+    if(res){
+      let data = res.data.data
+
+      self.productName = data.name
+      self.useStartDate = Util.timestampToTime(data.useStartDate)
+      self.useEndDate = Util.timestampToTime(data.useEndDate)
+      self.priceType = data.priceType
+      self.productCount = data.productCount
+      self.productRawPrice = data.rawPrice
+      self.productDiscountPrice = data.discountPrice
+      self.status = data.status
+      self.productLimitTime = data.limitTime
+      self.productCommission = data.commission
+      self.productIntroduction = data.introduction
+
+      self.productCostDescription = data.costDescription
+      self.productReservationNote = data.reservationNote
+      self.productGuide = data.guide
+
+      if(data.priceType == 2 && data.collages){
+        self.groupList = data.collages
+      }
+
+      let imgs = []
+      data.imageUrls.forEach(element => {
+        imgs.push(element.url)
+      })
+
+      self.imgs = imgs
+      self.img = data.imageUrl
+
+      self.$apply()
+    }
+  }
+
+  validate(){
+    if(this.productName == '' || 
+      this.useStartDate == '' || 
+      this.useEndDate == '' || 
+      this.productCount == ''){
+      return false
+    }
+    if(this.priceType == 1){
+      if(this.productLimitTime == '' || this.productRawPrice == '' || this.productDiscountPrice == ''){
+        return false
+      }
+    }else if(this.priceType == 2){
+      if(this.productRawPrice == '' || 
+      this.groupList[0].peopleNum == '' || 
+      this.groupList[0].collagePrice == '' || 
+      this.groupList[0].collageLimitTime == ''){
+        return false
+      }
+    }else if(this.priceType == 3){
+      if(this.productRawPrice == ''){
+        return false
+      }
+    }
+    return true
+  }
+
+  methods = {
+    setCover(e){
+      this.img = e
+    },
+
+    handleFieldChange(e){
+      this.groupList[e.target.dataset.index][e.target.dataset.type] = e.detail.value
+    },
+
+    radioChange(e) {
+      this.priceType = e.detail.value
+      this.$apply()
+    },
+
+    // chooseImage: function(e) {
+    //   var that = this;
+    //   wx.chooseImage({
+    //     sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+    //     sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+    //     success: function(res) {
+    //       // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+    //       that.setData({
+    //         files: that.data.files.concat(res.tempFilePaths)
+    //       });
+    //     }
+    //   });
+    // },
+
+    chooseImg(e) {
+      var that = this;
+
+      wx.chooseImage({
+        count: 5, // 默认9
+        sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+        sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+        success: function(res) {
+          tips.busy('正在上传')
+
+          var filePath = res.tempFilePaths
+
+          filePath.forEach((item, index) => {
+
+            // 上传图片
+            wx.uploadFile({
+              url: config.service.host + '/token/upload/common/image',
+              // url: 'https://eb4h1wea.qcloud.la/weapp/upload',
+              filePath: item,
+              name: 'file',
+              header: {
+                'content-type': 'multipart/form-data',
+                'authorization': that.$parent.globalData.userKey
+              },
+              success: function(res){
+                
+
+                // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+                var tempFilePaths = JSON.parse(res.data).link
+                
+                var imgs = that.imgs;
+                imgs.push(tempFilePaths);
+
+                that.imgs = imgs
+
+                that.$apply()
+
+                if(index == filePath.length - 1){
+                  tips.success('上传图片成功')
+
+                  console.log('imgs---', that.imgs)
+                }
+              },
+
+              fail: function(e) {
+                tips.error('上传图片失败')
+              }
+            })
+          })
+        }
+      })
+    },
+
+    // 删除图片
+    deleteImg(e) {
+      var imgs = this.imgs
+      var index = e.currentTarget.dataset.index
+      imgs.splice(index, 1)
+      this.imgs = imgs
+      this.$apply()
+    },
+    // 预览图片
+    previewImg(e) {
+      //获取当前图片的下标
+      var index = e.currentTarget.dataset.index;
+      //所有图片
+      var imgs = this.imgs;
+      wx.previewImage({
+        //当前显示图片
+        current: imgs[index],
+        //所有图片
+        urls: imgs
+      });
+    },
+
+    async handleSave(type){
+      tips.busy('正在保存')
+      let self = this
+      let validate = this.validate()
+      if(!validate){
+        this.$invoke('toast', 'show', {
+          title: '带*的内容不能为空！',
+          img: '../assets/images/alert.png',
+          duration: 2000
+        })
+        return
+      }
+
+      let data = {
+        "name": this.productName,
+        "useStartDate": this.useStartDate,
+        "useEndDate": this.useEndDate,
+        "priceType": this.priceType,
+        "productCount": this.productCount,
+        "rawPrice": this.productRawPrice,
+        "discountPrice": this.productDiscountPrice,
+        "status": parseInt(type),
+        "limitTime": this.productLimitTime,
+        "commission": this.productCommission,
+        "introduction": this.productIntroduction,
+        "costDescription": this.productCostDescription,
+        "reservationNote": this.productReservationNote,
+        "guide": this.productGuide,
+        "imageUrls": this.imgs,
+        "imageUrl": this.img == '' ? this.imgs[0] : this.img
+        // ,
+        // "productCollages": [{
+        //   "peopleNum": 10,
+        //   "collagePrice": 11.00,
+        //   "collageLimitTime": 2
+        // }, {
+        //   "peopleNum": 20,
+        //   "collagePrice": 10.00,
+        //   "collageLimitTime": 3
+        // }]
+      }
+
+      if(this.priceType == 2){
+        let groupList = []
+        this.groupList.forEach((item) => {
+          if(item.peopleNum && item.collagePrice && item.collageLimitTime){
+            groupList.push(item)
+          }
+        })
+        data['productCollages'] = groupList
+      }
+
+      let url = config.service.host + '/token/product/doAdd'
+      if(self.productId != ''){
+        data['id'] = parseInt(self.productId)
+        url = config.service.host + '/token/product/doUpdate/' + self.productId
+      }
+
+      let res = await wepy.request({
+        method: 'post',
+        url: url,
+        data: data,
+        header: {
+          'content-type': 'application/json',
+          'authorization': self.$parent.globalData.userKey,
+        }
+      })
+
+      if(res){
+        wx.switchTab({  
+          url: '/pages/product',  
+        })
+      }
+    }
+  };
+}
+</script>
